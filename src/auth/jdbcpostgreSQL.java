@@ -47,7 +47,7 @@ public class jdbcpostgreSQL {
 
        //send statement to DBMS
        //This executeQuery command is useful for data retrieval
-       ResultSet result = stmt.executeQuery(sqlStatement);
+       ResultSet result = stmt.executeQuery(queries.getInventoryByItem("whatever"));
        //OR
        //This executeUpdate command is useful for updating data
        //int result = stmt.executeUpdate(sqlStatement);
