@@ -53,7 +53,7 @@ CREATE TABLE ingredients (
 	ingredient_id SERIAL REFERENCES inventory(ingredient_id) ON DELETE CASCADE,
 	item_id SERIAL REFERENCES items(id) ON DELETE CASCADE,
 	order_id SERIAL REFERENCES orders(id) ON DELETE CASCADE,
-	quantity INTEGER NOT NULL DEFAULT 0,
+	amount_per_order INTEGER NOT NULL DEFAULT 0,
 
 	PRIMARY KEY(ingredient_id, item_id, order_id)
 );
