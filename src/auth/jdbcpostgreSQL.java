@@ -1,7 +1,8 @@
-package auth;
-
 import java.sql.*;
 import java.util.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /*
 CSCE 315
@@ -18,13 +19,13 @@ public class jdbcpostgreSQL {
 	// Mac/Linux: java -cp ".:postgresql-42.2.8.jar" jdbcpostgreSQL
 
 	// MAKE SURE YOU ARE ON VPN or TAMU WIFI TO ACCESS DATABASE
-	public static List<String[]> readFromFile(String filename) {
-		Scanner readFile = new Scanner(filename);
-		List<String[]> allAttributes;
-
+	public static List<String[]> readFromFile(String filename) throws FileNotFoundException{
+		Scanner readFile = new Scanner(new File(filename));
+		
+		List<String[]> allAttributes = new ArrayList<>();
 		while (readFile.hasNextLine()) {
 			String line = readFile.nextLine();
-			allAttributes.append(line.split(","));
+			allAttributes.add(line.split(","));
 		}
 
 		return allAttributes;
@@ -55,15 +56,15 @@ public class jdbcpostgreSQL {
 			// create a statement object
 			Statement stmt = conn.createStatement();
 
-			String csv_file = "inventory";
-			List<String[]> getAttributes = readFromFile(csv_file + ".csv");
+			String csv_file = "orders.csv";
+			List<String[]> getAttributes = readFromFile(csv_file);
 
 			// starts at 1 to avoid adding column names into database
 			for(int i = 1; i < getAttributes.size(); i++) {
 				// Running a query
 				// TODO: update the sql command here
 				
-				String vals = String.format("'%s', %s, %s, %s, %s", getAttributes.get(i)[0]
+				String vals = String.format("'%s', %s, '%s', %s, %s", getAttributes.get(i)[0],
 								getAttributes.get(i)[1],
 								getAttributes.get(i)[2],
 								getAttributes.get(i)[3],
@@ -71,7 +72,7 @@ public class jdbcpostgreSQL {
 								);
 				String sqlStatement = String.format("INSERT INTO orders (name, server_id, time_ordered, is_served, price) VALUES(%s)", vals);
 				
-				ResultSet result = stmt.executeQuery(sqlStatement);
+				stmt.executeUpdate(sqlStatement);
 			}
 	  
 /* 	  // -------------------------------
