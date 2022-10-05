@@ -29,40 +29,136 @@ CREATE TABLE orders (
 	price FLOAT NOT NULL DEFAULT 0
 );
 
+INSERT INTO users 
+	(user_type, username)
+VALUES 
+	(0, 'server1'),
+	(0, 'server2'),
+	(0, 'server3'),
+	(0, 'server4'),
+	(0, 'server5');
+
 CREATE TABLE inventory (
 	ingredient_id SERIAL PRIMARY KEY,
 	ingredient_name VARCHAR(255) NOT NULL,
 	quantity INTEGER NOT NULL DEFAULT 0
 );
 
-INSERT INTO inventory
-	(ingredient_id, ingredient_name, quantity)
-VALUES			-- TODO: finish inventory items
-	();
 
 CREATE TABLE menu (
 	item_id SERIAL PRIMARY KEY,
 	item_name VARCHAR(255) NOT NULL,
-	description VARCHAR(200),
+	description VARCHAR(1000),
 	price FLOAT NOT NULL DEFAULT 0
 );
+
+-- Classic Hamburger, Black Bean Burger, Bacon Burger, Chicken Sandwich, Gig Em Patty Melt, Chicken Tenders, Caesar Salad, French Fries, Aggie Shakes, Cookie Sandwich, Fountain Drink, Ice Cream Cup
+-- 6.49, 7.29, 7.89, 7.49, 7.09, 7.49, 8.29, 2.69, 4.49, 4.69, 2.45, 3.29
+
+/* 
+	name == 'Classic Hamburger'
+	name == 'Black Bean Burger'
+	name == 'Bacon Burger'
+	name == 'Chicken Sandwich'
+	name == 'Gig Em Patty Melt'
+	name == 'Chicken Tenders'
+	name == 'Caesar Salad'
+	name == 'French Fries'	
+	name == 'Aggie Shakes'
+	name == 'Cookie Sandwich'
+	name == 'Fountain Drink'
+	name == 'Ice Cream Cup'
+ */
 
 INSERT INTO menu 
 	(item_name, description, price)
 VALUES
-	("Classic Hamburger", "Single beef patty topped your way and served on a toasted bun.", 6.49),
-	("Cheeseburger", "Single beef patty topped with American cheese and served on a toasted bun.", 6.99),
-	("Black Bean Burger", "Vegetarian black bean patty topped your way and served on a toasted bun.", 7.29)
-	("Bacon Burger", "Single beet patty topped with smoked bacon and American cheese.", 7.89),
-	("Chicken Sandwich", "Marinated grilled chicken breast topped your way and served on a toasted bun.", 7.49),
-	("Gig 'Em Patty Melt", "Grilled beef patty topped with gig 'em sauce, grilled onions, and Swiss-American cheese.", 7.09),
-	("Chicken Tenders", "3-piece chicken tenders served with fries and choice of dipping sauce,", 7.49),
-	("Caesar Salad", "Topped with grilled chicken strips and Caesar salad", 8.29),
-	("French Fries", "The perfect side to any meal or shake.", 2.69),
-	("Aggie Shakes", "Chocolate, vanilla, or strawberry milkshake. Made with Hershey's ice cream.", 4.49),
-	("Cookie Sandwich", "Hershey's vanilla ice cream packed between 2 chocolate chip cookies.", 4.69),
-	("Fountain Drink", "Choice of your favorite Pepsi product", 2.45),
-	("Ice Cream Cup", "Double scoop of vanilla, chocolate, or strawberry Hershey's Ice Cream." , 3.29);
+	('Classic Hamburger', 'Single beef patty topped your way and served on a toasted bun.', 6.49),
+	('Black Bean Burger', 'Vegetarian black bean patty topped your way and served on a toasted bun.', 7.29),
+	('Bacon Burger', 'Single beet patty topped with smoked bacon and American cheese.', 7.89),
+	('Chicken Sandwich', 'Marinated grilled chicken breast topped your way and served on a toasted bun.', 7.49),
+	('Gig Em Patty Melt', 'Grilled beef patty topped with gig em sauce, grilled onions, and Swiss-American cheese.', 7.09),
+	('Chicken Tenders', '3-piece chicken tenders served with fries and choice of dipping sauce,', 7.49),
+	('Caesar Salad', 'Topped with grilled chicken strips and Caesar salad', 8.29),
+	('French Fries', 'The perfect side to any meal or shake.', 2.69),
+	('Aggie Shakes', 'Chocolate, vanilla, or strawberry milkshake. Made with Hersheys ice cream.', 4.49),
+	('Cookie Sandwich', 'Hersheys vanilla ice cream packed between 2 chocolate chip cookies.', 4.69),
+	('Fountain Drink', 'Choice of your favorite Pepsi product', 2.45),
+	('Ice Cream Cup', 'Double scoop of vanilla, chocolate, or strawberry Hersheys Ice Cream.' , 3.29);
+
+INSERT INTO inventory 
+	(ingredient_name, quantity) 
+VALUES
+	-- ingredients for 'Classic Hamburger'
+	('Beef patty', 100),
+	('Buns', 100),
+	('Avocado', 100),
+	-- cheese
+	
+	-- ingredients for 'Black Bean Burger'
+	('Black Bean Patty', 100),
+	-- buns
+	-- cheese 
+	
+	-- ingredients for 'Bacon Burger'
+	-- buns
+	-- cheese
+	('Bacon', 100),
+	
+	-- ingredients for 'Chicken Sandwich'
+	-- buns
+	('Chicken Breast', 100),
+
+	-- ingredients for 'Gig Em Patty Melt'
+	-- buns
+	-- beef patty
+	('Gig em Sauce', 100),
+	('Onion', 100),
+	('Swiss-American Cheese', 100),
+	
+	-- ingredients for 'Chicken Tenders'
+	('Chicken tenders', 100),
+	('French Fries', 100),
+	-- a sauce
+
+	-- sauces
+	('Ranch Sauce', 100),
+	('BBQ Sauce', 100),
+	('Honey Mustard Sauce', 100),
+	('Spicy Ranch Sauce', 100),
+	('Gle em Sauce', 100),
+
+	-- ingredients for 'Caesar Salad'
+	('Lettuce', 100),
+	('Grilled Chicken', 100),
+	('Parmesan', 100),
+	('Garlic', 100),
+	('Butter', 100),
+	('Croutons', 100),
+	('Caesar dressing', 100),
+	
+	-- ingredients for 'Aggie Shakes'
+	-- covered by ingredients for ice cream below
+	
+	-- ingredients for 'Cookie Sandwich'
+	('Chocolate Chip Cookies', 100),
+
+	-- ingredients for 'Fountain Drink'
+	('Pepsi', 100),
+	('Diet Pepsi', 100),
+	
+	-- ingredients for 'Ice Cream Cup'
+	('Vanilla Ice Cream', 100),
+	('Chocolate Ice Cream', 100),
+	('Strawberry Ice Cream', 100),
+
+	-- ingredients for 'Utensils'
+	('Spoons', 100),
+	('Forks', 100),
+	('Knives', 100),
+	('Plates', 100),
+	('Cups', 100),
+	('Tissues', 100);
 
 CREATE TABLE items (
 	id SERIAL UNIQUE REFERENCES menu(item_id) ON DELETE CASCADE,
@@ -80,15 +176,6 @@ CREATE TABLE ingredients (
 
 	PRIMARY KEY(ingredient_id, item_id, order_id)
 );
-
-INSERT INTO inventory 
-	(ingredient_name, quantity) 
-VALUES 
-	('whatever', 1),
-	('whatever1', 1),
-	('whatever2', 1),
-	('whatever4', 1),
-	('whatever3', 1);
 
 -- grant privileges to all users for all tables
 GRANT ALL ON TABLE user_types to public;
