@@ -1,3 +1,5 @@
+package auth;
+
 import java.sql.*;
 import java.util.*;
 
