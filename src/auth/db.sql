@@ -11,80 +11,20 @@ VALUES
 
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
+	username VARCHAR(50) UNIQUE,
 	user_type INTEGER NOT NULL REFERENCES user_types(id) DEFAULT 0,
-	username VARCHAR(50) UNIQUE
 );
 
-CREATE TABLE credentials (
+CREATE TABLE credentials (	
 	id SERIAL PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 	password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE orders (
-	id SERIAL PRIMARY KEY,
-	name VARCHAR(255) NOT NULL,
-	server_id SERIAL REFERENCES users(id) ON DELETE CASCADE,
-	time_ordered TIMESTAMP WITHOUT time zone NOT NULL DEFAULT now(),
-	is_served BOOLEAN NOT NULL DEFAULT false,
-	price FLOAT NOT NULL DEFAULT 0
-);
-
-INSERT INTO users 
-	(user_type, username)
-VALUES 
-	(0, 'server1'),
-	(0, 'server2'),
-	(0, 'server3'),
-	(0, 'server4'),
-	(0, 'server5');
-
 CREATE TABLE inventory (
 	ingredient_id SERIAL PRIMARY KEY,
-	ingredient_name VARCHAR(255) NOT NULL,
+	ingredient_name VARCHAR(255) NOT NULL UNIQUE,
 	quantity INTEGER NOT NULL DEFAULT 0
 );
-
-
-CREATE TABLE menu (
-	item_id SERIAL PRIMARY KEY,
-	item_name VARCHAR(255) NOT NULL,
-	description VARCHAR(1000),
-	price FLOAT NOT NULL DEFAULT 0
-);
-
--- Classic Hamburger, Black Bean Burger, Bacon Burger, Chicken Sandwich, Gig Em Patty Melt, Chicken Tenders, Caesar Salad, French Fries, Aggie Shakes, Cookie Sandwich, Fountain Drink, Ice Cream Cup
--- 6.49, 7.29, 7.89, 7.49, 7.09, 7.49, 8.29, 2.69, 4.49, 4.69, 2.45, 3.29
-
-/* 
-	name == 'Classic Hamburger'
-	name == 'Black Bean Burger'
-	name == 'Bacon Burger'
-	name == 'Chicken Sandwich'
-	name == 'Gig Em Patty Melt'
-	name == 'Chicken Tenders'
-	name == 'Caesar Salad'
-	name == 'French Fries'	
-	name == 'Aggie Shakes'
-	name == 'Cookie Sandwich'
-	name == 'Fountain Drink'
-	name == 'Ice Cream Cup'
- */
-
-INSERT INTO menu 
-	(item_name, description, price)
-VALUES
-	('Classic Hamburger', 'Single beef patty topped your way and served on a toasted bun.', 6.49),
-	('Black Bean Burger', 'Vegetarian black bean patty topped your way and served on a toasted bun.', 7.29),
-	('Bacon Burger', 'Single beet patty topped with smoked bacon and American cheese.', 7.89),
-	('Chicken Sandwich', 'Marinated grilled chicken breast topped your way and served on a toasted bun.', 7.49),
-	('Gig Em Patty Melt', 'Grilled beef patty topped with gig em sauce, grilled onions, and Swiss-American cheese.', 7.09),
-	('Chicken Tenders', '3-piece chicken tenders served with fries and choice of dipping sauce,', 7.49),
-	('Caesar Salad', 'Topped with grilled chicken strips and Caesar salad', 8.29),
-	('French Fries', 'The perfect side to any meal or shake.', 2.69),
-	('Aggie Shakes', 'Chocolate, vanilla, or strawberry milkshake. Made with Hersheys ice cream.', 4.49),
-	('Cookie Sandwich', 'Hersheys vanilla ice cream packed between 2 chocolate chip cookies.', 4.69),
-	('Fountain Drink', 'Choice of your favorite Pepsi product', 2.45),
-	('Ice Cream Cup', 'Double scoop of vanilla, chocolate, or strawberry Hersheys Ice Cream.' , 3.29);
 
 INSERT INTO inventory 
 	(ingredient_name, quantity) 
@@ -160,8 +100,59 @@ VALUES
 	('Cups', 100),
 	('Tissues', 100);
 
+CREATE TABLE menu (
+	item_id SERIAL PRIMARY KEY,
+	item_name VARCHAR(255) NOT NULL,
+	description VARCHAR(1000),
+	price FLOAT NOT NULL DEFAULT 0
+);
+
+-- Classic Hamburger, Black Bean Burger, Bacon Burger, Chicken Sandwich, Gig Em Patty Melt, Chicken Tenders, Caesar Salad, French Fries, Aggie Shakes, Cookie Sandwich, Fountain Drink, Ice Cream Cup
+-- 6.49, 7.29, 7.89, 7.49, 7.09, 7.49, 8.29, 2.69, 4.49, 4.69, 2.45, 3.29
+
+/* 
+	name == 'Classic Hamburger'
+	name == 'Black Bean Burger'
+	name == 'Bacon Burger'
+	name == 'Chicken Sandwich'
+	name == 'Gig Em Patty Melt'
+	name == 'Chicken Tenders'
+	name == 'Caesar Salad'
+	name == 'French Fries'	
+	name == 'Aggie Shakes'
+	name == 'Cookie Sandwich'
+	name == 'Fountain Drink'
+	name == 'Ice Cream Cup'
+ */
+
+INSERT INTO menu 
+	(item_name, description, price)
+VALUES
+	('Classic Hamburger', 'Single beef patty topped your way and served on a toasted bun.', 6.49),
+	('Black Bean Burger', 'Vegetarian black bean patty topped your way and served on a toasted bun.', 7.29),
+	('Bacon Burger', 'Single beet patty topped with smoked bacon and American cheese.', 7.89),
+	('Chicken Sandwich', 'Marinated grilled chicken breast topped your way and served on a toasted bun.', 7.49),
+	('Gig Em Patty Melt', 'Grilled beef patty topped with gig em sauce, grilled onions, and Swiss-American cheese.', 7.09),
+	('Chicken Tenders', '3-piece chicken tenders served with fries and choice of dipping sauce,', 7.49),
+	('Caesar Salad', 'Topped with grilled chicken strips and Caesar salad', 8.29),
+	('French Fries', 'The perfect side to any meal or shake.', 2.69),
+	('Aggie Shakes', 'Chocolate, vanilla, or strawberry milkshake. Made with Hersheys ice cream.', 4.49),
+	('Cookie Sandwich', 'Hersheys vanilla ice cream packed between 2 chocolate chip cookies.', 4.69),
+	('Fountain Drink', 'Choice of your favorite Pepsi product', 2.45),
+	('Ice Cream Cup', 'Double scoop of vanilla, chocolate, or strawberry Hersheys Ice Cream.' , 3.29);
+
+CREATE TABLE orders (
+	id SERIAL PRIMARY KEY,
+	customerName VARCHAR(255) NOT NULL,
+	server_id SERIAL REFERENCES users(id) ON DELETE CASCADE,
+	time_ordered TIMESTAMP WITHOUT time zone NOT NULL DEFAULT now(),
+	is_served BOOLEAN NOT NULL DEFAULT false,
+	price FLOAT NOT NULL DEFAULT 0
+);
+
 CREATE TABLE items (
-	id SERIAL UNIQUE REFERENCES menu(item_id) ON DELETE CASCADE,
+	item_name VARCHAR(255) NOT NULL,
+	id SERIAL REFERENCES menu(item_id) ON DELETE CASCADE,
 	order_id SERIAL REFERENCES orders(id) ON DELETE CASCADE,
 	quantity INTEGER NOT NULL DEFAULT 0,
 
@@ -169,6 +160,7 @@ CREATE TABLE items (
 );
 
 CREATE TABLE ingredients (
+	ingredient_name varchar(255) NOT NULL,
 	ingredient_id SERIAL REFERENCES inventory(ingredient_id) ON DELETE CASCADE,
 	item_id SERIAL REFERENCES items(id) ON DELETE CASCADE,
 	order_id SERIAL REFERENCES orders(id) ON DELETE CASCADE,

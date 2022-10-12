@@ -1,3 +1,5 @@
+package auth;
+
 import java.sql.*;
 import java.util.*;
 
@@ -31,7 +33,7 @@ public class jdbcpostgreSQL {
 		return allAttributes;
 	}
 
-	public static void main(String args[]) {
+/* 	public static void main(String args[]) {
 
 		// Building the connection with your credentials
 		Connection conn = null;
@@ -75,40 +77,6 @@ public class jdbcpostgreSQL {
 				stmt.executeUpdate(sqlStatement);
 			}
 	  
-/* 	  // -------------------------------
-		// for inventory insertions
-		String sqlStatement = String.format("INSERT INTO inventory (ingredient_name, quantity) VALUES('" + 
-			getAttributes.get(i)[0] + "', " + getAttributes.get(i)[1] + ");");
-
-
-		// for user insertions
-		String sqlStatement = String.format("INSERT INTO user (user_type, username) VALUES(" + 
-			getAttributes.get(i)[0] + ", '" + getAttributes.get(i)[1] + "');");
-
-		// for credentials insertions
-		String sqlStatement = String.format("INSERT INTO credentials (password) VALUES('" + getAttributes.get(i)[0] + "');");
-
-		// for menu insertions
-		String sqlStatement = String.format("INSERT INTO menu (item_name, description, price) VALUES('" + 
-			getAttributes.get(i)[0] + "', '" + getAttributes.get(i)[1] + "', "
-			getAttributes.get(i)[2] + ");");
-
-		// for user_type insertions
-		String sqlStatement = String.format("INSERT INTO user_types (type) VALUES('" + getAttributes.get(i)[0] + "');");
-
-		String sqlStatement = String.o"INSERT INTO items () VALUES('" + 
-			getAttributes.get(i)[0] + "', " + getAttributes.get(i)[1] + ", "
-			getAttributes.get(i)[2] + ");";
-
-		// for
-		String sqlStatement = String.format("INSERT INTO ingredients (item_id, order_id, quantity) VALUES(" + 
-			getAttributes.get(i)[0] + ", " + getAttributes.get(i)[1] + ", "
-			getAttributes.get(i)[2] + ");");
-
-		Map<String, String> attributes = new HashMap<>();
-
-	// ------------------
- */
 		// send statement to DBMS
 		// This executeQuery command is useful for data retrieval
 		// OR
@@ -138,4 +106,4 @@ public class jdbcpostgreSQL {
 		System.out.println("Connection NOT Closed.");
 		} // end try catch
     }// end main
-}// end Class
+ */}// end Class
