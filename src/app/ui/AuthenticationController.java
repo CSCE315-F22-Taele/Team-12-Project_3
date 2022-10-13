@@ -2,6 +2,8 @@ package app.ui;
 
 import java.io.IOException;
 
+import app.Main;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -23,9 +25,18 @@ public class AuthenticationController {
         System.out.println("Authentication ---> Start Page");
         backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
     }
-
+    
     public void submitClick() throws IOException {
         System.out.println("Authenticating...");
-        // managerBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("authentication.fxml")));
+        String entry = userEntry.getText();
+        if(entry.equals("12345")){
+            System.out.println("Authentication Successful!");
+            submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
+        }
+        else{
+            System.out.println("Authentication Failed!");
+            userEntry.setText("");
+            userEntry.setPromptText("Wrong Password! Try Again...");
+        }
     }
 }

@@ -8,6 +8,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	public static String authen; // Store the result fxml file after authen
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// Parent root = FXMLLoader.load(getClass().getResource("index.fxml"));
