@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ComboBox;
 
 public class InventoryController {
     @FXML
@@ -16,12 +17,17 @@ public class InventoryController {
     private Button restockBtn;
 
     @FXML
+    private ComboBox<String> comboBox;
+
+    @FXML
     private TextField quantityEntry;
     @FXML
     private TextField restockEntry;
 
     public void initialize() {
-        // idk what to put here lol
+        comboBox.getItems().removeAll(comboBox.getItems());
+        comboBox.getItems().addAll("Option A", "Option B", "Option C");
+        comboBox.getSelectionModel().select("Option B");
     }
 
     public void backClick() throws IOException {
