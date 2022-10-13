@@ -16,6 +16,7 @@ import java.sql.DriverManager;
 
 
 public class Main extends Application {
+	public static boolean wow;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -28,6 +29,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 		jdbcpostgreSQL db = new jdbcpostgreSQL();
-		db.openConnection();
+		jdbcpostgreSQL.openConnection();
 	}
 }

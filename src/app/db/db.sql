@@ -23,7 +23,8 @@ CREATE TABLE credentials (
 CREATE TABLE inventory (
 	ingredient_id VARCHAR(36) PRIMARY KEY,
 	ingredient_name VARCHAR(255) NOT NULL UNIQUE,
-	quantity INTEGER NOT NULL DEFAULT 0
+	quantity INTEGER NOT NULL DEFAULT 0,
+	is_loaded BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 INSERT INTO inventory 
@@ -67,6 +68,7 @@ VALUES
 	('Honey Mustard Sauce', 100),
 	('Spicy Ranch Sauce', 100),
 	('Gle em Sauce', 100),
+	-- ('Gig em Sauce', 100),
 
 	-- ingredients for 'Caesar Salad'
 	('Lettuce', 100),
@@ -85,7 +87,6 @@ VALUES
 
 	-- ingredients for 'Fountain Drink'
 	('Pepsi', 100),
-	('Diet Pepsi', 100),
 	
 	-- ingredients for 'Ice Cream Cup'
 	('Vanilla Ice Cream', 100),
@@ -104,7 +105,8 @@ CREATE TABLE menu (
 	item_id VARCHAR(36) PRIMARY KEY,
 	item_name VARCHAR(255) NOT NULL UNIQUE,
 	description VARCHAR(1000),
-	price FLOAT NOT NULL DEFAULT 0
+	price FLOAT NOT NULL DEFAULT 0,
+	is_loaded BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- Classic Hamburger, Black Bean Burger, Bacon Burger, Chicken Sandwich, Gig Em Patty Melt, Chicken Tenders, Caesar Salad, French Fries, Aggie Shakes, Cookie Sandwich, Fountain Drink, Ice Cream Cup

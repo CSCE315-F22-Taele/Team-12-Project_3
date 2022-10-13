@@ -32,6 +32,8 @@ public class Item {
 	 * @param ingredient
 	 */
 	public void addIngredient(Ingredient ingredient) {
+		ingredient.setItemId(itemId);
+		ingredient.setOrderId(orderId);
 		ingredients.add(ingredient);
 	}
 
@@ -55,11 +57,11 @@ public class Item {
 		this.name = name;
 	}
 
-	public int getOrderId() {
+	public UUID getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(int orderId) {
+	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
 	}
 
