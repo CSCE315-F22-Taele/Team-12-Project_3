@@ -15,6 +15,8 @@ public class AuthenticationController {
 	@FXML
 	private TextField userEntry;
 	@FXML
+	private TextField passwordEntry;
+	@FXML
 	private Button submitBtn;
 
 
@@ -28,15 +30,16 @@ public class AuthenticationController {
     
     public void submitClick() throws IOException {
         System.out.println("Authenticating...");
-        String entry = userEntry.getText();
-        if(entry.equals("12345")){
+        String uEntry = userEntry.getText();
+        String passEntry = passwordEntry.getText();
+        if(/* TODO: Check if uEntry is in the users database */ passEntry.equals("12345")){
             System.out.println("Authentication Successful!");
             submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
         }
         else{
             System.out.println("Authentication Failed!");
-            userEntry.setText("");
-            userEntry.setPromptText("Wrong Password! Try Again...");
+            passwordEntry.setText("");
+            passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
         }
     }
 }

@@ -39,15 +39,23 @@
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="userEntry" prefHeight="48.0" prefWidth="500.0" promptText="Enter Password:">
+            <TextField fx:id="userEntry" layoutX="110.0" layoutY="60.0" prefHeight="48.0" prefWidth="500.0" promptText="Enter Username:">
+               <font>
+                  <Font size="16.0" />
+               </font>
                <VBox.margin>
-                  <Insets left="100.0" right="100.0" top="50.0" />
+                  <Insets bottom="10.0" left="100.0" right="100.0" top="20.0" />
+               </VBox.margin>
+            </TextField>
+            <TextField fx:id="passwordEntry" prefHeight="48.0" prefWidth="500.0" promptText="Enter Password:">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="100.0" right="100.0" top="20.0" />
                </VBox.margin>
                <font>
                   <Font size="16.0" />
                </font>
             </TextField>
-            <Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submitClick" prefHeight="34.0" prefWidth="60.0" text="Submit">
+            <Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submitClick" prefHeight="50.0" prefWidth="130.0" text="Submit">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
