@@ -50,6 +50,9 @@ public class queries {
 				user.getUserId(), user.getUsername(), user.getType().toString());
 	}
 
+	/* public static String findUserByUserName(String userName) {
+	} */
+
 	/**
 	 * add an ingredient to the inventory
 	 * 

@@ -5,11 +5,11 @@ import java.util.UUID;
 public class Ingredient {
 	private UUID ingredientId;
 	private String name;
-	private int itemId;
-	private int orderId;
+	private UUID itemId;
+	private UUID orderId;
 	private int amount;
 
-	public Ingredient(UUID ingredientId, String name, int itemId, int orderId, int amount) {
+	public Ingredient(UUID ingredientId, String name, UUID itemId, UUID orderId, int amount) {
 		this.ingredientId = ingredientId;
 		this.name = name;
 		this.itemId = itemId;
@@ -29,19 +29,19 @@ public class Ingredient {
 		this.name = name;
 	}
 
-	public int getItemId() {
+	public UUID getItemId() {
 		return itemId;
 	}
 
-	public void setItemId(int itemId) {
+	public void setItemId(UUID itemId) {
 		this.itemId = itemId;
 	}
 
-	public int getOrderId() {
+	public UUID getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(int orderId) {
+	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
 	}
 

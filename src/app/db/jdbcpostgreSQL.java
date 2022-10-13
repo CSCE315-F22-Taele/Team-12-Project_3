@@ -12,15 +12,15 @@ CSCE 315
 9-27-2021 Lab
  */
 public class jdbcpostgreSQL {
-	public Connection conn;
-	public Statement stmt;
+	public static Connection conn;
+	public static Statement stmt;
 
 	public jdbcpostgreSQL() {
-		this.conn = null;
-		this.stmt = null;
+		jdbcpostgreSQL.conn = null;
+		jdbcpostgreSQL.stmt = null;
 	}
 
-	public void openConnection() {
+	public static void openConnection() {
 		// Building the connection with your credentials
 		String teamNumber = "12";
 		String sectionNumber = "912";

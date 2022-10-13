@@ -118,7 +118,7 @@ public class Menu {
         baconBurger.addIngredient(Inventory.bacon);
         chickenSandwich.addIngredient(Inventory.chickenBreast);
         gigEmPattyMelt.addIngredient(Inventory.gigEmSauce);
-        gigEmPattyMelt.addIngredient(Inventory.swissChess);
+        gigEmPattyMelt.addIngredient(Inventory.swissCheese);
         gigEmPattyMelt.addIngredient(Inventory.onion);
         caesarSalad.addIngredient(Inventory.lettuce);
         caesarSalad.addIngredient(Inventory.grilledChicken);
@@ -130,10 +130,10 @@ public class Menu {
         chickenTenders.addIngredient(Inventory.chickenTenders);
         chickenTenders.addIngredient(Inventory.frenchFries);
         frenchFries.addIngredient(Inventory.frenchFries);
-        vanillaAggieShake.addIngredient(vanillaIce);
-        chocolateAggieShake.addIngredient(chocolateIce);
-        strwaberryAggieShake.addIngredient(strawberryIce);
-        cookieSandwich.addIngredient(Inventory.chocolateChipCookies);
+        vanillaAggieShake.addIngredient(Inventory.vanillaIce);
+        chocolateAggieShake.addIngredient(Inventory.chocolateIce);
+        strwaberryAggieShake.addIngredient(Inventory.strawberryIce);
+        cookieSandwich.addIngredient(Inventory.chocolateChip);
         pepsi.addIngredient(Inventory.pepsi);
         dietPepsi.addIngredient(Inventory.dietPepsi);
         vanillaIce.addIngredient(Inventory.vanillaIce);
