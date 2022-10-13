@@ -21,7 +21,7 @@ public class AuthenticationController {
 
     public void backClick() throws IOException {
         System.out.println("Authentication ---> Start Page");
-        // managerBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("authentication.fxml")));
+        backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
     }
 
     public void submitClick() throws IOException {
