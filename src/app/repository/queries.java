@@ -16,6 +16,19 @@ public class queries {
 	 * @param: name of inventory item
 	 * @return: SQL query to get inventory information
 	 */
+
+	public static String isInventoryEmpty() {
+		return String.format("SELECT count(*) FROM (SELECT ingredient_id FROM inventory LIMIT 1) AS t");
+	}
+
+	public static String isMenuEmpty() {
+		return String.format("SELECT count(*) FROM (SELECT item_id FROM menu LIMIT 1) AS t");
+	}
+	
+	public static String getAllInventory() {
+		return String.format("SELECT * FROM inventory");
+	}
+
 	public static String getInventoryByIngredient(String name) {
 		return String.format("SELECT * FROM inventory WHERE inventory.ingredient_name = '%s'", name);
 	}
@@ -97,9 +110,14 @@ public class queries {
 	 * @param: ingredient's name and quantity
 	 * @return: SQL query to insert an ingredient to the inventory
 	 */
-	public static String addIngredientToInventory(String ingredientName, int quantity) {
-		return String.format("INSERT INTO inventory (ingredient_name, quantity) VALUES ('%s', '%s')",
-				ingredientName, quantity);
+	public static String addIngredientToInventory(Ingredient ingredient) {
+		return String.format("INSERT INTO inventory (ingredient_id, ingredient_name, quantity) VALUES ('%s', '%s')",
+				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount());
+	}
+
+	public static String loadInventory(UUID ingredientId) {
+		return String.format("UPDATE inventory SET is_loaded = true WHERE ingredient_id = '%s'",
+				ingredientId.toString());
 	}
 
 	/**
@@ -120,7 +138,7 @@ public class queries {
 	 * @param: user's hashed password
 	 * @return: SQL query to insert user's credentials
 	 */
-	public static String insertCredentials(Credentials credential) {
+	public static String addCredentials(Credentials credential) {
 		return String.format(
 				"INSERT INTO credentials (id, password) VALUES ('%s', '%s')", credential.getUserId().toString(),
 				credential.getHashedPassword());
@@ -132,10 +150,32 @@ public class queries {
 	 * @param: New Item object to be created
 	 * @return: SQL query to add item to menu
 	 */
-	public static String insertItemToMenu(Item newItem) {
+	public static String addItemToMenu(Item newItem) {
 		return String.format(
 				"INSERT INTO menu (item_id, name, order_id, amount, price) VALUES ('%s', '%s', '%s', '%s', '%s')",
 				newItem.getItemId().toString(), newItem.getName(), newItem.getOrderId().toString(), newItem.getAmount(),
 				newItem.getTotalPrice());
+	}
+
+	public static String removeItemFromMenu(Item item) {
+		return String.format("DELETE FROM menu WHERE item_id = '%s'", item.getItemId().toString());
+	}
+
+	public static String updateItemToMenu(Item newItem) {
+		return String.format(
+				"UPDATE menu SET price = '%s' WHERE name = '%s'",
+				newItem.getTotalPrice(), newItem.getName());
+	}
+
+	public static String updateIngredientInInventory(UUID id, int amount) {
+		return String.format("UPDATE inventory SET quantity = '%s' WHERE ingredient_id = '%s'", amount, id);
+	}
+
+	public static String restockAll(int amount) {
+		return String.format("UPDATE inventory SET quantity = '%s'", amount);
+	}
+
+	public static String getMenuItems() {
+		return String.format("SELECT * FROM menu");
 	}
 }

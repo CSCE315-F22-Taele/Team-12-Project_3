@@ -10,6 +10,8 @@ import java.util.List;
 
 import app.db.dbSetup;
 import app.db.jdbcpostgreSQL;
+import app.service.Inventory;
+import app.service.Menu;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,5 +38,8 @@ public class Main extends Application {
 		launch(args);
 		jdbcpostgreSQL db = new jdbcpostgreSQL();
 		jdbcpostgreSQL.openConnection();
+
+		Menu.addItemsToMenu();
+		Inventory.addIngredients();
 	}
 }
