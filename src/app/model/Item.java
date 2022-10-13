@@ -6,7 +6,7 @@ import java.util.UUID;
 public class Item {
 	private UUID itemId;
 	private String name;
-	private int orderId;
+	private UUID orderId;
 	private int amount;
 	private double totalPrice;
 	private ArrayList<Ingredient> ingredients;
@@ -19,7 +19,7 @@ public class Item {
 	 * @param amount
 	 * @param price
 	 */
-	public Item(UUID itemId, String name, int orderId, int amount, double price) {
+	public Item(UUID itemId, String name, UUID orderId, int amount, double price) {
 		this.itemId = itemId;
 		this.name = name;
 		this.orderId = orderId;
