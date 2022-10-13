@@ -3,7 +3,8 @@ package app.ui;
 import java.io.IOException;
 
 import app.Main;
-
+import app.db.jdbcpostgreSQL;
+import app.service.Authentication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -32,11 +33,12 @@ public class AuthenticationController {
         System.out.println("Authenticating...");
         String uEntry = userEntry.getText();
         String passEntry = passwordEntry.getText();
-        if(/* TODO: Check if uEntry is in the users database */ passEntry.equals("12345")){
+
+		if(Authentication.checkPassword(uEntry, passEntry)) {
             System.out.println("Authentication Successful!");
             submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
         }
-        else{
+        else {
             System.out.println("Authentication Failed!");
             passwordEntry.setText("");
             passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
