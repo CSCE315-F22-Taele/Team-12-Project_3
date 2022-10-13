@@ -59,22 +59,22 @@
                <children>
                   <HBox prefHeight="48.0" prefWidth="540.0">
                      <children>
-                        <SplitPane dividerPositions="0.8" prefHeight="160.0" prefWidth="575.0">
+                        <SplitPane dividerPositions="0.7" prefHeight="160.0" prefWidth="575.0">
                           <items>
-                              <HBox alignment="CENTER">
+                              <HBox alignment="CENTER" minWidth="-Infinity" prefWidth="373.0">
                                  <children>
                                     <Label text="Item">
                                        <font>
-                                          <Font name="System Bold" size="24.0" />
+                                          <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <HBox alignment="CENTER" SplitPane.resizableWithParent="false">
+                              <HBox alignment="CENTER" minWidth="-Infinity" prefWidth="158.33333333334" SplitPane.resizableWithParent="false">
                                  <children>
                                     <Label text="Quantity">
                                        <font>
-                                          <Font name="System Bold" size="24.0" />
+                                          <Font name="System Bold" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
@@ -85,32 +85,7 @@
                   </HBox>
                   <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0">
                      <content>
-                        <VBox maxHeight="1.7976931348623157E308" prefHeight="215.0" prefWidth="545.0">
-                           <children>
-                              <SplitPane dividerPositions="0.8" prefHeight="10.0" prefWidth="575.0">
-                                 <items>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <Label text="Item">
-                                             <font>
-                                                <Font name="System Bold" size="16.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER" SplitPane.resizableWithParent="false">
-                                       <children>
-                                          <Label text="Quantity">
-                                             <font>
-                                                <Font name="System Bold" size="16.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </items>
-                              </SplitPane>
-                           </children>
-                        </VBox>
+                        <VBox maxHeight="1.7976931348623157E308" prefHeight="215.0" prefWidth="545.0" />
                      </content>
                   </ScrollPane>
                </children>
