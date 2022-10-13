@@ -18,11 +18,17 @@ import java.sql.DriverManager;
 public class Main extends Application {
 	public static boolean wow;
 
+	public static String authen; // Store the result fxml file after authen
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Parent root = FXMLLoader.load(getClass().getResource("ui/index.fxml"));
-		primaryStage.setTitle("Hello World");
-		primaryStage.setScene(new Scene(root, 400, 300));
+		// Parent root = FXMLLoader.load(getClass().getResource("index.fxml"));
+		// primaryStage.setTitle("Hello World");
+		// primaryStage.setScene(new Scene(root, 400, 300));
+		// primaryStage.show();
+
+		Parent root = FXMLLoader.load(getClass().getResource("ui/starting_page.fxml"));
+		primaryStage.setScene(new Scene(root, 600, 380));
 		primaryStage.show();
 	}
 
