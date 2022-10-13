@@ -15,6 +15,7 @@ public class Order {
 
 	/**
 	 * Initializes a new Order
+	 * 
 	 * @param customerName
 	 * @param serverId
 	 */
@@ -37,13 +38,13 @@ public class Order {
 
 	/**
 	 * Add a new item to the order or increase item amount if already in the order
+	 * 
 	 * @param item
 	 */
 	public void addItem(Item item) {
 		Item existingItem;
 		try {
 			existingItem = findItem(item.getItemId());
-			// TODO (Anthony): value or reference?
 			existingItem.setAmount(existingItem.getAmount() + item.getAmount());
 			existingItem.setTotalPrice(existingItem.getTotalPrice() + item.getTotalPrice());
 
@@ -57,6 +58,7 @@ public class Order {
 
 	/**
 	 * Remove an item from the order
+	 * 
 	 * @param itemId
 	 */
 	public void removeItem(UUID itemId) {
@@ -68,11 +70,12 @@ public class Order {
 
 	/**
 	 * Find existing item in the order, else throw an exception
+	 * 
 	 * @param itemId
 	 * @return
 	 */
 	public Item findItem(UUID itemId) {
-		for (Item item: items) {
+		for (Item item : items) {
 			if (item.getItemId().equals(itemId)) {
 				return item;
 			}
@@ -123,6 +126,12 @@ public class Order {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public void setItems(ArrayList<Item> newItems) {		
+		for (Item item : newItems) {
+			this.addItem(item);
+		}
 	}
 
 	public ArrayList<Item> getItems() {

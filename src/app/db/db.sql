@@ -27,80 +27,6 @@ CREATE TABLE inventory (
 	is_loaded BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-INSERT INTO inventory 
-	(ingredient_name, quantity) 
-VALUES
-	-- ingredients for 'Classic Hamburger'
-	('Beef patty', 100),
-	('Buns', 100),
-	('Avocado', 100),
-	-- cheese
-	
-	-- ingredients for 'Black Bean Burger'
-	('Black Bean Patty', 100),
-	-- buns
-	-- cheese 
-	
-	-- ingredients for 'Bacon Burger'
-	-- buns
-	-- cheese
-	('Bacon', 100),
-	
-	-- ingredients for 'Chicken Sandwich'
-	-- buns
-	('Chicken Breast', 100),
-
-	-- ingredients for 'Gig Em Patty Melt'
-	-- buns
-	-- beef patty
-	('Gig em Sauce', 100),
-	('Onion', 100),
-	('Swiss-American Cheese', 100),
-	
-	-- ingredients for 'Chicken Tenders'
-	('Chicken tenders', 100),
-	('French Fries', 100),
-	-- a sauce
-
-	-- sauces
-	('Ranch Sauce', 100),
-	('BBQ Sauce', 100),
-	('Honey Mustard Sauce', 100),
-	('Spicy Ranch Sauce', 100),
-	('Gle em Sauce', 100),
-	-- ('Gig em Sauce', 100),
-
-	-- ingredients for 'Caesar Salad'
-	('Lettuce', 100),
-	('Grilled Chicken', 100),
-	('Parmesan', 100),
-	('Garlic', 100),
-	('Butter', 100),
-	('Croutons', 100),
-	('Caesar dressing', 100),
-	
-	-- ingredients for 'Aggie Shakes'
-	-- covered by ingredients for ice cream below
-	
-	-- ingredients for 'Cookie Sandwich'
-	('Chocolate Chip Cookies', 100),
-
-	-- ingredients for 'Fountain Drink'
-	('Pepsi', 100),
-	
-	-- ingredients for 'Ice Cream Cup'
-	('Vanilla Ice Cream', 100),
-	('Chocolate Ice Cream', 100),
-	('Strawberry Ice Cream', 100),
-
-	-- ingredients for 'Utensils'
-	('Spoons', 100),
-	('Forks', 100),
-	('Knives', 100),
-	('Plates', 100),
-	('Cups', 100),
-	('Tissues', 100);
-
 CREATE TABLE menu (
 	item_id VARCHAR(36) PRIMARY KEY,
 	item_name VARCHAR(255) NOT NULL UNIQUE,
@@ -126,22 +52,6 @@ CREATE TABLE menu (
 	name == 'Fountain Drink'
 	name == 'Ice Cream Cup'
  */
-
-INSERT INTO menu 
-	(item_name, description, price)
-VALUES
-	('Classic Hamburger', 'Single beef patty topped your way and served on a toasted bun.', 6.49),
-	('Black Bean Burger', 'Vegetarian black bean patty topped your way and served on a toasted bun.', 7.29),
-	('Bacon Burger', 'Single beet patty topped with smoked bacon and American cheese.', 7.89),
-	('Chicken Sandwich', 'Marinated grilled chicken breast topped your way and served on a toasted bun.', 7.49),
-	('Gig Em Patty Melt', 'Grilled beef patty topped with gig em sauce, grilled onions, and Swiss-American cheese.', 7.09),
-	('Chicken Tenders', '3-piece chicken tenders served with fries and choice of dipping sauce,', 7.49),
-	('Caesar Salad', 'Topped with grilled chicken strips and Caesar salad', 8.29),
-	('French Fries', 'The perfect side to any meal or shake.', 2.69),
-	('Aggie Shakes', 'Chocolate, vanilla, or strawberry milkshake. Made with Hersheys ice cream.', 4.49),
-	('Cookie Sandwich', 'Hersheys vanilla ice cream packed between 2 chocolate chip cookies.', 4.69),
-	('Fountain Drink', 'Choice of your favorite Pepsi product', 2.45),
-	('Ice Cream Cup', 'Double scoop of vanilla, chocolate, or strawberry Hersheys Ice Cream.' , 3.29);
 
 CREATE TABLE orders (
 	id VARCHAR(36) PRIMARY KEY,

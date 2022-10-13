@@ -1,6 +1,10 @@
-package app.model;
+package app.service;
 
+import java.util.ArrayList;
 import java.util.UUID;
+
+import app.model.Item;
+import app.repository.dbExec;
 
 public class Menu {
 
@@ -48,7 +52,7 @@ public class Menu {
                     new Item(UUID.randomUUID(), "Chocolate Aggie Shake", UUID.fromString(""), 100, 4.49);
 
 
-    public static final Item strwaberryAggieShake = 
+    public static final Item strawberryAggieShake = 
                     new Item(UUID.randomUUID(), "Strawberry Aggie Shake", UUID.fromString(""), 100, 4.49);
 
     
@@ -132,7 +136,7 @@ public class Menu {
         frenchFries.addIngredient(Inventory.frenchFries);
         vanillaAggieShake.addIngredient(Inventory.vanillaIce);
         chocolateAggieShake.addIngredient(Inventory.chocolateIce);
-        strwaberryAggieShake.addIngredient(Inventory.strawberryIce);
+        strawberryAggieShake.addIngredient(Inventory.strawberryIce);
         cookieSandwich.addIngredient(Inventory.chocolateChip);
         pepsi.addIngredient(Inventory.pepsi);
         dietPepsi.addIngredient(Inventory.dietPepsi);
@@ -150,8 +154,47 @@ public class Menu {
         plates.addIngredient(Inventory.plates);
         cups.addIngredient(Inventory.cups);
         tissues.addIngredient(Inventory.tissues);
-
     }
+
+	public static final ArrayList<Item> list = new ArrayList<Item>();
+	public static void addItemsToMenu() {
+
+		if (!dbExec.isMenuEmpty()) {
+			return;
+		}
+		list.add(classicHamburger);
+		list.add(blackBeanBurger);
+		list.add(baconBurger);
+		list.add(chickenSandwich);
+		list.add(gigEmPattyMelt);
+		list.add(chickenTenders);
+		list.add(caesarSalad);
+		list.add(frenchFries);
+		list.add(vanillaAggieShake);
+		list.add(chocolateAggieShake);
+		list.add(strawberryAggieShake);
+		list.add(cookieSandwich);
+		list.add(pepsi);
+		list.add(dietPepsi);
+		list.add(vanillaIce);
+		list.add(chocolateIce);
+        list.add(strawberryIce);
+        list.add(ranchSauce);
+        list.add(bbqSauce);
+        list.add(honeyMustardSauce);
+        list.add(spicyRanchSauce);
+        list.add(gleEmSauce);
+        list.add(spoons);
+        list.add(forks);
+        list.add(knives);
+        list.add(plates);
+        list.add(cups);
+        list.add(tissues);
+
+		for (Item item : list) {
+			dbExec.addItemToMenu(item);
+		}
+	}
                     
 
 }
