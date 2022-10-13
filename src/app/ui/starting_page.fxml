@@ -44,12 +44,12 @@
                   </HBox>
                   <HBox spacing="25.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Button fx:id="serverButton" mnemonicParsing="false" onAction="#serverClick" prefHeight="101.0" prefWidth="140.0" text="SERVER" HBox.hgrow="ALWAYS">
+                        <Button fx:id="serverBtn" mnemonicParsing="false" onAction="#serverClick" prefHeight="101.0" prefWidth="140.0" text="SERVER" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="managerButton" mnemonicParsing="false" onAction="#managerClick" prefHeight="101.0" prefWidth="140.0" text="MANAGER" HBox.hgrow="ALWAYS">
+                        <Button fx:id="managerBtn" mnemonicParsing="false" onAction="#managerClick" prefHeight="101.0" prefWidth="140.0" text="MANAGER" HBox.hgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
