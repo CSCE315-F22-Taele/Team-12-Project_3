@@ -26,7 +26,7 @@ public class InventoryController {
 
     public void initialize() {
         comboBox.getItems().removeAll(comboBox.getItems());
-        comboBox.getItems().addAll("Option A", "Option B", "Option C");
+        comboBox.getItems().addAll("Option A", "Option B", "Option C", "Option D", "Option E", "Option F", "Option H", "Option I");
         comboBox.getSelectionModel().select("Option B");
     }
 

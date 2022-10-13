@@ -44,8 +44,8 @@
          <children>
             <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="50.0" prefWidth="540.0" spacing="10.0">
                <children>
-                  <ComboBox maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0" promptText="Pick Item" visibleRowCount="6" />
-                  <TextField promptText="Amount" />
+                  <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0" promptText="Pick Item" visibleRowCount="6" />
+                  <TextField fx:id="quantityEntry" promptText="Amount" />
                   <Button fx:id="addBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Add" />
                </children>
                <VBox.margin>
