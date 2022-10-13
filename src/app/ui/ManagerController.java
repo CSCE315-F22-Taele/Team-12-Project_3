@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 
 public class ManagerController {
     @FXML
+	private Button backBtn;
+    @FXML
     private Button trendsBtn;
     @FXML
     private Button inventoryBtn;
-    @FXML
-    private Button backBtn;
     @FXML
     private Label manLabel;
 
