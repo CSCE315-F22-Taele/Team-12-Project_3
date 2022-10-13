@@ -95,6 +95,20 @@ public class Menu {
     public static final Item gleEmSauce = 
                     new Item(UUID.randomUUID(), "Gle em Sauce", UUID.fromString(""), 100, 0);
 
+    public static final Item spoons = 
+                    new Item(UUID.randomUUID(), "Spoons", UUID.fromString(""), 100, 0);
+
+    public static final Item forks = 
+                    new Item(UUID.randomUUID(), "Forks", UUID.fromString(""), 100, 0);
+
+    public static final Item knives = 
+                    new Item(UUID.randomUUID(), "Knives", UUID.fromString(""), 100, 0);
+    public static final Item plates = 
+                    new Item(UUID.randomUUID(), "Plates", UUID.fromString(""), 100, 0);
+    public static final Item cups = 
+                    new Item(UUID.randomUUID(), "Cups", UUID.fromString(""), 100, 0);
+    public static final Item tissues = 
+                    new Item(UUID.randomUUID(), "Tissues", UUID.fromString(""), 100, 0);
 
     public static void addIngredients() {
         classicHamburger.addIngredient(Inventory.beefPatty);
@@ -130,6 +144,12 @@ public class Menu {
         honeyMustardSauce.addIngredient(Inventory.honeyMustardSauce);
         spicyRanchSauce.addIngredient(Inventory.spicyRanchSauce);
         gleEmSauce.addIngredient(Inventory.gleEmSauce);
+        spoons.addIngredient(Inventory.spoons);
+        forks.addIngredient(Inventory.forks);
+        knives.addIngredient(Inventory.knives);
+        plates.addIngredient(Inventory.plates);
+        cups.addIngredient(Inventory.cups);
+        tissues.addIngredient(Inventory.tissues);
 
     }
                     
