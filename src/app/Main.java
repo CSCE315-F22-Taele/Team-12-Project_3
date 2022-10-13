@@ -5,6 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import java.sql.Statement;
+import java.util.List;
+
+import app.db.dbSetup;
+import app.db.jdbcpostgreSQL;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
 
 public class Main extends Application {
 
@@ -18,5 +27,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+		jdbcpostgreSQL db = new jdbcpostgreSQL();
+		db.openConnection();
 	}
 }

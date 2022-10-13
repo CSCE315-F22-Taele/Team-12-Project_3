@@ -155,6 +155,7 @@ CREATE TABLE items (
 	item_name VARCHAR(255) NOT NULL,
 	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
 	quantity INTEGER NOT NULL DEFAULT 0,
+	total_price FLAT NOT NULL DEFAULT 0,
 
 	PRIMARY KEY(id, order_id)
 );

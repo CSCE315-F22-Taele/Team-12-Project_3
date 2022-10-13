@@ -14,16 +14,31 @@ public class Credentials {
 	private UUID userId;
 	private String hashedPassword;
 
+	/**
+	 * Creates a new instance of the credentials with the userId and hashed password
+	 * @param userId
+	 * @param password
+	 */
 	public Credentials(UUID userId, String password) {
 		this.userId = userId;
 		this.hashedPassword = hashPassword(password);
 	}
 
+	/**
+	 * Checks if the given password matches user's password in database
+	 * @param password
+	 * @return: Boolean if the passwords match, else false
+	 */
 	public boolean checkPassword(String password) {
 		String hashedPassword2 = hashPassword(password);
 		return this.hashedPassword.equals(hashedPassword2);
 	}
 
+	/**
+	 * Encrypt a user's password
+	 * @param: password
+	 * @return: hashed password
+	 */
 	public String hashPassword(String password) {
 		SecureRandom random = new SecureRandom();
 		byte[] salt = new byte[16];

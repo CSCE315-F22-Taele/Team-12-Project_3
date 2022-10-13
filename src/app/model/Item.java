@@ -1,5 +1,6 @@
 package app.model;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class Item {
@@ -7,14 +8,39 @@ public class Item {
 	private String name;
 	private int orderId;
 	private int amount;
-	private Ingredient[] ingredients;
+	private double totalPrice;
+	private ArrayList<Ingredient> ingredients;
 
-	public Item(UUID itemId, String name, int orderId, int amount, Ingredient[] ingredients) {
+	/**
+	 * Initializes a new Item object
+	 * @param itemId
+	 * @param name
+	 * @param orderId
+	 * @param amount
+	 * @param price
+	 */
+	public Item(UUID itemId, String name, int orderId, int amount, double price) {
 		this.itemId = itemId;
 		this.name = name;
 		this.orderId = orderId;
 		this.amount = amount;
-		this.ingredients = ingredients;
+		this.totalPrice = price * amount;
+	}
+
+	/**
+	 * Add ingredients used in this item
+	 * @param ingredient
+	 */
+	public void addIngredient(Ingredient ingredient) {
+		ingredients.add(ingredient);
+	}
+
+	/**
+	 * Increase the amount of this item in the order
+	 * @param amount
+	 */
+	public void addAmount(int amount) {
+		this.amount += amount;
 	}
 
 	public UUID getItemId() {
@@ -45,11 +71,15 @@ public class Item {
 		this.amount = amount;
 	}
 
-	public Ingredient[] getIngredients() {
-		return ingredients;
+	public double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setIngredients(Ingredient[] ingredients) {
-		this.ingredients = ingredients;
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public ArrayList<Ingredient> getIngredients() {
+		return ingredients;
 	}
 }

@@ -1,16 +1,71 @@
 package app.db;
 
-import java.sql.*;
 import java.util.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 
 /*
 CSCE 315
 9-27-2021 Lab
  */
 public class jdbcpostgreSQL {
+	public Connection conn;
+	public Statement stmt;
+
+	public jdbcpostgreSQL() {
+		this.conn = null;
+		this.stmt = null;
+	}
+
+	public void openConnection() {
+		// Building the connection with your credentials
+		String teamNumber = "12";
+		String sectionNumber = "912";
+		String dbName = "csce315" + "_" + sectionNumber + "_" + teamNumber;
+		String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" +
+				dbName;
+
+		// Connecting to the database
+		try {
+			conn = DriverManager.getConnection(dbConnectionString, dbSetup.user,
+					dbSetup.pswd);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+
+		System.out.println("Opened database successfully");
+
+		try {
+			// create a statement object
+			stmt = conn.createStatement();
+
+			// int result = stmt.executeUpdate(sqlStatement);
+
+			// while (result.next()) {
+			// System.out.println(result.getString("column_name"));
+			// }
+			// OR
+			// System.out.println(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0);
+		}
+	}
+
+	public void closeConnection() {
+		try {
+			conn.close();
+			System.out.println("Connection Closed.");
+		} catch (Exception e) {
+			System.out.println("Connection NOT Closed.");
+		}
+	}
 
 	// Commands to run this script
 	// This will compile all java files in this directory
@@ -21,96 +76,19 @@ public class jdbcpostgreSQL {
 	// Mac/Linux: java -cp ".:postgresql-42.2.8.jar" jdbcpostgreSQL
 
 	// MAKE SURE YOU ARE ON VPN or TAMU WIFI TO ACCESS DATABASE
-	public static List<String[]> readFromFile(String filename) throws FileNotFoundException {
-		Scanner readFile = new Scanner(new File(filename));
-
-		List<String[]> allAttributes = new ArrayList<>();
-		while (readFile.hasNextLine()) {
-			String line = readFile.nextLine();
-			allAttributes.add(line.split(","));
-		}
-
-		return allAttributes;
-	}
-
 	/*
-	 * public static void main(String args[]) {
+	 * public static List<String[]> readFromFile(String filename) throws
+	 * FileNotFoundException {
+	 * Scanner readFile = new Scanner(new File(filename));
 	 * 
-	 * // Building the connection with your credentials
-	 * Connection conn = null;
-	 * String teamNumber = "12";
-	 * String sectionNumber = "912";
-	 * String dbName = "csce315" + "_" + sectionNumber + "_" + teamNumber;
-	 * String dbConnectionString = "jdbc:postgresql://csce-315-db.engr.tamu.edu/" +
-	 * dbName;
-	 * dbSetup myCredentials = new dbSetup();
-	 * 
-	 * // Connecting to the database
-	 * try {
-	 * conn = DriverManager.getConnection(dbConnectionString, dbSetup.user,
-	 * dbSetup.pswd);
-	 * } catch (Exception e) {
-	 * e.printStackTrace();
-	 * System.err.println(e.getClass().getName() + ": " + e.getMessage());
-	 * System.exit(0);
+	 * List<String[]> allAttributes = new ArrayList<>();
+	 * while (readFile.hasNextLine()) {
+	 * String line = readFile.nextLine();
+	 * allAttributes.add(line.split(","));
 	 * }
 	 * 
-	 * System.out.println("Opened database successfully");
-	 * 
-	 * try {
-	 * // create a statement object
-	 * Statement stmt = conn.createStatement();
-	 * 
-	 * String csv_file = "orders.csv";
-	 * List<String[]> getAttributes = readFromFile(csv_file);
-	 * 
-	 * // starts at 1 to avoid adding column names into database
-	 * for(int i = 1; i < getAttributes.size(); i++) {
-	 * // Running a query
-	 * // TODO: update the sql command here
-	 * 
-	 * String vals = String.format("'%s', %s, '%s', %s, %s",
-	 * getAttributes.get(i)[0],
-	 * getAttributes.get(i)[1],
-	 * getAttributes.get(i)[2],
-	 * getAttributes.get(i)[3],
-	 * getAttributes.get(i)[4]
-	 * );
-	 * String sqlStatement = String.
-	 * format("INSERT INTO orders (name, server_id, time_ordered, is_served, price) VALUES(%s)"
-	 * , vals);
-	 * 
-	 * stmt.executeUpdate(sqlStatement);
+	 * return allAttributes;
 	 * }
-	 * 
-	 * // send statement to DBMS
-	 * // This executeQuery command is useful for data retrieval
-	 * // OR
-	 * // This executeUpdate command is useful for updating data
-	 * // int result = stmt.executeUpdate(sqlStatement);
-	 * 
-	 * // OUTPUT
-	 * // You will need to output the results differently depeninding on which
-	 * function
-	 * // you use
-	 * System.out.println("--------------------Query Results--------------------");
-	 * // while (result.next()) {
-	 * // System.out.println(result.getString("column_name"));
-	 * // }
-	 * // OR
-	 * // System.out.println(result);
-	 * } catch(Exception e) {
-	 * e.printStackTrace();
-	 * System.err.println(e.getClass().getName() + ": " + e.getMessage());
-	 * System.exit(0);
-	 * }
-	 * 
-	 * // closing the connection
-	 * try {
-	 * conn.close();
-	 * System.out.println("Connection Closed.");
-	 * } catch(Exception e) {
-	 * System.out.println("Connection NOT Closed.");
-	 * } // end try catch
-	 * }// end main
-	 */}// end Class
+	 */
+
+}// end Class
