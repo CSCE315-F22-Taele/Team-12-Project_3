@@ -17,7 +17,7 @@ import javafx.util.Pair;
 
 public class dbExec {
 	public static User findUserByUserName(String userName, UserType type) {
-		UUID userId = Main.defaultId;
+		UUID userId = null;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserByUserName(userName));
 			result.next();
@@ -87,10 +87,10 @@ public class dbExec {
 			throw new RuntimeException(e.getMessage());
 		}
 
-		UUID id = Main.defaultId;
-		UUID itemId = Main.defaultId;
+		UUID id = null;
+		UUID itemId = null;
 		int amount = 0;
-		UUID orderId = Main.defaultId;
+		UUID orderId = null;
 		try {
 			id = UUID.fromString(result.getString("id"));
 			itemId = UUID.fromString(result.getString("item_id"));
@@ -173,7 +173,7 @@ public class dbExec {
 			while (result.next()) {
 				UUID itemId = UUID.fromString(result.getString("item_id"));
 				String name = result.getString("item_name");
-				UUID orderId = Main.defaultId;
+				UUID orderId = null;
 				int amount = 1;
 				double price = Double.parseDouble(result.getString("price"));
 				String description = result.getString("description");
@@ -196,8 +196,8 @@ public class dbExec {
 		try {
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllInventory());
 			while (result.next()) {
-				UUID itemId = Main.defaultId;
-				UUID orderId = Main.defaultId;
+				UUID itemId = null;
+				UUID orderId = null;
 				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
 				int amount = Integer.parseInt(result.getString("quantity"));
 				String name = result.getString("ingredient_name");
