@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import app.Main;
 import app.db.jdbcpostgreSQL;
 import app.model.Ingredient;
 import app.model.Item;
@@ -15,7 +16,7 @@ import javafx.util.Pair;
 
 public class dbExec {
 	public static User findUserByUserName(String userName, UserType type) {
-		UUID userId = UUID.fromString("");
+		UUID userId = Main.defaultId;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserByUserName(userName));
 			String id = result.getString("id");
@@ -84,10 +85,10 @@ public class dbExec {
 			throw new RuntimeException(e.getMessage());
 		}
 
-		UUID id = UUID.fromString("");
-		UUID itemId = UUID.fromString("");
+		UUID id = Main.defaultId;
+		UUID itemId = Main.defaultId;
 		int amount = 0;
-		UUID orderId = UUID.fromString("");
+		UUID orderId = Main.defaultId;
 		try {
 			id = UUID.fromString(result.getString("id"));
 			itemId = UUID.fromString(result.getString("item_id"));
@@ -166,7 +167,7 @@ public class dbExec {
 			while (result.next()) {
 				UUID itemId = UUID.fromString(result.getString("item_id"));
 				String name = result.getString("item_name");
-				UUID orderId = UUID.fromString("");
+				UUID orderId = Main.defaultId;
 				int amount = 1;
 				double price = Double.parseDouble(result.getString("price"));
 				String description = result.getString("description");
@@ -189,8 +190,8 @@ public class dbExec {
 		try {
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllInventory());
 			while (result.next()) {
-				UUID itemId = UUID.fromString("");
-				UUID orderId = UUID.fromString("");
+				UUID itemId = Main.defaultId;
+				UUID orderId = Main.defaultId;
 				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
 				int amount = Integer.parseInt(result.getString("quantity"));
 				String name = result.getString("ingredient_name");
