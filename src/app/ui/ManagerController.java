@@ -24,19 +24,19 @@ public class ManagerController {
     }
 
     public void trendsClick() throws IOException {
-        System.out.println("Manager --> Trends");
+        // System.out.println("Manager --> Trends");
         trendsBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("trends.fxml")));
     }
     public void inventoryClick() throws IOException {
-        System.out.println("Manager --> Inventory");
+        // System.out.println("Manager --> Inventory");
         inventoryBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("inventory.fxml")));
     }
     public void menuClick() throws IOException {
-        System.out.println("Manager --> Menu");
+        // System.out.println("Manager --> Menu");
         inventoryBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
     }
     public void backClick() throws IOException {
-        System.out.println("Manager --> Home");
+        // System.out.println("Manager --> Home");
         backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
     }
 }

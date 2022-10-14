@@ -20,12 +20,12 @@ public class StartController {
 	}
 
 	public void serverClick() throws IOException {
-        System.out.println("Server --> Authentication");
+        // System.out.println("Server --> Authentication");
         Main.authen = "server.fxml";
         serverBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("authentication.fxml")));
     }
     public void managerClick() throws IOException {
-        System.out.println("Manager --> Authentication");
+        // System.out.println("Manager --> Authentication");
         Main.authen = "manager.fxml";
         managerBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("authentication.fxml")));
     }

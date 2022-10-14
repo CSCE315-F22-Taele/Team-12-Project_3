@@ -73,12 +73,12 @@ public class ServerController {
 	}
 
 	public void addClick() throws IOException {
-		System.out.println("Server --> Cart");
+		// System.out.println("Server --> Cart");
 		addBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("cart.fxml")));
 	}
 
 	public void backClick() throws IOException {
-		System.out.println("Server --> Home");
+		// System.out.println("Server --> Home");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
 	}
 }

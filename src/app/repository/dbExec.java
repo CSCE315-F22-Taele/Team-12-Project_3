@@ -117,9 +117,9 @@ public class dbExec {
 	public static boolean isInventoryEmpty() {
 		ResultSet result;
 		try {
-			System.out.println("in try");
+			// System.out.println("in try");
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.isInventoryEmpty());
-			System.out.println("leaving try");
+			// System.out.println("leaving try");
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -155,8 +155,9 @@ public class dbExec {
 	}
 
 	public static void removeItemFromMenu(String name) {
+		int result;
 		try {
-			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.removeItemFromMenu(name));
+			result = jdbcpostgreSQL.stmt.executeUpdate(queries.removeItemFromMenu(name));
 
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
@@ -209,7 +210,7 @@ public class dbExec {
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage() + name);
 		}
-		System.out.println(inventory);
+		// System.out.println(inventory);
 		return inventory;
 	}
 

@@ -83,11 +83,11 @@ public class Inventory {
 
 	public static void addIngredients() {
 
-		System.out.println("before if statement");
+		// System.out.println("before if statement");
 		if (!dbExec.isInventoryEmpty()) {
 			return;
 		}
-		System.out.println("past if statement");
+		// System.out.println("past if statement");
 		list.add(beefPatty);
 		list.add(buns);
 		list.add(avocado);
@@ -127,6 +127,6 @@ public class Inventory {
 		for (Ingredient ingredient : list) {
 			dbExec.addIngredientToInventory(ingredient);
 		}
-		System.out.println("past for loop");
+		// System.out.println("past for loop");
 	}
 }

@@ -25,23 +25,23 @@ public class AuthenticationController {
 	}
 
     public void backClick() throws IOException {
-        System.out.println("Authentication ---> Home");
+        // System.out.println("Authentication ---> Home");
         backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
     }
     
     public void submitClick() throws IOException {
-        System.out.println("Authenticating...");
+        // System.out.println("Authenticating...");
         String uEntry = userEntry.getText();
         Main.username = uEntry;
         String passEntry = passwordEntry.getText();
 
 		// if(Authentication.checkPassword(uEntry, passEntry)) {
 		if(true) {
-            System.out.println("Authentication Successful!");
+            // System.out.println("Authentication Successful!");
             submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
         }
         else {
-            System.out.println("Authentication Failed!");
+            // System.out.println("Authentication Failed!");
             passwordEntry.setText("");
             passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
         }

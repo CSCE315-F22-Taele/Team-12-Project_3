@@ -54,7 +54,7 @@ public class InventoryController {
 
 			comboBox.getItems().add(ingredient.getName());
 		}
-		System.out.println(inventory.toString());
+		// System.out.println(inventory.toString());
 		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
@@ -74,7 +74,7 @@ public class InventoryController {
 	}
 
 	public void backClick() throws IOException {
-		System.out.println("Inventory --> Manager");
+		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 

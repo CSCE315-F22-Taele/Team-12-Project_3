@@ -35,7 +35,7 @@ public class jdbcpostgreSQL {
 			System.exit(0);
 		}
 
-		System.out.println("Opened database successfully");
+		// System.out.println("Opened database successfully");
 
 		try {
 			// create a statement object
@@ -58,7 +58,7 @@ public class jdbcpostgreSQL {
 	public static void closeConnection() {
 		try {
 			conn.close();
-			System.out.println("Connection Closed.");
+			// System.out.println("Connection Closed.");
 		} catch (Exception e) {
 			System.out.println("Connection NOT Closed.");
 		}

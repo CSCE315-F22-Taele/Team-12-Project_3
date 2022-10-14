@@ -77,7 +77,7 @@ public class CartController {
 	}
 
 	public void backClick() throws IOException {
-		System.out.println("Cart --> Server");
+		// System.out.println("Cart --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 	}
 

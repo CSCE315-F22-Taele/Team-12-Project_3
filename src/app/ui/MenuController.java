@@ -85,7 +85,7 @@ public class MenuController {
 	// }
 
 	public void backClick() throws IOException {
-		System.out.println("Manager --> Server");
+		// System.out.println("Manager --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("Manager.fxml")));
 	}
 
