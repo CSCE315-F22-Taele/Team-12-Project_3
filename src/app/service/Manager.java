@@ -16,8 +16,8 @@ public class Manager {
 		dbExec.addItemToMenu(item);
 	}
 
-	public static void removeItemFromMenu(Item item) {
-		dbExec.removeItemFromMenu(item);
+	public static void removeItemFromMenu(String name) {
+		dbExec.removeItemFromMenu(name);
 	}
 
 	public static void updateMenuItem(Item item) {

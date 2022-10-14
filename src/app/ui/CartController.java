@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.Main;
 import app.model.Item;
 import app.model.Order;
 import app.requests.createOrderRequest;
@@ -56,7 +57,7 @@ public class CartController {
 
 		for (Pair<Item, String> item : items) {
 
-			comboBox.getItems().add(item.getValue());
+			comboBox.getItems().add((item.getKey()).getName());
 		}
 		comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
@@ -89,10 +90,12 @@ public class CartController {
 		String customerName = nameEntry.getText();
 		if(customerName.isEmpty()){
 			// ERROR
-		} else{
-			createOrderRequest req = new createOrderRequest(customerName, Server.getId(), Server.getCart());
+		} else {
+			createOrderRequest req = new createOrderRequest(customerName, Main.username, Server.getCart());
 			Order customerOrder = Server.createOrder(req);
 			// Do some query with Order object
+			deleteClick();
+			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 		}
 	}
 

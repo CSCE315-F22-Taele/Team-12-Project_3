@@ -8,12 +8,12 @@ import javafx.util.Pair;
 
 public class createOrderRequest {
 	public String customerName;
-	public int serverId;
+	public String serverName;
     public ArrayList<Pair<String, Integer>> items;
 
-	public createOrderRequest(String customerName, int serverId, ArrayList<Pair<String, Integer>> items) {
+	public createOrderRequest(String customerName, String serverName, ArrayList<Pair<String, Integer>> items) {
 		this.customerName = customerName; 
-		this.serverId = serverId;
+		this.serverName = serverName;
 		this.items = new ArrayList<>(items);
 	}
 }

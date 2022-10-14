@@ -2,6 +2,9 @@ package app.model;
 
 import java.util.ArrayList;
 import java.util.UUID;
+
+import javafx.util.Pair;
+
 import java.sql.Timestamp;
 
 public class Order {

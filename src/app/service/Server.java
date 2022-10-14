@@ -3,6 +3,7 @@ package app.service;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import app.Main;
 import app.model.Ingredient;
 import app.model.Item;
 import app.model.Order;
@@ -16,31 +17,43 @@ public class Server {
 
 	private static ArrayList<Pair<String, Integer>> cart;
 
-	public static void initializeCart(){
+	public static void initializeCart() {
 		cart = new ArrayList<Pair<String, Integer>>();
 	}
 
-	public static void addToCart(String itemName, int amount){
+	public static void addToCart(String itemName, int amount) {
 		cart.add(new Pair<String, Integer>(itemName, amount));
 	}
 
-	public static void clearCart(){
+	public static void clearCart() {
 		cart.clear();
 	}
 
-	public static ArrayList<Pair<String, Integer>> getCart(){
+	public static ArrayList<Pair<String, Integer>> getCart() {
 		return cart;
 	}
 
-	public Order createOrder(createOrderRequest request) {
-		Order order = new Order(request.customerName, request.serverId);
-		order.setItems(request.items);
+	public static Order createOrder(createOrderRequest request) {
+		
+		UserType type = Authentication.getTypeFromString(Main.authen);
+		User server = dbExec.findUserByUserName(request.serverName, type);
+		Order order = new Order(request.customerName, server.getUserId());
+
+		for (Pair<String, Integer> pair: request.items) {
+			String itemName = pair.getKey();
+			int amount = pair.getValue();
+
+			Item item = dbExec.getMenuByItem(itemName);
+			item.setAmount(amount);
+			item.setOrderId(order.getOrderId());
+			order.addItem(item);
+		}
 
 		dbExec.addOrder(order);
 		for (Item item : order.getItems()) {
-			
+
 			dbExec.addItemToOrder(item);
-			for (Ingredient ingredient: item.getIngredients()) {
+			for (Ingredient ingredient : item.getIngredients()) {
 				dbExec.addIngredientToItem(ingredient);
 
 				Ingredient curr = dbExec.getInventoryByIngredient(ingredient.getName());

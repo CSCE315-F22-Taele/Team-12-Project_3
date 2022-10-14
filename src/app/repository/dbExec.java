@@ -147,12 +147,10 @@ public class dbExec {
 		return isEmpty;
 	}
 
-	public static void removeItemFromMenu(Item item) {
-		// ArrayList<Item> items = new ArrayList<Item>();
-
+	public static void removeItemFromMenu(String name) {
 		ResultSet result;
 		try {
-			result = jdbcpostgreSQL.stmt.executeQuery(queries.removeItemFromMenu(item));
+			result = jdbcpostgreSQL.stmt.executeQuery(queries.removeItemFromMenu(name));
 
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
@@ -187,6 +185,7 @@ public class dbExec {
 	public static ArrayList<Ingredient> getAllInventory() {
 		ArrayList<Ingredient> inventory = new ArrayList<Ingredient>();
 
+		String name = "";
 		ResultSet result;
 		try {
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllInventory());
@@ -195,14 +194,14 @@ public class dbExec {
 				UUID orderId = null;
 				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
 				int amount = Integer.parseInt(result.getString("quantity"));
-				String name = result.getString("ingredient_name");
+				name = result.getString("ingredient_name");
 
 				Ingredient ingredient = new Ingredient(ingredientId, name, itemId, orderId, amount);
 				inventory.add(ingredient);
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			throw new RuntimeException(e.getMessage() + name);
 		}
 
 		return inventory;
@@ -231,7 +230,7 @@ public class dbExec {
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
 
-			while(result.next()) {
+			while (result.next()) {
 				UUID id = UUID.fromString(result.getString("id"));
 				String customerName = result.getString("customerName");
 				UUID serverId = UUID.fromString(result.getString("server_id"));
@@ -248,7 +247,7 @@ public class dbExec {
 				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(addNewOrder.getOrderId()));
 
 				ArrayList<Item> allItems = new ArrayList<>();
-				while(itemRows.next()) {
+				while (itemRows.next()) {
 					UUID itemId = UUID.fromString(itemRows.getString("item_id"));
 					String name = itemRows.getString("item_name");
 					UUID orderId = addNewOrder.getOrderId();
@@ -260,11 +259,11 @@ public class dbExec {
 				}
 
 				addNewOrder.setItems(allItems);
-				
+
 				ordersByServer.add(addNewOrder);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
+			throw new RuntimeException(e.getMessage() + userId);
 		}
 
 		return ordersByServer;
@@ -273,10 +272,29 @@ public class dbExec {
 	public static void removeOrder(UUID orderId) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.removeOrder(orderId));
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
 
+	public static Item getMenuByItem(String itemName) {
+		ResultSet result;
+		try {
+			result = jdbcpostgreSQL.stmt.executeQuery(queries.getMenuByItem(itemName));
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 
+		UUID itemId = null;
+		double price = 0;
+		try {
+			itemId = UUID.fromString(result.getString("item_id"));
+			price = Double.parseDouble(result.getString("price"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		Item item = new Item(itemId, itemName, null, 0, price); // amount to be updated later
+		return item;
+	}
 }

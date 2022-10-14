@@ -18,11 +18,11 @@ public class queries {
 	 */
 
 	public static String isInventoryEmpty() {
-		return String.format("SELECT count(*) FROM (SELECT ingredient_id FROM inventory LIMIT 1) AS count");
+		return String.format("SELECT count(*) AS count FROM inventory");
 	}
 
 	public static String isMenuEmpty() {
-		return String.format("SELECT count(*) FROM (SELECT item_id FROM menu LIMIT 1) AS count");
+		return String.format("SELECT count(*) AS count FROM menu");
 	}
 	
 	public static String getAllInventory() {
@@ -115,11 +115,6 @@ public class queries {
 				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount());
 	}
 
-	public static String loadInventory(UUID ingredientId) {
-		return String.format("UPDATE inventory SET is_loaded = true WHERE ingredient_id = '%s'",
-				ingredientId.toString());
-	}
-
 	/**
 	 * Add ingredient to an order
 	 * 
@@ -157,8 +152,8 @@ public class queries {
 				newItem.getTotalPrice());
 	}
 
-	public static String removeItemFromMenu(Item item) {
-		return String.format("DELETE FROM menu WHERE item_id = '%s'", item.getItemId().toString());
+	public static String removeItemFromMenu(String name) {
+		return String.format("DELETE FROM menu WHERE item_name = '%s'", name);
 	}
 
 	public static String updateItemToMenu(Item newItem) {

@@ -11,7 +11,7 @@ public class Inventory {
 	public static boolean isLoaded = false;
 	public static final Ingredient beefPatty = new Ingredient(UUID.randomUUID(), "Beef patty", null,
 			null, 100);
-	public static final Ingredient buns = new Ingredient(null, "Buns", null, null, 100);
+	public static final Ingredient buns = new Ingredient(UUID.randomUUID(), "Buns", null, null, 100);
 	public static final Ingredient avocado = new Ingredient(UUID.randomUUID(), "Avocado", null,
 			null, 100);
 	public static final Ingredient swissCheese = new Ingredient(UUID.randomUUID(), "Swiss-American Cheese",

@@ -24,7 +24,6 @@ CREATE TABLE inventory (
 	ingredient_id VARCHAR(36) PRIMARY KEY,
 	ingredient_name VARCHAR(255) NOT NULL UNIQUE,
 	quantity INTEGER NOT NULL DEFAULT 0,
-	is_loaded BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE menu (
@@ -32,7 +31,6 @@ CREATE TABLE menu (
 	item_name VARCHAR(255) NOT NULL UNIQUE,
 	description VARCHAR(1000),
 	price FLOAT NOT NULL DEFAULT 0,
-	is_loaded BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- Classic Hamburger, Black Bean Burger, Bacon Burger, Chicken Sandwich, Gig Em Patty Melt, Chicken Tenders, Caesar Salad, French Fries, Aggie Shakes, Cookie Sandwich, Fountain Drink, Ice Cream Cup
