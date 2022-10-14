@@ -9,75 +9,75 @@ import app.repository.dbExec;
 
 public class Inventory {
 	public static boolean isLoaded = false;
-	public static final Ingredient beefPatty = new Ingredient(UUID.randomUUID(), "Beef patty", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient buns = new Ingredient(null, "Buns", Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient avocado = new Ingredient(UUID.randomUUID(), "Avocado", Main.defaultId,
-			Main.defaultId, 100);
+	public static final Ingredient beefPatty = new Ingredient(UUID.randomUUID(), "Beef patty", null,
+			null, 100);
+	public static final Ingredient buns = new Ingredient(null, "Buns", null, null, 100);
+	public static final Ingredient avocado = new Ingredient(UUID.randomUUID(), "Avocado", null,
+			null, 100);
 	public static final Ingredient swissCheese = new Ingredient(UUID.randomUUID(), "Swiss-American Cheese",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient parmesan = new Ingredient(UUID.randomUUID(), "Parmesan", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient bacon = new Ingredient(UUID.randomUUID(), "Bacon", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient parmesan = new Ingredient(UUID.randomUUID(), "Parmesan", null,
+			null, 100);
+	public static final Ingredient bacon = new Ingredient(UUID.randomUUID(), "Bacon", null,
+			null, 100);
 	public static final Ingredient chickenBreast = new Ingredient(UUID.randomUUID(), "Chicken Breast",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient gigEmSauce = new Ingredient(UUID.randomUUID(), "Gig em Sauce", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient onion = new Ingredient(UUID.randomUUID(), "Onion", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient gigEmSauce = new Ingredient(UUID.randomUUID(), "Gig em Sauce", null,
+			null, 100);
+	public static final Ingredient onion = new Ingredient(UUID.randomUUID(), "Onion", null,
+			null, 100);
 	public static final Ingredient chickenTenders = new Ingredient(UUID.randomUUID(), "Chicken tenders",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient frenchFries = new Ingredient(UUID.randomUUID(), "French Fries", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient ranchSauce = new Ingredient(UUID.randomUUID(), "Ranch Sauce", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient bbqSauce = new Ingredient(UUID.randomUUID(), "BBQ Sauce", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient frenchFries = new Ingredient(UUID.randomUUID(), "French Fries", null,
+			null, 100);
+	public static final Ingredient ranchSauce = new Ingredient(UUID.randomUUID(), "Ranch Sauce", null,
+			null, 100);
+	public static final Ingredient bbqSauce = new Ingredient(UUID.randomUUID(), "BBQ Sauce", null,
+			null, 100);
 	public static final Ingredient honeyMustardSauce = new Ingredient(UUID.randomUUID(), "Honey Mustard Sauce",
-			Main.defaultId, Main.defaultId, 100);
+			null, null, 100);
 	public static final Ingredient spicyRanchSauce = new Ingredient(UUID.randomUUID(), "Spicy Ranch Sauce",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient gleEmSauce = new Ingredient(UUID.randomUUID(), "Gle Em Sauce", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient lettuce = new Ingredient(UUID.randomUUID(), "Lettuce", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient grilledChicken = new Ingredient(UUID.randomUUID(), "Lettuce", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient garlic = new Ingredient(UUID.randomUUID(), "Garlic", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient butter = new Ingredient(UUID.randomUUID(), "Butter", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient croutons = new Ingredient(UUID.randomUUID(), "Croutons", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient gleEmSauce = new Ingredient(UUID.randomUUID(), "Gle Em Sauce", null,
+			null, 100);
+	public static final Ingredient lettuce = new Ingredient(UUID.randomUUID(), "Lettuce", null,
+			null, 100);
+	public static final Ingredient grilledChicken = new Ingredient(UUID.randomUUID(), "Lettuce", null,
+			null, 100);
+	public static final Ingredient garlic = new Ingredient(UUID.randomUUID(), "Garlic", null,
+			null, 100);
+	public static final Ingredient butter = new Ingredient(UUID.randomUUID(), "Butter", null,
+			null, 100);
+	public static final Ingredient croutons = new Ingredient(UUID.randomUUID(), "Croutons", null,
+			null, 100);
 	public static final Ingredient caesarDressing = new Ingredient(UUID.randomUUID(), "Caesar Dressing",
-			Main.defaultId, Main.defaultId, 100);
+			null, null, 100);
 	public static final Ingredient chocolateChip = new Ingredient(UUID.randomUUID(), "Chocolate Chip Cookies",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient pepsi = new Ingredient(UUID.randomUUID(), "Pepsi", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient pepsi = new Ingredient(UUID.randomUUID(), "Pepsi", null,
+			null, 100);
 	public static final Ingredient vanillaIce = new Ingredient(UUID.randomUUID(), "Vanilla Ice Cream",
-			Main.defaultId, Main.defaultId, 100);
+			null, null, 100);
 	public static final Ingredient chocolateIce = new Ingredient(UUID.randomUUID(), "Chocolate Ice Cream",
-			Main.defaultId, Main.defaultId, 100);
+			null, null, 100);
 	public static final Ingredient strawberryIce = new Ingredient(UUID.randomUUID(), "Strawberry Ice Cream",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient spoons = new Ingredient(UUID.randomUUID(), "Spoons", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient forks = new Ingredient(UUID.randomUUID(), "Forks", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient knives = new Ingredient(UUID.randomUUID(), "Knives", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient plates = new Ingredient(UUID.randomUUID(), "Plates", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient cups = new Ingredient(UUID.randomUUID(), "Cups", Main.defaultId,
-			Main.defaultId, 100);
-	public static final Ingredient tissues = new Ingredient(UUID.randomUUID(), "Tissues", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient spoons = new Ingredient(UUID.randomUUID(), "Spoons", null,
+			null, 100);
+	public static final Ingredient forks = new Ingredient(UUID.randomUUID(), "Forks", null,
+			null, 100);
+	public static final Ingredient knives = new Ingredient(UUID.randomUUID(), "Knives", null,
+			null, 100);
+	public static final Ingredient plates = new Ingredient(UUID.randomUUID(), "Plates", null,
+			null, 100);
+	public static final Ingredient cups = new Ingredient(UUID.randomUUID(), "Cups", null,
+			null, 100);
+	public static final Ingredient tissues = new Ingredient(UUID.randomUUID(), "Tissues", null,
+			null, 100);
 	public static final Ingredient blackBeanPatty = new Ingredient(UUID.randomUUID(), "Black Bean Patty",
-			Main.defaultId, Main.defaultId, 100);
-	public static final Ingredient dietPepsi = new Ingredient(UUID.randomUUID(), "Diet Pepsi", Main.defaultId,
-			Main.defaultId, 100);
+			null, null, 100);
+	public static final Ingredient dietPepsi = new Ingredient(UUID.randomUUID(), "Diet Pepsi", null,
+			null, 100);
 
 	public static final ArrayList<Ingredient> list = new ArrayList<Ingredient>();
 

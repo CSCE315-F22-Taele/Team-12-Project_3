@@ -26,7 +26,7 @@ public class queries {
 	}
 	
 	public static String getAllInventory() {
-		return String.format("SELECT * FROM inventory");
+		return String.format("SELECT * FROM inventory;");
 	}
 
 	public static String getInventoryByIngredient(String name) {

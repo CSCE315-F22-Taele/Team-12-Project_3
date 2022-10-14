@@ -11,72 +11,72 @@ public class Menu {
 
 	public static boolean isLoaded = false;
 
-	public static final Item classicHamburger = new Item(UUID.randomUUID(), "Classic Hamburger", Main.defaultId, 100,
+	public static final Item classicHamburger = new Item(UUID.randomUUID(), "Classic Hamburger", null, 100,
 			6.49);
 
-	public static final Item blackBeanBurger = new Item(UUID.randomUUID(), "Black Bean Hamburger", Main.defaultId, 100,
+	public static final Item blackBeanBurger = new Item(UUID.randomUUID(), "Black Bean Hamburger", null, 100,
 			7.29);
 
-	public static final Item baconBurger = new Item(UUID.randomUUID(), "Bacon Burger", Main.defaultId, 100, 7.89);
+	public static final Item baconBurger = new Item(UUID.randomUUID(), "Bacon Burger", null, 100, 7.89);
 
-	public static final Item chickenSandwich = new Item(UUID.randomUUID(), "Chicken Sanndwich", Main.defaultId, 100,
+	public static final Item chickenSandwich = new Item(UUID.randomUUID(), "Chicken Sanndwich", null, 100,
 			7.49);
 
-	public static final Item gigEmPattyMelt = new Item(UUID.randomUUID(), "Gig Em Patty Melt", Main.defaultId, 100,
+	public static final Item gigEmPattyMelt = new Item(UUID.randomUUID(), "Gig Em Patty Melt", null, 100,
 			7.09);
 
-	public static final Item chickenTenders = new Item(UUID.randomUUID(), "Chicken Tenders", Main.defaultId, 100, 7.49);
+	public static final Item chickenTenders = new Item(UUID.randomUUID(), "Chicken Tenders", null, 100, 7.49);
 
-	public static final Item caesarSalad = new Item(UUID.randomUUID(), "Caesar Salad", Main.defaultId, 100, 8.29);
+	public static final Item caesarSalad = new Item(UUID.randomUUID(), "Caesar Salad", null, 100, 8.29);
 
-	public static final Item frenchFries = new Item(UUID.randomUUID(), "French Fries", Main.defaultId, 100, 2.69);
+	public static final Item frenchFries = new Item(UUID.randomUUID(), "French Fries", null, 100, 2.69);
 
-	public static final Item vanillaAggieShake = new Item(UUID.randomUUID(), "Vanilla Aggie Shake", Main.defaultId, 100,
+	public static final Item vanillaAggieShake = new Item(UUID.randomUUID(), "Vanilla Aggie Shake", null, 100,
 			4.49);
 
-	public static final Item chocolateAggieShake = new Item(UUID.randomUUID(), "Chocolate Aggie Shake", Main.defaultId,
+	public static final Item chocolateAggieShake = new Item(UUID.randomUUID(), "Chocolate Aggie Shake", null,
 			100,
 			4.49);
 
 	public static final Item strawberryAggieShake = new Item(UUID.randomUUID(), "Strawberry Aggie Shake",
-			Main.defaultId,
+			null,
 			100, 4.49);
 
-	public static final Item cookieSandwich = new Item(UUID.randomUUID(), "Cookie Sandwich", Main.defaultId, 100, 4.69);
+	public static final Item cookieSandwich = new Item(UUID.randomUUID(), "Cookie Sandwich", null, 100, 4.69);
 
-	public static final Item pepsi = new Item(UUID.randomUUID(), "Pepsi", Main.defaultId, 100, 2.45);
+	public static final Item pepsi = new Item(UUID.randomUUID(), "Pepsi", null, 100, 2.45);
 
-	public static final Item dietPepsi = new Item(UUID.randomUUID(), "Diet Pepsi", Main.defaultId, 100, 2.45);
+	public static final Item dietPepsi = new Item(UUID.randomUUID(), "Diet Pepsi", null, 100, 2.45);
 
-	public static final Item vanillaIce = new Item(UUID.randomUUID(), "Vanilla Ice Cream Cup", Main.defaultId, 100,
+	public static final Item vanillaIce = new Item(UUID.randomUUID(), "Vanilla Ice Cream Cup", null, 100,
 			3.29);
 
-	public static final Item chocolateIce = new Item(UUID.randomUUID(), "Chocolate Ice Cream Cup", Main.defaultId, 100,
+	public static final Item chocolateIce = new Item(UUID.randomUUID(), "Chocolate Ice Cream Cup", null, 100,
 			3.29);
 
-	public static final Item strawberryIce = new Item(UUID.randomUUID(), "Strawberry Ice Cream Cup", Main.defaultId,
+	public static final Item strawberryIce = new Item(UUID.randomUUID(), "Strawberry Ice Cream Cup", null,
 			100,
 			3.29);
 
-	public static final Item ranchSauce = new Item(UUID.randomUUID(), "Ranch Sauce", Main.defaultId, 100, 0);
+	public static final Item ranchSauce = new Item(UUID.randomUUID(), "Ranch Sauce", null, 100, 0);
 
-	public static final Item bbqSauce = new Item(UUID.randomUUID(), "BBQ Sauce", Main.defaultId, 100, 0);
+	public static final Item bbqSauce = new Item(UUID.randomUUID(), "BBQ Sauce", null, 100, 0);
 
-	public static final Item honeyMustardSauce = new Item(UUID.randomUUID(), "Honey Mustard Sauce", Main.defaultId, 100,
+	public static final Item honeyMustardSauce = new Item(UUID.randomUUID(), "Honey Mustard Sauce", null, 100,
 			0);
 
-	public static final Item spicyRanchSauce = new Item(UUID.randomUUID(), "Spicy Ranch Sauce", Main.defaultId, 100, 0);
+	public static final Item spicyRanchSauce = new Item(UUID.randomUUID(), "Spicy Ranch Sauce", null, 100, 0);
 
-	public static final Item gleEmSauce = new Item(UUID.randomUUID(), "Gle em Sauce", Main.defaultId, 100, 0);
+	public static final Item gleEmSauce = new Item(UUID.randomUUID(), "Gle em Sauce", null, 100, 0);
 
-	public static final Item spoons = new Item(UUID.randomUUID(), "Spoons", Main.defaultId, 100, 0);
+	public static final Item spoons = new Item(UUID.randomUUID(), "Spoons", null, 100, 0);
 
-	public static final Item forks = new Item(UUID.randomUUID(), "Forks", Main.defaultId, 100, 0);
+	public static final Item forks = new Item(UUID.randomUUID(), "Forks", null, 100, 0);
 
-	public static final Item knives = new Item(UUID.randomUUID(), "Knives", Main.defaultId, 100, 0);
-	public static final Item plates = new Item(UUID.randomUUID(), "Plates", Main.defaultId, 100, 0);
-	public static final Item cups = new Item(UUID.randomUUID(), "Cups", Main.defaultId, 100, 0);
-	public static final Item tissues = new Item(UUID.randomUUID(), "Tissues", Main.defaultId, 100, 0);
+	public static final Item knives = new Item(UUID.randomUUID(), "Knives", null, 100, 0);
+	public static final Item plates = new Item(UUID.randomUUID(), "Plates", null, 100, 0);
+	public static final Item cups = new Item(UUID.randomUUID(), "Cups", null, 100, 0);
+	public static final Item tissues = new Item(UUID.randomUUID(), "Tissues", null, 100, 0);
 
 	public static void addIngredients() {
 		classicHamburger.addIngredient(Inventory.beefPatty);
