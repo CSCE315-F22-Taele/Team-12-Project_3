@@ -1,5 +1,6 @@
 package app.repository;
 
+import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -58,6 +59,10 @@ public class dbExec {
 	public static void addItemToMenu(Item newItem) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
+
+			for (Ingredient ingredient : newItem.getIngredients()) {
+				int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -88,19 +93,16 @@ public class dbExec {
 		}
 
 		UUID id = null;
-		UUID itemId = null;
 		int amount = 0;
-		UUID orderId = null;
 		try {
-			id = UUID.fromString(result.getString("id"));
-			itemId = UUID.fromString(result.getString("item_id"));
-			orderId = UUID.fromString(result.getString("order_id"));
+			result.next();
+			id = UUID.fromString(result.getString("ingredient_id"));
 			amount = Integer.parseInt(result.getString("quantity"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		Ingredient ingredient = new Ingredient(id, name, itemId, orderId, amount);
+		Ingredient ingredient = new Ingredient(id, name, null, null, amount);
 		return ingredient;
 	}
 
@@ -124,7 +126,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
-			// result.next();
+			result.next();
 			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -143,7 +145,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
-			// result.next();
+			result.next();
 			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -257,7 +259,7 @@ public class dbExec {
 
 				ArrayList<Item> allItems = new ArrayList<>();
 				while (itemRows.next()) {
-					UUID itemId = UUID.fromString(itemRows.getString("item_id"));
+					UUID itemId = UUID.fromString(itemRows.getString("id"));
 					String name = itemRows.getString("item_name");
 					UUID orderId = addNewOrder.getOrderId();
 					int amount = Integer.parseInt(result.getString("quantity"));
@@ -274,7 +276,7 @@ public class dbExec {
 				System.out.println("past last things");
 			}
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage() + userId);
+			throw new RuntimeException(e.getMessage());
 		}
 
 		return ordersByServer;
@@ -288,6 +290,29 @@ public class dbExec {
 		}
 	}
 
+ 	public static ArrayList<Ingredient> getItemIngredients(UUID itemId) {
+		ArrayList<Ingredient> ingredients = new ArrayList<>();
+
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getItemIngredients(null, itemId));
+
+			while (result.next()) {
+				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
+				String name = result.getString("ingredient_name");
+				int amount = Integer.parseInt(result.getString("amount"));
+
+				// TODO so that Item has multiple ingredients
+				Ingredient ingredient = new Ingredient(ingredientId, name, itemId, null, amount);
+				ingredients.add(ingredient);
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		return ingredients;
+	}
+
 	public static Item getMenuByItem(String itemName) {
 		ResultSet result;
 		try {
@@ -299,6 +324,7 @@ public class dbExec {
 		UUID itemId = null;
 		double price = 0;
 		try {
+			result.next();
 			itemId = UUID.fromString(result.getString("item_id"));
 			price = Double.parseDouble(result.getString("price"));
 		} catch (SQLException e) {
@@ -306,6 +332,7 @@ public class dbExec {
 		}
 
 		Item item = new Item(itemId, itemName, null, 0, price); // amount to be updated later
+
 		return item;
 	}
 }

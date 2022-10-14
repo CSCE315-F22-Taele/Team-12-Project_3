@@ -45,8 +45,8 @@
             <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="50.0" prefWidth="540.0" spacing="10.0">
                <children>
                   <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0" promptText="Pick Item" visibleRowCount="6" />
-                  <TextField fx:id="quantityEntry" promptText="Amount" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Add" />
+                  <TextField fx:id="quantityEntry" onAction="#inputListener" promptText="Amount" />
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addAmount" prefHeight="30.0" prefWidth="90.0" text="Add" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -98,8 +98,8 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="restockEntry" promptText="Restock Amount" />
-            <Button fx:id="restockBtn" mnemonicParsing="false" text="Restock" />
+            <TextField fx:id="restockEntry" onAction="#inputListener" promptText="Restock Amount" />
+            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockAll" text="Restock" />
          </children>
       </HBox>
    </bottom>

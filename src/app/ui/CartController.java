@@ -59,7 +59,7 @@ public class CartController {
 
 			comboBox.getItems().add((item.getKey()).getName());
 		}
-		comboBox.getSelectionModel().select(comboBox.getItems().get(0));
+		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
 	// event handlers
@@ -83,12 +83,12 @@ public class CartController {
 
 	public void deleteClick() throws IOException {
 		Server.clearCart();
-		cartBox.getChildren().removeAll();
+		cartBox.getChildren().removeAll(cartBox.getChildren());
 	}
 
 	public void submitClick() throws IOException {
 		String customerName = nameEntry.getText();
-		if(customerName.isEmpty()){
+		if (customerName.isEmpty()) {
 			// ERROR
 		} else {
 			createOrderRequest req = new createOrderRequest(customerName, Main.username, Server.getCart());
@@ -117,27 +117,26 @@ public class CartController {
 		col2.setPercentWidth(40);
 		cartBox.getColumnConstraints().addAll(col1, col2);
 		cartBox.setMinWidth(500);
-		cartBox.setMaxWidth(500);
+		cartBox.setMaxWidth(-1);
 		cartPane.setContent(cartBox);
 		cartPane.setMinWidth(500);
-		cartPane.setMaxWidth(500);
+		cartPane.setMaxWidth(-1);
 
 		return cartBox;
 	}
 
 	// displaying from List
 	public void writeToGUI(String itemName, int amount) {
-
 		Label nameLabel = new Label();
 		nameLabel.setText(itemName);
 		nameLabel.setPadding(new Insets(0, 0, 10, 0));
-		GridPane.setConstraints(nameLabel, 0, 0);
+		GridPane.setConstraints(nameLabel, 0, cartBox.getChildren().size());
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 
 		Label amountLabel = new Label();
 		amountLabel.setText(amount + "");
 		amountLabel.setPadding(new Insets(0, 0, 10, 0));
-		GridPane.setConstraints(amountLabel, 1, 0);
+		GridPane.setConstraints(amountLabel, 1, cartBox.getChildren().size());
 		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
 		cartBox.getChildren().addAll(nameLabel, amountLabel);

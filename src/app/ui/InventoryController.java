@@ -103,10 +103,10 @@ public class InventoryController {
 		col2.setPercentWidth(40);
 		resultPane.getColumnConstraints().addAll(col1, col2);
 		resultPane.setMinWidth(500);
-		resultPane.setMaxWidth(500);
+		resultPane.setMaxWidth(-1); // Makes it so it uses pref_size?
 		inventoryPane.setContent(resultPane);
 		inventoryPane.setMinWidth(500);
-		inventoryPane.setMaxWidth(500);
+		inventoryPane.setMaxWidth(-1);
 
 		return resultPane;
 	}
@@ -117,13 +117,13 @@ public class InventoryController {
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
 		nameLabel.setPadding(new Insets(0, 0, 10, 0));
-		GridPane.setConstraints(nameLabel, 0, 0);
+		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 
 		Label amountLabel = new Label();
 		amountLabel.setText(amount + "");
 		amountLabel.setPadding(new Insets(0, 0, 10, 0));
-		GridPane.setConstraints(amountLabel, 1, 0);
+		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
 		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
 		resultPane.getChildren().addAll(nameLabel, amountLabel);

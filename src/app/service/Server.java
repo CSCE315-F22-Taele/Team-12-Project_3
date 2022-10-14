@@ -44,6 +44,9 @@ public class Server {
 			int amount = pair.getValue();
 
 			Item item = dbExec.getMenuByItem(itemName);
+			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(item.getItemId());
+
+			item.setIngredients(ingredients);
 			item.setAmount(amount);
 			item.setOrderId(order.getOrderId());
 			order.addItem(item);
@@ -54,6 +57,7 @@ public class Server {
 
 			dbExec.addItemToOrder(item);
 			for (Ingredient ingredient : item.getIngredients()) {
+				ingredient.setOrderId(order.getOrderId());
 				dbExec.addIngredientToItem(ingredient);
 
 				Ingredient curr = dbExec.getInventoryByIngredient(ingredient.getName());

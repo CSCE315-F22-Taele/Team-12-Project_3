@@ -14,7 +14,7 @@
 
 <!-- <?import javafx.scene.control.TextField?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.CartController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.CartController">
    <top>
       <VBox prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -83,7 +83,7 @@
                         </SplitPane>
                      </children>
                   </HBox>
-                  <ScrollPane fx:id="inventoryPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0" />
+                  <ScrollPane fx:id="cartPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0" />
                </children>
             </VBox>
          </children>
@@ -99,7 +99,7 @@
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteClick" text="Delete All" />
-            <TextField fx:id="quantityEntry1" promptText="Name" />
+            <TextField fx:id="nameEntry" promptText="Name" />
             <Button fx:id="submitBtn" layoutX="207.0" layoutY="20.0" mnemonicParsing="false" onAction="#submitClick" text="Submit Order" />
          </children>
       </HBox>

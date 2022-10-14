@@ -13,6 +13,7 @@ public class Item {
 
 	/**
 	 * Initializes a new Item object
+	 * 
 	 * @param itemId
 	 * @param name
 	 * @param orderId
@@ -25,20 +26,24 @@ public class Item {
 		this.orderId = orderId;
 		this.amount = amount;
 		this.totalPrice = price * amount;
+		ingredients = new ArrayList<>();
 	}
 
 	/**
 	 * Add ingredients used in this item
+	 * 
 	 * @param ingredient
 	 */
 	public void addIngredient(Ingredient ingredient) {
 		ingredient.setItemId(itemId);
 		ingredient.setOrderId(orderId);
-		ingredients.add(ingredient);
+		this.ingredients.add(ingredient);
+
 	}
 
 	/**
 	 * Increase the amount of this item in the order
+	 * 
 	 * @param amount
 	 */
 	public void addAmount(int amount) {
@@ -71,6 +76,11 @@ public class Item {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+		for (int i = 0; i < this.ingredients.size(); i++) {
+			Ingredient newIngredient = ingredients.get(i);
+			newIngredient.setAmount(amount);
+			this.ingredients.set(i, newIngredient);
+		}
 	}
 
 	public double getTotalPrice() {
@@ -82,6 +92,10 @@ public class Item {
 	}
 
 	public ArrayList<Ingredient> getIngredients() {
-		return ingredients;
+		return this.ingredients;
+	}
+
+	public void setIngredients(ArrayList<Ingredient> ingredients) {
+		this.ingredients = new ArrayList<>(ingredients);
 	}
 }

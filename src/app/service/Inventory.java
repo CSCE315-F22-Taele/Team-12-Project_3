@@ -42,7 +42,7 @@ public class Inventory {
 			null, 100);
 	public static final Ingredient lettuce = new Ingredient(UUID.randomUUID(), "Lettuce", null,
 			null, 100);
-	public static final Ingredient grilledChicken = new Ingredient(UUID.randomUUID(), "Lettuce", null,
+	public static final Ingredient grilledChicken = new Ingredient(UUID.randomUUID(), "Grilled Chicken", null,
 			null, 100);
 	public static final Ingredient garlic = new Ingredient(UUID.randomUUID(), "Garlic", null,
 			null, 100);

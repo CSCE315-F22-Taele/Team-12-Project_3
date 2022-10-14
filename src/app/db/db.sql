@@ -15,6 +15,11 @@ CREATE TABLE users (
 	user_type INTEGER NOT NULL REFERENCES user_types(id) DEFAULT 0
 );
 
+INSERT INTO users (id, username, user_type)
+VALUES
+	('e0b9544e-4d24-4255-aa1b-30aabbbcaa6e', 'Joe America', 0),
+	('23ebca17-7a06-4814-8a84-9664d9175880', 'Philip Ritchey', 0);
+
 CREATE TABLE credentials (	
 	id VARCHAR(36) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
 	password VARCHAR(255) NOT NULL
@@ -23,33 +28,15 @@ CREATE TABLE credentials (
 CREATE TABLE inventory (
 	ingredient_id VARCHAR(36) PRIMARY KEY,
 	ingredient_name VARCHAR(255) NOT NULL UNIQUE,
-	quantity INTEGER NOT NULL DEFAULT 0,
+	quantity INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE menu (
 	item_id VARCHAR(36) PRIMARY KEY,
 	item_name VARCHAR(255) NOT NULL UNIQUE,
 	description VARCHAR(1000),
-	price FLOAT NOT NULL DEFAULT 0,
+	price FLOAT NOT NULL DEFAULT 0
 );
-
--- Classic Hamburger, Black Bean Burger, Bacon Burger, Chicken Sandwich, Gig Em Patty Melt, Chicken Tenders, Caesar Salad, French Fries, Aggie Shakes, Cookie Sandwich, Fountain Drink, Ice Cream Cup
--- 6.49, 7.29, 7.89, 7.49, 7.09, 7.49, 8.29, 2.69, 4.49, 4.69, 2.45, 3.29
-
-/* 
-	name == 'Classic Hamburger'
-	name == 'Black Bean Burger'
-	name == 'Bacon Burger'
-	name == 'Chicken Sandwich'
-	name == 'Gig Em Patty Melt'
-	name == 'Chicken Tenders'
-	name == 'Caesar Salad'
-	name == 'French Fries'	
-	name == 'Aggie Shakes'
-	name == 'Cookie Sandwich'
-	name == 'Fountain Drink'
-	name == 'Ice Cream Cup'
- */
 
 CREATE TABLE orders (
 	id VARCHAR(36) PRIMARY KEY,
@@ -65,7 +52,7 @@ CREATE TABLE items (
 	item_name VARCHAR(255) NOT NULL,
 	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
 	quantity INTEGER NOT NULL DEFAULT 0,
-	total_price FLAT NOT NULL DEFAULT 0,
+	total_price FLOAT NOT NULL DEFAULT 0,
 
 	PRIMARY KEY(id, order_id)
 );
@@ -74,7 +61,7 @@ CREATE TABLE ingredients (
 	ingredient_id VARCHAR(36) REFERENCES inventory(ingredient_id) ON DELETE CASCADE,
 	ingredient_name varchar(255) NOT NULL,
 	item_id VARCHAR(36) REFERENCES items(id) ON DELETE CASCADE,
-	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
+	order_id VARCHAR(36),
 	amount INTEGER NOT NULL DEFAULT 0,
 
 	PRIMARY KEY(ingredient_id, item_id, order_id)
