@@ -106,20 +106,14 @@ public class MenuController {
 		if(itemName.isEmpty() || amount.isEmpty()){
 			// ERROR
 		} else {
-			try {
-				Double amt = Double.parseDouble(amount);
-	
-				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getMenuByItem(itemName));
-	
-				UUID itemId = UUID.fromString(result.getString("item_id"));
-				UUID orderId = UUID.randomUUID();
-				
-				Item item = new Item(itemId, itemName, orderId, 0, amt);
+			Double amt = Double.parseDouble(amount);
 
-				dbExec.updateItemToMenu(item);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			Item pastItem = dbExec.getMenuByItem(itemName);
+			UUID orderId = UUID.randomUUID();
+			
+			Item item = new Item(pastItem.getItemId(), pastItem.getName(), orderId, 0, amt);
+
+			dbExec.updateItemToMenu(item);
 		}
 
 		this.initialize();
