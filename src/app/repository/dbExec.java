@@ -2,6 +2,7 @@ package app.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -224,4 +225,58 @@ public class dbExec {
 
 		}
 	}
+
+	public static ArrayList<Order> getServerOrders(UUID userId) {
+		ArrayList<Order> ordersByServer = new ArrayList<>();
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
+
+			while(result.next()) {
+				UUID id = UUID.fromString(result.getString("id"));
+				String customerName = result.getString("customerName");
+				UUID serverId = UUID.fromString(result.getString("server_id"));
+				Timestamp t = result.getTimestamp("time_ordered");
+				boolean isServed = Boolean.valueOf(result.getString("is_served"));
+				double price = Double.parseDouble(result.getString("price"));
+
+				Order addNewOrder = new Order(customerName, serverId);
+				addNewOrder.setPrice(price);
+				addNewOrder.setServed(isServed);
+				addNewOrder.setTimeOrdered(t);
+				addNewOrder.setOrderId(id);
+
+				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(addNewOrder.getOrderId()));
+
+				ArrayList<Item> allItems = new ArrayList<>();
+				while(itemRows.next()) {
+					UUID itemId = UUID.fromString(itemRows.getString("item_id"));
+					String name = itemRows.getString("item_name");
+					UUID orderId = addNewOrder.getOrderId();
+					int amount = Integer.parseInt(result.getString("quantity"));
+					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
+
+					Item item = new Item(itemId, name, orderId, amount, priceItem);
+					allItems.add(item);
+				}
+
+				addNewOrder.setItems(allItems);
+				
+				ordersByServer.add(addNewOrder);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		return ordersByServer;
+	}
+
+	public static void removeOrder(UUID orderId) {
+		try {
+			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.removeOrder(orderId));
+		} catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+
 }

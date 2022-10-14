@@ -55,7 +55,6 @@ public class InventoryController {
 			comboBox.getItems().add(ingredient.getName());
 		}
 		comboBox.getSelectionModel().select(comboBox.getItems().get(0));
-
 	}
 
 	// event handlers

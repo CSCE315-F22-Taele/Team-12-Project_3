@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class Order {
 	private UUID orderId;
 	private String customerName;
-	private int serverId;
+	private UUID serverId;
 	private Timestamp timeOrdered;
 	private boolean isServed;
 	private double price;
@@ -19,7 +19,7 @@ public class Order {
 	 * @param customerName
 	 * @param serverId
 	 */
-	public Order(String customerName, int serverId) {
+	public Order(String customerName, UUID serverId) {
 		orderId = UUID.randomUUID();
 		this.customerName = customerName;
 		this.serverId = serverId;
@@ -84,6 +84,10 @@ public class Order {
 		throw new RuntimeException("Item not found: " + itemId);
 	}
 
+	public void setOrderId(UUID orderId) {
+		this.orderId = orderId;
+	}
+
 	public UUID getOrderId() {
 		return orderId;
 	}
@@ -96,11 +100,11 @@ public class Order {
 		this.customerName = customerName;
 	}
 
-	public int getServerId() {
+	public UUID getServerId() {
 		return serverId;
 	}
 
-	public void setServerId(int serverId) {
+	public void setServerId(UUID serverId) {
 		this.serverId = serverId;
 	}
 
@@ -136,5 +140,11 @@ public class Order {
 
 	public ArrayList<Item> getItems() {
 		return items;
+	}
+
+	@Override
+	public String toString() {
+		return "orderId= " + orderId + ", customerName= " + customerName + ", serverId= " + serverId
+				+ ", timeOrdered= " + timeOrdered + ", isServed= " + isServed + ", price= " + price + ", items= " + items.toString();
 	}
 }

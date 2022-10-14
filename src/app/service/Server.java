@@ -1,8 +1,13 @@
 package app.service;
 
+import java.util.ArrayList;
+import java.util.UUID;
+
 import app.model.Ingredient;
 import app.model.Item;
 import app.model.Order;
+import app.model.User;
+import app.model.UserType;
 import app.repository.dbExec;
 import app.requests.createOrderRequest;
 
@@ -25,5 +30,14 @@ public class Server {
 			}
 		}
 		return order;
+	}
+
+	public static ArrayList<Order> getServerOrders(String serverName, UserType type) {
+		User user = dbExec.findUserByUserName(serverName, type);
+		return dbExec.getServerOrders(user.getUserId());
+	}
+
+	public static void removeOrder(UUID orderId) {
+		dbExec.removeOrder(orderId);
 	}
 }
