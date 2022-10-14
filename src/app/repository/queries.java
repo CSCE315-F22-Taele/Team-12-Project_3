@@ -178,4 +178,16 @@ public class queries {
 	public static String getMenuItems() {
 		return String.format("SELECT * FROM menu");
 	}
+
+	public static String getServerOrders(UUID userId) {
+		return String.format("SELECT * from orders WHERE server_id = '%s'", userId.toString());
+	}
+
+	public static String getOrderItems(UUID orderId) {
+		return String.format("SELECT * FROM items WHERE order_id = '%s'", orderId.toString());
+	}
+
+	public static String removeOrder(UUID orderId) {
+		return String.format("DELETE FROM orders WHERE order_id = '%s'", orderId.toString());
+	}
 }

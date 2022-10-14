@@ -21,6 +21,7 @@ public class Main extends Application {
 	public static boolean wow;
 	public static UUID defaultId=UUID.fromString("00000000-0000-0000-0000-000000000000");
 	public static String authen; // Store the result fxml file after authen
+	public static String username;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
