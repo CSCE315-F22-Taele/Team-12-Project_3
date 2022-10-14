@@ -14,7 +14,7 @@
 
 <!-- <?import javafx.scene.control.TextField?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
    <top>
       <VBox prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -83,11 +83,7 @@
                         </SplitPane>
                      </children>
                   </HBox>
-                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0">
-                     <content>
-                        <VBox maxHeight="1.7976931348623157E308" prefHeight="215.0" prefWidth="545.0" />
-                     </content>
-                  </ScrollPane>
+                  <ScrollPane fx:id="inventoryPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0" />
                </children>
             </VBox>
          </children>

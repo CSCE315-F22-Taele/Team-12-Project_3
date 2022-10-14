@@ -24,16 +24,18 @@ public class Manager {
 		dbExec.updateItemToMenu(item);
 	}
 
-	public ArrayList<Ingredient> getAllInventory() {
+	public static ArrayList<Ingredient> getAllInventory() {
 		return dbExec.getAllInventory();
 	}
 
-	public void restockAll(int amount) {
+	public static void restockAll(int amount) {
 		dbExec.restockAll(amount);
 	}
 
-	public void restockIngredient(int amount, Ingredient ingredient) {
-		dbExec.restockIngredient(amount, ingredient);
+	public static void restockIngredient(int amount, String ingredientName) {
+		Ingredient ingredient = dbExec.getInventoryByIngredient(ingredientName);
+		int newAmount = amount + ingredient.getAmount();
+		dbExec.restockIngredient(newAmount, ingredient);
 	}
 
 	// phase 4
