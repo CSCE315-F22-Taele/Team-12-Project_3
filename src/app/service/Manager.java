@@ -8,7 +8,7 @@ import app.repository.dbExec;
 import javafx.util.Pair;
 
 public class Manager {
-	public ArrayList<Pair<Item, String>> getMenuItems() {
+	public static ArrayList<Pair<Item, String>> getMenuItems() {
 		return dbExec.getMenuItems();
 	}
 

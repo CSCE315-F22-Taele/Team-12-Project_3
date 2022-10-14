@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.model.Ingredient;
+import app.model.Item;
+import app.model.Order;
+import app.requests.createOrderRequest;
 import app.service.Manager;
+import app.service.Server;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
@@ -21,6 +24,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+
+import javafx.util.Pair;
 
 public class CartController {
 	@FXML
@@ -40,28 +45,20 @@ public class CartController {
 	@FXML
 	private ScrollPane cartPane;
 
+	private GridPane cartBox;
+
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
-		/*
-		 * comboBox.getItems().addAll("Option A", "Option B", "Option C", "Option D",
-		 * "Option E", "Option F", "Option H",
-		 * "Option I");
-		 */
 
-        
+		ArrayList<Pair<Item, String>> items = Manager.getMenuItems();
+		cartBox = initializePane();
+		Server.initializeCart();
 
-		// ArrayList<Ingredient> inventory = Manager.getAllInventory();
-		// GridPane inventoryBox = initializePane();
+		for (Pair<Item, String> item : items) {
 
-		// for (Ingredient ingredient : inventory) {
-		// 	writeToGUI(ingredient.getName(), ingredient.getAmount(), inventoryBox);
-
-		// 	comboBox.getItems().add(ingredient.getName());
-		// }
-		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
-
-        /*TODO: New initialization for cart */
-
+			comboBox.getItems().add(item.getValue());
+		}
+		comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
 	// event handlers
@@ -83,41 +80,53 @@ public class CartController {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 	}
 
-	public void addAmount() {
-		int amount = Integer.parseInt(quantityEntry.getText());
-		String name = comboBox.getSelectionModel().getSelectedItem();
-		Manager.restockIngredient(amount, name);
-
-		this.initialize();
+	public void deleteClick() throws IOException {
+		Server.clearCart();
+		cartBox.getChildren().removeAll();
 	}
 
-    /*
-     * TODO: Define a function for deleteClick
-     */
+	public void submitClick() throws IOException {
+		String customerName = nameEntry.getText();
+		if(customerName.isEmpty()){
+			// ERROR
+		} else{
+			createOrderRequest req = new createOrderRequest(customerName, Server.getId(), Server.getCart());
+			Order customerOrder = Server.createOrder(req);
+			// Do some query with Order object
+		}
+	}
+
+	public void addAmount() {
+		int amount = Integer.parseInt(quantityEntry.getText());
+		String itemName = comboBox.getSelectionModel().getSelectedItem();
+		Server.addToCart(itemName, amount);
+
+		writeToGUI(itemName, amount);
+	}
 
 	// initializing and setting up display for cart
 	public GridPane initializePane() {
-		GridPane resultPane = new GridPane();
+		GridPane cartBox = new GridPane();
 
 		ColumnConstraints col1 = new ColumnConstraints();
 		col1.setPercentWidth(40);
 		ColumnConstraints col2 = new ColumnConstraints();
 		col2.setPercentWidth(40);
-		resultPane.getColumnConstraints().addAll(col1, col2);
-		resultPane.setMinWidth(500);
-		resultPane.setMaxWidth(500);
-		cartPane.setContent(resultPane);
+		cartBox.getColumnConstraints().addAll(col1, col2);
+		cartBox.setMinWidth(500);
+		cartBox.setMaxWidth(500);
+		cartPane.setContent(cartBox);
 		cartPane.setMinWidth(500);
 		cartPane.setMaxWidth(500);
 
-		return resultPane;
+		return cartBox;
 	}
 
 	// displaying from List
-	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
+	public void writeToGUI(String itemName, int amount) {
 
 		Label nameLabel = new Label();
-		nameLabel.setText(ingredientName);
+		nameLabel.setText(itemName);
 		nameLabel.setPadding(new Insets(0, 0, 10, 0));
 		GridPane.setConstraints(nameLabel, 0, 0);
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
@@ -128,7 +137,7 @@ public class CartController {
 		GridPane.setConstraints(amountLabel, 1, 0);
 		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
-		resultPane.getChildren().addAll(nameLabel, amountLabel);
-		cartPane.setContent(resultPane);
+		cartBox.getChildren().addAll(nameLabel, amountLabel);
+		cartPane.setContent(cartBox);
 	}
 }

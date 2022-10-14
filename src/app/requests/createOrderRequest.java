@@ -3,13 +3,14 @@ package app.requests;
 import java.util.ArrayList;
 
 import app.model.Item;
+import javafx.util.Pair;
 
 public class createOrderRequest {
 	public String customerName;
 	public int serverId;
-    public ArrayList<Item> items;
+    public ArrayList<Pair<String, Integer>> items;
 
-	public createOrderRequest(String customerName, int serverId, ArrayList<Item> items) {
+	public createOrderRequest(String customerName, int serverId, ArrayList<Pair<String, Integer>> items) {
 		this.customerName = customerName; 
 		this.serverId = serverId;
 		this.items = new ArrayList<>(items);

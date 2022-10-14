@@ -14,7 +14,7 @@
 
 <!-- <?import javafx.scene.control.TextField?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.CartController">
    <top>
       <VBox prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,9 +44,9 @@
          <children>
             <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="50.0" prefWidth="540.0" spacing="10.0">
                <children>
-                  <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0" promptText="Pick Item" visibleRowCount="6" />
-                  <TextField fx:id="quantityEntry" promptText="Amount" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="Add" />
+                  <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="270.0" promptText="Pick Item" visibleRowCount="6" />
+                  <TextField fx:id="quantityEntry" prefHeight="26.0" prefWidth="85.0" promptText="Amount" />
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addAmount" prefHeight="30.0" prefWidth="90.0" text="Add" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -98,8 +98,9 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="restockBtn1" mnemonicParsing="false" text="Delete Item" />
-            <Button fx:id="restockBtn11" layoutX="207.0" layoutY="20.0" mnemonicParsing="false" text="Submit Order" />
+            <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteClick" text="Delete All" />
+            <TextField fx:id="quantityEntry1" promptText="Name" />
+            <Button fx:id="submitBtn" layoutX="207.0" layoutY="20.0" mnemonicParsing="false" onAction="#submitClick" text="Submit Order" />
          </children>
       </HBox>
    </bottom>
