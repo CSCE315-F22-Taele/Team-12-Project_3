@@ -111,7 +111,7 @@ public class queries {
 	 * @return: SQL query to insert an ingredient to the inventory
 	 */
 	public static String addIngredientToInventory(Ingredient ingredient) {
-		return String.format("INSERT INTO inventory (ingredient_id, ingredient_name, quantity) VALUES ('%s', '%s')",
+		return String.format("INSERT INTO inventory (ingredient_id, ingredient_name, quantity) VALUES ('%s', '%s', '%s')",
 				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount());
 	}
 
@@ -151,9 +151,15 @@ public class queries {
 	 * @return: SQL query to add item to menu
 	 */
 	public static String addItemToMenu(Item newItem) {
+		// String temp;
+		// if (newItem.getOrderId() == null) {
+		// 	temp = null;
+		// } else {
+		// 	temp = newItem.getOrderId().toString();
+		// }
 		return String.format(
-				"INSERT INTO menu (item_id, name, order_id, amount, price) VALUES ('%s', '%s', '%s', '%s', '%s')",
-				newItem.getItemId().toString(), newItem.getName(), newItem.getOrderId().toString(), newItem.getAmount(),
+				"INSERT INTO menu (item_id, item_name, price) VALUES ('%s', '%s', '%s')",
+				newItem.getItemId().toString(), newItem.getName(), 
 				newItem.getTotalPrice());
 	}
 
@@ -180,6 +186,7 @@ public class queries {
 	}
 
 	public static String getServerOrders(UUID userId) {
+		System.out.println("in queries" + userId);
 		return String.format("SELECT * from orders WHERE server_id = '%s'", userId.toString());
 	}
 
