@@ -20,6 +20,7 @@ public class dbExec {
 		UUID userId = null;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserByUserName(userName));
+			result.next();
 			String id = result.getString("id");
 			userId = UUID.fromString(id);
 		} catch (SQLException e) {
@@ -114,13 +115,16 @@ public class dbExec {
 	public static boolean isInventoryEmpty() {
 		ResultSet result;
 		try {
+			System.out.println("in try");
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.isInventoryEmpty());
+			System.out.println("leaving try");
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
 
 		boolean isEmpty = false;
 		try {
+			// result.next();
 			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -139,6 +143,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
+			// result.next();
 			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -203,7 +208,7 @@ public class dbExec {
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage() + name);
 		}
-
+		System.out.println(inventory);
 		return inventory;
 	}
 
@@ -229,6 +234,7 @@ public class dbExec {
 		ArrayList<Order> ordersByServer = new ArrayList<>();
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
+			System.out.println("past initial query");
 
 			while (result.next()) {
 				UUID id = UUID.fromString(result.getString("id"));
@@ -237,14 +243,17 @@ public class dbExec {
 				Timestamp t = result.getTimestamp("time_ordered");
 				boolean isServed = Boolean.valueOf(result.getString("is_served"));
 				double price = Double.parseDouble(result.getString("price"));
+				System.out.println("past first assignments");
 
 				Order addNewOrder = new Order(customerName, serverId);
 				addNewOrder.setPrice(price);
 				addNewOrder.setServed(isServed);
 				addNewOrder.setTimeOrdered(t);
 				addNewOrder.setOrderId(id);
+				System.out.println("past second assignments");
 
 				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(addNewOrder.getOrderId()));
+				System.out.println("past SQL query");
 
 				ArrayList<Item> allItems = new ArrayList<>();
 				while (itemRows.next()) {
@@ -257,10 +266,12 @@ public class dbExec {
 					Item item = new Item(itemId, name, orderId, amount, priceItem);
 					allItems.add(item);
 				}
+				System.out.println("past while loop");
 
 				addNewOrder.setItems(allItems);
 
 				ordersByServer.add(addNewOrder);
+				System.out.println("past last things");
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage() + userId);

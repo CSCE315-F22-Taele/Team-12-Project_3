@@ -40,8 +40,6 @@ public class ServerController {
             public void changed(ObservableValue<? extends TitledPane> ov,
                 TitledPane old_val, TitledPane new_val) {
                     if (new_val != null) {
-                        // selectedIdx = Integer.parseInt(ordersAccrdn.getExpandedPane().getText());
-                        // currOrder = allOrders.get(selectedIdx);
                         selectedName = ordersAccrdn.getExpandedPane().getText();
                         for (Order o : allOrders) {
                             if (o.getCustomerName() == selectedName) currOrder = o;
@@ -51,6 +49,7 @@ public class ServerController {
         });
 
         UserType type = Authentication.getTypeFromString(Main.authen);
+        System.out.println("type: " + type);
         allOrders.clear();
         allOrders = Server.getServerOrders(Main.username, type);
         ordersAccrdn.getPanes().clear();
@@ -73,7 +72,6 @@ public class ServerController {
     }
     public void addClick() throws IOException {
         System.out.println("Server --> Cart");
-        
         addBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("cart.fxml")));
     }
     public void backClick() throws IOException {
