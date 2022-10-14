@@ -18,11 +18,11 @@ public class queries {
 	 */
 
 	public static String isInventoryEmpty() {
-		return String.format("SELECT count(*) FROM (SELECT ingredient_id FROM inventory LIMIT 1) AS t");
+		return String.format("SELECT count(*) FROM (SELECT ingredient_id FROM inventory LIMIT 1) AS count");
 	}
 
 	public static String isMenuEmpty() {
-		return String.format("SELECT count(*) FROM (SELECT item_id FROM menu LIMIT 1) AS t");
+		return String.format("SELECT count(*) FROM (SELECT item_id FROM menu LIMIT 1) AS count");
 	}
 	
 	public static String getAllInventory() {
