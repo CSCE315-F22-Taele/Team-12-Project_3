@@ -120,7 +120,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
-			isEmpty = Integer.parseInt(result.getString("t")) == 0;
+			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -138,7 +138,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
-			isEmpty = Integer.parseInt(result.getString("t")) == 0;
+			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
