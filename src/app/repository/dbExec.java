@@ -2,9 +2,11 @@ package app.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import app.Main;
 import app.db.jdbcpostgreSQL;
 import app.model.Ingredient;
 import app.model.Item;
@@ -15,7 +17,7 @@ import javafx.util.Pair;
 
 public class dbExec {
 	public static User findUserByUserName(String userName, UserType type) {
-		UUID userId = UUID.fromString("");
+		UUID userId = null;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserByUserName(userName));
 			String id = result.getString("id");
@@ -84,10 +86,10 @@ public class dbExec {
 			throw new RuntimeException(e.getMessage());
 		}
 
-		UUID id = UUID.fromString("");
-		UUID itemId = UUID.fromString("");
+		UUID id = null;
+		UUID itemId = null;
 		int amount = 0;
-		UUID orderId = UUID.fromString("");
+		UUID orderId = null;
 		try {
 			id = UUID.fromString(result.getString("id"));
 			itemId = UUID.fromString(result.getString("item_id"));
@@ -119,7 +121,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
-			isEmpty = Integer.parseInt(result.getString("t")) == 0;
+			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -137,7 +139,7 @@ public class dbExec {
 
 		boolean isEmpty = false;
 		try {
-			isEmpty = Integer.parseInt(result.getString("t")) == 0;
+			isEmpty = Integer.parseInt(result.getString("count")) == 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -166,7 +168,7 @@ public class dbExec {
 			while (result.next()) {
 				UUID itemId = UUID.fromString(result.getString("item_id"));
 				String name = result.getString("item_name");
-				UUID orderId = UUID.fromString("");
+				UUID orderId = null;
 				int amount = 1;
 				double price = Double.parseDouble(result.getString("price"));
 				String description = result.getString("description");
@@ -189,8 +191,8 @@ public class dbExec {
 		try {
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllInventory());
 			while (result.next()) {
-				UUID itemId = UUID.fromString("");
-				UUID orderId = UUID.fromString("");
+				UUID itemId = null;
+				UUID orderId = null;
 				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
 				int amount = Integer.parseInt(result.getString("quantity"));
 				String name = result.getString("ingredient_name");
@@ -223,4 +225,58 @@ public class dbExec {
 
 		}
 	}
+
+	public static ArrayList<Order> getServerOrders(UUID userId) {
+		ArrayList<Order> ordersByServer = new ArrayList<>();
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
+
+			while(result.next()) {
+				UUID id = UUID.fromString(result.getString("id"));
+				String customerName = result.getString("customerName");
+				UUID serverId = UUID.fromString(result.getString("server_id"));
+				Timestamp t = result.getTimestamp("time_ordered");
+				boolean isServed = Boolean.valueOf(result.getString("is_served"));
+				double price = Double.parseDouble(result.getString("price"));
+
+				Order addNewOrder = new Order(customerName, serverId);
+				addNewOrder.setPrice(price);
+				addNewOrder.setServed(isServed);
+				addNewOrder.setTimeOrdered(t);
+				addNewOrder.setOrderId(id);
+
+				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(addNewOrder.getOrderId()));
+
+				ArrayList<Item> allItems = new ArrayList<>();
+				while(itemRows.next()) {
+					UUID itemId = UUID.fromString(itemRows.getString("item_id"));
+					String name = itemRows.getString("item_name");
+					UUID orderId = addNewOrder.getOrderId();
+					int amount = Integer.parseInt(result.getString("quantity"));
+					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
+
+					Item item = new Item(itemId, name, orderId, amount, priceItem);
+					allItems.add(item);
+				}
+
+				addNewOrder.setItems(allItems);
+				
+				ordersByServer.add(addNewOrder);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		return ordersByServer;
+	}
+
+	public static void removeOrder(UUID orderId) {
+		try {
+			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.removeOrder(orderId));
+		} catch(Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+
 }

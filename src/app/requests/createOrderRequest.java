@@ -1,6 +1,7 @@
 package app.requests;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import app.model.Item;
 import javafx.util.Pair;

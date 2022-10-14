@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.sql.Statement;
 import java.util.List;
+import java.util.UUID;
 
 import app.db.dbSetup;
 import app.db.jdbcpostgreSQL;
@@ -16,11 +17,10 @@ import app.service.Menu;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
 public class Main extends Application {
 	public static boolean wow;
-
 	public static String authen; // Store the result fxml file after authen
+	public static String username;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {

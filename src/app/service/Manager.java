@@ -12,15 +12,15 @@ public class Manager {
 		return dbExec.getMenuItems();
 	}
 
-	public void addItemToMenu(Item item) {
+	public static void addItemToMenu(Item item) {
 		dbExec.addItemToMenu(item);
 	}
 
-	public void removeItemFromMenu(Item item) {
+	public static void removeItemFromMenu(Item item) {
 		dbExec.removeItemFromMenu(item);
 	}
 
-	public void updateMenuItem(Item item) {
+	public static void updateMenuItem(Item item) {
 		dbExec.updateItemToMenu(item);
 	}
 

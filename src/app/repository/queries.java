@@ -18,15 +18,15 @@ public class queries {
 	 */
 
 	public static String isInventoryEmpty() {
-		return String.format("SELECT count(*) FROM (SELECT ingredient_id FROM inventory LIMIT 1) AS t");
+		return String.format("SELECT count(*) FROM (SELECT ingredient_id FROM inventory LIMIT 1) AS count");
 	}
 
 	public static String isMenuEmpty() {
-		return String.format("SELECT count(*) FROM (SELECT item_id FROM menu LIMIT 1) AS t");
+		return String.format("SELECT count(*) FROM (SELECT item_id FROM menu LIMIT 1) AS count");
 	}
 	
 	public static String getAllInventory() {
-		return String.format("SELECT * FROM inventory");
+		return String.format("SELECT * FROM inventory;");
 	}
 
 	public static String getInventoryByIngredient(String name) {
@@ -177,5 +177,17 @@ public class queries {
 
 	public static String getMenuItems() {
 		return String.format("SELECT * FROM menu");
+	}
+
+	public static String getServerOrders(UUID userId) {
+		return String.format("SELECT * from orders WHERE server_id = '%s'", userId.toString());
+	}
+
+	public static String getOrderItems(UUID orderId) {
+		return String.format("SELECT * FROM items WHERE order_id = '%s'", orderId.toString());
+	}
+
+	public static String removeOrder(UUID orderId) {
+		return String.format("DELETE FROM orders WHERE order_id = '%s'", orderId.toString());
 	}
 }

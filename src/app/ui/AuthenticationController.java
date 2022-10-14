@@ -32,6 +32,7 @@ public class AuthenticationController {
     public void submitClick() throws IOException {
         System.out.println("Authenticating...");
         String uEntry = userEntry.getText();
+        Main.username = uEntry;
         String passEntry = passwordEntry.getText();
 
 		// if(Authentication.checkPassword(uEntry, passEntry)) {
