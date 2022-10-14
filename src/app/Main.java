@@ -35,11 +35,12 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		launch(args);
 		jdbcpostgreSQL db = new jdbcpostgreSQL();
 		jdbcpostgreSQL.openConnection();
 
 		Menu.addItemsToMenu();
 		Inventory.addIngredients();
+		launch(args);
+		jdbcpostgreSQL.closeConnection();
 	}
 }
