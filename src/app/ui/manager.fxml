@@ -57,4 +57,11 @@
          </children>
       </VBox>
    </center>
+   <right>
+      <Button mnemonicParsing="false" prefHeight="57.0" prefWidth="183.0" text="Menu" translateX="-20.0" translateY="-17.0" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Button>
+   </right>
 </BorderPane>
