@@ -15,6 +15,8 @@ public class ManagerController {
     @FXML
     private Button inventoryBtn;
     @FXML
+    private Button menuBtn;
+    @FXML
     private Label manLabel;
 
     public void initialize() {
