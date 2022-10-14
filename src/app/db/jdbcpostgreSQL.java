@@ -55,7 +55,7 @@ public class jdbcpostgreSQL {
 		}
 	}
 
-	public void closeConnection() {
+	public static void closeConnection() {
 		try {
 			conn.close();
 			System.out.println("Connection Closed.");
