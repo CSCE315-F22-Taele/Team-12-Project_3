@@ -196,6 +196,6 @@ public class queries {
 	}
 
 	public static String removeOrder(UUID orderId) {
-		return String.format("DELETE FROM orders WHERE order_id = '%s'", orderId.toString());
+		return String.format("DELETE FROM orders WHERE id = '%s'", orderId.toString());
 	}
 }
