@@ -25,6 +25,11 @@ CREATE TABLE credentials (
 	password VARCHAR(255) NOT NULL
 );
 
+INSERT INTO credentials (id, password)
+VALUES
+	('e0b9544e-4d24-4255-aa1b-30aabbbcaa6e', '1776'),
+	('23ebca17-7a06-4814-8a84-9664d9175880', 'minecraft');
+
 CREATE TABLE inventory (
 	ingredient_id VARCHAR(36) PRIMARY KEY,
 	ingredient_name VARCHAR(255) NOT NULL UNIQUE,

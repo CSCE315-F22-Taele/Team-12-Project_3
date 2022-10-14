@@ -236,7 +236,6 @@ public class dbExec {
 		ArrayList<Order> ordersByServer = new ArrayList<>();
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
-			System.out.println("past initial query");
 
 			while (result.next()) {
 				UUID id = UUID.fromString(result.getString("id"));
@@ -245,35 +244,36 @@ public class dbExec {
 				Timestamp t = result.getTimestamp("time_ordered");
 				boolean isServed = Boolean.valueOf(result.getString("is_served"));
 				double price = Double.parseDouble(result.getString("price"));
-				System.out.println("past first assignments");
 
 				Order addNewOrder = new Order(customerName, serverId);
 				addNewOrder.setPrice(price);
 				addNewOrder.setServed(isServed);
 				addNewOrder.setTimeOrdered(t);
 				addNewOrder.setOrderId(id);
-				System.out.println("past second assignments");
 
-				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(addNewOrder.getOrderId()));
-				System.out.println("past SQL query");
+				ordersByServer.add(addNewOrder);
+			}
 
-				ArrayList<Item> allItems = new ArrayList<>();
+			for (int i = 0; i < ordersByServer.size(); i++) {
+				Order currOrder = ordersByServer.get(i);
+
+				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(currOrder.getOrderId()));
+
+				ArrayList<Item> orderItems = new ArrayList<>();
+
 				while (itemRows.next()) {
 					UUID itemId = UUID.fromString(itemRows.getString("id"));
 					String name = itemRows.getString("item_name");
-					UUID orderId = addNewOrder.getOrderId();
-					int amount = Integer.parseInt(result.getString("quantity"));
+					UUID orderId = currOrder.getOrderId();
+					int amount = Integer.parseInt(itemRows.getString("quantity"));
 					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
 
 					Item item = new Item(itemId, name, orderId, amount, priceItem);
-					allItems.add(item);
+					orderItems.add(item);
 				}
-				System.out.println("past while loop");
 
-				addNewOrder.setItems(allItems);
-
-				ordersByServer.add(addNewOrder);
-				System.out.println("past last things");
+				currOrder.setItems(orderItems);
+				ordersByServer.set(i, currOrder);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
@@ -290,7 +290,7 @@ public class dbExec {
 		}
 	}
 
- 	public static ArrayList<Ingredient> getItemIngredients(UUID itemId) {
+	public static ArrayList<Ingredient> getItemIngredients(UUID itemId) {
 		ArrayList<Ingredient> ingredients = new ArrayList<>();
 
 		try {
