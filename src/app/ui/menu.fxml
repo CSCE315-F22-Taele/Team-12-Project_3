@@ -99,7 +99,7 @@
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <ComboBox fx:id="comboBox" prefWidth="150.0" />
-            <TextField fx:id="updatedPriceEntry" prefHeight="25.0" prefWidth="79.0" promptText="Price" />
+            <TextField fx:id="updatedPriceEntry" prefHeight="25.0" prefWidth="79.0" promptText="New Price" />
             <Button fx:id="updateBtn" layoutX="207.0" layoutY="20.0" mnemonicParsing="false" onAction="#updatePriceClick" text="Update Price" />
             <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteClick" text="Delete Item" />
          </children>

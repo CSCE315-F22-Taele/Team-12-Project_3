@@ -171,7 +171,7 @@ public class queries {
 
 	public static String updateItemToMenu(Item newItem) {
 		return String.format(
-				"UPDATE menu SET price = '%s' WHERE name = '%s'",
+				"UPDATE menu SET price = %s WHERE item_name = '%s'",
 				newItem.getTotalPrice(), newItem.getName());
 	}
 

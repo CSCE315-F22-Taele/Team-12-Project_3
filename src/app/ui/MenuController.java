@@ -101,19 +101,22 @@ public class MenuController {
 	}
 
 	public void updatePriceClick() throws IOException {
-		String amount = priceEntry.getText();
+		String amount = updatedPriceEntry.getText();
 		String itemName = comboBox.getSelectionModel().getSelectedItem();
 		if(itemName.isEmpty() || amount.isEmpty()){
 			// ERROR
 		} else {
 			Double amt = Double.parseDouble(amount);
+			System.out.println(amt);
 
 			Item pastItem = dbExec.getMenuByItem(itemName);
 			UUID orderId = UUID.randomUUID();
 			
-			Item item = new Item(pastItem.getItemId(), pastItem.getName(), orderId, 0, amt);
+			Item item = new Item(pastItem.getItemId(), pastItem.getName(), orderId, 1, amt);
 
 			dbExec.updateItemToMenu(item);
+
+			updatedPriceEntry.setText("");
 		}
 
 		this.initialize();
@@ -132,6 +135,9 @@ public class MenuController {
 			Item item = new Item(itemId, itemName, orderId, 1, amt);
 
 			dbExec.addItemToMenu(item);
+
+			priceEntry.setText("");
+			nameEntry.setText("");
 		}
 
 		this.initialize();

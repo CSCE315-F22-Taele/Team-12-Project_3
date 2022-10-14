@@ -155,9 +155,8 @@ public class dbExec {
 	}
 
 	public static void removeItemFromMenu(String name) {
-		ResultSet result;
 		try {
-			result = jdbcpostgreSQL.stmt.executeQuery(queries.removeItemFromMenu(name));
+			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.removeItemFromMenu(name));
 
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
