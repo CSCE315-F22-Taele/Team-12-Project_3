@@ -83,7 +83,7 @@
                         </SplitPane>
                      </children>
                   </HBox>
-                  <ScrollPane fx:id="inventoryPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0" />
+                  <ScrollPane fx:id="menuPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0" />
                </children>
             </VBox>
          </children>

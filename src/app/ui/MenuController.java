@@ -63,7 +63,7 @@ public class MenuController {
 		menuBox = initializePane();
 
 		for (Pair<Item, String> item : items) {
-			writeToGUI(item.getValue(), item.getKey().getTotalPrice());
+			writeToGUI(item.getKey().getName(), item.getKey().getTotalPrice());
 			comboBox.getItems().add(item.getValue());
 		}
 		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
