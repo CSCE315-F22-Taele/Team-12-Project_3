@@ -22,6 +22,9 @@ public class Main extends Application {
 	public static String authen; // Store the result fxml file after authen
 	public static String username;
 
+	// Error States
+	public static String errorMsg;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// Parent root = FXMLLoader.load(getClass().getResource("index.fxml"));

@@ -4,12 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.omg.IOP.ExceptionDetailMessage;
+
+import app.Main;
 import app.model.Ingredient;
 import app.service.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -18,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
+import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -73,24 +79,50 @@ public class InventoryController {
 		}
 	}
 
+	public void openErrorWindow(String errorMsg) throws IOException {
+		Main.errorMsg = errorMsg;
+		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Error!");
+		stage.setScene(new Scene(root, 600, 380));
+		stage.show(); // Once user closes that, it will go back to this scene
+	}
+
 	public void backClick() throws IOException {
 		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 
-	public void addAmount() {
-		int amount = Integer.parseInt(quantityEntry.getText());
-		String name = comboBox.getSelectionModel().getSelectedItem();
-		Manager.restockIngredient(amount, name);
-
-		this.initialize();
+	public void addAmount() throws IOException {
+		try{
+			int amount = Integer.parseInt(quantityEntry.getText());
+			String name = comboBox.getSelectionModel().getSelectedItem();
+			if(name.isEmpty()){
+				throw new Exception("name");
+			}
+			Manager.restockIngredient(amount, name);
+	
+			this.initialize();
+		} catch(Exception e){
+			System.out.println(e.getMessage());
+			if(e.getMessage().equals("name")){
+				openErrorWindow("Invalid name to add!!!");
+			} else{
+				openErrorWindow("Invalid amount to add!!!");
+			}
+		}
 	}
 
-	public void restockAll() {
-		int amount = Integer.parseInt(restockEntry.getText());
-		Manager.restockAll(amount);
+	public void restockAll() throws IOException {
+		try{
+			int amount = Integer.parseInt(restockEntry.getText());
+			Manager.restockAll(amount);
 
-		this.initialize();
+			this.initialize();
+		}
+		catch(Exception e){
+			openErrorWindow("Invalid amount to restock all!!!");
+		}
 	}
 
 	// initializing and setting up display for inventory

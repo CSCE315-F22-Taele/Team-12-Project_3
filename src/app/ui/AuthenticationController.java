@@ -8,6 +8,7 @@ import app.service.Authentication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
 public class AuthenticationController {
@@ -25,7 +26,6 @@ public class AuthenticationController {
 	}
 
     public void backClick() throws IOException {
-        // System.out.println("Authentication ---> Home");
         backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
     }
     
