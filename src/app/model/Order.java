@@ -147,7 +147,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "orderId= " + orderId + ", customerName= " + customerName + ", serverId= " + serverId
-				+ ", timeOrdered= " + timeOrdered + ", isServed= " + isServed + ", price= " + price + ", items= " + items.toString();
+		return "orderId: " + orderId + "\ncustomerName: " + customerName
+				+ "\nitems: " + items.toString() + "\ntimeOrdered: " + timeOrdered + "\nprice: $" + price;
 	}
 }

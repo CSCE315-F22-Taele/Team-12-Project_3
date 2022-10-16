@@ -98,4 +98,10 @@ public class Item {
 	public void setIngredients(ArrayList<Ingredient> ingredients) {
 		this.ingredients = new ArrayList<>(ingredients);
 	}
+
+	@Override
+	public String toString() {
+		return name + " x" + amount;
+	}
+
 }
