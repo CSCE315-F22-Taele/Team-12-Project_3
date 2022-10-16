@@ -97,7 +97,8 @@ public class InventoryController {
 		try{
 			int amount = Integer.parseInt(quantityEntry.getText());
 			String name = comboBox.getSelectionModel().getSelectedItem();
-			if(name.isEmpty()){
+			System.out.println("comboBox:" + name);
+			if(name == null){
 				throw new Exception("name");
 			}
 			Manager.restockIngredient(amount, name);
@@ -106,7 +107,7 @@ public class InventoryController {
 		} catch(Exception e){
 			System.out.println(e.getMessage());
 			if(e.getMessage().equals("name")){
-				openErrorWindow("Invalid name to add!!!");
+				openErrorWindow("Please select an item name!!!");
 			} else{
 				openErrorWindow("Invalid amount to add!!!");
 			}
