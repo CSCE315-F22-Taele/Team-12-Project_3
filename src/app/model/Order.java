@@ -135,7 +135,7 @@ public class Order {
 		this.price = price;
 	}
 
-	public void setItems(ArrayList<Item> newItems) {		
+	public void setItems(ArrayList<Item> newItems) {
 		for (Item item : newItems) {
 			this.addItem(item);
 		}

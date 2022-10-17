@@ -26,7 +26,7 @@ public class ServerController {
 	@FXML
 	private Button backBtn;
 	@FXML
-	private Button deleteBtn;
+	private Button serveBtn;
 	@FXML
 	private Button addBtn;
 
@@ -63,13 +63,14 @@ public class ServerController {
 		}
 	}
 
-	public void deleteClick() {
+	public void serveClick() {
 		TitledPane temp = null;
 		for (TitledPane tp : ordersAccrdn.getPanes()) {
 			if (tp.getText() == selectedName)
 				temp = tp;
 		}
 		ordersAccrdn.getPanes().remove(temp);
+		currOrder.serveOrder();
 		Server.removeOrder(currOrder.getOrderId());
 	}
 
