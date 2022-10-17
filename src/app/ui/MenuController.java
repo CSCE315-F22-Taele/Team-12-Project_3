@@ -26,10 +26,13 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -122,12 +125,16 @@ public class MenuController {
 		this.initialize();
 	}
 
-	public void addItem() {
+	public void addItem() throws IOException {
 		String amount = priceEntry.getText();
 		String itemName = nameEntry.getText();
-		if(itemName.isEmpty() || amount.isEmpty()){
-			// ERROR
-		} else {
+		if(itemName == null || amount == null){
+			// TODO: ERROR
+		} 
+		// else if(){
+			// TODO: Check if menu item already in database, if it is then bad! AddItem throws error, try to use that
+		// }
+		else {
 			Double amt = Double.parseDouble(amount);
 
 			UUID itemId = UUID.randomUUID();
@@ -138,9 +145,18 @@ public class MenuController {
 
 			priceEntry.setText("");
 			nameEntry.setText("");
+
+			// Load popup for linking ingredients
+			priceEntry.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu_ingredients.fxml")));
+			// Parent root = FXMLLoader.load(getClass().getResource("menu_ingredients.fxml"));
+			// Stage stage = new Stage();
+			// stage.setTitle(String.format("Link '%s' Ingredients", itemName));
+			// stage.setScene(new Scene(root, 600, 380));
+			// stage.show(); // Once user closes that, it will go back to this scene
+		
+			this.initialize();
 		}
 
-		this.initialize();
 	}
 
 	// initializing and setting up display for cart
