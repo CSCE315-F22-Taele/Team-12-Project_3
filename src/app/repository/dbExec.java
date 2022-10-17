@@ -32,6 +32,19 @@ public class dbExec {
 		return user;
 	}
 
+	public static UserType findUserTypeByName(String userName) {
+		UserType t = null;
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
+			result.next();
+			int res = Integer.parseInt(result.getString("user_type"));
+			t = (res == 0) ? UserType.SERVER : UserType.MANAGER;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return t;
+	}
+
 	public static void addOrder(Order order) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addOrder(order));
@@ -331,7 +344,7 @@ public class dbExec {
 			e.printStackTrace();
 		}
 
-		Item item = new Item(itemId, itemName, null, 0, price); // amount to be updated later
+		Item item = new Item(itemId, itemName, null, 1, price); // amount to be updated later
 
 		return item;
 	}

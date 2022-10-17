@@ -98,6 +98,9 @@ public class queries {
 				"SELECT id, username FROM users WHERE username = '%s'", userName);
 
 	}
+	public static String findUserTypeByName(String userName) {
+		return String.format("SELECT user_type FROM users WHERE username = '%s'", userName);
+	}
 
 	public static String getUserCredentials(UUID userId) {
 		return String.format(
@@ -196,7 +199,6 @@ public class queries {
 	}
 
 	public static String removeOrder(UUID orderId) {
-		// return String.format("DELETE FROM orders WHERE id = '%s'", orderId.toString());
 		return String.format("UPDATE orders SET is_served = TRUE WHERE id = '%s'", orderId.toString());
 	}
 }

@@ -11,7 +11,7 @@ public class ManagerController {
     @FXML
 	private Button backBtn;
     @FXML
-    private Button trendsBtn;
+    private Button reportsBtn;
     @FXML
     private Button inventoryBtn;
     @FXML
@@ -25,7 +25,7 @@ public class ManagerController {
 
     public void trendsClick() throws IOException {
         // System.out.println("Manager --> Trends");
-        trendsBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("trends.fxml")));
+        reportsBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("reports.fxml")));
     }
     public void inventoryClick() throws IOException {
         // System.out.println("Manager --> Inventory");
