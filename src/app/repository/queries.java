@@ -169,6 +169,19 @@ public class queries {
 				newItem.getTotalPrice());
 	}
 
+	/**
+	 * Create a new item to "item" table
+	 * 
+	 * @param: New Item object to be created
+	 * @return: SQL query to add item to menu
+	 */
+	public static String addItemToTable(Item newItem){
+		return String.format(
+				"INSERT INTO items (id, item_name, order_id, quantity, total_price) VALUES ('%s', '%s', '%s', '%s', '%s')",
+				newItem.getItemId().toString(), newItem.getName(), newItem.getOrderId(),
+				newItem.getAmount(), newItem.getTotalPrice());
+	}
+
 	public static String removeItemFromMenu(String name) {
 		return String.format("DELETE FROM menu WHERE item_name = '%s'", name);
 	}
