@@ -205,6 +205,7 @@ public class queries {
 					"BETWEEN '%s' AND '%s'", 
 					start.toString(), end.toString());
 	}
+	
 
 	public static String getCountByMenuItem(UUID orderId) {
 		return String.format(

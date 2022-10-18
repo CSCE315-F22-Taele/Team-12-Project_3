@@ -3,6 +3,7 @@ package app.repository;
 import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,6 +25,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.HashSet;
 
 public class dbExec {
 	public static User findUserByUserName(String userName, UserType type) {
@@ -384,7 +387,7 @@ public class dbExec {
 		try {
 			// Period period = Period.between(start, end);
 			// int numDays = period.getDays();
-
+			
 			for(int i = 0; i < allOrders.size(); i++) {
 				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getCountByMenuItem(allOrders.get(i).getOrderId()));
 				while(result.next()) {
@@ -397,7 +400,7 @@ public class dbExec {
 						itemFrequencies.put(itemName, quantity);
 				}
 			}
-
+			
 		} catch(SQLException e) {
 			System.out.println("error in getCountByMenuItem");
 			e.printStackTrace();
@@ -406,5 +409,91 @@ public class dbExec {
 		return itemFrequencies;
 	}
 
+	public static ArrayList<Item> getMenuItemsNoDescription() {
+		ArrayList<Item> items = new ArrayList<>();
+
+		ResultSet result;
+		try {
+			result = jdbcpostgreSQL.stmt.executeQuery(queries.getMenuItems());
+			while (result.next()) {
+				UUID itemId = UUID.fromString(result.getString("item_id"));
+				String name = result.getString("item_name");
+				UUID orderId = null;
+				int amount = 1;
+				double price = Double.parseDouble(result.getString("price"));
+				// String description = result.getString("description");
+
+				Item item = new Item(itemId, name, orderId, amount, price);
+				items.add(item);
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		return items;
+	}
+
+	public static int getOrdersQuantityByMenuItem(String menuItemName, Timestamp start, Timestamp end) {
+		int totalQuantity = 0;
+		try {
+			ArrayList<Order> orders = getAllOrderIDsWithinTime(start, end);
+			
+			for(Order order : orders) {
+				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(order.getOrderId()));
+				while(result.next()) {
+					String menuItemInOrder = result.getString("item_name");
+					if(menuItemInOrder.equals(menuItemName))
+						totalQuantity += result.getInt("quantity");
+				}
+			}
+			
+
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
+
+		return totalQuantity;
+	}
+
+	public static HashSet<String> getExcessCountByMenuItem(Timestamp start, Timestamp end) {
+		ArrayList<Ingredient> allInventory = getAllInventory();
+		HashMap<String, Ingredient> inventory = new HashMap<>();
+
+		for(Ingredient i : allInventory) {
+			inventory.put(i.getName(), i);
+		}
+
+		// ArrayList<String> allItemsBelow10 = new ArrayList<>();
+		HashSet<String> allItemsBelow10 = new HashSet<>();
+
+		ArrayList<Item> menuItems = getMenuItemsNoDescription();
+
+		for(Item eachMenuItem : menuItems) {
+			
+			
+			//go through orders and get all orders with this menu item
+			//count quantity used of menu item by using order_id
+			//and going through items table, so ingredients would
+			//follow the same count
+			//add up to totalCounts
+			int quantityOrderedForThisMenuItem = getOrdersQuantityByMenuItem(eachMenuItem.getName(), start, end);
+
+			ArrayList<Ingredient> ingredients = getItemIngredients(null, eachMenuItem.getItemId());
+
+			for(Ingredient i : ingredients) {
+				int inventoryAmount = inventory.get(i.getName()).getAmount();
+				if( (double)(quantityOrderedForThisMenuItem) / inventoryAmount < 0.1)
+					allItemsBelow10.add(i.getName());
+			}
+
+		
+		}
+
+
+
+
+		return allItemsBelow10;
+	}
 	
 }

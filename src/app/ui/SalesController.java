@@ -72,7 +72,7 @@ public class SalesController {
             }
 
             HashMap<String, Integer> itemFrequencies = Manager.getSalesReport(start, end);
-            System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
+            // System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
             GridPane salesBox = initializePane();
 
             for(String key : itemFrequencies.keySet()) {
