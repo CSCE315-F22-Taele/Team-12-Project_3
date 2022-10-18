@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import app.Main;
@@ -59,7 +60,6 @@ public class dbExec {
 	public static void addItemToMenu(Item newItem) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
-
 			for (Ingredient ingredient : newItem.getIngredients()) {
 				int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
 			}
@@ -189,29 +189,32 @@ public class dbExec {
 		return items;
 	}
 
-	public static ArrayList<Ingredient> getAllInventory() {
-		ArrayList<Ingredient> inventory = new ArrayList<Ingredient>();
+	public static HashMap<String, Ingredient> getAllIngredients(){
+		HashMap<String, Ingredient> ingredients = new HashMap<String, Ingredient>();
 
-		String name = "";
 		ResultSet result;
 		try {
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllInventory());
 			while (result.next()) {
+				UUID ingredId = UUID.fromString(result.getString("ingredient_id"));
+				String name = result.getString("ingredient_name");
 				UUID itemId = null;
 				UUID orderId = null;
-				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
-				int amount = Integer.parseInt(result.getString("quantity"));
-				name = result.getString("ingredient_name");
+				int amount = 1;
 
-				Ingredient ingredient = new Ingredient(ingredientId, name, itemId, orderId, amount);
-				inventory.add(ingredient);
+				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount);
+
+				ingredients.put(name, ingred);
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage() + name);
+			throw new RuntimeException(e.getMessage());
 		}
-		// System.out.println(inventory);
-		return inventory;
+		return ingredients;
+	}
+
+	public static ArrayList<Ingredient> getAllInventory() {
+		return new ArrayList<Ingredient>(getAllIngredients().values());
 	}
 
 	public static void restockAll(int amount) {

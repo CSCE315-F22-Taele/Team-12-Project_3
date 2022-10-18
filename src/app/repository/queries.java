@@ -29,6 +29,10 @@ public class queries {
 		return String.format("SELECT * FROM inventory;");
 	}
 
+	public static String getAllIngredients(){
+		return String.format("SELECT * FROM ingredients;");
+	}
+
 	public static String getInventoryByIngredient(String name) {
 		return String.format("SELECT * FROM inventory WHERE inventory.ingredient_name = '%s'", name);
 	}

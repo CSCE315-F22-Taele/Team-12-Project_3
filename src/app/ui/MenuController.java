@@ -138,25 +138,18 @@ public class MenuController {
 			Double amt = Double.parseDouble(amount);
 
 			UUID itemId = UUID.randomUUID();
-			UUID orderId = UUID.randomUUID();
+			UUID orderId = null; // Change made 10/17 ~ Dien
 			Item item = new Item(itemId, itemName, orderId, 1, amt);
 
-			dbExec.addItemToMenu(item);
-
-			priceEntry.setText("");
-			nameEntry.setText("");
-
-			// Load popup for linking ingredients
+			Main.menuItemToAdd = item;
 			priceEntry.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu_ingredients.fxml")));
-			// Parent root = FXMLLoader.load(getClass().getResource("menu_ingredients.fxml"));
-			// Stage stage = new Stage();
-			// stage.setTitle(String.format("Link '%s' Ingredients", itemName));
-			// stage.setScene(new Scene(root, 600, 380));
-			// stage.show(); // Once user closes that, it will go back to this scene
-		
-			this.initialize();
-		}
+			// Main.menuItemToAdd = null;
+			
+			// priceEntry.setText("");
+			// nameEntry.setText("");
 
+			// this.initialize();
+		}
 	}
 
 	// initializing and setting up display for cart

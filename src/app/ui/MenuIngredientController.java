@@ -2,6 +2,11 @@ package app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -13,30 +18,30 @@ import app.Main;
 import app.model.Ingredient;
 import app.model.Order;
 import app.model.UserType;
+import app.repository.dbExec;
 import app.service.Server;
 import app.service.Authentication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TitledPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.util.Pair;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 
 public class MenuIngredientController {
-    private static ArrayList<String> allIngredients = new ArrayList<String>();
+    // This set is used to preserve ordering
+    private static LinkedHashSet<String> allIngredients;
+    private HashMap<String, Ingredient> dbIngredients;
 
     @FXML
     private Button backBtn;
     @FXML
-    private TextField ingredientEntry;
+    private ComboBox<String> ingredientEntry;
     @FXML
     private Button addBtn;
     @FXML
@@ -75,7 +80,19 @@ public class MenuIngredientController {
         }
     }
 
-	public void initialize() {
+    public void initialize(){
+        allIngredients = new LinkedHashSet<>();
+        dbIngredients = dbExec.getAllIngredients();
+
+        ArrayList<String> sortedList = new ArrayList<>(dbIngredients.keySet());
+        Collections.sort(sortedList);
+		for (String ingredient: sortedList) {
+			ingredientEntry.getItems().add(ingredient);
+		}
+        refreshList();
+    }
+    
+	public void refreshList() {
         ObservableList<String> list = FXCollections.observableArrayList(allIngredients);
         ListView<String> lv = new ListView<>(list);
         HBox.setHgrow(lv, Priority.ALWAYS);
@@ -85,28 +102,50 @@ public class MenuIngredientController {
 	}
 
     public void backClick() throws IOException {
-        // System.out.println("Server --> Home");
         backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
     }
 
 	public void addClick() throws IOException {
-        String ingred = ingredientEntry.getText();
-        if(ingred == null){
+        // String ingred = ingredientEntry.getAccessibleText();
+        String ingred = ingredientEntry.getValue();
+        System.out.println("Add: " + ingred);
+        if(ingred == ""){
             // TODO: Error
         } 
-        else if(allIngredients.contains(ingred)){
-            // TODO: Error
-        }
-        else{
-            ingredientEntry.setText("");
-            allIngredients.add(ingred);
-            initialize();
+        else{ // Returns True if not in set
+            if(allIngredients.add(ingred)){
+                ingredientEntry.setValue("");
+                refreshList();
+            }
         }
 	}
 
     public void submitClick() {
-        // TODO: Link this up with the database
+        UUID ingredientId;
+        boolean inInventory; // Keeps track if ingredient not seen
+        try{
+            for(String ingred: allIngredients){
+                inInventory = true;
+                Ingredient ingredient = dbIngredients.get(ingred);
+                if(ingredient == null){
+                    inInventory = false;
+                    ingredientId = UUID.randomUUID();
+                    ingredient = new Ingredient(ingredientId, ingred, null, null, 1);
+                }
+    
+                // This method sets the itemId and orderId anyway, BUT also adds to database
+                Main.menuItemToAdd.addIngredient(ingredient, true);
+                if(!inInventory) ingredient.setAmount(0);
+                dbExec.addIngredientToInventory(ingredient);
+            }
+            dbExec.addItemToMenu(Main.menuItemToAdd);
 
-        allIngredients.clear();
+            allIngredients.clear();
+            Main.menuItemToAdd = null;
+            submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
