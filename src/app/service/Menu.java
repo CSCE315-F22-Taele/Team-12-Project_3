@@ -18,7 +18,7 @@ public class Menu {
 
 	public static final Item baconBurger = new Item(UUID.randomUUID(), "Bacon Burger", null, 1, 7.89);
 
-	public static final Item chickenSandwich = new Item(UUID.randomUUID(), "Chicken Sanndwich", null, 1,
+	public static final Item chickenSandwich = new Item(UUID.randomUUID(), "Chicken Sandwich", null, 1,
 			7.49);
 
 	public static final Item gigEmPattyMelt = new Item(UUID.randomUUID(), "Gig Em Patty Melt", null, 1,

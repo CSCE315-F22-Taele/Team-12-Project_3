@@ -35,8 +35,8 @@ public class AuthenticationController {
         Main.username = uEntry;
         String passEntry = passwordEntry.getText();
 
-		// if(Authentication.checkPassword(uEntry, passEntry)) {
-		if(true) {
+		if(Authentication.checkPassword(uEntry, passEntry) && !passEntry.equals("")) {
+		// if(true) {
             // System.out.println("Authentication Successful!");
             submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
         }

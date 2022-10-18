@@ -56,7 +56,7 @@ public class Order {
 			items.add(item);
 		}
 
-		this.price += item.getTotalPrice();
+		this.price = item.getTotalPrice();
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class Order {
 	 */
 	public Item findItem(UUID itemId) {
 		for (Item item : items) {
-			if (item.getItemId().equals(itemId)) {
+			if (item.getItemId().toString().equals(itemId.toString())) {
 				return item;
 			}
 		}
@@ -135,7 +135,7 @@ public class Order {
 		this.price = price;
 	}
 
-	public void setItems(ArrayList<Item> newItems) {		
+	public void setItems(ArrayList<Item> newItems) {
 		for (Item item : newItems) {
 			this.addItem(item);
 		}
@@ -148,6 +148,6 @@ public class Order {
 	@Override
 	public String toString() {
 		return "orderId: " + orderId + "\ncustomerName: " + customerName
-				+ "\nitems: " + items.toString() + "\ntimeOrdered: " + timeOrdered + "\nprice: $" + price;
+				+ "\nitems: " + items.toString() + "\ntimeOrdered: " + timeOrdered + "\nprice: $" + this.price;
 	}
 }
