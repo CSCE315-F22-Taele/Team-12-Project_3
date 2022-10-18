@@ -58,25 +58,37 @@
                <children>
                   <HBox prefHeight="48.0" prefWidth="540.0">
                      <children>
-                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="284.0">
+                        <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="44.0" prefWidth="270.0">
                            <children>
-                              <Label text="Item">
+                              <Label prefHeight="30.0" prefWidth="48.0" text="Item">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
                               </Label>
                            </children>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </HBox>
-                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="165.0">
+                        <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="44.0" prefWidth="146.0">
                            <children>
                               <Label text="Quantity">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
+                                 <padding>
+                                    <Insets left="10.0" />
+                                 </padding>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
                         </HBox>
-                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="98.0">
+                        <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="44.0" prefWidth="113.0">
                            <children>
                               <Label text="Min">
                                  <font>
@@ -84,6 +96,9 @@
                                  </font>
                               </Label>
                            </children>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
                         </HBox>
                      </children>
                   </HBox>

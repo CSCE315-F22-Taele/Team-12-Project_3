@@ -2,6 +2,7 @@ package app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // import org.omg.IOP.ExceptionDetailMessage;
@@ -53,6 +54,7 @@ public class InventoryController {
 		 */
 
 		ArrayList<Ingredient> inventory = Manager.getAllInventory();
+		Collections.sort(inventory);
 		GridPane inventoryBox = initializePane();
 
 		for (Ingredient ingredient : inventory) {
@@ -149,23 +151,23 @@ public class InventoryController {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
-		nameLabel.setPadding(new Insets(0, 0, 10, 0));
+		nameLabel.setPadding(new Insets(0, 0, 10, 10));
 		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
-		GridPane.setHalignment(nameLabel, HPos.CENTER);
+		GridPane.setHalignment(nameLabel, HPos.LEFT);
 
 		Label amountLabel = new Label();
 		amountLabel.setText(amount + "");
 		amountLabel.setPadding(new Insets(0, 0, 10, 0));
 		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
-		GridPane.setHalignment(amountLabel, HPos.RIGHT);
+		GridPane.setHalignment(amountLabel, HPos.CENTER);
 
 		Label minLabel = new Label();
 		minLabel.setText(min + "");
 		minLabel.setPadding(new Insets(0, 0, 10, 0));
-		GridPane.setConstraints(minLabel, 1, resultPane.getChildren().size());
+		GridPane.setConstraints(minLabel, 2, resultPane.getChildren().size());
 		GridPane.setHalignment(minLabel, HPos.RIGHT);
 
-		resultPane.getChildren().addAll(nameLabel, minLabel);
+		resultPane.getChildren().addAll(nameLabel, amountLabel, minLabel);
 		inventoryPane.setContent(resultPane);
 	}
 }
