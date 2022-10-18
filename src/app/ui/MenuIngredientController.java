@@ -123,7 +123,6 @@ public class MenuIngredientController {
     public void submitClick() {
         UUID ingredientId;
         try{
-            dbExec.addItemToTwoTables(Main.menuItemToAdd);
             for(String ingred: allIngredients){
                 System.out.println("Ingredient Name: "+ ingred);
                 Ingredient ingredient = dbIngredients.get(ingred);
@@ -139,10 +138,8 @@ public class MenuIngredientController {
                 // TODO: Add the menuItem to table items, error occurs here
                 Main.menuItemToAdd.addIngredient(ingredient, true);
             }
-            // dbExec.linkIngredientsToItem(Main.menuItemToAdd);
-
             // TODO: Fix error here,  ERROR: insert or update on table "ingredients" violates foreign key constraint "ingredients_item_id_fkey" Detail: Key (item_id)=(b7e17bae-87f9-4a6e-9b98-509b1355b086) is not present in table "items".
-            // dbExec.addItemToMenu(Main.menuItemToAdd);
+            dbExec.addItemToMenu(Main.menuItemToAdd);
 
             allIngredients.clear();
             Main.menuItemToAdd = null;

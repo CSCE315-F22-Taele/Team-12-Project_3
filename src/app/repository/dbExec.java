@@ -56,31 +56,12 @@ public class dbExec {
 		}
 	}
 
-	public static void linkIngredientsToItem(Item newItem){
-		try{
-			for (Ingredient ingredient : newItem.getIngredients()) {
-				int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
-			}
-		} catch (SQLException e){
-			e.printStackTrace();
-		}
-	}
-
-	// This is functionality is broken up to not mess with other classes calling this
 	public static void addItemToMenu(Item newItem) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
-			linkIngredientsToItem(newItem);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void addItemToTwoTables(Item newItem){
-		try {
-			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
-			int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToTable(newItem));
-			System.out.println("The insertion amount is: " + result2);
+			for (Ingredient ingredient : newItem.getIngredients()) {
+				int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
