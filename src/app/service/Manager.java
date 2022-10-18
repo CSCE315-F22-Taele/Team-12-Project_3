@@ -43,7 +43,7 @@ public class Manager {
 	}
 
 	// phase 4
-	public static HashMap<String, Integer> getTrends(Timestamp start, Timestamp end) {
+	public static HashMap<String, Integer> getSalesReport(Timestamp start, Timestamp end) {
 		return dbExec.getCountByMenuItem(start, end);
 	}
 }

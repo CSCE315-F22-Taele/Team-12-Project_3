@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import app.Main;
 import app.model.Ingredient;
 import app.service.Manager;
@@ -39,17 +38,11 @@ import java.util.Map;
 import java.util.spi.LocaleServiceProvider;
 import java.util.HashMap;
 
-public class SalesController {
+public class RestockReportController {
     @FXML
 	private Button backBtn;
     @FXML
-	private Button updateBtn;
-    @FXML
-    private DatePicker startDate;
-    @FXML
-    private DatePicker endDate;
-    @FXML
-    private ScrollPane salesPane;
+    private ScrollPane restockPane;
 
     public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
@@ -62,16 +55,7 @@ public class SalesController {
 
     public void updateClick() throws IOException {
         try {
-            Timestamp start = Timestamp.valueOf(startDate.getValue().atStartOfDay());
-            Timestamp end = Timestamp.valueOf(endDate.getValue().atStartOfDay());
-            Period period = Period.between(startDate.getValue(), endDate.getValue());
-
-            //print error message screen
-            if(period.isNegative()) {
-                throw new Exception("Dates");
-            }
-
-            HashMap<String, Integer> itemFrequencies = Manager.getSalesReport(start, end);
+            HashMap<String, Integer> itemFrequencies = Manager.getTrends(start, end);
             System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
             GridPane salesBox = initializePane();
 
@@ -107,9 +91,9 @@ public class SalesController {
 		resultPane.getColumnConstraints().addAll(col1, col2);
 		resultPane.setMinWidth(500);
 		resultPane.setMaxWidth(-1); // Makes it so it uses pref_size?
-		salesPane.setContent(resultPane);
-		salesPane.setMinWidth(500);
-		salesPane.setMaxWidth(-1);
+		restockPane.setContent(resultPane);
+		restockPane.setMinWidth(500);
+		restockPane.setMaxWidth(-1);
 
 		return resultPane;
 	}
@@ -130,7 +114,6 @@ public class SalesController {
 		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
 		resultPane.getChildren().addAll(nameLabel, amountLabel);
-		salesPane.setContent(resultPane);
+		restockPane.setContent(resultPane);
 	}
-
 }
