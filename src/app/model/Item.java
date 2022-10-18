@@ -40,7 +40,6 @@ public class Item {
 		ingredient.setItemId(itemId);
 		ingredient.setOrderId(orderId);
 		this.ingredients.add(ingredient);
-		dbExec.addIngredientToItem(ingredient);
 	}
 
 	/**

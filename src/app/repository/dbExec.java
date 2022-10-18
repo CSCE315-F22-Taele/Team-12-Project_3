@@ -200,7 +200,7 @@ public class dbExec {
 				String name = result.getString("ingredient_name");
 				UUID itemId = null;
 				UUID orderId = null;
-				int amount = 1;
+				int amount = result.getInt("quantity");
 
 				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount);
 
