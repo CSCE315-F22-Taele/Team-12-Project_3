@@ -29,10 +29,6 @@ public class queries {
 		return String.format("SELECT * FROM inventory;");
 	}
 
-	public static String getAllIngredients(){
-		return String.format("SELECT * FROM ingredients;");
-	}
-
 	public static String getInventoryByIngredient(String name) {
 		return String.format("SELECT * FROM inventory WHERE inventory.ingredient_name = '%s'", name);
 	}
@@ -102,6 +98,9 @@ public class queries {
 				"SELECT id, username FROM users WHERE username = '%s'", userName);
 
 	}
+	public static String findUserTypeByName(String userName) {
+		return String.format("SELECT user_type FROM users WHERE username = '%s'", userName);
+	}
 
 	public static String getUserCredentials(UUID userId) {
 		return String.format(
@@ -169,12 +168,6 @@ public class queries {
 				newItem.getTotalPrice());
 	}
 
-	/**
-	 * Create a new item to "item" table
-	 * 
-	 * @param: New Item object to be created
-	 * @return: SQL query to add item to menu
-	 */
 	public static String addItemToTable(Item newItem){
 		return String.format(
 				"INSERT INTO items (id, item_name, order_id, quantity, total_price) VALUES ('%s', '%s', '%s', '%s', '%s')",
