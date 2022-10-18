@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,7 +13,7 @@
 
 <!-- <?import javafx.scene.control.TextField?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
    <top>
       <VBox prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -59,31 +58,36 @@
                <children>
                   <HBox prefHeight="48.0" prefWidth="540.0">
                      <children>
-                        <SplitPane dividerPositions="0.7" prefHeight="160.0" prefWidth="575.0">
-                          <items>
-                              <HBox alignment="CENTER" minWidth="-Infinity" prefWidth="373.0">
-                                 <children>
-                                    <Label text="Item">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" minWidth="-Infinity" prefWidth="158.33333333334" SplitPane.resizableWithParent="false">
-                                 <children>
-                                    <Label text="Quantity">
-                                       <font>
-                                          <Font name="System Bold" size="20.0" />
-                                       </font>
-                                    </Label>
-                                 </children>
-                              </HBox>
-                          </items>
-                        </SplitPane>
+                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="284.0">
+                           <children>
+                              <Label text="Item">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="165.0">
+                           <children>
+                              <Label text="Quantity">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="98.0">
+                           <children>
+                              <Label text="Min">
+                                 <font>
+                                    <Font name="System Bold" size="20.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                   </HBox>
-                  <ScrollPane fx:id="inventoryPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="540.0" />
+                  <ScrollPane fx:id="inventoryPane" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="125.0" prefWidth="638.0" />
                </children>
             </VBox>
          </children>

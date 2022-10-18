@@ -50,7 +50,9 @@ public class Server {
 			item.setIngredients(ingredients);
 			item.setAmount(amount);
 			item.setOrderId(order.getOrderId());
-			item.setTotalPrice(item.getTotalPrice()*item.getAmount());
+			item.setTotalPrice(item.getTotalPrice() * item.getAmount());
+			System.out.println("Item Price: " + item.getTotalPrice());
+			System.out.println("Item ID: " + item.getItemId().toString());
 			order.addItem(item);
 		}
 

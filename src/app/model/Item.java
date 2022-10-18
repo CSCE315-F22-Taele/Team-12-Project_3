@@ -3,6 +3,8 @@ package app.model;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import app.repository.dbExec;
+
 public class Item {
 	private UUID itemId;
 	private String name;
@@ -35,10 +37,20 @@ public class Item {
 	 * @param ingredient
 	 */
 	public void addIngredient(Ingredient ingredient) {
+		System.out.println(itemId);
 		ingredient.setItemId(itemId);
 		ingredient.setOrderId(orderId);
 		this.ingredients.add(ingredient);
+	}
 
+	/**
+	 * Overload the addIngredient, this adds 
+	 * TODO: Look more into this, maybe dbExec should be default? ~ Dien
+	 * @param ingredient
+	 */
+	public void addIngredient(Ingredient ingredient, boolean cond) {
+		addIngredient(ingredient);
+		dbExec.addIngredientToItem(ingredient);
 	}
 
 	/**

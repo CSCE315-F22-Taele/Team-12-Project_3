@@ -1,6 +1,5 @@
 package app.repository;
 
-import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
@@ -8,6 +7,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.naming.spi.DirStateFactory.Result;
@@ -44,6 +44,20 @@ public class dbExec {
 		return user;
 	}
 
+
+	public static UserType findUserTypeByName(String userName) {
+		UserType t = null;
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
+			result.next();
+			int res = Integer.parseInt(result.getString("user_type"));
+			t = (res == 0) ? UserType.SERVER : UserType.MANAGER;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return t;
+	}
+
 	public static void addOrder(Order order) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addOrder(order));
@@ -68,13 +82,31 @@ public class dbExec {
 		}
 	}
 
+	public static void linkIngredientsToItem(Item newItem){
+		try{
+			for (Ingredient ingredient : newItem.getIngredients()) {
+				int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+	// This is functionality is broken up to not mess with other classes calling this
 	public static void addItemToMenu(Item newItem) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
+			linkIngredientsToItem(newItem);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-			for (Ingredient ingredient : newItem.getIngredients()) {
-				int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
-			}
+	public static void addItemToTwoTables(Item newItem){
+		try {
+			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
+			int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToTable(newItem));
+			System.out.println("The insertion amount is: " + result2);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -200,33 +232,35 @@ public class dbExec {
 
 		return items;
 	}
-	
 
-	public static ArrayList<Ingredient> getAllInventory() {
-		ArrayList<Ingredient> inventory = new ArrayList<Ingredient>();
-		
-		String name = "";
+	public static HashMap<String, Ingredient> getAllIngredients(){
+		HashMap<String, Ingredient> ingredients = new HashMap<String, Ingredient>();
+
 		ResultSet result;
 		try {
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllInventory());
 			while (result.next()) {
+				UUID ingredId = UUID.fromString(result.getString("ingredient_id"));
+				String name = result.getString("ingredient_name");
 				UUID itemId = null;
 				UUID orderId = null;
-				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
-				int amount = Integer.parseInt(result.getString("quantity"));
-				name = result.getString("ingredient_name");
+				int amount = result.getInt("quantity");
 
-				Ingredient ingredient = new Ingredient(ingredientId, name, itemId, orderId, amount);
-				inventory.add(ingredient);
+				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount);
+
+				ingredients.put(name, ingred);
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage() + name);
+			throw new RuntimeException(e.getMessage());
 		}
-		// System.out.println(inventory);
-		return inventory;
+		return ingredients;
 	}
 
+	public static ArrayList<Ingredient> getAllInventory() {
+		return new ArrayList<Ingredient>(getAllIngredients().values());
+	}
+	
 	public static void restockAll(int amount) {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.restockAll(amount));
@@ -495,5 +529,4 @@ public class dbExec {
 
 		return allItemsBelow10;
 	}
-	
-}
+	}

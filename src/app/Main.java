@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import app.db.dbSetup;
 import app.db.jdbcpostgreSQL;
+import app.model.Item;
 import app.service.Inventory;
 import app.service.Menu;
 
@@ -21,6 +22,7 @@ public class Main extends Application {
 	public static boolean wow;
 	public static String authen; // Store the result fxml file after authen
 	public static String username;
+	public static Item menuItemToAdd; // menuItem to link ingredients to
 
 	// Error States
 	public static String errorMsg;
