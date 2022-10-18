@@ -14,6 +14,9 @@ public class Authentication {
 	}
 
 	public static boolean checkPassword(String userName, String password) {
+		if (userName.equals("") || password.equals("")) {			// if either left blank, can't authenticate
+			return false;
+		}
 		UserType actType = dbExec.findUserTypeByName(userName);		// user's actual type by name
 		UserType desType = getTypeFromString(Main.authen);			// type that the user is trying to sign in as
 

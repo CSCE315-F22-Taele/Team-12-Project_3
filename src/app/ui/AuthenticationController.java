@@ -1,6 +1,7 @@
 package app.ui;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import app.Main;
 import app.db.jdbcpostgreSQL;
@@ -29,21 +30,21 @@ public class AuthenticationController {
         backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
     }
     
-    public void submitClick() throws IOException {
-        // System.out.println("Authenticating...");
+    public void submitClick() throws IOException, InterruptedException {
         String uEntry = userEntry.getText();
         Main.username = uEntry;
         String passEntry = passwordEntry.getText();
 
-		if(Authentication.checkPassword(uEntry, passEntry) && !passEntry.equals("")) {
-		// if(true) {
-            // System.out.println("Authentication Successful!");
+		if(Authentication.checkPassword(uEntry, passEntry)) {
             submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
         }
         else {
-            // System.out.println("Authentication Failed!");
             passwordEntry.setText("");
+            userEntry.setText("");
             passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
+            // TimeUnit.SECONDS.sleep(3);
+            // Thread.sleep(2500);
+            // passwordEntry.setPromptText("Enter Password:");
         }
     }
 }
