@@ -39,13 +39,14 @@ public class Server {
 		User server = dbExec.findUserByUserName(request.serverName, type);
 		Order order = new Order(request.customerName, server.getUserId());
 
+		double price = 0;
 		for (Pair<String, Integer> pair: request.items) {
 			String itemName = pair.getKey();
 			int amount = pair.getValue();
-
+			
 			Item item = dbExec.getMenuByItem(itemName);
 			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(item.getItemId());
-
+			
 			item.setIngredients(ingredients);
 			item.setAmount(amount);
 			item.setOrderId(order.getOrderId());

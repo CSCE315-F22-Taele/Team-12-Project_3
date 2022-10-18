@@ -6,6 +6,12 @@ import app.model.Ingredient;
 import app.model.Item;
 import app.repository.dbExec;
 import javafx.util.Pair;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.HashSet;
 
 public class Manager {
 	public static ArrayList<Pair<Item, String>> getMenuItems() {
@@ -39,7 +45,11 @@ public class Manager {
 	}
 
 	// phase 4
-	public void getTrends() {
+	public static HashMap<String, Integer> getSalesReport(Timestamp start, Timestamp end) {
+		return dbExec.getCountByMenuItem(start, end);
+	}
 
+	public static HashSet<String> getExcessReport(Timestamp start, Timestamp end) {
+		return dbExec.getExcessCountByMenuItem(start, end);
 	}
 }

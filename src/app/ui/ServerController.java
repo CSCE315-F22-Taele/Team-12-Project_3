@@ -14,15 +14,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 
 public class ServerController {
 	ArrayList<Order> allOrders = new ArrayList<Order>();
+	// int selectedIdx = -1;
 	String selectedName;
 	Order currOrder;
 
+	@FXML
+	private Label label;
 	@FXML
 	private Button backBtn;
 	@FXML
@@ -47,16 +49,13 @@ public class ServerController {
 			}
 		});
 
-        UserType type = Authentication.getTypeFromString(Main.authen);
-        allOrders.clear();
-        allOrders = Server.getServerOrders(Main.username, type);
-        ordersAccrdn.getPanes().clear();
+		UserType type = Authentication.getTypeFromString(Main.authen);
+		allOrders.clear();
+		allOrders = Server.getServerOrders(Main.username, type);
+		ordersAccrdn.getPanes().clear();
 
 		for (Order order : allOrders) {
-			TextArea attributes = new TextArea();
-			attributes.setEditable(false);
-			attributes.setMaxHeight(90);
-			attributes.setMinHeight(90);
+			Label attributes = new Label();
 			attributes.setText(order.toString());
 			TitledPane orderNum = new TitledPane(order.getCustomerName(), attributes);
 			ordersAccrdn.getPanes().add(orderNum);

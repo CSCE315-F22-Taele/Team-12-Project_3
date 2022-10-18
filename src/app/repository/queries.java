@@ -1,5 +1,6 @@
 package app.repository;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import app.model.Credentials;
@@ -208,4 +209,20 @@ public class queries {
 	public static String removeOrder(UUID orderId) {
 		return String.format("UPDATE orders SET is_served = TRUE WHERE id = '%s'", orderId.toString());
 	}
+
+	public static String getAllOrdersWithinTime(Timestamp start, Timestamp end) {
+		return String.format("SELECT * FROM orders WHERE time_ordered " + 
+					"BETWEEN '%s' AND '%s'", 
+					start.toString(), end.toString());
+	}
+	
+
+	public static String getCountByMenuItem(UUID orderId) {
+		return String.format(
+			"SELECT item_name, quantity FROM items WHERE order_id = '%s'",orderId.toString());
+
+		// return String.format("SELECT * FROM items");
+	}
+
+
 }

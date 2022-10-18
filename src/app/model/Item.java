@@ -93,6 +93,7 @@ public class Item {
 			newIngredient.setAmount(amount);
 			this.ingredients.set(i, newIngredient);
 		}
+		setTotalPrice(this.totalPrice * this.amount);
 	}
 
 	public double getTotalPrice() {

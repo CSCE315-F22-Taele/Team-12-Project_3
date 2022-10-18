@@ -17,8 +17,7 @@ CREATE TABLE users (
 
 INSERT INTO users (id, username, user_type)
 VALUES
-	('e0b9544e-4d24-4255-aa1b-30aabbbcaa6e', 'Joe America', 0),
-	('23ebca17-7a06-4814-8a84-9664d9175880', 'Philip Ritchey', 0);
+	('0', 'Joe America2', 0),
 
 CREATE TABLE credentials (	
 	id VARCHAR(36) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,

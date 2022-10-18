@@ -1,11 +1,9 @@
 package app.ui;
 
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import app.Main;
 import app.model.Ingredient;
@@ -39,20 +37,12 @@ import java.time.Period;
 import java.util.Map;
 import java.util.spi.LocaleServiceProvider;
 import java.util.HashMap;
-import java.util.HashSet;
 
-
-public class ExcessController {
+public class RestockReportController {
     @FXML
 	private Button backBtn;
     @FXML
-	private Button updateBtn;
-    @FXML
-    private DatePicker startDate;
-    @FXML
-    private TextField endDate;
-    @FXML
-    private ScrollPane salesPane;
+    private ScrollPane restockPane;
 
     public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
@@ -65,17 +55,12 @@ public class ExcessController {
 
     public void updateClick() throws IOException {
         try {
-            Timestamp start = Timestamp.valueOf(startDate.getValue().atStartOfDay());
-            LocalDate now = LocalDate.now().plusDays(1);
-            Timestamp end = Timestamp.valueOf(now.atStartOfDay());
-            
-
-            HashSet<String> itemFrequencies = Manager.getExcessReport(start, end);
+            HashMap<String, Integer> itemFrequencies = Manager.getTrends(start, end);
             System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
             GridPane salesBox = initializePane();
 
-            for(String key : itemFrequencies) {
-               writeToGUI(key, salesBox); 
+            for(String key : itemFrequencies.keySet()) {
+               writeToGUI(key, itemFrequencies.get(key), salesBox); 
             }
 
 
@@ -106,15 +91,15 @@ public class ExcessController {
 		resultPane.getColumnConstraints().addAll(col1, col2);
 		resultPane.setMinWidth(500);
 		resultPane.setMaxWidth(-1); // Makes it so it uses pref_size?
-		salesPane.setContent(resultPane);
-		salesPane.setMinWidth(500);
-		salesPane.setMaxWidth(-1);
+		restockPane.setContent(resultPane);
+		restockPane.setMinWidth(500);
+		restockPane.setMaxWidth(-1);
 
 		return resultPane;
 	}
 
 	// displaying from List
-	public void writeToGUI(String ingredientName, GridPane resultPane) {
+	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
@@ -122,13 +107,13 @@ public class ExcessController {
 		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 
-		// Label amountLabel = new Label();
-		// amountLabel.setText(amount + "");
-		// amountLabel.setPadding(new Insets(0, 0, 10, 0));
-		// GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
-		// GridPane.setHalignment(amountLabel, HPos.RIGHT);
+		Label amountLabel = new Label();
+		amountLabel.setText(amount + "");
+		amountLabel.setPadding(new Insets(0, 0, 10, 0));
+		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
+		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
-		resultPane.getChildren().addAll(nameLabel);
-		salesPane.setContent(resultPane);
+		resultPane.getChildren().addAll(nameLabel, amountLabel);
+		restockPane.setContent(resultPane);
 	}
 }
