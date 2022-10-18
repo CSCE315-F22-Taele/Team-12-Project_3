@@ -6,6 +6,10 @@ import app.model.Ingredient;
 import app.model.Item;
 import app.repository.dbExec;
 import javafx.util.Pair;
+import java.util.Map;
+import java.util.HashMap;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class Manager {
 	public static ArrayList<Pair<Item, String>> getMenuItems() {
@@ -39,7 +43,7 @@ public class Manager {
 	}
 
 	// phase 4
-	public void getTrends() {
-
+	public static HashMap<String, Integer> getTrends(Timestamp start, Timestamp end) {
+		return dbExec.getCountByMenuItem(start, end);
 	}
 }

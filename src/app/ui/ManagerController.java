@@ -25,7 +25,7 @@ public class ManagerController {
 
     public void trendsClick() throws IOException {
         // System.out.println("Manager --> Trends");
-        trendsBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("trends.fxml")));
+        trendsBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("sales.fxml")));
     }
     public void inventoryClick() throws IOException {
         // System.out.println("Manager --> Inventory");

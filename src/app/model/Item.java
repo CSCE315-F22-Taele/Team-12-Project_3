@@ -81,6 +81,7 @@ public class Item {
 			newIngredient.setAmount(amount);
 			this.ingredients.set(i, newIngredient);
 		}
+		setTotalPrice(this.totalPrice * this.amount);
 	}
 
 	public double getTotalPrice() {
@@ -98,10 +99,4 @@ public class Item {
 	public void setIngredients(ArrayList<Ingredient> ingredients) {
 		this.ingredients = new ArrayList<>(ingredients);
 	}
-
-	@Override
-	public String toString() {
-		return name + " x" + amount;
-	}
-
 }

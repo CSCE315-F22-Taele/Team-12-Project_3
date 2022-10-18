@@ -4,8 +4,12 @@ import java.lang.reflect.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 import app.Main;
 import app.db.jdbcpostgreSQL;
@@ -15,6 +19,11 @@ import app.model.Order;
 import app.model.User;
 import app.model.UserType;
 import javafx.util.Pair;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Map;
+import java.util.HashMap;
 
 public class dbExec {
 	public static User findUserByUserName(String userName, UserType type) {
@@ -188,10 +197,11 @@ public class dbExec {
 
 		return items;
 	}
+	
 
 	public static ArrayList<Ingredient> getAllInventory() {
 		ArrayList<Ingredient> inventory = new ArrayList<Ingredient>();
-
+		
 		String name = "";
 		ResultSet result;
 		try {
@@ -331,8 +341,70 @@ public class dbExec {
 			e.printStackTrace();
 		}
 
-		Item item = new Item(itemId, itemName, null, 0, price); // amount to be updated later
+		Item item = new Item(itemId, itemName, null, 1, price); // amount to be updated later
 
 		return item;
 	}
+
+	public static ArrayList<Order> getAllOrderIDsWithinTime(Timestamp start, Timestamp end) {
+		ArrayList<Order> orders = new ArrayList<>();
+		
+		String name = "";
+		ResultSet result;
+		try {
+			result = jdbcpostgreSQL.stmt.executeQuery(queries.getAllOrdersWithinTime(start, end));
+			while (result.next()) {
+				UUID orderID = UUID.fromString(result.getString("id"));
+				String customerName = result.getString("customerName");
+				UUID serverId = UUID.fromString(result.getString("server_id"));
+				Timestamp timeOrdered = result.getTimestamp("time_ordered");
+				Boolean is_served = result.getBoolean("is_served");
+				double price = result.getDouble("price");
+
+				Order order = new Order(customerName, serverId);
+				order.setOrderId(orderID);
+				order.setTimeOrdered(timeOrdered);
+				order.setServed(is_served);
+				order.setPrice(price);
+				orders.add(order);
+			}
+
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage() + name);
+		}
+		// System.out.println(inventory);
+		return orders;
+	}
+	
+	public static HashMap<String, Integer> getCountByMenuItem(Timestamp start, Timestamp end) {
+		HashMap<String, Integer> itemFrequencies = new HashMap<>();
+		ArrayList<Order> allOrders = getAllOrderIDsWithinTime(start, end);
+		System.out.println(start.toString() + " " + end.toString());
+
+		try {
+			// Period period = Period.between(start, end);
+			// int numDays = period.getDays();
+
+			for(int i = 0; i < allOrders.size(); i++) {
+				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getCountByMenuItem(allOrders.get(i).getOrderId()));
+				while(result.next()) {
+					System.out.println("here getCountByMenuItem");
+					String itemName = result.getString("item_name");
+					int quantity = result.getInt("quantity");
+					if(itemFrequencies.containsKey(itemName))
+						itemFrequencies.put(itemName, itemFrequencies.get(itemName) + quantity);
+					else
+						itemFrequencies.put(itemName, quantity);
+				}
+			}
+
+		} catch(SQLException e) {
+			System.out.println("error in getCountByMenuItem");
+			e.printStackTrace();
+		}
+
+		return itemFrequencies;
+	}
+
+	
 }
