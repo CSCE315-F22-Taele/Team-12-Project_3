@@ -32,6 +32,7 @@ public class dbExec {
 		return user;
 	}
 
+
 	public static UserType findUserTypeByName(String userName) {
 		UserType t = null;
 		try {
