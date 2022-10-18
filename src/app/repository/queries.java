@@ -103,10 +103,6 @@ public class queries {
 
 	}
 
-	public static String findUserTypeByName(String userName) {
-		return String.format("SELECT user_type FROM users WHERE username = '%s'", userName);
-	}
-
 	public static String getUserCredentials(UUID userId) {
 		return String.format(
 				"SELECT password FROM credentials WHERE id = '%s'", userId.toString());
@@ -171,6 +167,19 @@ public class queries {
 				"INSERT INTO menu (item_id, item_name, price) VALUES ('%s', '%s', '%s')",
 				newItem.getItemId().toString(), newItem.getName(),
 				newItem.getTotalPrice());
+	}
+
+	/**
+	 * Create a new item to "item" table
+	 * 
+	 * @param: New Item object to be created
+	 * @return: SQL query to add item to menu
+	 */
+	public static String addItemToTable(Item newItem){
+		return String.format(
+				"INSERT INTO items (id, item_name, order_id, quantity, total_price) VALUES ('%s', '%s', '%s', '%s', '%s')",
+				newItem.getItemId().toString(), newItem.getName(), newItem.getOrderId(),
+				newItem.getAmount(), newItem.getTotalPrice());
 	}
 
 	public static String removeItemFromMenu(String name) {

@@ -37,6 +37,7 @@ public class Item {
 	 * @param ingredient
 	 */
 	public void addIngredient(Ingredient ingredient) {
+		System.out.println(itemId);
 		ingredient.setItemId(itemId);
 		ingredient.setOrderId(orderId);
 		this.ingredients.add(ingredient);
