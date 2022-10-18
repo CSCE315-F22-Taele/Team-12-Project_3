@@ -56,7 +56,7 @@ public class InventoryController {
 		GridPane inventoryBox = initializePane();
 
 		for (Ingredient ingredient : inventory) {
-			writeToGUI(ingredient.getName(), ingredient.getAmount(), inventoryBox);
+			writeToGUI(ingredient.getName(), ingredient.getAmount(), 100, inventoryBox); // Min for ingredients is 100
 
 			comboBox.getItems().add(ingredient.getName());
 		}
@@ -145,7 +145,7 @@ public class InventoryController {
 	}
 
 	// displaying from List
-	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
+	public void writeToGUI(String ingredientName, int amount, int min, GridPane resultPane) {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
@@ -159,7 +159,13 @@ public class InventoryController {
 		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
 		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
-		resultPane.getChildren().addAll(nameLabel, amountLabel);
+		Label minLabel = new Label();
+		minLabel.setText(min + "");
+		minLabel.setPadding(new Insets(0, 0, 10, 0));
+		GridPane.setConstraints(minLabel, 1, resultPane.getChildren().size());
+		GridPane.setHalignment(minLabel, HPos.RIGHT);
+
+		resultPane.getChildren().addAll(nameLabel, minLabel);
 		inventoryPane.setContent(resultPane);
 	}
 }
