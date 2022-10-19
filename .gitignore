@@ -1,6 +1,4 @@
 .vscode
-lib/**
-**/**/*.class
 javafx.properties
-lib/
-**/src/*.class
+*.jar
+*.class

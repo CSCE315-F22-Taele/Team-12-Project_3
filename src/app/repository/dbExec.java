@@ -2,31 +2,19 @@ package app.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import app.Main;
 import app.db.jdbcpostgreSQL;
 import app.model.Ingredient;
 import app.model.Item;
 import app.model.Order;
 import app.model.User;
 import app.model.UserType;
-import app.service.Menu;
 import javafx.util.Pair;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
 
 /**
@@ -421,6 +409,7 @@ public class dbExec {
 	 */
 	public static ArrayList<Order> getServerOrders(UUID userId) {
 		ArrayList<Order> ordersByServer = new ArrayList<>();
+		ArrayList<Double> orderPriceList = new ArrayList<>();
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
 
@@ -429,19 +418,21 @@ public class dbExec {
 				String customerName = result.getString("customerName");
 				UUID serverId = UUID.fromString(result.getString("server_id"));
 				Timestamp t = result.getTimestamp("time_ordered");
-				boolean isServed = Boolean.valueOf(result.getString("is_served"));
+				boolean isServed = result.getBoolean("is_served");
 				double price = Double.parseDouble(result.getString("price"));
 				Order addNewOrder = new Order(customerName, serverId);
 				addNewOrder.setPrice(price);
-				addNewOrder.serveOrder();
+				addNewOrder.setServed(isServed);
 				addNewOrder.setTimeOrdered(t);
 				addNewOrder.setOrderId(id);
 
+				orderPriceList.add(price);
 				ordersByServer.add(addNewOrder);
 			}
 
 			for (int i = 0; i < ordersByServer.size(); i++) {
 				Order currOrder = ordersByServer.get(i);
+				Double price = orderPriceList.get(i);
 
 				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(currOrder.getOrderId()));
 
@@ -458,6 +449,7 @@ public class dbExec {
 				}
 
 				currOrder.setItems(orderItems);
+				currOrder.setPrice(price);
 				ordersByServer.set(i, currOrder);
 			}
 		} catch (Exception e) {
@@ -740,5 +732,17 @@ public class dbExec {
 		}
 
 		return allMinInventoryItems;
+	}
+
+	/**
+	 * Update an order's timestamp
+	 * @param newTimeStamp new timestamp to update to
+	 */
+	public static void updateTimeStamp(UUID orderId, Timestamp newTimeStamp) {
+		try {
+			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.updateTimeStamp(orderId, newTimeStamp));
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+		}
 	}
 }

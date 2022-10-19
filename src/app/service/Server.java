@@ -74,7 +74,7 @@ public class Server {
 			Item newItem = dbExec.getMenuByItem(itemName);
 			newItem.setAmount(amount);
 			newItem.setOrderId(order.getOrderId());
-			newItem.setTotalPrice(newItem.getTotalPrice() * newItem.getAmount());
+			// newItem.setTotalPrice(newItem.getTotalPrice() * newItem.getAmount());
 
 			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(null, newItem.getItemId());
 			newItem.setIngredients(ingredients);

@@ -8,7 +8,6 @@ import app.model.Ingredient;
 import app.model.Item;
 import app.model.Order;
 import app.model.User;
-import app.model.UserType;
 
 public class queries {
 	
@@ -331,5 +330,9 @@ public class queries {
 	 */
 	public static String updateIngredientThreshold(UUID id, int thresh) {
 		return String.format("UPDATE inventory SET threshold = '%s' WHERE ingredient_id = '%s'", thresh, id);
+	}
+
+	public static String updateTimeStamp(UUID orderId, Timestamp newTimeStamp) {
+		return String.format("UPDATE orders SET time_ordered = '%s' WHERE id = '%s'", newTimeStamp, orderId);
 	}
 }

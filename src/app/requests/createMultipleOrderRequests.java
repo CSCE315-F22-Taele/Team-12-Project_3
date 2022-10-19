@@ -1,8 +1,9 @@
 package app.requests;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Random;
 
 import app.Main;
@@ -37,15 +38,25 @@ public class createMultipleOrderRequests {
 			for (int itemI = 0; itemI < amountOfItems; itemI++) {
 				randomIndex = randInt.nextInt(menuItems.size());
 				String itemToAdd = menuItems.get(randomIndex).getName();
-				Integer amt = randInt.nextInt(4) + 1;
+				Integer quantity = randInt.nextInt(4) + 1;
 
 				// Add generated thing to items
-				items.add(new Pair<String, Integer>(itemToAdd, amt));
+				items.add(new Pair<String, Integer>(itemToAdd, quantity));
 			}
 
 			createOrderRequest request = new createOrderRequest(customerName, serverName, items);
 
-			Order order = Server.createOrder(request, (amountOfOrders-i) > 4); // Will display about 5 orders
+			Order order = Server.createOrder(request, true);
+
+			// generate random date somewhere in the last 6 months, down to the millisecond
+			Timestamp now = Timestamp.valueOf(LocalDate.now().atStartOfDay());
+			Timestamp sixMonthsAgo = Timestamp.valueOf(LocalDate.now().minusMonths(6).atStartOfDay());
+			long millNow = now.getTime();
+			long millThen = sixMonthsAgo.getTime();
+			long millRand = (long)((Math.random() * (millNow - millThen)) + millThen);
+			Timestamp newTime = new Timestamp(millRand);
+			order.setTimeOrdered(newTime);
+			dbExec.updateTimeStamp(order.getOrderId(), newTime);
 		}
 	}
 }

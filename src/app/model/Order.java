@@ -17,7 +17,7 @@ public class Order {
 	private double price;
 	private ArrayList<Item> items;
 
-	/**
+	/** 
 	 * Initializes a new Order
 	 * 
 	 * @param customerName

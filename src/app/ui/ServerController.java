@@ -61,13 +61,15 @@ public class ServerController {
 		ordersAccrdn.getPanes().clear();
 
 		for (Order order : allOrders) {
-			TextArea attributes = new TextArea();
-			attributes.setEditable(false);
-			attributes.setMaxHeight(90);
-			attributes.setMinHeight(90);
-			attributes.setText(order.toString());
-			TitledPane orderNum = new TitledPane(order.getCustomerName(), attributes);
-			ordersAccrdn.getPanes().add(orderNum);
+			if (!order.isServed()) {
+				TextArea attributes = new TextArea();
+				attributes.setEditable(false);
+				attributes.setMaxHeight(90);
+				attributes.setMinHeight(90);
+				attributes.setText(order.toString());
+				TitledPane orderNum = new TitledPane(order.getCustomerName(), attributes);
+				ordersAccrdn.getPanes().add(orderNum);
+			}
 		}
 	}
 

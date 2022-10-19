@@ -5,19 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.sql.Statement;
-import java.util.List;
-import java.util.UUID;
 
-import app.db.dbSetup;
 import app.db.jdbcpostgreSQL;
 import app.model.Item;
 import app.requests.createMultipleOrderRequests;
 import app.service.Inventory;
 import app.service.Menu;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class Main extends Application {
 	public static boolean wow;
