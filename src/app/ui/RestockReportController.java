@@ -46,6 +46,10 @@ public class RestockReportController {
     @FXML
     private ScrollPane restockPane;
 
+	public void initialize() throws IOException{
+		updateClick();
+	}
+
     public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));

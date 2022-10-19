@@ -110,7 +110,7 @@
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="restockEntry" onAction="#inputListener" promptText="Restock Amount" />
-            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockAll" text="Restock" />
+            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockAll" text="Restock All" />
          </children>
       </HBox>
    </bottom>

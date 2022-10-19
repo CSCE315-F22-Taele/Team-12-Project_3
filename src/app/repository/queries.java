@@ -196,7 +196,7 @@ public class queries {
 	}
 
 	public static String restockAll(int amount) {
-		return String.format("UPDATE inventory SET quantity = '%s'", amount);
+		return String.format("UPDATE inventory SET quantity = inventory.quantity + '%s'", amount);
 	}
 
 	public static String getMenuItems() {

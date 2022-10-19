@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.RestockReportController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.RestockReportController">
    <children>
       <HBox fx:id="StartTime" layoutX="122.0" layoutY="14.0" prefHeight="100.0" prefWidth="404.0">
          <children>
@@ -29,7 +29,7 @@
             </Button>
          </children>
       </HBox>
-      <ScrollPane fx:id="restockPane" layoutX="56.0" layoutY="148.0" prefHeight="211.0" prefWidth="489.0">
+      <ScrollPane fx:id="restockPane" hbarPolicy="NEVER" layoutX="56.0" layoutY="148.0" prefHeight="211.0" prefWidth="489.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
         </content>
