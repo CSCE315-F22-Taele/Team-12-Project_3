@@ -1,0 +1,501 @@
+name,server_id,time_ordered,is_served,price
+Fountain Drink,4,2022-10-28 12:34:17,true,2.45
+Aggie Shakes,1,2022-10-28 22:34:57,true,4.49
+Fountain Drink,4,2022-10-28 16:04:28,false,2.45
+Cookie Sandwich,3,2022-10-28 22:37:51,true,4.69
+Chicken Sandwich,3,2022-10-28 09:01:15,false,7.49
+Chicken Sandwich,5,2022-10-28 15:39:55,true,7.49
+Gig Em Patty Melt,3,2022-10-28 18:41:54,true,4.49
+Gig Em Patty Melt,1,2022-10-28 08:12:57,true,4.69
+Caesar Salad,3,2022-10-28 09:41:54,false,8.29
+French Fries,1,2022-10-28 20:46:02,true,2.69
+Classic Hamburger,5,2022-10-28 19:07:36,false,6.49
+Chicken Tenders,5,2022-10-28 21:42:52,true,7.49
+Gig Em Patty Melt,4,2022-10-28 12:14:04,true,7.09
+Gig Em Patty Melt,2,2022-10-28 17:05:05,true,7.09
+Ice Cream Cup,3,2022-10-28 10:25:37,false,3.29
+Bacon Burger,2,2022-10-28 23:57:36,true,7.89
+Bacon Burger,4,2022-10-28 04:19:59,false,7.89
+Bacon Burger,1,2022-10-28 19:56:28,false,7.89
+Fountain Drink,4,2022-10-28 21:32:21,false,2.45
+Cookie Sandwich,1,2022-10-28 16:18:03,false,4.69
+Chicken Tenders,4,2022-10-28 02:56:54,false,7.49
+Caesar Salad,3,2022-10-28 16:34:50,false,8.29
+Caesar Salad,4,2022-10-28 05:09:53,false,8.29
+Caesar Salad,1,2022-10-28 02:01:14,false,8.29
+Fountain Drink,3,2022-10-28 17:49:59,false,2.45
+Ice Cream Cup,3,2022-10-28 08:25:52,true,3.29
+Chicken Tenders,5,2022-10-28 03:53:52,true,7.49
+Caesar Salad,4,2022-10-28 19:07:14,true,8.29
+Fountain Drink,1,2022-10-28 16:31:40,true,2.45
+Aggie Shakes,5,2022-10-28 00:15:36,true,4.49
+Gig Em Patty Melt,5,2022-10-28 07:56:16,true,6.49
+Chicken Sandwich,1,2022-10-28 19:04:41,true,7.49
+French Fries,4,2022-10-28 13:25:52,false,2.69
+Black Bean Burger,3,2022-10-28 21:25:38,true,7.29
+Gig Em Patty Melt,1,2022-10-28 18:20:20,true,4.49
+Ice Cream Cup,2,2022-10-28 16:36:53,true,3.29
+Caesar Salad,2,2022-10-28 01:12:02,false,8.29
+Cookie Sandwich,5,2022-10-28 13:02:30,true,4.69
+Ice Cream Cup,1,2022-10-28 07:18:02,true,3.29
+Chicken Sandwich,1,2022-10-28 05:02:56,true,7.49
+Black Bean Burger,4,2022-10-28 04:51:44,true,7.29
+Fountain Drink,5,2022-10-28 03:34:01,true,2.45
+Cookie Sandwich,1,2022-10-28 21:26:55,true,4.69
+Chicken Tenders,1,2022-10-28 05:25:43,true,7.49
+Caesar Salad,1,2022-10-28 09:51:39,false,8.29
+Bacon Burger,5,2022-10-28 21:59:00,false,7.89
+Gig Em Patty Melt,3,2022-10-28 05:36:37,true,6.49
+Classic Hamburger,1,2022-10-28 19:46:01,false,6.49
+Ice Cream Cup,2,2022-10-28 20:04:05,false,3.29
+Bacon Burger,4,2022-10-28 04:32:25,true,7.89
+Cookie Sandwich,5,2022-10-28 06:49:17,false,4.69
+Aggie Shakes,4,2022-10-28 19:47:50,true,4.49
+Ice Cream Cup,3,2022-10-28 01:41:22,false,3.29
+Black Bean Burger,4,2022-10-28 01:54:03,true,7.29
+Chicken Sandwich,3,2022-10-28 11:31:26,false,7.49
+Ice Cream Cup,3,2022-10-28 14:19:25,true,3.29
+Caesar Salad,1,2022-10-28 19:44:33,false,8.29
+Bacon Burger,1,2022-10-28 07:00:38,false,7.89
+Black Bean Burger,2,2022-10-28 14:29:44,false,7.29
+Chicken Tenders,4,2022-10-28 07:22:51,true,7.49
+Fountain Drink,2,2022-10-28 19:00:13,false,2.45
+Chicken Sandwich,3,2022-10-28 22:56:41,true,7.49
+Chicken Sandwich,5,2022-10-28 18:15:09,true,7.49
+Classic Hamburger,4,2022-10-28 11:48:05,false,6.49
+Black Bean Burger,3,2022-10-28 11:12:54,true,7.29
+Aggie Shakes,4,2022-10-28 17:42:32,true,4.49
+Bacon Burger,2,2022-10-28 15:23:51,false,7.89
+Classic Hamburger,3,2022-10-28 23:46:36,false,6.49
+Fountain Drink,5,2022-10-28 18:50:49,true,2.45
+Ice Cream Cup,2,2022-10-28 07:01:44,false,3.29
+Aggie Shakes,2,2022-10-28 06:27:22,true,4.49
+Bacon Burger,4,2022-10-28 20:30:41,false,7.89
+Gig Em Patty Melt,2,2022-10-28 21:25:12,true,2.69
+Ice Cream Cup,1,2022-10-28 19:48:28,true,3.29
+Classic Hamburger,3,2022-10-28 20:04:25,false,6.49
+Black Bean Burger,4,2022-10-28 17:13:54,false,7.29
+Chicken Tenders,4,2022-10-28 14:16:42,true,7.49
+Chicken Sandwich,4,2022-10-28 09:39:45,false,7.49
+Gig Em Patty Melt,2,2022-10-28 06:05:17,false,7.29
+Gig Em Patty Melt,3,2022-10-28 11:35:23,false,4.49
+French Fries,1,2022-10-28 03:45:30,true,2.69
+Fountain Drink,5,2022-10-28 00:34:50,false,2.45
+Classic Hamburger,4,2022-10-28 18:40:52,false,6.49
+Fountain Drink,4,2022-10-28 07:44:04,true,2.45
+Chicken Tenders,2,2022-10-28 14:52:59,false,7.49
+Classic Hamburger,4,2022-10-28 13:19:22,true,6.49
+Bacon Burger,4,2022-10-28 22:10:55,false,7.89
+Ice Cream Cup,4,2022-10-28 08:21:53,true,3.29
+Caesar Salad,2,2022-10-28 04:31:27,true,8.29
+Black Bean Burger,4,2022-10-28 10:43:43,false,7.29
+Ice Cream Cup,1,2022-10-28 12:19:06,false,3.29
+Fountain Drink,4,2022-10-28 11:16:23,false,2.45
+Ice Cream Cup,5,2022-10-28 16:55:38,false,3.29
+Black Bean Burger,2,2022-10-28 21:08:54,true,7.29
+Bacon Burger,4,2022-10-28 08:19:22,true,7.89
+Gig Em Patty Melt,4,2022-10-28 04:16:05,false,4.49
+French Fries,1,2022-10-28 15:57:32,true,2.69
+Cookie Sandwich,1,2022-10-28 14:17:25,true,4.69
+Bacon Burger,4,2022-10-28 06:48:14,true,7.89
+Chicken Tenders,2,2022-10-28 05:27:49,true,7.49
+Ice Cream Cup,3,2022-10-28 10:52:33,true,3.29
+Classic Hamburger,1,2022-10-28 23:02:16,false,6.49
+Classic Hamburger,2,2022-10-28 03:18:13,false,6.49
+Black Bean Burger,2,2022-10-28 14:23:11,true,7.29
+Fountain Drink,5,2022-10-28 21:02:44,false,2.45
+Aggie Shakes,5,2022-10-28 08:34:06,false,4.49
+Black Bean Burger,5,2022-10-28 21:19:21,false,7.29
+Chicken Sandwich,1,2022-10-28 01:16:12,false,7.49
+Ice Cream Cup,1,2022-10-28 07:00:51,true,3.29
+Fountain Drink,2,2022-10-28 04:56:50,false,2.45
+French Fries,5,2022-10-28 02:45:42,true,2.69
+Chicken Sandwich,4,2022-10-28 22:57:44,false,7.49
+Caesar Salad,4,2022-10-28 01:57:39,false,8.29
+Ice Cream Cup,2,2022-10-28 09:10:51,false,3.29
+Gig Em Patty Melt,5,2022-10-28 14:23:08,false,7.89
+Fountain Drink,5,2022-10-28 15:38:00,true,2.45
+Cookie Sandwich,1,2022-10-28 14:41:53,true,4.69
+Cookie Sandwich,2,2022-10-28 20:13:38,false,4.69
+French Fries,5,2022-10-28 09:21:00,true,2.69
+Fountain Drink,1,2022-10-28 09:13:16,false,2.45
+Cookie Sandwich,3,2022-10-28 03:38:22,true,4.69
+Fountain Drink,4,2022-10-28 20:29:55,true,2.45
+Aggie Shakes,5,2022-10-28 19:40:00,true,4.49
+Bacon Burger,1,2022-10-28 03:59:38,true,7.89
+French Fries,1,2022-10-28 14:13:27,false,2.69
+Classic Hamburger,1,2022-10-28 09:18:42,false,6.49
+Caesar Salad,1,2022-10-28 09:59:05,false,8.29
+Chicken Tenders,5,2022-10-28 21:29:45,false,7.49
+Chicken Tenders,3,2022-10-28 14:19:38,false,7.49
+Fountain Drink,4,2022-10-28 07:46:05,true,2.45
+Aggie Shakes,5,2022-10-28 07:16:27,true,4.49
+Cookie Sandwich,2,2022-10-28 09:50:42,true,4.69
+French Fries,3,2022-10-28 22:14:09,false,2.69
+Chicken Tenders,2,2022-10-28 21:20:08,true,7.49
+French Fries,1,2022-10-28 06:18:28,false,2.69
+Gig Em Patty Melt,2,2022-10-28 06:35:34,false,4.49
+French Fries,3,2022-10-28 20:07:45,false,2.69
+Bacon Burger,3,2022-10-28 02:52:16,false,7.89
+Chicken Tenders,3,2022-10-28 11:05:26,true,7.49
+Classic Hamburger,5,2022-10-28 23:27:20,true,6.49
+Aggie Shakes,2,2022-10-28 13:18:08,false,4.49
+Classic Hamburger,1,2022-10-28 18:31:32,false,6.49
+Black Bean Burger,4,2022-10-28 01:47:15,true,7.29
+Cookie Sandwich,5,2022-10-28 10:34:54,true,4.69
+French Fries,5,2022-10-28 21:21:22,false,2.69
+Fountain Drink,2,2022-10-28 12:54:52,false,2.45
+Caesar Salad,4,2022-10-28 00:41:49,true,8.29
+Fountain Drink,1,2022-10-28 22:50:36,true,2.45
+Black Bean Burger,5,2022-10-28 20:46:39,true,7.29
+Classic Hamburger,3,2022-10-28 15:11:23,true,6.49
+Chicken Sandwich,1,2022-10-28 17:07:51,true,7.49
+Aggie Shakes,3,2022-10-28 11:00:38,false,4.49
+Classic Hamburger,2,2022-10-28 06:57:06,true,6.49
+Chicken Sandwich,4,2022-10-28 23:24:04,true,7.49
+Cookie Sandwich,3,2022-10-28 16:41:49,false,4.69
+Classic Hamburger,4,2022-10-28 21:03:41,false,6.49
+Fountain Drink,2,2022-10-28 06:14:38,true,2.45
+Fountain Drink,5,2022-10-28 07:03:08,false,2.45
+Caesar Salad,2,2022-10-28 18:58:17,true,8.29
+Cookie Sandwich,3,2022-10-28 07:00:18,false,4.69
+Bacon Burger,1,2022-10-28 08:32:00,false,7.89
+Black Bean Burger,4,2022-10-28 09:06:24,true,7.29
+Cookie Sandwich,5,2022-10-28 23:52:59,false,4.69
+Caesar Salad,2,2022-10-28 05:50:46,false,8.29
+Aggie Shakes,2,2022-10-28 15:23:53,false,4.49
+Caesar Salad,5,2022-10-28 14:18:28,true,8.29
+Aggie Shakes,3,2022-10-28 12:45:19,false,4.49
+Black Bean Burger,1,2022-10-28 10:57:02,true,7.29
+Bacon Burger,3,2022-10-28 03:37:06,true,7.89
+Chicken Sandwich,4,2022-10-28 19:13:31,true,7.49
+Classic Hamburger,3,2022-10-28 05:05:07,false,6.49
+Chicken Sandwich,3,2022-10-28 18:44:00,true,7.49
+Aggie Shakes,5,2022-10-28 05:06:59,true,4.49
+Caesar Salad,1,2022-10-28 02:35:22,true,8.29
+Aggie Shakes,3,2022-10-28 15:01:48,false,4.49
+Classic Hamburger,1,2022-10-28 14:36:10,true,6.49
+Gig Em Patty Melt,3,2022-10-28 12:35:42,false,3.29
+Bacon Burger,1,2022-10-28 06:56:54,false,7.89
+Classic Hamburger,5,2022-10-28 18:24:36,true,6.49
+Classic Hamburger,3,2022-10-28 19:01:12,false,6.49
+Caesar Salad,5,2022-10-28 02:19:38,true,8.29
+Gig Em Patty Melt,5,2022-10-28 17:04:04,false,4.69
+Black Bean Burger,2,2022-10-28 16:19:20,false,7.29
+Cookie Sandwich,4,2022-10-28 08:18:15,true,4.69
+French Fries,4,2022-10-28 05:40:58,false,2.69
+Caesar Salad,5,2022-10-28 12:08:36,true,8.29
+Aggie Shakes,4,2022-10-28 19:10:07,true,4.49
+Black Bean Burger,1,2022-10-28 16:57:03,false,7.29
+Black Bean Burger,4,2022-10-28 13:00:26,true,7.29
+Gig Em Patty Melt,5,2022-10-28 01:42:59,false,7.49
+Ice Cream Cup,2,2022-10-28 07:08:02,true,3.29
+Aggie Shakes,5,2022-10-28 18:33:29,false,4.49
+Caesar Salad,5,2022-10-28 12:26:47,true,8.29
+Caesar Salad,4,2022-10-28 13:19:56,true,8.29
+Gig Em Patty Melt,1,2022-10-28 22:37:43,false,7.09
+Classic Hamburger,1,2022-10-28 05:53:13,true,6.49
+Ice Cream Cup,4,2022-10-28 09:33:24,true,3.29
+Classic Hamburger,2,2022-10-28 18:07:29,true,6.49
+Chicken Sandwich,2,2022-10-28 10:15:26,false,7.49
+French Fries,2,2022-10-28 02:05:30,false,2.69
+Aggie Shakes,4,2022-10-28 21:39:13,true,4.49
+Gig Em Patty Melt,5,2022-10-28 01:02:57,true,7.49
+Cookie Sandwich,3,2022-10-28 08:13:03,true,4.69
+Bacon Burger,4,2022-10-28 08:55:39,false,7.89
+Chicken Tenders,1,2022-10-28 03:15:35,true,7.49
+Caesar Salad,1,2022-10-28 16:52:23,true,8.29
+French Fries,1,2022-10-28 17:15:16,false,2.69
+Cookie Sandwich,5,2022-10-28 10:07:58,false,4.69
+Fountain Drink,4,2022-10-28 22:44:01,true,2.45
+Black Bean Burger,4,2022-10-28 20:02:16,true,7.29
+Gig Em Patty Melt,1,2022-10-28 22:26:08,true,6.49
+Caesar Salad,2,2022-10-28 06:27:44,false,8.29
+Caesar Salad,3,2022-10-28 22:37:07,true,8.29
+Aggie Shakes,3,2022-10-28 05:53:07,false,4.49
+Bacon Burger,2,2022-10-28 22:49:14,false,7.89
+French Fries,5,2022-10-28 09:01:42,true,2.69
+Chicken Tenders,1,2022-10-28 15:06:18,true,7.49
+French Fries,5,2022-10-28 01:59:46,false,2.69
+Bacon Burger,5,2022-10-28 07:48:04,true,7.89
+Cookie Sandwich,4,2022-10-28 20:37:27,false,4.69
+Caesar Salad,2,2022-10-28 21:17:16,false,8.29
+Black Bean Burger,5,2022-10-28 02:01:28,false,7.29
+Cookie Sandwich,2,2022-10-28 08:28:58,false,4.69
+French Fries,5,2022-10-28 19:44:41,false,2.69
+Chicken Sandwich,5,2022-10-28 13:22:52,false,7.49
+Caesar Salad,5,2022-10-28 08:20:55,true,8.29
+Ice Cream Cup,3,2022-10-28 21:55:17,false,3.29
+Chicken Sandwich,5,2022-10-28 19:12:40,false,7.49
+Chicken Tenders,1,2022-10-28 05:27:20,false,7.49
+Chicken Tenders,3,2022-10-28 00:56:22,false,7.49
+Ice Cream Cup,4,2022-10-28 07:25:15,true,3.29
+Black Bean Burger,1,2022-10-28 20:19:53,false,7.29
+Gig Em Patty Melt,1,2022-10-28 13:08:29,true,6.49
+Black Bean Burger,3,2022-10-28 08:42:07,true,7.29
+Chicken Sandwich,3,2022-10-28 06:35:31,true,7.49
+Ice Cream Cup,5,2022-10-28 10:51:31,false,3.29
+Caesar Salad,3,2022-10-28 13:32:01,false,8.29
+Fountain Drink,4,2022-10-28 15:24:09,true,2.45
+French Fries,1,2022-10-28 10:08:32,false,2.69
+Chicken Tenders,3,2022-10-28 01:32:16,false,7.49
+French Fries,3,2022-10-28 13:00:12,true,2.69
+Bacon Burger,2,2022-10-28 21:09:19,true,7.89
+Black Bean Burger,1,2022-10-28 00:13:15,true,7.29
+Caesar Salad,2,2022-10-28 01:42:49,true,8.29
+Gig Em Patty Melt,4,2022-10-28 05:26:17,false,8.29
+Fountain Drink,2,2022-10-28 03:15:39,false,2.45
+Fountain Drink,5,2022-10-28 23:05:24,false,2.45
+Caesar Salad,3,2022-10-28 12:36:57,true,8.29
+Bacon Burger,4,2022-10-28 23:34:11,false,7.89
+Classic Hamburger,4,2022-10-28 04:28:56,true,6.49
+Fountain Drink,5,2022-10-28 08:17:30,false,2.45
+Black Bean Burger,2,2022-10-28 13:40:46,true,7.29
+Ice Cream Cup,2,2022-10-28 14:43:36,true,3.29
+Bacon Burger,3,2022-10-28 10:23:01,false,7.89
+Ice Cream Cup,3,2022-10-28 09:22:49,true,3.29
+Fountain Drink,5,2022-10-28 17:31:43,true,2.45
+Chicken Tenders,5,2022-10-28 03:24:47,false,7.49
+Chicken Sandwich,4,2022-10-28 13:01:26,false,7.49
+Ice Cream Cup,3,2022-10-28 00:21:03,false,3.29
+Classic Hamburger,3,2022-10-28 13:50:13,true,6.49
+Fountain Drink,1,2022-10-28 17:52:37,false,2.45
+Chicken Tenders,1,2022-10-28 14:59:17,true,7.49
+Chicken Sandwich,4,2022-10-28 23:25:19,true,7.49
+Caesar Salad,2,2022-10-28 00:45:40,true,8.29
+Fountain Drink,4,2022-10-28 12:06:39,false,2.45
+Aggie Shakes,2,2022-10-28 17:08:23,true,4.49
+Bacon Burger,5,2022-10-28 06:38:32,false,7.89
+Bacon Burger,1,2022-10-28 03:30:23,true,7.89
+Aggie Shakes,5,2022-10-28 14:46:53,false,4.49
+Caesar Salad,1,2022-10-28 02:39:10,false,8.29
+Bacon Burger,3,2022-10-28 19:46:12,true,7.89
+Chicken Sandwich,2,2022-10-28 21:46:00,true,7.49
+Caesar Salad,3,2022-10-28 18:56:13,false,8.29
+Aggie Shakes,2,2022-10-28 17:10:06,false,4.49
+Bacon Burger,3,2022-10-28 19:12:51,false,7.89
+Bacon Burger,2,2022-10-28 15:54:03,true,7.89
+Cookie Sandwich,2,2022-10-28 17:04:56,false,4.69
+Cookie Sandwich,1,2022-10-28 17:33:39,true,4.69
+Aggie Shakes,2,2022-10-28 13:51:58,true,4.49
+Cookie Sandwich,5,2022-10-28 12:06:24,false,4.69
+Classic Hamburger,1,2022-10-28 21:54:29,true,6.49
+Caesar Salad,3,2022-10-28 00:36:04,true,8.29
+Classic Hamburger,5,2022-10-28 17:39:49,true,6.49
+Fountain Drink,4,2022-10-28 07:16:31,false,2.45
+Aggie Shakes,3,2022-10-28 07:15:02,true,4.49
+Caesar Salad,4,2022-10-28 01:57:47,true,8.29
+Black Bean Burger,3,2022-10-28 22:38:47,true,7.29
+French Fries,3,2022-10-28 12:45:11,true,2.69
+Classic Hamburger,2,2022-10-28 14:54:30,false,6.49
+Chicken Sandwich,2,2022-10-28 12:35:50,false,7.49
+Chicken Tenders,3,2022-10-28 11:59:49,true,7.49
+French Fries,5,2022-10-28 15:21:57,true,2.69
+Bacon Burger,3,2022-10-28 00:49:57,true,7.89
+French Fries,3,2022-10-28 10:32:54,false,2.69
+Bacon Burger,3,2022-10-28 13:43:26,true,7.89
+Classic Hamburger,5,2022-10-28 21:28:43,false,6.49
+Chicken Tenders,3,2022-10-28 19:16:19,false,7.49
+Chicken Sandwich,1,2022-10-28 15:32:47,true,7.49
+French Fries,5,2022-10-28 23:30:22,true,2.69
+French Fries,5,2022-10-28 04:41:32,true,2.69
+Chicken Sandwich,4,2022-10-28 15:56:08,true,7.49
+French Fries,2,2022-10-28 02:59:05,true,2.69
+Chicken Sandwich,5,2022-10-28 06:19:33,false,7.49
+Fountain Drink,4,2022-10-28 16:09:42,true,2.45
+Bacon Burger,1,2022-10-28 23:05:26,false,7.89
+Bacon Burger,5,2022-10-28 19:56:41,false,7.89
+Gig Em Patty Melt,4,2022-10-28 10:00:31,true,8.29
+French Fries,3,2022-10-28 21:16:02,false,2.69
+Gig Em Patty Melt,4,2022-10-28 05:27:20,true,4.49
+Chicken Tenders,2,2022-10-28 01:04:29,true,7.49
+French Fries,1,2022-10-28 03:39:21,false,2.69
+Chicken Tenders,1,2022-10-28 14:35:23,true,7.49
+Classic Hamburger,2,2022-10-28 08:22:18,true,6.49
+Caesar Salad,4,2022-10-28 14:06:09,true,8.29
+Classic Hamburger,2,2022-10-28 21:06:34,true,6.49
+Caesar Salad,2,2022-10-28 07:34:53,true,8.29
+French Fries,4,2022-10-28 14:05:27,false,2.69
+Caesar Salad,1,2022-10-28 13:40:35,false,8.29
+Fountain Drink,4,2022-10-28 23:36:30,true,2.45
+Fountain Drink,2,2022-10-28 10:12:37,true,2.45
+Cookie Sandwich,3,2022-10-28 17:26:13,false,4.69
+Bacon Burger,2,2022-10-28 04:51:47,true,7.89
+Cookie Sandwich,4,2022-10-28 04:27:03,false,4.69
+Black Bean Burger,2,2022-10-28 01:01:16,true,7.29
+Cookie Sandwich,1,2022-10-28 14:57:58,false,4.69
+French Fries,5,2022-10-28 12:26:15,true,2.69
+French Fries,2,2022-10-28 18:54:55,false,2.69
+Bacon Burger,2,2022-10-28 08:42:10,false,7.89
+French Fries,5,2022-10-28 23:50:32,true,2.69
+Black Bean Burger,1,2022-10-28 10:49:54,false,7.29
+Cookie Sandwich,2,2022-10-28 12:27:24,true,4.69
+Black Bean Burger,2,2022-10-28 14:16:36,false,7.29
+French Fries,2,2022-10-28 21:34:01,false,2.69
+Classic Hamburger,1,2022-10-28 20:17:18,false,6.49
+French Fries,1,2022-10-28 09:19:54,true,2.69
+Aggie Shakes,2,2022-10-28 13:39:40,false,4.49
+Chicken Sandwich,2,2022-10-28 06:13:14,true,7.49
+French Fries,2,2022-10-28 19:01:42,true,2.69
+French Fries,2,2022-10-28 06:06:09,false,2.69
+Black Bean Burger,3,2022-10-28 16:59:14,true,7.29
+Aggie Shakes,4,2022-10-28 08:46:02,true,4.49
+Caesar Salad,1,2022-10-28 18:40:06,false,8.29
+Chicken Sandwich,5,2022-10-28 17:20:30,false,7.49
+Ice Cream Cup,2,2022-10-28 03:06:42,true,3.29
+Cookie Sandwich,5,2022-10-28 05:02:35,false,4.69
+Caesar Salad,2,2022-10-28 03:41:32,true,8.29
+Classic Hamburger,5,2022-10-28 20:12:03,true,6.49
+Gig Em Patty Melt,5,2022-10-28 11:51:50,true,7.49
+Aggie Shakes,5,2022-10-28 15:25:27,false,4.49
+Gig Em Patty Melt,2,2022-10-28 20:54:41,true,3.29
+Caesar Salad,3,2022-10-28 20:19:48,true,8.29
+Caesar Salad,3,2022-10-28 13:19:26,true,8.29
+Chicken Sandwich,1,2022-10-28 08:52:09,false,7.49
+Chicken Tenders,4,2022-10-28 18:59:42,true,7.49
+Chicken Sandwich,3,2022-10-28 17:46:16,false,7.49
+Fountain Drink,4,2022-10-28 09:58:03,false,2.45
+Chicken Sandwich,4,2022-10-28 16:04:58,true,7.49
+Aggie Shakes,1,2022-10-28 17:53:03,true,4.49
+Aggie Shakes,5,2022-10-28 14:45:07,true,4.49
+Caesar Salad,4,2022-10-28 23:56:12,true,8.29
+Fountain Drink,4,2022-10-28 11:19:31,true,2.45
+Ice Cream Cup,4,2022-10-28 18:02:56,false,3.29
+Caesar Salad,3,2022-10-28 09:53:57,true,8.29
+Chicken Sandwich,3,2022-10-28 10:27:57,false,7.49
+Fountain Drink,5,2022-10-28 15:26:25,true,2.45
+Fountain Drink,2,2022-10-28 07:51:06,false,2.45
+Ice Cream Cup,1,2022-10-28 06:33:39,true,3.29
+Caesar Salad,4,2022-10-28 21:55:26,false,8.29
+Ice Cream Cup,1,2022-10-28 21:02:18,true,3.29
+Aggie Shakes,5,2022-10-28 06:14:09,false,4.49
+Fountain Drink,3,2022-10-28 09:03:54,true,2.45
+Ice Cream Cup,1,2022-10-28 03:19:04,true,3.29
+Classic Hamburger,5,2022-10-28 05:08:04,false,6.49
+Classic Hamburger,3,2022-10-28 20:22:17,true,6.49
+Cookie Sandwich,2,2022-10-28 15:20:47,true,4.69
+Cookie Sandwich,3,2022-10-28 04:44:50,false,4.69
+Cookie Sandwich,1,2022-10-28 13:24:38,false,4.69
+Classic Hamburger,5,2022-10-28 00:23:02,false,6.49
+Caesar Salad,1,2022-10-28 08:49:14,false,8.29
+French Fries,5,2022-10-28 16:32:29,true,2.69
+Chicken Tenders,4,2022-10-28 20:26:07,false,7.49
+Aggie Shakes,3,2022-10-28 02:57:04,true,4.49
+Black Bean Burger,1,2022-10-28 11:50:56,false,7.29
+Classic Hamburger,3,2022-10-28 10:06:36,true,6.49
+Classic Hamburger,3,2022-10-28 19:40:39,false,6.49
+Cookie Sandwich,1,2022-10-28 14:19:40,true,4.69
+Cookie Sandwich,2,2022-10-28 19:22:19,true,4.69
+Black Bean Burger,3,2022-10-28 06:39:22,false,7.29
+Gig Em Patty Melt,3,2022-10-28 06:10:30,false,3.29
+Chicken Sandwich,3,2022-10-28 21:06:24,false,7.49
+Aggie Shakes,1,2022-10-28 13:38:08,false,4.49
+Bacon Burger,3,2022-10-28 16:47:28,true,7.89
+French Fries,5,2022-10-28 06:14:59,true,2.69
+Bacon Burger,4,2022-10-28 01:35:53,true,7.89
+French Fries,2,2022-10-28 16:14:45,true,2.69
+Black Bean Burger,1,2022-10-28 22:27:05,true,7.29
+Classic Hamburger,4,2022-10-28 02:16:41,true,6.49
+Chicken Tenders,1,2022-10-28 04:01:09,false,7.49
+Chicken Tenders,3,2022-10-28 09:27:00,true,7.49
+Chicken Tenders,2,2022-10-28 19:09:35,true,7.49
+Fountain Drink,5,2022-10-28 16:35:36,true,2.45
+Fountain Drink,5,2022-10-28 20:48:26,true,2.45
+Fountain Drink,2,2022-10-28 14:12:48,true,2.45
+Aggie Shakes,5,2022-10-28 04:31:11,false,4.49
+Caesar Salad,4,2022-10-28 08:07:24,false,8.29
+Black Bean Burger,5,2022-10-28 09:51:09,true,7.29
+Ice Cream Cup,1,2022-10-28 04:21:57,false,3.29
+Bacon Burger,2,2022-10-28 07:35:58,false,7.89
+Ice Cream Cup,1,2022-10-28 18:57:23,false,3.29
+Cookie Sandwich,5,2022-10-28 09:06:18,true,4.69
+Cookie Sandwich,3,2022-10-28 18:27:37,true,4.69
+French Fries,5,2022-10-28 10:26:02,true,2.69
+Chicken Sandwich,5,2022-10-28 19:49:59,false,7.49
+Chicken Sandwich,1,2022-10-28 16:28:18,true,7.49
+Caesar Salad,3,2022-10-28 01:39:32,false,8.29
+Ice Cream Cup,5,2022-10-28 00:40:15,true,3.29
+Black Bean Burger,1,2022-10-28 01:20:19,false,7.29
+French Fries,2,2022-10-28 09:12:49,false,2.69
+Bacon Burger,5,2022-10-28 05:35:53,false,7.89
+Caesar Salad,4,2022-10-28 23:26:04,true,8.29
+Caesar Salad,2,2022-10-28 16:14:40,false,8.29
+Chicken Tenders,2,2022-10-28 04:18:06,false,7.49
+Gig Em Patty Melt,5,2022-10-28 05:22:40,true,4.69
+Aggie Shakes,1,2022-10-28 23:11:17,true,4.49
+Bacon Burger,3,2022-10-28 00:33:55,false,7.89
+Black Bean Burger,1,2022-10-28 01:14:01,false,7.29
+Cookie Sandwich,5,2022-10-28 17:48:37,true,4.69
+Ice Cream Cup,5,2022-10-28 00:24:27,false,3.29
+Fountain Drink,2,2022-10-28 17:57:13,true,2.45
+Caesar Salad,3,2022-10-28 02:44:09,false,8.29
+Gig Em Patty Melt,5,2022-10-28 00:34:36,false,2.69
+Fountain Drink,3,2022-10-28 23:51:27,false,2.45
+Chicken Sandwich,2,2022-10-28 21:40:35,false,7.49
+Gig Em Patty Melt,4,2022-10-28 18:14:45,false,6.49
+Classic Hamburger,5,2022-10-28 08:44:51,false,6.49
+Caesar Salad,5,2022-10-28 16:38:08,false,8.29
+Bacon Burger,5,2022-10-28 00:22:58,true,7.89
+Caesar Salad,3,2022-10-28 19:01:59,false,8.29
+Caesar Salad,3,2022-10-28 06:50:36,false,8.29
+Ice Cream Cup,4,2022-10-28 14:36:16,false,3.29
+Ice Cream Cup,1,2022-10-28 08:46:53,false,3.29
+Bacon Burger,1,2022-10-28 06:41:10,true,7.89
+French Fries,1,2022-10-28 14:48:15,true,2.69
+French Fries,2,2022-10-28 13:58:19,false,2.69
+Gig Em Patty Melt,3,2022-10-28 01:05:57,true,4.49
+Fountain Drink,4,2022-10-28 18:59:50,false,2.45
+French Fries,3,2022-10-28 13:41:10,true,2.69
+Fountain Drink,1,2022-10-28 06:22:00,true,2.45
+Cookie Sandwich,2,2022-10-28 01:14:51,false,4.69
+Fountain Drink,3,2022-10-28 10:43:14,true,2.45
+Gig Em Patty Melt,4,2022-10-28 09:30:54,false,7.49
+Black Bean Burger,1,2022-10-28 15:14:46,false,7.29
+Chicken Sandwich,4,2022-10-28 06:54:51,false,7.49
+Bacon Burger,2,2022-10-28 12:32:58,true,7.89
+Fountain Drink,3,2022-10-28 15:15:22,false,2.45
+Classic Hamburger,4,2022-10-28 17:00:27,true,6.49
+Aggie Shakes,1,2022-10-28 10:02:46,false,4.49
+French Fries,1,2022-10-28 20:45:13,false,2.69
+Gig Em Patty Melt,4,2022-10-28 18:49:37,true,3.29
+Chicken Tenders,2,2022-10-28 19:45:29,true,7.49
+French Fries,2,2022-10-28 20:16:26,false,2.69
+Bacon Burger,1,2022-10-28 04:25:02,false,7.89
+Caesar Salad,1,2022-10-28 16:55:33,true,8.29
+Black Bean Burger,2,2022-10-28 08:24:49,false,7.29
+Gig Em Patty Melt,3,2022-10-28 13:55:31,true,8.29
+Caesar Salad,5,2022-10-28 06:59:40,false,8.29
+Aggie Shakes,5,2022-10-28 16:57:00,false,4.49
+Aggie Shakes,3,2022-10-28 08:55:56,false,4.49
+Fountain Drink,1,2022-10-28 22:43:10,false,2.45
+Chicken Tenders,5,2022-10-28 09:51:52,false,7.49
+Bacon Burger,4,2022-10-28 22:57:48,true,7.89
+Fountain Drink,3,2022-10-28 15:31:22,true,2.45
+Bacon Burger,5,2022-10-28 03:27:35,true,7.89
+Ice Cream Cup,1,2022-10-28 01:46:16,true,3.29
+Fountain Drink,2,2022-10-28 16:13:02,false,2.45
+Ice Cream Cup,5,2022-10-28 13:33:19,false,3.29
+Aggie Shakes,2,2022-10-28 19:55:14,false,4.49
+Ice Cream Cup,3,2022-10-28 18:04:00,true,3.29
+Cookie Sandwich,2,2022-10-28 17:14:08,false,4.69
+Fountain Drink,2,2022-10-28 15:06:06,true,2.45
+Chicken Sandwich,1,2022-10-28 03:45:49,false,7.49
+Chicken Tenders,3,2022-10-28 11:35:47,true,7.49
+Caesar Salad,4,2022-10-28 18:15:22,true,8.29
+Caesar Salad,4,2022-10-28 17:35:03,true,8.29
+Cookie Sandwich,2,2022-10-28 15:59:36,true,4.69
+Chicken Sandwich,4,2022-10-28 14:53:18,false,7.49
+Aggie Shakes,1,2022-10-28 01:00:55,false,4.49
+Chicken Sandwich,1,2022-10-28 03:20:55,true,7.49
+Chicken Tenders,4,2022-10-28 00:46:12,false,7.49
+Classic Hamburger,5,2022-10-28 17:03:34,false,6.49
+French Fries,3,2022-10-28 20:15:09,false,2.69
+Black Bean Burger,3,2022-10-28 07:19:54,true,7.29
+Classic Hamburger,5,2022-10-28 07:12:47,true,6.49
+Gig Em Patty Melt,1,2022-10-28 09:42:42,false,4.49
+Chicken Sandwich,4,2022-10-28 17:59:54,true,7.49
+Black Bean Burger,4,2022-10-28 13:30:16,false,7.29
+Classic Hamburger,5,2022-10-28 19:00:53,true,6.49
+Bacon Burger,3,2022-10-28 23:36:01,false,7.89
+Fountain Drink,5,2022-10-28 08:44:14,true,2.45
+Caesar Salad,5,2022-10-28 22:48:14,false,8.29
