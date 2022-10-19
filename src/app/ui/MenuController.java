@@ -125,30 +125,24 @@ public class MenuController {
 		this.initialize();
 	}
 
-	public void addItem() throws IOException {
-		String amount = priceEntry.getText();
+	public void addItemToMenu() throws IOException {
+		String price = priceEntry.getText();
 		String itemName = nameEntry.getText();
-		if(itemName == null || amount == null){
+		if(itemName == null || price == null){
 			// TODO: ERROR
 		} 
 		// else if(){
 			// TODO: Check if menu item already in database, if it is then bad! AddItem throws error, try to use that
 		// }
 		else {
-			Double amt = Double.parseDouble(amount);
+			Double prc = Double.parseDouble(price);
 
 			UUID itemId = UUID.randomUUID();
 			UUID orderId = null; // Change made 10/17 ~ Dien
-			Item item = new Item(itemId, itemName, orderId, 1, amt);
+			Item item = new Item(itemId, itemName, orderId, 1, prc);
 
 			Main.menuItemToAdd = item;
 			priceEntry.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu_ingredients.fxml")));
-			// Main.menuItemToAdd = null;
-			
-			// priceEntry.setText("");
-			// nameEntry.setText("");
-
-			// this.initialize();
 		}
 	}
 

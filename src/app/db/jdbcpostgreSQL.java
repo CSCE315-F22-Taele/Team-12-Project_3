@@ -35,19 +35,10 @@ public class jdbcpostgreSQL {
 			System.exit(0);
 		}
 
-		// System.out.println("Opened database successfully");
-
 		try {
 			// create a statement object
 			stmt = conn.createStatement();
 
-			// int result = stmt.executeUpdate(sqlStatement);
-
-			// while (result.next()) {
-			// System.out.println(result.getString("column_name"));
-			// }
-			// OR
-			// System.out.println(result);
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());

@@ -1,6 +1,8 @@
 package app.service;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import app.Main;
@@ -9,6 +11,8 @@ import app.model.Item;
 import app.repository.dbExec;
 
 public class Menu {
+
+	public static HashMap<String, Ingredient> dbIngredients = dbExec.getAllIngredients();;
 
 	public static final Item classicHamburger = new Item(UUID.randomUUID(), "Classic Hamburger", null, 1,
 			6.49);
@@ -77,6 +81,30 @@ public class Menu {
 	public static final Item cups = new Item(UUID.randomUUID(), "Cups", null, 1, 0);
 	public static final Item tissues = new Item(UUID.randomUUID(), "Tissues", null, 1, 0);
 
+	public static void insertItemToMenu(Item item, AbstractCollection<String> ingredientNames) {
+        UUID ingredientId;
+        try{
+            dbExec.addItemToTwoTables(item); // Add item to "menu" and "items"
+            for(String ingred: ingredientNames){
+                System.out.println("Ingredient Name: "+ ingred);
+                Ingredient ingredient = dbIngredients.get(ingred);
+                if(ingredient == null){
+                    ingredientId = UUID.randomUUID();
+                    ingredient = new Ingredient(ingredientId, ingred, null, null, 0);
+                    dbExec.addIngredientToInventory(ingredient); // completely new ingredient
+                }
+                ingredient.setAmount(1); // To add to menuItem
+    
+                // This method sets the itemId and orderId anyway, BUT also adds to database
+                item.addIngredient(ingredient, true);
+				dbIngredients.put(ingred, ingredient);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+	
 	public static void addIngredients() {
 		/*
 		 * ArrayList<Ingredient> inventory = Inventory.list;

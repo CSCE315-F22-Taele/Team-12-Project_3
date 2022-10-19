@@ -61,6 +61,10 @@ public class Credentials {
 		return hashedPassword;
 	}
 
+	/**
+	 * Return userId
+	 * @return: userId
+	 */
 	public UUID getUserId() {
 		return userId;
 	}
