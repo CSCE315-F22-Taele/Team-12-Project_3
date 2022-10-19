@@ -116,8 +116,8 @@ public class queries {
 	 */
 	public static String addIngredientToInventory(Ingredient ingredient) {
 		return String.format(
-				"INSERT INTO inventory (ingredient_id, ingredient_name, quantity) VALUES ('%s', '%s', '%s')",
-				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount());
+				"INSERT INTO inventory (ingredient_id, ingredient_name, quantity, threshold) VALUES ('%s', '%s', '%s', '%s')",
+				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount(), ingredient.getThreshold());
 	}
 
 	/**
@@ -133,6 +133,7 @@ public class queries {
 				(ingredient.getOrderId() != null) ? ingredient.getOrderId().toString() : null, ingredient.getAmount());
 	}
 
+	// TODO: Re-evalaute where this is called. This is because ingredient will have extra "threshold" variable
 	public static String getItemIngredients(UUID orderId, UUID itemId) {
 		return String.format(
 				"SELECT * FROM ingredients WHERE order_id = '%s' AND item_id = '%s'", orderId, itemId);
@@ -188,6 +189,10 @@ public class queries {
 
 	public static String updateIngredientInInventory(UUID id, int amount) {
 		return String.format("UPDATE inventory SET quantity = '%s' WHERE ingredient_id = '%s'", amount, id);
+	}
+
+	public static String updateIngredientThreshold(UUID id, int thresh) {
+		return String.format("UPDATE inventory SET threshold = '%s' WHERE ingredient_id = '%s'", thresh, id);
 	}
 
 	public static String restockAll(int amount) {

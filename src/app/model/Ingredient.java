@@ -8,6 +8,7 @@ public class Ingredient implements Comparable {
 	private UUID itemId;
 	private UUID orderId;
 	private int amount;
+	private int threshold;
 
 	public Ingredient(UUID ingredientId, String name, UUID itemId, UUID orderId, int amount) {
 		this.ingredientId = ingredientId;
@@ -15,6 +16,12 @@ public class Ingredient implements Comparable {
 		this.itemId = itemId;
 		this.orderId = orderId;
 		this.amount = amount;
+		this.threshold = 100; // Default amt
+	}
+
+	public Ingredient(UUID ingredientId, String name, UUID itemId, UUID orderId, int amount, int threshold) {
+		this(ingredientId, name, itemId, orderId, amount);
+		this.threshold = threshold;
 	}
 
 	public UUID getIngredientId() {
@@ -51,6 +58,14 @@ public class Ingredient implements Comparable {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	public int getThreshold() {
+		return this.threshold;
+	}
+
+	public void setThreshold(int threshold) {
+		this.threshold = threshold;
 	}
 
 	@Override

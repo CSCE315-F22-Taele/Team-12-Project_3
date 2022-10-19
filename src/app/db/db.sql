@@ -32,7 +32,8 @@ VALUES
 CREATE TABLE inventory (
 	ingredient_id VARCHAR(36) PRIMARY KEY,
 	ingredient_name VARCHAR(255) NOT NULL UNIQUE,
-	quantity INTEGER NOT NULL DEFAULT 0
+	quantity INTEGER NOT NULL DEFAULT 0,
+	threshold INTEGER DEFAULT 100
 );
 
 CREATE TABLE menu (
