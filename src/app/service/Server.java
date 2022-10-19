@@ -22,6 +22,7 @@ public class Server {
 	}
 
 	public static void addToCart(String itemName, int amount) {
+		System.out.println("Amount in server: " + amount);
 		cart.add(new Pair<String, Integer>(itemName, amount));
 	}
 
@@ -48,9 +49,10 @@ public class Server {
 			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(item.getItemId());
 			
 			item.setIngredients(ingredients);
-			item.setAmount(amount);
+			item.setAmount(amount - 1);
+			System.out.println("amount: " + amount);
 			item.setOrderId(order.getOrderId());
-			item.setTotalPrice(item.getTotalPrice() * item.getAmount());
+			// item.setTotalPrice(item.getTotalPrice() * item.getAmount());
 			System.out.println("Item Price: " + item.getTotalPrice());
 			System.out.println("Item ID: " + item.getItemId().toString());
 			order.addItem(item);

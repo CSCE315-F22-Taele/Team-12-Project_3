@@ -83,7 +83,8 @@ public class Item {
 			newIngredient.setAmount(amount);
 			this.ingredients.set(i, newIngredient);
 		}
-		setTotalPrice(this.totalPrice * this.amount);
+		System.out.println("Total price in item.java: " + this.totalPrice);
+		// setTotalPrice(this.totalPrice * this.amount);
 	}
 
 	public double getTotalPrice() {
@@ -104,7 +105,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return name + " x" + amount;
+		return name + " x" + (amount + 1);
 	}
 
 }

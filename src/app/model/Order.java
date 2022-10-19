@@ -48,15 +48,18 @@ public class Order {
 		Item existingItem;
 		try {
 			existingItem = findItem(item.getItemId());
+			System.out.println("Item found");
 			existingItem.setAmount(existingItem.getAmount() + item.getAmount());
 			existingItem.setTotalPrice(existingItem.getTotalPrice() + item.getTotalPrice());
 
 			item = existingItem;
 		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage());
 			items.add(item);
 		}
-
-		this.price = item.getTotalPrice();
+		System.out.println("price: " + this.price + " \ngetTotaPrice: " + item.getTotalPrice());
+		this.price += item.getTotalPrice();
+		System.out.println("this.price: " + this.price);
 	}
 
 	/**
@@ -147,7 +150,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "orderId: " + orderId + "\ncustomerName: " + customerName
-				+ "\nitems: " + items.toString() + "\ntimeOrdered: " + timeOrdered + "\nprice: $" + this.price;
+		return String.format("orderId: %s\ncustomerName: %s\nitems: %s\ntimeOrdered: %s\nprice: $%.2f", 
+		this.orderId, this.customerName, this.items.toString(), this.timeOrdered.toString(), this.price);
 	}
 }

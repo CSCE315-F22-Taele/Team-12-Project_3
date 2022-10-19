@@ -304,7 +304,7 @@ public class dbExec {
 				Timestamp t = result.getTimestamp("time_ordered");
 				boolean isServed = Boolean.valueOf(result.getString("is_served"));
 				double price = Double.parseDouble(result.getString("price"));
-
+				System.out.println("Price in serverorders: " + price);
 				Order addNewOrder = new Order(customerName, serverId);
 				addNewOrder.setPrice(price);
 				addNewOrder.setServed(isServed);
@@ -327,12 +327,14 @@ public class dbExec {
 					UUID orderId = currOrder.getOrderId();
 					int amount = Integer.parseInt(itemRows.getString("quantity"));
 					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
-
+					System.out.println("total_price serverOrders: " + priceItem);
 					Item item = new Item(itemId, name, orderId, amount, priceItem);
 					orderItems.add(item);
 				}
+				System.out.println(ordersByServer.size() + " " + orderItems.size());
 
 				currOrder.setItems(orderItems);
+				System.out.println(currOrder.getItems().size());
 				ordersByServer.set(i, currOrder);
 			}
 		} catch (Exception e) {
