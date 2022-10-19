@@ -168,6 +168,10 @@ public class Order {
 		return isServed;
 	}
 
+	public void setServed(boolean isServed) {
+		this.isServed = isServed;
+	}
+
 	/**
 	 * Get total price of order
 	 * 

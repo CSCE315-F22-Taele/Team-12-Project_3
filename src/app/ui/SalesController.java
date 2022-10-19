@@ -83,7 +83,6 @@ public class SalesController {
             }
 
             HashMap<String, Integer> itemFrequencies = Manager.getSalesReport(start, end);
-            // System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
             GridPane salesBox = initializePane();
 
             for(String key : itemFrequencies.keySet()) {
@@ -92,7 +91,6 @@ public class SalesController {
 
 
         } catch(Exception e) {
-            System.out.println(e.getMessage());
             if(e.getMessage().equals("Dates")) {
                 openErrorWindow("End Date should come after Start Date");
             }
@@ -107,7 +105,6 @@ public class SalesController {
 	 * @throws IOException
 	 */
     public void backClick() throws IOException {
-		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 

@@ -59,7 +59,7 @@ public class Server {
 	 * @param request: information about new order
 	 * @return: new Order object, after being added to database and all relevant dependencies handled
 	 */
-	public static Order createOrder(createOrderRequest request) {
+	public static Order createOrder(createOrderRequest request, boolean isServed) {
 		
 		UserType type = Authentication.getTypeFromString(Main.authen);
 		User server = dbExec.findUserByUserName(request.serverName, type);
@@ -76,13 +76,8 @@ public class Server {
 			newItem.setOrderId(order.getOrderId());
 			newItem.setTotalPrice(newItem.getTotalPrice() * newItem.getAmount());
 
-			System.out.println("Before: " + newItem.getIngredients().size());
-
 			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(null, newItem.getItemId());
-			// System.out.println(ingredients.size());
 			newItem.setIngredients(ingredients);
-
-			System.out.println("After: " + newItem.getIngredients().size());
 
 			order.addItem(newItem);
 		}

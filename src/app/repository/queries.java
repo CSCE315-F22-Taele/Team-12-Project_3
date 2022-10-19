@@ -328,4 +328,8 @@ public class queries {
 		return String.format(
 			"SELECT ingredient_name FROM inventory WHERE quantity < threshold");
 	}
+
+	public static String updateIngredientThreshold(UUID id, int thresh) {
+		return String.format("UPDATE inventory SET threshold = '%s' WHERE ingredient_id = '%s'", thresh, id);
+	}
 }

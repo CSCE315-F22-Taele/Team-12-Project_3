@@ -72,10 +72,18 @@ public class Credentials {
 		return userId;
 	}
 
+	/**
+	 * Set user's ID
+	 * @param userId
+	 */
 	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 
+	/**
+	 * Return's has
+	 * @return: hashedPassword
+	 */
 	public String getHashedPassword() {
 		return hashedPassword;
 	}

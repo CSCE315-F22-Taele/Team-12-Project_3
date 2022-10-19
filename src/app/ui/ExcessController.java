@@ -80,7 +80,6 @@ public class ExcessController {
 			Timestamp end = Timestamp.valueOf(now.atStartOfDay());
 
 			HashSet<String> itemFrequencies = Manager.getExcessReport(start, end);
-			// System.out.println("Size of itemFrequencies excessController: " +
 			// itemFrequencies.size());
 			GridPane salesBox = initializePane();
 
@@ -90,7 +89,6 @@ public class ExcessController {
 
 
         } catch(Exception e) {
-            System.out.println(e.getMessage());
             openErrorWindow("Something wrong within ExcessController");
             
         }
@@ -102,7 +100,6 @@ public class ExcessController {
 	 * @return void
 	 */
 	public void backClick() throws IOException {
-		// //System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 

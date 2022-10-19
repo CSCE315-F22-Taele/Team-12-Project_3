@@ -98,7 +98,6 @@ public class CartController {
 	 * @return void
 	 */
 	public void backClick() throws IOException {
-		// System.out.println("Cart --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 	}
 
@@ -123,7 +122,7 @@ public class CartController {
 			// ERROR
 		} else {
 			createOrderRequest req = new createOrderRequest(customerName, Main.username, Server.getCart());
-			Order customerOrder = Server.createOrder(req);
+			Order customerOrder = Server.createOrder(req, false);
 			// Do some query with Order object
 			deleteClick();
 			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));

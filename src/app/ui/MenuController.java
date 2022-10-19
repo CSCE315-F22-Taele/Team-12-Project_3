@@ -98,7 +98,6 @@ public class MenuController {
 	 * @return void
 	 */
 	public void backClick() throws IOException {
-		// System.out.println("Manager --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("Manager.fxml")));
 	}
 
@@ -130,7 +129,6 @@ public class MenuController {
 			// ERROR
 		} else {
 			Double amt = Double.parseDouble(amount);
-			System.out.println(amt);
 
 			Item pastItem = dbExec.getMenuByItem(itemName);
 			UUID orderId = UUID.randomUUID();

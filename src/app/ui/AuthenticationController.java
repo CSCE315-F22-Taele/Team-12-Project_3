@@ -38,17 +38,14 @@ public class AuthenticationController {
 	 * @return void
 	 */
 	public void submitClick() throws IOException {
-		// //System.out.println("Authenticating...");
 		String uEntry = userEntry.getText();
 		Main.username = uEntry;
 		String passEntry = passwordEntry.getText();
 
 		if (Authentication.checkPassword(uEntry, passEntry)) {
 			// if(true) {
-			// System.out.println("Authentication Successful!");
 			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
 		} else {
-			// System.out.println("Authentication Failed!");
 			passwordEntry.setText("");
 			passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
 		}

@@ -152,7 +152,6 @@ public class dbExec {
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
 			int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToTable(newItem));
-			System.out.println("The insertion amount is: " + result2);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -234,9 +233,7 @@ public class dbExec {
 	public static boolean isInventoryEmpty() {
 		ResultSet result;
 		try {
-			// System.out.println("in try");
 			result = jdbcpostgreSQL.stmt.executeQuery(queries.isInventoryEmpty());
-			// System.out.println("leaving try");
 		} catch (SQLException e) {
 			throw new RuntimeException(e.getMessage());
 		}
@@ -393,7 +390,6 @@ public class dbExec {
 					.executeUpdate(queries.updateIngredientThreshold(ingredient.getIngredientId(), thresh));
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
-
 		}
 	}
 
@@ -409,7 +405,6 @@ public class dbExec {
 				Timestamp t = result.getTimestamp("time_ordered");
 				boolean isServed = Boolean.valueOf(result.getString("is_served"));
 				double price = Double.parseDouble(result.getString("price"));
-				System.out.println("Price in serverorders: " + price);
 				Order addNewOrder = new Order(customerName, serverId);
 				addNewOrder.setPrice(price);
 				addNewOrder.setServed(isServed);
@@ -432,14 +427,11 @@ public class dbExec {
 					UUID orderId = currOrder.getOrderId();
 					int amount = Integer.parseInt(itemRows.getString("quantity"));
 					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
-					System.out.println("total_price serverOrders: " + priceItem);
 					Item item = new Item(itemId, name, orderId, amount, priceItem);
 					orderItems.add(item);
 				}
-				System.out.println(ordersByServer.size() + " " + orderItems.size());
 
 				currOrder.setItems(orderItems);
-				System.out.println(currOrder.getItems().size());
 				ordersByServer.set(i, currOrder);
 			}
 		} catch (Exception e) {
@@ -468,19 +460,18 @@ public class dbExec {
 	 * @param itemId: itemId of the item
 	 * @return: Arraylist of ingredients for this item
 	 */
-	public static ArrayList<Ingredient> getItemIngredients(UUID itemId) {
+	public static ArrayList<Ingredient> getItemIngredients(UUID orderId, UUID itemId) {
 		ArrayList<Ingredient> ingredients = new ArrayList<>();
 
 		try {
-			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getItemIngredients(null, itemId));
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getItemIngredients(orderId, itemId));
 
 			while (result.next()) {
 				UUID ingredientId = UUID.fromString(result.getString("ingredient_id"));
 				String name = result.getString("ingredient_name");
 				int amount = Integer.parseInt(result.getString("amount"));
 
-				// TODO so that Item has multiple ingredients
-				Ingredient ingredient = new Ingredient(ingredientId, name, itemId, null, amount);
+				Ingredient ingredient = new Ingredient(ingredientId, name, itemId, orderId, amount);
 				ingredients.add(ingredient);
 			}
 
@@ -553,7 +544,6 @@ public class dbExec {
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage() + name);
 		}
-		// System.out.println(inventory);
 		return orders;
 	}
 	
@@ -568,7 +558,6 @@ public class dbExec {
 	public static HashMap<String, Integer> getCountByMenuItem(Timestamp start, Timestamp end) {
 		HashMap<String, Integer> itemFrequencies = new HashMap<>();
 		ArrayList<Order> allOrders = getAllOrderIDsWithinTime(start, end);
-		System.out.println(start.toString() + " " + end.toString());
 
 		try {
 			// Period period = Period.between(start, end);
@@ -577,7 +566,6 @@ public class dbExec {
 			for(int i = 0; i < allOrders.size(); i++) {
 				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getCountByMenuItem(allOrders.get(i).getOrderId()));
 				while(result.next()) {
-					System.out.println("here getCountByMenuItem");
 					String itemName = result.getString("item_name");
 					int quantity = result.getInt("quantity");
 					if(itemFrequencies.containsKey(itemName))
@@ -588,7 +576,6 @@ public class dbExec {
 			}
 			
 		} catch(SQLException e) {
-			System.out.println("error in getCountByMenuItem");
 			e.printStackTrace();
 		}
 

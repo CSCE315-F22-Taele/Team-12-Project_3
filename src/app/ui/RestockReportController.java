@@ -70,7 +70,6 @@ public class RestockReportController {
     public void updateClick() throws IOException {
         try {
             ArrayList<String> allMinInventoryItems = Manager.getRestockReport();
-            System.out.println("Size of allMinInventoryItems restockReportController: " + allMinInventoryItems.size());
             GridPane salesBox = initializePane();
 
 			if(allMinInventoryItems.size() == 0)
@@ -81,7 +80,6 @@ public class RestockReportController {
 
 
         } catch(Exception e) {
-            System.out.println(e.getMessage());
             openErrorWindow("Something wrong within RestockReportController");
         }
     }
@@ -91,7 +89,6 @@ public class RestockReportController {
 	 * @throws IOException
 	 */
     public void backClick() throws IOException {
-		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 

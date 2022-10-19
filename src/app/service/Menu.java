@@ -95,7 +95,6 @@ public class Menu {
         try{
             dbExec.addItemToTwoTables(item); // Add item to "menu" and "items"
             for(String ingred: ingredientNames){
-                System.out.println("Ingredient Name: "+ ingred);
                 Ingredient ingredient = dbIngredients.get(ingred);
                 if(ingredient == null){
                     ingredientId = UUID.randomUUID();
