@@ -48,6 +48,11 @@ public class CartController {
 
 	private GridPane cartBox;
 
+	/**
+	 * Initialize the ui elements before entering the page
+	 * 
+	 * @return void
+	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
 
@@ -64,11 +69,22 @@ public class CartController {
 
 	// event handlers
 
-	// Prevents user from entering non-digit characters
+	/**
+	 * Listen in on certain input fields
+	 * 
+	 * @param e
+	 * @return void
+	 */
 	public void inputListener(KeyEvent e) {
 		constrainInput(quantityEntry);
 	}
 
+	/**
+	 * Prevents non-alpha characters from being input
+	 * 
+	 * @param input
+	 * @return void
+	 */
 	private void constrainInput(TextField input) {
 		if (!input.getText().matches("\\d*")) {
 			input.setText(input.getText().replaceAll("[^\\d]", ""));
@@ -76,16 +92,31 @@ public class CartController {
 		}
 	}
 
+	/**
+	 * Goes back to previous page
+	 * 
+	 * @return void
+	 */
 	public void backClick() throws IOException {
 		// System.out.println("Cart --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 	}
 
+	/**
+	 * Removes all from the cart
+	 * 
+	 * @return void
+	 */
 	public void deleteClick() throws IOException {
 		Server.clearCart();
 		cartBox.getChildren().removeAll(cartBox.getChildren());
 	}
 
+	/**
+	 * Does a database query after hitting submit to add order to database
+	 * 
+	 * @return void
+	 */
 	public void submitClick() throws IOException {
 		String customerName = nameEntry.getText();
 		if (customerName.isEmpty()) {
@@ -99,6 +130,11 @@ public class CartController {
 		}
 	}
 
+	/**
+	 * Adds the associated item name and amount to the cart for server to order
+	 * 
+	 * @return void
+	 */
 	public void addAmount() {
 		int amount = Integer.parseInt(quantityEntry.getText());
 		String itemName = comboBox.getSelectionModel().getSelectedItem();
@@ -107,7 +143,11 @@ public class CartController {
 		writeToGUI(itemName, amount);
 	}
 
-	// initializing and setting up display for cart
+	/**
+	 * Initializing and setting up display for the cart
+	 * 
+	 * @return GridPane
+	 */
 	public GridPane initializePane() {
 		GridPane cartBox = new GridPane();
 
@@ -125,7 +165,13 @@ public class CartController {
 		return cartBox;
 	}
 
-	// displaying from List
+	/**
+	 * Displaying the contents of the cart from List
+	 * 
+	 * @param itemName
+	 * @param amount
+	 * @return void
+	 */
 	public void writeToGUI(String itemName, int amount) {
 		Label nameLabel = new Label();
 		nameLabel.setText(itemName);

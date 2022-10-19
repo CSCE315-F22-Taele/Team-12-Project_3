@@ -25,25 +25,32 @@ public class AuthenticationController {
 	public void initialize() {
 	}
 
-    public void backClick() throws IOException {
-        backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
-    }
-    
-    public void submitClick() throws IOException {
-        // System.out.println("Authenticating...");
-        String uEntry = userEntry.getText();
-        Main.username = uEntry;
-        String passEntry = passwordEntry.getText();
+	/**
+	 * Go back to previous scene
+	 * @return void
+	 */
+	public void backClick() throws IOException {
+		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
+	}
 
-		if(Authentication.checkPassword(uEntry, passEntry)) {
-		// if(true) {
-            // System.out.println("Authentication Successful!");
-            submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
-        }
-        else {
-            // System.out.println("Authentication Failed!");
-            passwordEntry.setText("");
-            passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
-        }
-    }
+	/**
+	 * Attempts to log the user in(whether server or manager)
+	 * @return void
+	 */
+	public void submitClick() throws IOException {
+		// //System.out.println("Authenticating...");
+		String uEntry = userEntry.getText();
+		Main.username = uEntry;
+		String passEntry = passwordEntry.getText();
+
+		if (Authentication.checkPassword(uEntry, passEntry)) {
+			// if(true) {
+			// System.out.println("Authentication Successful!");
+			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
+		} else {
+			// System.out.println("Authentication Failed!");
+			passwordEntry.setText("");
+			passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
+		}
+	}
 }

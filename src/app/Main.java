@@ -12,6 +12,7 @@ import java.util.UUID;
 import app.db.dbSetup;
 import app.db.jdbcpostgreSQL;
 import app.model.Item;
+import app.requests.createMultipleOrderRequests;
 import app.service.Inventory;
 import app.service.Menu;
 
@@ -45,6 +46,11 @@ public class Main extends Application {
 
 		Menu.addItemsToMenu();
 		Inventory.addIngredients();
+		Menu.addIngredients();
+		Menu.addItemsToMenu();
+
+		// createMultipleOrderRequests.createMultipleOrders(1000);
+
 		launch(args);
 		jdbcpostgreSQL.closeConnection();
 	}

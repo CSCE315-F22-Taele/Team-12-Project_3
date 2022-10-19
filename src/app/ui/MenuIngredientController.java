@@ -51,14 +51,16 @@ public class MenuIngredientController {
     @FXML
     private HBox viewBox;
 
-    /**
-     * 
-     */
-    static class DelCell extends ListCell<String> {
-        HBox hbox = new HBox();
-        Label label = new Label("");
-        Pane pane = new Pane();
-        Button button = new Button("X");
+	/**
+	 * Class extends from ListCell, which is originally used in ListView.
+	 * This is done to generate X buttons and have it link to deleting a given row
+	 * properly
+	 */
+	static class DelCell extends ListCell<String> {
+		HBox hbox = new HBox();
+		Label label = new Label("");
+		Pane pane = new Pane();
+		Button button = new Button("X");
 
         public DelCell() {
             super();
@@ -71,11 +73,16 @@ public class MenuIngredientController {
             });
         }
 
-        @Override
-        protected void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            setText(null);
-            setGraphic(null);
+		/**
+		 * Set the button and the row properly
+		 * 
+		 * @return void
+		 */
+		@Override
+		protected void updateItem(String item, boolean empty) {
+			super.updateItem(item, empty);
+			setText(null);
+			setGraphic(null);
 
             if (item != null && !empty) {
                 label.setText(item);
@@ -84,18 +91,28 @@ public class MenuIngredientController {
         }
     }
 
-    public void initialize(){
-        allIngredients = new LinkedHashSet<>(); // Just so that it remembers order
-        // dbIngredients = dbExec.getAllIngredients();
+	/**
+	 * Make the lists and display all ordered for the rows
+	 * 
+	 * @return void
+	 */
+	public void initialize() {
+		allIngredients = new LinkedHashSet<>(); // Just so that it remembers order
+		// dbIngredients = dbExec.getAllIngredients();
 
         ArrayList<String> sortedList = new ArrayList<>(Menu.dbIngredients.keySet());
         Collections.sort(sortedList);
 		for (String ingredient: sortedList) {
 			ingredientEntry.getItems().add(ingredient);
 		}
-        refreshList();
-    }
-    
+		refreshList();
+	}
+
+	/**
+	 * Refresh the list whenever something is added or whenever something is deleted
+	 * 
+	 * @return void
+	 */
 	public void refreshList() {
         ObservableList<String> list = FXCollections.observableArrayList(allIngredients);
         ListView<String> lv = new ListView<>(list);
@@ -105,29 +122,41 @@ public class MenuIngredientController {
         viewBox.getChildren().add(lv);
 	}
 
-    public void backClick() throws IOException {
-        backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
-    }
-
-	public void addClick() throws IOException {
-        // String ingred = ingredientEntry.getAccessibleText();
-        String ingred = ingredientEntry.getValue();
-        System.out.println("Add: " + ingred);
-        if(ingred == ""){
-            // TODO: Error
-        } 
-        else{ 
-            // Returns True if not in HashSet
-            if(allIngredients.add(ingred)){
-                ingredientEntry.setValue("");
-                refreshList();
-            }
-        }
+	/**
+	 * Goes back to the menu display whenever hit
+	 * 
+	 * @return void
+	 */
+	public void backClick() throws IOException {
+		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
 	}
 
-    public void submitClick() {
-        try{
-            Menu.insertItemToMenu(Main.menuItemToAdd, allIngredients, true);
+	/**
+	 * Adds the ingredient and link them to some given item
+	 * 
+	 * @return void
+	 */
+	public void addClick() throws IOException {
+		String ingred = ingredientEntry.getValue();
+		if (ingred == null) {
+			// TODO: Error
+		} else {
+			// Returns True if not in HashSet
+			if (allIngredients.add(ingred)) {
+				ingredientEntry.setValue("");
+				refreshList();
+			}
+		}
+	}
+
+	/**
+	 * finalizes the linking of ingredient items to a given menu item to add
+	 * 
+	 * @return void
+	 */
+	public void submitClick() {
+		try {
+			Menu.insertItemToMenu(Main.menuItemToAdd, allIngredients, true);
 
             allIngredients.clear();
             Main.menuItemToAdd = null;

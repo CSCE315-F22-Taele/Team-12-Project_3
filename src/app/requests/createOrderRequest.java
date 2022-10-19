@@ -8,7 +8,7 @@ import javafx.util.Pair;
  * Class to store information about new order
  */
 public class createOrderRequest {
-	public String customerName;
+public String customerName;
 	public String serverName;
     public ArrayList<Pair<String, Integer>> items;
 

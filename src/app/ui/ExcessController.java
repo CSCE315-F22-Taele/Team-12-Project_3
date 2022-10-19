@@ -54,7 +54,12 @@ public class ExcessController {
     @FXML
     private ScrollPane salesPane;
 
-    public void openErrorWindow(String errorMsg) throws IOException {
+	/**
+	 * Opens an error window with corresponding message given an error
+	 * @param errorMsg
+	 * @return void
+	 */
+	public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
 		Stage stage = new Stage();
@@ -63,16 +68,21 @@ public class ExcessController {
 		stage.show(); // Once user closes that, it will go back to this scene
 	}
 
-    public void updateClick() throws IOException {
-        try {
-            Timestamp start = Timestamp.valueOf(startDate.getValue().atStartOfDay());
-            LocalDate now = LocalDate.now().plusDays(1);
-            Timestamp end = Timestamp.valueOf(now.atStartOfDay());
-            
+	/**
+	 * Upon user click change the timestamps for the beginning and ending
+	 * 
+	 * @return void
+	 */
+	public void updateClick() throws IOException {
+		try {
+			Timestamp start = Timestamp.valueOf(startDate.getValue().atStartOfDay());
+			LocalDate now = LocalDate.now().plusDays(1);
+			Timestamp end = Timestamp.valueOf(now.atStartOfDay());
 
-            HashSet<String> itemFrequencies = Manager.getExcessReport(start, end);
-            System.out.println("Size of itemFrequencies excessController: " + itemFrequencies.size());
-            GridPane salesBox = initializePane();
+			HashSet<String> itemFrequencies = Manager.getExcessReport(start, end);
+			// System.out.println("Size of itemFrequencies excessController: " +
+			// itemFrequencies.size());
+			GridPane salesBox = initializePane();
 
             for(String key : itemFrequencies) {
                writeToGUI(key, salesBox); 
@@ -86,12 +96,21 @@ public class ExcessController {
         }
     }
 
-    public void backClick() throws IOException {
-		// System.out.println("Inventory --> Manager");
+	/**
+	 * Upon click goes back to the manager ui page
+	 * 
+	 * @return void
+	 */
+	public void backClick() throws IOException {
+		// //System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 
-    // initializing and setting up display for inventory
+	/**
+	 * Initializing and setting up display for inventory
+	 * 
+	 * @return GridPane
+	 */
 	public GridPane initializePane() {
 		GridPane resultPane = new GridPane();
 
@@ -109,7 +128,12 @@ public class ExcessController {
 		return resultPane;
 	}
 
-	// displaying from List
+	/**
+	 * displaying from List
+	 * @param ingredientName
+	 * @param resultPane
+	 * @return void
+	 */
 	public void writeToGUI(String ingredientName, GridPane resultPane) {
 
 		Label nameLabel = new Label();

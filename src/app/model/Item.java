@@ -120,8 +120,7 @@ public class Item {
 			newIngredient.setAmount(amount);
 			this.ingredients.set(i, newIngredient);
 		}
-		System.out.println("Total price in item.java: " + this.totalPrice);
-		// setTotalPrice(this.totalPrice * this.amount);
+		// this.setTotalPrice(totalPrice * amount);
 	}
 
 	/**

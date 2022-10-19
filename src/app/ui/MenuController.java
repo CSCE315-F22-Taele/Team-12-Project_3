@@ -59,6 +59,11 @@ public class MenuController {
 
 	private GridPane menuBox;
 
+	/**
+	 * Initalize the ui elements
+	 * 
+	 * @return void
+	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
 
@@ -72,6 +77,12 @@ public class MenuController {
 		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
+	/**
+	 * Opens an error window
+	 * 
+	 * @param errorMsg
+	 * @return void
+	 */
 	public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
@@ -81,11 +92,21 @@ public class MenuController {
 		stage.show(); // Once user closes that, it will go back to this scene
 	}
 
+	/**
+	 * Go back to previous page
+	 * 
+	 * @return void
+	 */
 	public void backClick() throws IOException {
 		// System.out.println("Manager --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("Manager.fxml")));
 	}
 
+	/**
+	 * Deletes a given item if selected from dropBox, menuItem will be deleted
+	 * 
+	 * @return void
+	 */
 	public void deleteClick() throws IOException {
 		String itemName = comboBox.getSelectionModel().getSelectedItem();
 		if(itemName.isEmpty()){
@@ -97,10 +118,15 @@ public class MenuController {
 		this.initialize();
 	}
 
+	/**
+	 * If hit will update the price from a menu item
+	 * 
+	 * @return void
+	 */
 	public void updatePriceClick() throws IOException {
 		String amount = updatedPriceEntry.getText();
 		String itemName = comboBox.getSelectionModel().getSelectedItem();
-		if(itemName.isEmpty() || amount.isEmpty()){
+		if (itemName == null || amount == null) {
 			// ERROR
 		} else {
 			Double amt = Double.parseDouble(amount);
@@ -119,14 +145,18 @@ public class MenuController {
 		this.initialize();
 	}
 
+	/**
+	 * Add item to the menu list
+	 * 
+	 * @return void
+	 */
 	public void addItemToMenu() throws IOException {
 		String price = priceEntry.getText();
 		String itemName = nameEntry.getText();
-		try{
-			if(itemName == null || price == null){
+		try {
+			if (itemName == null || price == null) {
 				throw new Exception("empty");
-			}
-			else {
+			} else {
 				Double prc = Double.parseDouble(price);
 
 				UUID itemId = UUID.randomUUID();
@@ -136,17 +166,22 @@ public class MenuController {
 				Main.menuItemToAdd = item;
 				priceEntry.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu_ingredients.fxml")));
 			}
-		} catch(Exception e){
-			if(e.getMessage().equals("empty")){
+		} catch (Exception e) {
+			if (e.getMessage().equals("empty")) {
 				openErrorWindow("Enter valid item name/price!!!");
-			} else{
+			} else {
 				openErrorWindow("Invalid amount to se threshold!!!");
 			}
 		}
-		
+
 	}
 
 	// initializing and setting up display for cart
+	/**
+	 * Initializing and setting up display for cart
+	 * 
+	 * @return GridPane
+	 */
 	public GridPane initializePane() {
 		GridPane cartBox = new GridPane();
 
@@ -164,7 +199,13 @@ public class MenuController {
 		return cartBox;
 	}
 
-	// displaying from List
+	/**
+	 * Displaying from list
+	 * 
+	 * @param itemName
+	 * @param amount
+	 * @return void
+	 */
 	public void writeToGUI(String itemName, double amount) {
 
 		Label nameLabel = new Label();

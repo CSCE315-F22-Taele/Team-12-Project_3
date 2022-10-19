@@ -47,14 +47,14 @@ public class InventoryController {
 	@FXML
 	private ScrollPane inventoryPane;
 
+	/**
+	 * Initialize the dropdown menu and the gridPane so that it holds some of the
+	 * items in inventory upon load
+	 * 
+	 * @return void
+	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
-		/*
-		 * comboBox.getItems().addAll("Option A", "Option B", "Option C", "Option D",
-		 * "Option E", "Option F", "Option H",
-		 * "Option I");
-		 */
-
 		ArrayList<Ingredient> inventory = Manager.getAllInventory();
 		Collections.sort(inventory);
 		GridPane inventoryBox = initializePane();
@@ -70,12 +70,24 @@ public class InventoryController {
 
 	// event handlers
 
-	// Prevents user from entering non-digit characters
+	//
+	/**
+	 * Prevents user from entering non-digit characters
+	 * 
+	 * @param e
+	 * @return void
+	 */
 	public void inputListener(KeyEvent e) {
 		constrainInput(quantityEntry);
 		constrainInput(restockEntry);
 	}
 
+	/**
+	 * Prevent non-alpha characters
+	 * 
+	 * @param input
+	 * @return void
+	 */
 	private void constrainInput(TextField input) {
 		if (!input.getText().matches("\\d*")) {
 			input.setText(input.getText().replaceAll("[^\\d]", ""));
@@ -83,6 +95,12 @@ public class InventoryController {
 		}
 	}
 
+	/**
+	 * Opens error window
+	 * 
+	 * @param errorMsg
+	 * @return void
+	 */
 	public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
@@ -92,11 +110,21 @@ public class InventoryController {
 		stage.show(); // Once user closes that, it will go back to this scene
 	}
 
+	/**
+	 * Goes back to the manager page
+	 * 
+	 * @return void
+	 */
 	public void backClick() throws IOException {
 		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 
+	/**
+	 * Add amount to whatever inventory item
+	 * 
+	 * @return void
+	 */
 	public void addAmount() throws IOException {
 		try{
 			int amount = Integer.parseInt(quantityEntry.getText());
@@ -117,6 +145,11 @@ public class InventoryController {
 		}
 	}
 
+	/**
+	 * Change the threshold for a given inventory item
+	 * 
+	 * @return void
+	 */
 	public void setMin() throws IOException {
 		try{
 			int threshold = Integer.parseInt(quantityEntry.getText());
@@ -137,6 +170,11 @@ public class InventoryController {
 		}
 	}
 
+	/**
+	 * Restock all the inventory items given what the user input
+	 * 
+	 * @return void
+	 */
 	public void restockAll() throws IOException {
 		try{
 			int amount = Integer.parseInt(restockEntry.getText());
@@ -150,7 +188,12 @@ public class InventoryController {
 		}
 	}
 
-	// initializing and setting up display for inventory
+	/**
+	 * Initializing and setting up display for inventory
+	 * 
+	 * @param GridPane
+	 * @return void
+	 */
 	public GridPane initializePane() {
 		GridPane resultPane = new GridPane();
 
@@ -168,7 +211,15 @@ public class InventoryController {
 		return resultPane;
 	}
 
-	// displaying from List
+	/**
+	 * displaying from List
+	 * 
+	 * @param ingredientName
+	 * @param amount
+	 * @param min
+	 * @param resultPane
+	 * @return void
+	 */
 	public void writeToGUI(String ingredientName, int amount, int min, GridPane resultPane) {
 
 		Label nameLabel = new Label();

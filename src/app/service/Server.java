@@ -64,19 +64,27 @@ public class Server {
 		UserType type = Authentication.getTypeFromString(Main.authen);
 		User server = dbExec.findUserByUserName(request.serverName, type);
 		Order order = new Order(request.customerName, server.getUserId());
+		if(isServed) order.serveOrder();
 
-		for (Pair<String, Integer> pair: request.items) {
-			String itemName = pair.getKey();
-			int amount = pair.getValue();
-			
-			Item item = dbExec.getMenuByItem(itemName);
-			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(item.getItemId());
-			
-			item.setIngredients(ingredients);
-			item.setAmount(amount);
-			item.setOrderId(order.getOrderId());
-			item.setTotalPrice(item.getTotalPrice() * item.getAmount());
-			order.addItem(item);
+		// add each item in request to the order
+		for (Pair<String, Integer> item : request.items) {
+			String itemName = item.getKey();
+			int amount = item.getValue();
+
+			Item newItem = dbExec.getMenuByItem(itemName);
+			newItem.setAmount(amount - 1);
+			newItem.setOrderId(order.getOrderId());
+			newItem.setTotalPrice(newItem.getTotalPrice() * newItem.getAmount());
+
+			System.out.println("Before: " + newItem.getIngredients().size());
+
+			ArrayList<Ingredient> ingredients = dbExec.getItemIngredients(null, newItem.getItemId());
+			// System.out.println(ingredients.size());
+			newItem.setIngredients(ingredients);
+
+			System.out.println("After: " + newItem.getIngredients().size());
+
+			order.addItem(newItem);
 		}
 
 		dbExec.addOrder(order);
