@@ -30,8 +30,8 @@ public class Server {
 	/**
 	 * Add a new "pseudo-item" to the current cart
 	 * 
-	 * @param itemName: name of the item
-	 * @param amount: quantity of particular item in order
+	 * @param itemName name of the item
+	 * @param amount quantity of particular item in order
 	 */
 	public static void addToCart(String itemName, int amount) {
 		cart.add(new Pair<String, Integer>(itemName, amount));
@@ -47,7 +47,7 @@ public class Server {
 	/**
 	 * Get current state of cart
 	 * 
-	 * @return: list of String,Integer pairs, where first element is item's name and second element is item's count
+	 * @return list of String,Integer pairs, where first element is item's name and second element is item's count
 	 */
 	public static ArrayList<Pair<String, Integer>> getCart() {
 		return cart;
@@ -56,8 +56,8 @@ public class Server {
 	/**
 	 * Create order, add it to database, and ensure other tables are updated to match
 	 * 
-	 * @param request: information about new order
-	 * @return: new Order object, after being added to database and all relevant dependencies handled
+	 * @param request information about new order
+	 * @return new Order object, after being added to database and all relevant dependencies handled
 	 */
 	public static Order createOrder(createOrderRequest request, boolean isServed) {
 		
@@ -72,7 +72,7 @@ public class Server {
 			int amount = item.getValue();
 
 			Item newItem = dbExec.getMenuByItem(itemName);
-			newItem.setAmount(amount - 1);
+			newItem.setAmount(amount);
 			newItem.setOrderId(order.getOrderId());
 			newItem.setTotalPrice(newItem.getTotalPrice() * newItem.getAmount());
 
@@ -85,9 +85,11 @@ public class Server {
 		dbExec.addOrder(order);
 		for (Item item : order.getItems()) {
 
+			int amount = item.getAmount();
 			dbExec.addItemToOrder(item);
 			for (Ingredient ingredient : item.getIngredients()) {
 				ingredient.setOrderId(order.getOrderId());
+				ingredient.setAmount(amount);
 				dbExec.addIngredientToItem(ingredient);
 
 				Ingredient curr = dbExec.getInventoryByIngredient(ingredient.getName());
@@ -102,9 +104,9 @@ public class Server {
 	/**
 	 * Get all orders served by particular server
 	 * 
-	 * @param serverName: server's name
-	 * @param type: user's type, should be UserType.SERVER
-	 * @return: list of orders associated with server
+	 * @param serverName server's name
+	 * @param type user's type, should be UserType.SERVER
+	 * @return list of orders associated with server
 	 */
 	public static ArrayList<Order> getServerOrders(String serverName, UserType type) {
 		User user = dbExec.findUserByUserName(serverName, type);
@@ -114,7 +116,7 @@ public class Server {
 	/**
 	 * Denote order as served
 	 * 
-	 * @param orderId: order to be served
+	 * @param orderId order to be served
 	 */
 	public static void removeOrder(UUID orderId) {
 		dbExec.removeOrder(orderId);

@@ -35,7 +35,7 @@ public class Item {
 	/**
 	 * Add ingredients used in this item
 	 * 
-	 * @param ingredient
+	 * @param ingredient ingredient to be added to this item
 	 */
 	public void addIngredient(Ingredient ingredient) {
 		ingredient.setItemId(itemId);
@@ -46,7 +46,7 @@ public class Item {
 	/**
 	 * Increase the amount of this item in the order
 	 * 
-	 * @param amount
+	 * @param amount Amount to add to item
 	 */
 	public void addAmount(int amount) {
 		this.amount += amount;
@@ -55,7 +55,7 @@ public class Item {
 	/**
 	 * Get item's ID
 	 * 
-	 * @return: item's unique ID
+	 * @return item's unique ID
 	 */
 	public UUID getItemId() {
 		return itemId;
@@ -64,7 +64,7 @@ public class Item {
 	/**
 	 * Get item's name
 	 * 
-	 * @return: item's unique name
+	 * @return item's unique name
 	 */
 	public String getName() {
 		return name;
@@ -73,7 +73,7 @@ public class Item {
 	/**
 	 * Set item's name
 	 * 
-	 * @param name: name to set
+	 * @param name name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -82,7 +82,7 @@ public class Item {
 	/**
 	 * Get item's order
 	 * 
-	 * @return: order to which this item belongs
+	 * @return order to which this item belongs
 	 */
 	public UUID getOrderId() {
 		return orderId;
@@ -91,7 +91,7 @@ public class Item {
 	/**
 	 * Set item's order
 	 * 
-	 * @param orderId: order to set item ownership to
+	 * @param orderId order to set item ownership to
 	 */
 	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
@@ -100,7 +100,7 @@ public class Item {
 	/**
 	 * Get amount of this item present in order
 	 * 
-	 * @return: amount of item in order
+	 * @return amount of item in order
 	 */
 	public int getAmount() {
 		return amount;
@@ -110,7 +110,7 @@ public class Item {
 	 * Set amount of this item present in order
 	 * Also handle changing ingredient amounts correspondingly
 	 * 
-	 * @param amount: amount to be set to
+	 * @param amount amount to be set to
 	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
@@ -125,7 +125,7 @@ public class Item {
 	/**
 	 * Get total price of item in order, considering quantity and individual price
 	 * 
-	 * @return: total price
+	 * @return total price
 	 */
 	public double getTotalPrice() {
 		return totalPrice;
@@ -134,7 +134,7 @@ public class Item {
 	/**
 	 * Set total price of item
 	 * 
-	 * @param totalPrice: new price to set to
+	 * @param totalPrice new price to set to
 	 */
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
@@ -143,16 +143,29 @@ public class Item {
 	/**
 	 * Get full list of ingredients
 	 * 
-	 * @return: ingredient list
+	 * @return ingredient list
 	 */
 	public ArrayList<Ingredient> getIngredients() {
 		return this.ingredients;
 	}
 
 	/**
+	 * Get each ingredient name for every ingredient in item
+	 * @return ingredient names of item
+	 */
+	public ArrayList<String> getIngredientNames() {
+		ArrayList<String> ingredientNames = new ArrayList<>();
+		for (Ingredient ingredient : this.ingredients) {
+			ingredientNames.add(ingredient.getName());
+		}
+
+		return ingredientNames;
+	}
+
+	/**
 	 * Set list of ingredients
 	 * 
-	 * @param ingredients: new ingredient list
+	 * @param ingredients new ingredient list
 	 */
 	public void setIngredients(ArrayList<Ingredient> ingredients) {
 		this.ingredients = new ArrayList<>(ingredients);
@@ -162,5 +175,4 @@ public class Item {
 	public String toString() {
 		return name + " x" + (amount + 1);
 	}
-
 }

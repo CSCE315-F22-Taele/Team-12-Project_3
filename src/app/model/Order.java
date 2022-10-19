@@ -43,7 +43,7 @@ public class Order {
 	/**
 	 * Add a new item to the order or increase item amount if already in the order
 	 * 
-	 * @param item
+	 * @param item item to be added
 	 */
 	public void addItem(Item item) {
 		Item existingItem;
@@ -62,7 +62,7 @@ public class Order {
 	/**
 	 * Remove an item from the order
 	 * 
-	 * @param itemId: item to remove
+	 * @param itemId item to remove
 	 */
 	public void removeItem(UUID itemId) {
 		Item itemToRemove = findItem(itemId);
@@ -74,8 +74,8 @@ public class Order {
 	/**
 	 * Find existing item in the order, else throw an exception
 	 * 
-	 * @param itemId: item to find
-	 * @return: relevant item if found, otherwise throw exception
+	 * @param itemId item to find
+	 * @return relevant item if found, otherwise throw exception
 	 */
 	public Item findItem(UUID itemId) {
 		for (Item item : items) {
@@ -84,13 +84,13 @@ public class Order {
 			}
 		}
 
-		throw new RuntimeException("Item not found: " + itemId);
+		throw new RuntimeException("Item not found " + itemId);
 	}
 
 	/**
 	 * Set order's ID
 	 * 
-	 * @param orderId: new ID to set
+	 * @param orderId new ID to set
 	 */
 	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
@@ -99,7 +99,7 @@ public class Order {
 	/**
 	 * Get order's ID
 	 * 
-	 * @return: order's unique ID
+	 * @return order's unique ID
 	 */
 	public UUID getOrderId() {
 		return orderId;
@@ -108,7 +108,7 @@ public class Order {
 	/**
 	 * Get customer's name that placed the order
 	 * 
-	 * @return: unique customer name
+	 * @return unique customer name
 	 */
 	public String getCustomerName() {
 		return customerName;
@@ -117,7 +117,7 @@ public class Order {
 	/**
 	 * Set customer's name
 	 * 
-	 * @param customerName: new customer name
+	 * @param customerName new customer name
 	 */
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
@@ -126,7 +126,7 @@ public class Order {
 	/**
 	 * Get server who is responsible for order
 	 * 
-	 * @return: server's ID
+	 * @return server's ID
 	 */
 	public UUID getServerId() {
 		return serverId;
@@ -135,7 +135,7 @@ public class Order {
 	/**
 	 * Set server who is responsible for order
 	 * 
-	 * @param serverId: new server ID
+	 * @param serverId new server ID
 	 */
 	public void setServerId(UUID serverId) {
 		this.serverId = serverId;
@@ -144,7 +144,7 @@ public class Order {
 	/**
 	 * Get time that order was placed
 	 * 
-	 * @return: timestamp when order was placed
+	 * @return timestamp when order was placed
 	 */
 	public Timestamp getTimeOrdered() {
 		return timeOrdered;
@@ -153,7 +153,7 @@ public class Order {
 	/**
 	 * Set time order was placed
 	 * 
-	 * @param timeOrdered: new timestamp to set to
+	 * @param timeOrdered new timestamp to set to
 	 */
 	public void setTimeOrdered(Timestamp timeOrdered) {
 		this.timeOrdered = timeOrdered;
@@ -162,7 +162,7 @@ public class Order {
 	/**
 	 * Get whether order has been served or not
 	 * 
-	 * @return: whether order has been served
+	 * @return whether order has been served
 	 */
 	public boolean isServed() {
 		return isServed;
@@ -175,7 +175,7 @@ public class Order {
 	/**
 	 * Get total price of order
 	 * 
-	 * @return: order's price
+	 * @return order's price
 	 */
 	public double getPrice() {
 		return price;
@@ -184,7 +184,7 @@ public class Order {
 	/**
 	 * Set total price of order
 	 * 
-	 * @param price: new price to set
+	 * @param price new price to set
 	 */
 	public void setPrice(double price) {
 		this.price = price;
@@ -193,7 +193,7 @@ public class Order {
 	/**
 	 * Set list of items in order
 	 * 
-	 * @param newItems: new list of items
+	 * @param newItems new list of items
 	 */
 	public void setItems(ArrayList<Item> newItems) {
 		for (Item item : newItems) {
@@ -204,7 +204,7 @@ public class Order {
 	/**
 	 * Get total list of items in order
 	 * 
-	 * @return: order's item lists
+	 * @return order's item lists
 	 */
 	public ArrayList<Item> getItems() {
 		return items;

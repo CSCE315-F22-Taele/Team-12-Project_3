@@ -3,14 +3,15 @@ package app.ui;
 import java.io.IOException;
 
 import app.Main;
-import app.db.jdbcpostgreSQL;
 import app.service.Authentication;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
+/**
+ * Handle user actions on authentication page
+ */
 public class AuthenticationController {
     @FXML
 	private Button backBtn;
@@ -21,13 +22,14 @@ public class AuthenticationController {
 	@FXML
 	private Button submitBtn;
 
-
+	/**
+	 * Function not used, included for completeness and uniformity
+	 */
 	public void initialize() {
 	}
 
 	/**
 	 * Go back to previous scene
-	 * @return void
 	 */
 	public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
@@ -35,7 +37,6 @@ public class AuthenticationController {
 
 	/**
 	 * Attempts to log the user in(whether server or manager)
-	 * @return void
 	 */
 	public void submitClick() throws IOException {
 		String uEntry = userEntry.getText();
@@ -43,7 +44,6 @@ public class AuthenticationController {
 		String passEntry = passwordEntry.getText();
 
 		if (Authentication.checkPassword(uEntry, passEntry)) {
-			// if(true) {
 			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
 		} else {
 			passwordEntry.setText("");
