@@ -39,6 +39,9 @@ import java.util.Map;
 import java.util.spi.LocaleServiceProvider;
 import java.util.HashMap;
 
+/**
+ * The sales report page controller
+ */
 public class SalesController {
     @FXML
 	private Button backBtn;
@@ -51,6 +54,11 @@ public class SalesController {
     @FXML
     private ScrollPane salesPane;
 
+	/**
+	 * Error message to display is something within this file goes wrong
+	 * @param errorMsg
+	 * @throws IOException
+	 */
     public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
@@ -60,6 +68,9 @@ public class SalesController {
 		stage.show(); // Once user closes that, it will go back to this scene
 	}
 
+	/**
+	 * Updates the pane below with new info after the dates have been updated 
+	 */
     public void updateClick() throws IOException {
         try {
             Timestamp start = Timestamp.valueOf(startDate.getValue().atStartOfDay());
@@ -91,6 +102,10 @@ public class SalesController {
         }
     }
 
+	/**
+	 * Goes back to the manager page if back button is clicked
+	 * @throws IOException
+	 */
     public void backClick() throws IOException {
 		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));

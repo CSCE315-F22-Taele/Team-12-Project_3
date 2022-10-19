@@ -50,6 +50,9 @@ public class MenuIngredientController {
     @FXML
     private HBox viewBox;
 
+    /**
+     * 
+     */
     static class DelCell extends ListCell<String> {
         HBox hbox = new HBox();
         Label label = new Label("");

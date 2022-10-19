@@ -38,6 +38,9 @@ import java.util.Map;
 import java.util.spi.LocaleServiceProvider;
 import java.util.HashMap;
 
+/**
+ * The restock page controller
+ */
 public class RestockReportController {
     @FXML
 	private Button backBtn;
@@ -46,6 +49,11 @@ public class RestockReportController {
     @FXML
     private ScrollPane restockPane;
 
+	/**
+	 * Error message to display is something within this file goes wrong
+	 * @param errorMsg
+	 * @throws IOException
+	 */
     public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
@@ -55,6 +63,10 @@ public class RestockReportController {
 		stage.show(); // Once user closes that, it will go back to this scene
 	}
 
+	/**
+	 * Acts as a refresh button
+	 * @throws IOException
+	 */
     public void updateClick() throws IOException {
         try {
             ArrayList<String> allMinInventoryItems = Manager.getRestockReport();
@@ -74,6 +86,10 @@ public class RestockReportController {
         }
     }
 
+	/**
+	 * Goes back to the manager page if back button is clicked
+	 * @throws IOException
+	 */
     public void backClick() throws IOException {
 		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));

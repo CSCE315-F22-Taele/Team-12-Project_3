@@ -18,6 +18,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 
+/**
+ * The orders page controller on server side
+ */
 public class ServerController {
 	ArrayList<Order> allOrders = new ArrayList<Order>();
 	// int selectedIdx = -1;
@@ -36,6 +39,9 @@ public class ServerController {
 	@FXML
 	private Accordion ordersAccrdn;
 
+	/**
+	 * Initializes that with any existing orders if not served
+	 */
 	public void initialize() {
 		ordersAccrdn.expandedPaneProperty().addListener(new ChangeListener<TitledPane>() {
 			public void changed(ObservableValue<? extends TitledPane> ov,
@@ -77,11 +83,19 @@ public class ServerController {
 		Server.removeOrder(currOrder.getOrderId());
 	}
 
+	/**
+	 * Changes to the cart scene to add new order
+	 * @throws IOException
+	 */
 	public void addClick() throws IOException {
 		// System.out.println("Server --> Cart");
 		addBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("cart.fxml")));
 	}
 
+	/**
+	 * Returns to the starting page
+	 * @throws IOException
+	 */
 	public void backClick() throws IOException {
 		// System.out.println("Server --> Home");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("starting_page.fxml")));
