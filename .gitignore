@@ -1,6 +1,0 @@
-.vscode
-lib/**
-**/**/*.class
-javafx.properties
-lib/
-**/src/*.class

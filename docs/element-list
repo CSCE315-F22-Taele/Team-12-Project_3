@@ -1,7 +1,0 @@
-app
-app.db
-app.model
-app.repository
-app.requests
-app.service
-app.ui
