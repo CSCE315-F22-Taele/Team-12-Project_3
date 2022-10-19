@@ -138,15 +138,17 @@ public class dbExec {
 
 		UUID id = null;
 		int amount = 0;
+		int threshold = 100;
 		try {
 			result.next();
 			id = UUID.fromString(result.getString("ingredient_id"));
 			amount = Integer.parseInt(result.getString("quantity"));
+			threshold = Integer.parseInt(result.getString("threshold"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		Ingredient ingredient = new Ingredient(id, name, null, null, amount);
+		Ingredient ingredient = new Ingredient(id, name, null, null, amount, threshold);
 		return ingredient;
 	}
 
@@ -245,8 +247,9 @@ public class dbExec {
 				UUID itemId = null;
 				UUID orderId = null;
 				int amount = result.getInt("quantity");
+				int threshold = result.getInt("threshold");
 
-				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount);
+				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount, threshold);
 
 				ingredients.put(name, ingred);
 			}
@@ -273,6 +276,16 @@ public class dbExec {
 		try {
 			int result = jdbcpostgreSQL.stmt
 					.executeUpdate(queries.updateIngredientInInventory(ingredient.getIngredientId(), amount));
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+
+		}
+	}
+
+	public static void changeIngredientThresh(int thresh, Ingredient ingredient){
+		try {
+			int result = jdbcpostgreSQL.stmt
+					.executeUpdate(queries.updateIngredientThreshold(ingredient.getIngredientId(), thresh));
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 

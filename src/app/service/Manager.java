@@ -44,6 +44,11 @@ public class Manager {
 		dbExec.restockIngredient(newAmount, ingredient);
 	}
 
+	public static void changeIngredientThreshold(int threshold, String name){
+		Ingredient ingredient = dbExec.getInventoryByIngredient(name);
+		dbExec.changeIngredientThresh(threshold, ingredient);
+	}
+
 	// phase 4
 	public static HashMap<String, Integer> getSalesReport(Timestamp start, Timestamp end) {
 		return dbExec.getCountByMenuItem(start, end);
