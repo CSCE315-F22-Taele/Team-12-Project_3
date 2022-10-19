@@ -3,8 +3,9 @@ package app.model;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import app.repository.dbExec;
-
+/**
+ * Store items present per order
+ */
 public class Item {
 	private UUID itemId;
 	private String name;
@@ -44,16 +45,6 @@ public class Item {
 	}
 
 	/**
-	 * Overload the addIngredient, this adds 
-	 * TODO: Look more into this, maybe dbExec should be default? ~ Dien
-	 * @param ingredient
-	 */
-	public void addIngredient(Ingredient ingredient, boolean cond) {
-		addIngredient(ingredient);
-		dbExec.addIngredientToItem(ingredient);
-	}
-
-	/**
 	 * Increase the amount of this item in the order
 	 * 
 	 * @param amount
@@ -62,30 +53,66 @@ public class Item {
 		this.amount += amount;
 	}
 
+	/**
+	 * Get item's ID
+	 * 
+	 * @return: item's unique ID
+	 */
 	public UUID getItemId() {
 		return itemId;
 	}
 
+	/**
+	 * Get item's name
+	 * 
+	 * @return: item's unique name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Set item's name
+	 * 
+	 * @param name: name to set
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Get item's order
+	 * 
+	 * @return: order to which this item belongs
+	 */
 	public UUID getOrderId() {
 		return orderId;
 	}
 
+	/**
+	 * Set item's order
+	 * 
+	 * @param orderId: order to set item ownership to
+	 */
 	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
 	}
 
+	/**
+	 * Get amount of this item present in order
+	 * 
+	 * @return: amount of item in order
+	 */
 	public int getAmount() {
 		return amount;
 	}
 
+	/**
+	 * Set amount of this item present in order
+	 * Also handle changing ingredient amounts correspondingly
+	 * 
+	 * @param amount: amount to be set to
+	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
 		for (int i = 0; i < this.ingredients.size(); i++) {
@@ -97,18 +124,38 @@ public class Item {
 		// setTotalPrice(this.totalPrice * this.amount);
 	}
 
+	/**
+	 * Get total price of item in order, considering quantity and individual price
+	 * 
+	 * @return: total price
+	 */
 	public double getTotalPrice() {
 		return totalPrice;
 	}
 
+	/**
+	 * Set total price of item
+	 * 
+	 * @param totalPrice: new price to set to
+	 */
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
+	/**
+	 * Get full list of ingredients
+	 * 
+	 * @return: ingredient list
+	 */
 	public ArrayList<Ingredient> getIngredients() {
 		return this.ingredients;
 	}
 
+	/**
+	 * Set list of ingredients
+	 * 
+	 * @param ingredients: new ingredient list
+	 */
 	public void setIngredients(ArrayList<Ingredient> ingredients) {
 		this.ingredients = new ArrayList<>(ingredients);
 	}

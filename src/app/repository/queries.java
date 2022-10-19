@@ -94,6 +94,7 @@ public class queries {
 				user.getHashedPassword());
 	}
 
+	
 	public static String findUserByUserName(String userName) {
 		return String.format(
 				"SELECT id, username FROM users WHERE username = '%s'", userName);

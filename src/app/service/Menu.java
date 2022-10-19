@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
-import app.Main;
 import app.model.Ingredient;
 import app.model.Item;
 import app.repository.dbExec;
 
+/**
+ * Store all items in menu, as well as handle adding items and ingredients to database
+ */
 public class Menu {
 
 	public static HashMap<String, Ingredient> dbIngredients = dbExec.getAllIngredients();;
@@ -81,6 +83,13 @@ public class Menu {
 	public static final Item cups = new Item(UUID.randomUUID(), "Cups", null, 1, 0);
 	public static final Item tissues = new Item(UUID.randomUUID(), "Tissues", null, 1, 0);
 
+	/**
+	 * Add new item to menu
+	 * 
+	 * @param item: new Item to be added to menu
+	 * @param ingredientNames: list of ingredients present in item
+	 * @param fromUI: whether or not UI was used to add menu item
+	 */
 	public static void insertItemToMenu(Item item, AbstractCollection<String> ingredientNames, boolean fromUI) {
         UUID ingredientId;
         try{
@@ -106,6 +115,9 @@ public class Menu {
         }
     }
 	
+	/**
+	 * Associate items to their corresponding ingredients
+	 */
 	public static void addIngredients() {
 		/*
 		 * ArrayList<Ingredient> inventory = Inventory.list;
@@ -157,6 +169,9 @@ public class Menu {
 
 	public static final ArrayList<Item> list = new ArrayList<Item>();
 
+	/**
+	 * Add all items to menu table, provided it isn't populated already
+	 */
 	public static void addItemsToMenu() {
 
 		if (!dbExec.isMenuEmpty()) {

@@ -10,6 +10,9 @@ import java.util.UUID;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * Store user's password separately for security purposes
+ */
 public class Credentials {
 	private UUID userId;
 	private String hashedPassword;
