@@ -43,9 +43,8 @@
          <children>
             <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="50.0" prefWidth="540.0" spacing="10.0">
                <children>
-                  <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="290.0" promptText="Pick Item" visibleRowCount="6" />
-                  <TextField fx:id="quantityEntry" onAction="#inputListener" promptText="Amount" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addAmount" prefHeight="30.0" prefWidth="90.0" text="Add" />
+                  <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="235.0" promptText="Pick Item" visibleRowCount="6" />
+                  <TextField fx:id="quantityEntry" onAction="#inputListener" prefHeight="26.0" prefWidth="175.0" promptText="Add Quantity/Set Threshold" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -58,47 +57,40 @@
                <children>
                   <HBox prefHeight="48.0" prefWidth="540.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="44.0" prefWidth="270.0">
+                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="250.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="48.0" text="Item">
+                              <Label text="Item">
                                  <font>
                                     <Font name="System Bold" size="20.0" />
                                  </font>
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
                               </Label>
                            </children>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="44.0" prefWidth="146.0">
+                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="165.0">
                            <children>
-                              <Label text="Quantity">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets left="10.0" />
-                                 </padding>
-                              </Label>
+                              <Button fx:id="addBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addAmount" prefHeight="30.0" prefWidth="120.0" text="+">
+                                 <graphic>
+                                    <Label text="Quantity">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </graphic>
+                              </Button>
                            </children>
-                           <padding>
-                              <Insets left="20.0" />
-                           </padding>
                         </HBox>
-                        <HBox alignment="CENTER_LEFT" minWidth="-Infinity" prefHeight="44.0" prefWidth="113.0">
+                        <HBox alignment="CENTER" minWidth="-Infinity" prefHeight="44.0" prefWidth="153.0">
                            <children>
-                              <Label text="Min">
-                                 <font>
-                                    <Font name="System Bold" size="20.0" />
-                                 </font>
-                              </Label>
+                              <Button fx:id="minBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setMin" prefHeight="30.0" prefWidth="150.0" text="Set">
+                                 <graphic>
+                                    <Label prefHeight="30.0" prefWidth="100.0" text="Threshold">
+                                       <font>
+                                          <Font name="System Bold" size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </graphic>
+                              </Button>
                            </children>
-                           <padding>
-                              <Insets left="10.0" />
-                           </padding>
                         </HBox>
                      </children>
                   </HBox>
@@ -118,7 +110,7 @@
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="restockEntry" onAction="#inputListener" promptText="Restock Amount" />
-            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockAll" text="Restock" />
+            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockAll" text="Restock All" />
          </children>
       </HBox>
    </bottom>

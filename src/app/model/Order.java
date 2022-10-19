@@ -3,10 +3,11 @@ package app.model;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import javafx.util.Pair;
-
 import java.sql.Timestamp;
 
+/**
+ * Store all information about an order
+ */
 public class Order {
 	private UUID orderId;
 	private String customerName;
@@ -55,14 +56,13 @@ public class Order {
 		} catch (Exception e) {
 			items.add(item);
 		}
-
-		this.price = item.getTotalPrice();
+		this.price += item.getTotalPrice();
 	}
 
 	/**
 	 * Remove an item from the order
 	 * 
-	 * @param itemId
+	 * @param itemId: item to remove
 	 */
 	public void removeItem(UUID itemId) {
 		Item itemToRemove = findItem(itemId);
@@ -74,8 +74,8 @@ public class Order {
 	/**
 	 * Find existing item in the order, else throw an exception
 	 * 
-	 * @param itemId
-	 * @return
+	 * @param itemId: item to find
+	 * @return: relevant item if found, otherwise throw exception
 	 */
 	public Item findItem(UUID itemId) {
 		for (Item item : items) {
@@ -87,67 +87,128 @@ public class Order {
 		throw new RuntimeException("Item not found: " + itemId);
 	}
 
+	/**
+	 * Set order's ID
+	 * 
+	 * @param orderId: new ID to set
+	 */
 	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
 	}
 
+	/**
+	 * Get order's ID
+	 * 
+	 * @return: order's unique ID
+	 */
 	public UUID getOrderId() {
 		return orderId;
 	}
 
+	/**
+	 * Get customer's name that placed the order
+	 * 
+	 * @return: unique customer name
+	 */
 	public String getCustomerName() {
 		return customerName;
 	}
 
+	/**
+	 * Set customer's name
+	 * 
+	 * @param customerName: new customer name
+	 */
 	public void setCustomerName(String customerName) {
 		this.customerName = customerName;
 	}
 
+	/**
+	 * Get server who is responsible for order
+	 * 
+	 * @return: server's ID
+	 */
 	public UUID getServerId() {
 		return serverId;
 	}
 
+	/**
+	 * Set server who is responsible for order
+	 * 
+	 * @param serverId: new server ID
+	 */
 	public void setServerId(UUID serverId) {
 		this.serverId = serverId;
 	}
 
+	/**
+	 * Get time that order was placed
+	 * 
+	 * @return: timestamp when order was placed
+	 */
 	public Timestamp getTimeOrdered() {
 		return timeOrdered;
 	}
 
+	/**
+	 * Set time order was placed
+	 * 
+	 * @param timeOrdered: new timestamp to set to
+	 */
 	public void setTimeOrdered(Timestamp timeOrdered) {
 		this.timeOrdered = timeOrdered;
 	}
 
+	/**
+	 * Get whether order has been served or not
+	 * 
+	 * @return: whether order has been served
+	 */
 	public boolean isServed() {
 		return isServed;
 	}
 
-	public void setServed(boolean isServed) {
-		this.isServed = isServed;
-	}
-
+	/**
+	 * Get total price of order
+	 * 
+	 * @return: order's price
+	 */
 	public double getPrice() {
 		return price;
 	}
 
+	/**
+	 * Set total price of order
+	 * 
+	 * @param price: new price to set
+	 */
 	public void setPrice(double price) {
 		this.price = price;
 	}
 
+	/**
+	 * Set list of items in order
+	 * 
+	 * @param newItems: new list of items
+	 */
 	public void setItems(ArrayList<Item> newItems) {
 		for (Item item : newItems) {
 			this.addItem(item);
 		}
 	}
 
+	/**
+	 * Get total list of items in order
+	 * 
+	 * @return: order's item lists
+	 */
 	public ArrayList<Item> getItems() {
 		return items;
 	}
 
 	@Override
 	public String toString() {
-		return "orderId: " + orderId + "\ncustomerName: " + customerName
-				+ "\nitems: " + items.toString() + "\ntimeOrdered: " + timeOrdered + "\nprice: $" + this.price;
+		return String.format("orderId: %s\ncustomerName: %s\nitems: %s\ntimeOrdered: %s\nprice: $%.2f", 
+		this.orderId, this.customerName, this.items.toString(), this.timeOrdered.toString(), this.price);
 	}
 }

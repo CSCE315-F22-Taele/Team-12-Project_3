@@ -10,6 +10,9 @@ import java.util.UUID;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * Store user's password separately for security purposes
+ */
 public class Credentials {
 	private UUID userId;
 	private String hashedPassword;
@@ -61,6 +64,10 @@ public class Credentials {
 		return hashedPassword;
 	}
 
+	/**
+	 * Return userId
+	 * @return: userId
+	 */
 	public UUID getUserId() {
 		return userId;
 	}

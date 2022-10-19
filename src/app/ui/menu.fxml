@@ -46,7 +46,7 @@
                <children>
                   <TextField fx:id="nameEntry" prefHeight="26.0" prefWidth="329.0" promptText="Item Name" />
                   <TextField fx:id="priceEntry" prefHeight="26.0" prefWidth="85.0" promptText="Price" />
-                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addItem" prefHeight="30.0" prefWidth="90.0" text="Add" />
+                  <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addItemToMenu" prefHeight="30.0" prefWidth="90.0" text="Add" />
                </children>
                <VBox.margin>
                   <Insets />

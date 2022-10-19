@@ -144,8 +144,8 @@ public class queries {
 	 */
 	public static String addIngredientToInventory(Ingredient ingredient) {
 		return String.format(
-				"INSERT INTO inventory (ingredient_id, ingredient_name, quantity) VALUES ('%s', '%s', '%s')",
-				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount());
+				"INSERT INTO inventory (ingredient_id, ingredient_name, quantity, threshold) VALUES ('%s', '%s', '%s', '%s')",
+				ingredient.getIngredientId().toString(), ingredient.getName(), ingredient.getAmount(), ingredient.getThreshold());
 	}
 
 	/**
@@ -253,7 +253,7 @@ public class queries {
 	 * @return: SQL query in string format to be executed
 	 */
 	public static String restockAll(int amount) {
-		return String.format("UPDATE inventory SET quantity = '%s'", amount);
+		return String.format("UPDATE inventory SET quantity = inventory.quantity + '%s'", amount);
 	}
 
 	/**

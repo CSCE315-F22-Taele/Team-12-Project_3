@@ -54,16 +54,23 @@ public class dbExec {
 		return user;
 	}
 
-	/**
-	 * Using the userName, it returns the UserType of this user 
-	 * @param userName: user's name
-	 * @return: UserType of this user
-	 */
+	public static boolean checkUserExistence(String userName) {
+		boolean res = false;
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
+			res = result.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 	public static UserType findUserTypeByName(String userName) {
 		UserType t = null;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
-			result.next();
+			if (result.next() == false) {
+
+			}
 			int res = Integer.parseInt(result.getString("user_type"));
 			t = (res == 0) ? UserType.SERVER : UserType.MANAGER;
 		} catch (SQLException e) {
@@ -193,15 +200,17 @@ public class dbExec {
 
 		UUID id = null;
 		int amount = 0;
+		int threshold = 100;
 		try {
 			result.next();
 			id = UUID.fromString(result.getString("ingredient_id"));
 			amount = Integer.parseInt(result.getString("quantity"));
+			threshold = Integer.parseInt(result.getString("threshold"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		Ingredient ingredient = new Ingredient(id, name, null, null, amount);
+		Ingredient ingredient = new Ingredient(id, name, null, null, amount, threshold);
 		return ingredient;
 	}
 
@@ -329,8 +338,9 @@ public class dbExec {
 				UUID itemId = null;
 				UUID orderId = null;
 				int amount = result.getInt("quantity");
+				int threshold = result.getInt("threshold");
 
-				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount);
+				Ingredient ingred = new Ingredient(ingredId, name, itemId, orderId, amount, threshold);
 
 				ingredients.put(name, ingred);
 			}
@@ -377,11 +387,16 @@ public class dbExec {
 		}
 	}
 
-	/**
-	 * Gets all of the orders made by a particular server using the userId sent it
-	 * @param userId: userId to look for
-	 * @return: arraylist of all orders made by this server
-	 */
+	public static void changeIngredientThresh(int thresh, Ingredient ingredient){
+		try {
+			int result = jdbcpostgreSQL.stmt
+					.executeUpdate(queries.updateIngredientThreshold(ingredient.getIngredientId(), thresh));
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
+
+		}
+	}
+
 	public static ArrayList<Order> getServerOrders(UUID userId) {
 		ArrayList<Order> ordersByServer = new ArrayList<>();
 		try {
@@ -394,7 +409,7 @@ public class dbExec {
 				Timestamp t = result.getTimestamp("time_ordered");
 				boolean isServed = Boolean.valueOf(result.getString("is_served"));
 				double price = Double.parseDouble(result.getString("price"));
-
+				System.out.println("Price in serverorders: " + price);
 				Order addNewOrder = new Order(customerName, serverId);
 				addNewOrder.setPrice(price);
 				addNewOrder.setServed(isServed);
@@ -417,12 +432,14 @@ public class dbExec {
 					UUID orderId = currOrder.getOrderId();
 					int amount = Integer.parseInt(itemRows.getString("quantity"));
 					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
-
+					System.out.println("total_price serverOrders: " + priceItem);
 					Item item = new Item(itemId, name, orderId, amount, priceItem);
 					orderItems.add(item);
 				}
+				System.out.println(ordersByServer.size() + " " + orderItems.size());
 
 				currOrder.setItems(orderItems);
+				System.out.println(currOrder.getItems().size());
 				ordersByServer.set(i, currOrder);
 			}
 		} catch (Exception e) {

@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.ReportsController">
    <top>
       <VBox prefHeight="106.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -37,21 +36,30 @@
    <left>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="salesBtn" mnemonicParsing="false" onAction="#salesClick" text="Sales Report" />
+            <Button fx:id="salesBtn" mnemonicParsing="false" onAction="#salesClick" prefHeight="68.0" prefWidth="140.0" text="Sales Report">
+               <font>
+                  <Font name="System Italic" size="17.0" />
+               </font></Button>
          </children>
       </HBox>
    </left>
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="excessBtn" mnemonicParsing="false" onAction="#excessClick" text="Excess Report" />
+            <Button fx:id="excessBtn" mnemonicParsing="false" onAction="#excessClick" prefHeight="68.0" prefWidth="140.0" text="Excess Report">
+               <font>
+                  <Font name="System Italic" size="17.0" />
+               </font></Button>
          </children>
       </HBox>
    </center>
    <right>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockClick" text="Restock Report" />
+            <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockClick" prefHeight="68.0" prefWidth="140.0" text="Restock Report">
+               <font>
+                  <Font name="System Italic" size="17.0" />
+               </font></Button>
          </children>
       </HBox>
    </right>

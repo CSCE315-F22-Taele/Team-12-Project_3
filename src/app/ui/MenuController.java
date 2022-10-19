@@ -72,20 +72,14 @@ public class MenuController {
 		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
-	// event handlers
-
-	// Prevents user from entering non-digit characters
-	// HOWEVER, with double would want to input .
-	// public void inputListener(KeyEvent e) {
-	// 	constrainInput(priceEntry);
-	// }
-
-	// private void constrainInput(TextField input) {
-	// 	if (!input.getText().matches("\\d*")) {
-	// 		input.setText(input.getText().replaceAll("[^\\d]", ""));
-	// 		input.positionCaret(input.getText().length());
-	// 	}
-	// }
+	public void openErrorWindow(String errorMsg) throws IOException {
+		Main.errorMsg = errorMsg;
+		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
+		Stage stage = new Stage();
+		stage.setTitle("Error!");
+		stage.setScene(new Scene(root, 600, 380));
+		stage.show(); // Once user closes that, it will go back to this scene
+	}
 
 	public void backClick() throws IOException {
 		// System.out.println("Manager --> Server");
@@ -125,31 +119,31 @@ public class MenuController {
 		this.initialize();
 	}
 
-	public void addItem() throws IOException {
-		String amount = priceEntry.getText();
+	public void addItemToMenu() throws IOException {
+		String price = priceEntry.getText();
 		String itemName = nameEntry.getText();
-		if(itemName == null || amount == null){
-			// TODO: ERROR
-		} 
-		// else if(){
-			// TODO: Check if menu item already in database, if it is then bad! AddItem throws error, try to use that
-		// }
-		else {
-			Double amt = Double.parseDouble(amount);
+		try{
+			if(itemName == null || price == null){
+				throw new Exception("empty");
+			}
+			else {
+				Double prc = Double.parseDouble(price);
 
-			UUID itemId = UUID.randomUUID();
-			UUID orderId = null; // Change made 10/17 ~ Dien
-			Item item = new Item(itemId, itemName, orderId, 1, amt);
+				UUID itemId = UUID.randomUUID();
+				UUID orderId = null; // Change made 10/17 ~ Dien
+				Item item = new Item(itemId, itemName, orderId, 1, prc);
 
-			Main.menuItemToAdd = item;
-			priceEntry.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu_ingredients.fxml")));
-			// Main.menuItemToAdd = null;
-			
-			// priceEntry.setText("");
-			// nameEntry.setText("");
-
-			// this.initialize();
+				Main.menuItemToAdd = item;
+				priceEntry.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu_ingredients.fxml")));
+			}
+		} catch(Exception e){
+			if(e.getMessage().equals("empty")){
+				openErrorWindow("Enter valid item name/price!!!");
+			} else{
+				openErrorWindow("Invalid amount to se threshold!!!");
+			}
 		}
+		
 	}
 
 	// initializing and setting up display for cart

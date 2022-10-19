@@ -35,6 +35,8 @@ public class InventoryController {
 	@FXML
 	private Button addBtn;
 	@FXML
+	private Button minBtn;
+	@FXML
 	private Button restockBtn;
 	@FXML
 	private ComboBox<String> comboBox;
@@ -58,7 +60,7 @@ public class InventoryController {
 		GridPane inventoryBox = initializePane();
 
 		for (Ingredient ingredient : inventory) {
-			writeToGUI(ingredient.getName(), ingredient.getAmount(), 100, inventoryBox); // Min for ingredients is 100
+			writeToGUI(ingredient.getName(), ingredient.getAmount(), ingredient.getThreshold(), inventoryBox); // Min for ingredients is 100
 
 			comboBox.getItems().add(ingredient.getName());
 		}
@@ -99,18 +101,38 @@ public class InventoryController {
 		try{
 			int amount = Integer.parseInt(quantityEntry.getText());
 			String name = comboBox.getSelectionModel().getSelectedItem();
-			if(name.isEmpty()){
+			if(name == null){
 				throw new Exception("name");
 			}
 			Manager.restockIngredient(amount, name);
+			quantityEntry.setText("");
 	
 			this.initialize();
 		} catch(Exception e){
-			System.out.println(e.getMessage());
 			if(e.getMessage().equals("name")){
 				openErrorWindow("Invalid name to add!!!");
 			} else{
 				openErrorWindow("Invalid amount to add!!!");
+			}
+		}
+	}
+
+	public void setMin() throws IOException {
+		try{
+			int threshold = Integer.parseInt(quantityEntry.getText());
+			String name = comboBox.getSelectionModel().getSelectedItem();
+			if(name == null){
+				throw new Exception("name");
+			}
+			Manager.changeIngredientThreshold(threshold, name);
+			quantityEntry.setText("");
+	
+			this.initialize();
+		} catch(Exception e){
+			if(e.getMessage().equals("name")){
+				openErrorWindow("Invalid name to set threshold!!!");
+			} else{
+				openErrorWindow("Invalid amount to set threshold!!!");
 			}
 		}
 	}
@@ -120,6 +142,7 @@ public class InventoryController {
 			int amount = Integer.parseInt(restockEntry.getText());
 			Manager.restockAll(amount);
 
+			restockEntry.setText("");
 			this.initialize();
 		}
 		catch(Exception e){
