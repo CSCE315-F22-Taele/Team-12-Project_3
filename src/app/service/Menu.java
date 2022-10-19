@@ -92,13 +92,13 @@ public class Menu {
                     ingredientId = UUID.randomUUID();
                     ingredient = new Ingredient(ingredientId, ingred, null, null, 0);
                     dbExec.addIngredientToInventory(ingredient); // completely new ingredient
+					dbIngredients.put(ingred, ingredient);
                 }
                 ingredient.setAmount(1); // To add to menuItem
     
                 // This method sets the itemId and orderId anyway, BUT also adds to database
 				if(fromUI) item.addIngredient(ingredient);
 				dbExec.addIngredientToItem(ingredient);
-				dbIngredients.put(ingred, ingredient);
             }
         }
         catch(Exception e){
