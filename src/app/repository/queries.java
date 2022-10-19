@@ -207,7 +207,7 @@ public class queries {
 	}
 
 	public static String removeOrder(UUID orderId) {
-		return String.format("DELETE FROM orders WHERE id = '%s'", orderId.toString());
+		return String.format("UPDATE orders SET is_served = TRUE WHERE id = '%s'", orderId.toString());
 	}
 
 	public static String getAllOrdersWithinTime(Timestamp start, Timestamp end) {

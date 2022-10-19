@@ -2,7 +2,7 @@ package app.model;
 
 import java.util.UUID;
 
-public class Ingredient {
+public class Ingredient implements Comparable {
 	private UUID ingredientId;
 	private String name;
 	private UUID itemId;
@@ -51,5 +51,11 @@ public class Ingredient {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Ingredient other = (Ingredient)o;
+		return this.name.compareTo(other.getName());
 	}
 }
