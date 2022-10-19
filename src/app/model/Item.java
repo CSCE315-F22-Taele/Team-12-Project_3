@@ -44,16 +44,6 @@ public class Item {
 	}
 
 	/**
-	 * Overload the addIngredient, this adds 
-	 * TODO: Look more into this, maybe dbExec should be default? ~ Dien
-	 * @param ingredient
-	 */
-	public void addIngredient(Ingredient ingredient, boolean cond) {
-		addIngredient(ingredient);
-		dbExec.addIngredientToItem(ingredient);
-	}
-
-	/**
 	 * Increase the amount of this item in the order
 	 * 
 	 * @param amount

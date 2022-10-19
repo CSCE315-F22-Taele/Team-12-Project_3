@@ -124,7 +124,7 @@ public class MenuIngredientController {
 
     public void submitClick() {
         try{
-            Menu.insertItemToMenu(Main.menuItemToAdd, allIngredients);
+            Menu.insertItemToMenu(Main.menuItemToAdd, allIngredients, true);
 
             allIngredients.clear();
             Main.menuItemToAdd = null;

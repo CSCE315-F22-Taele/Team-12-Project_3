@@ -81,7 +81,7 @@ public class Menu {
 	public static final Item cups = new Item(UUID.randomUUID(), "Cups", null, 1, 0);
 	public static final Item tissues = new Item(UUID.randomUUID(), "Tissues", null, 1, 0);
 
-	public static void insertItemToMenu(Item item, AbstractCollection<String> ingredientNames) {
+	public static void insertItemToMenu(Item item, AbstractCollection<String> ingredientNames, boolean fromUI) {
         UUID ingredientId;
         try{
             dbExec.addItemToTwoTables(item); // Add item to "menu" and "items"
@@ -96,7 +96,8 @@ public class Menu {
                 ingredient.setAmount(1); // To add to menuItem
     
                 // This method sets the itemId and orderId anyway, BUT also adds to database
-                item.addIngredient(ingredient, true);
+				if(fromUI) item.addIngredient(ingredient);
+				dbExec.addIngredientToItem(ingredient);
 				dbIngredients.put(ingred, ingredient);
             }
         }
