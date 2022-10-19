@@ -61,6 +61,8 @@ public class RestockReportController {
             System.out.println("Size of allMinInventoryItems restockReportController: " + allMinInventoryItems.size());
             GridPane salesBox = initializePane();
 
+			if(allMinInventoryItems.size() == 0)
+				writeToGUI("None", salesBox);
             for(String key : allMinInventoryItems) {
                writeToGUI(key, salesBox); 
             }
@@ -82,10 +84,9 @@ public class RestockReportController {
 		GridPane resultPane = new GridPane();
 
 		ColumnConstraints col1 = new ColumnConstraints();
-		col1.setPercentWidth(40);
-		ColumnConstraints col2 = new ColumnConstraints();
-		col2.setPercentWidth(40);
-		resultPane.getColumnConstraints().addAll(col1, col2);
+		col1.setPercentWidth(100);
+		
+		resultPane.getColumnConstraints().addAll(col1);
 		resultPane.setMinWidth(500);
 		resultPane.setMaxWidth(-1); // Makes it so it uses pref_size?
 		restockPane.setContent(resultPane);

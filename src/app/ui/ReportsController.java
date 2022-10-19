@@ -30,6 +30,6 @@ public class ReportsController {
         excessBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("excess.fxml")));
     }
     public void restockClick() throws IOException {
-        restockBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("restock.fxml")));
+        restockBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("restockReport.fxml")));
     }
 }
