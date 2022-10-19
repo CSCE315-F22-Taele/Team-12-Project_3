@@ -2,6 +2,7 @@ package app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // import org.omg.IOP.ExceptionDetailMessage;
@@ -53,10 +54,11 @@ public class InventoryController {
 		 */
 
 		ArrayList<Ingredient> inventory = Manager.getAllInventory();
+		Collections.sort(inventory);
 		GridPane inventoryBox = initializePane();
 
 		for (Ingredient ingredient : inventory) {
-			writeToGUI(ingredient.getName(), ingredient.getAmount(), inventoryBox);
+			writeToGUI(ingredient.getName(), ingredient.getAmount(), 100, inventoryBox); // Min for ingredients is 100
 
 			comboBox.getItems().add(ingredient.getName());
 		}
@@ -97,8 +99,7 @@ public class InventoryController {
 		try{
 			int amount = Integer.parseInt(quantityEntry.getText());
 			String name = comboBox.getSelectionModel().getSelectedItem();
-			System.out.println("comboBox:" + name);
-			if(name == null){
+			if(name.isEmpty()){
 				throw new Exception("name");
 			}
 			Manager.restockIngredient(amount, name);
@@ -107,7 +108,7 @@ public class InventoryController {
 		} catch(Exception e){
 			System.out.println(e.getMessage());
 			if(e.getMessage().equals("name")){
-				openErrorWindow("Please select an item name!!!");
+				openErrorWindow("Invalid name to add!!!");
 			} else{
 				openErrorWindow("Invalid amount to add!!!");
 			}
@@ -145,21 +146,27 @@ public class InventoryController {
 	}
 
 	// displaying from List
-	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
+	public void writeToGUI(String ingredientName, int amount, int min, GridPane resultPane) {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
-		nameLabel.setPadding(new Insets(0, 0, 10, 0));
+		nameLabel.setPadding(new Insets(0, 0, 10, 10));
 		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
-		GridPane.setHalignment(nameLabel, HPos.CENTER);
+		GridPane.setHalignment(nameLabel, HPos.LEFT);
 
 		Label amountLabel = new Label();
 		amountLabel.setText(amount + "");
 		amountLabel.setPadding(new Insets(0, 0, 10, 0));
 		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
-		GridPane.setHalignment(amountLabel, HPos.RIGHT);
+		GridPane.setHalignment(amountLabel, HPos.CENTER);
 
-		resultPane.getChildren().addAll(nameLabel, amountLabel);
+		Label minLabel = new Label();
+		minLabel.setText(min + "");
+		minLabel.setPadding(new Insets(0, 0, 10, 0));
+		GridPane.setConstraints(minLabel, 2, resultPane.getChildren().size());
+		GridPane.setHalignment(minLabel, HPos.RIGHT);
+
+		resultPane.getChildren().addAll(nameLabel, amountLabel, minLabel);
 		inventoryPane.setContent(resultPane);
 	}
 }

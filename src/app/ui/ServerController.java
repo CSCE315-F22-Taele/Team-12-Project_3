@@ -20,9 +20,12 @@ import javafx.scene.control.Button;
 
 public class ServerController {
 	ArrayList<Order> allOrders = new ArrayList<Order>();
+	// int selectedIdx = -1;
 	String selectedName;
 	Order currOrder;
 
+	@FXML
+	private Label label;
 	@FXML
 	private Button backBtn;
 	@FXML
@@ -47,10 +50,10 @@ public class ServerController {
 			}
 		});
 
-        UserType type = Authentication.getTypeFromString(Main.authen);
-        allOrders.clear();
-        allOrders = Server.getServerOrders(Main.username, type);
-        ordersAccrdn.getPanes().clear();
+		UserType type = Authentication.getTypeFromString(Main.authen);
+		allOrders.clear();
+		allOrders = Server.getServerOrders(Main.username, type);
+		ordersAccrdn.getPanes().clear();
 
 		for (Order order : allOrders) {
 			TextArea attributes = new TextArea();

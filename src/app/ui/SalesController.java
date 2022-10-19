@@ -1,6 +1,5 @@
 package app.ui;
 
-
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -39,10 +38,8 @@ import java.time.Period;
 import java.util.Map;
 import java.util.spi.LocaleServiceProvider;
 import java.util.HashMap;
-import java.util.HashSet;
 
-
-public class ExcessController {
+public class SalesController {
     @FXML
 	private Button backBtn;
     @FXML
@@ -50,7 +47,7 @@ public class ExcessController {
     @FXML
     private DatePicker startDate;
     @FXML
-    private TextField endDate;
+    private DatePicker endDate;
     @FXML
     private ScrollPane salesPane;
 
@@ -66,16 +63,20 @@ public class ExcessController {
     public void updateClick() throws IOException {
         try {
             Timestamp start = Timestamp.valueOf(startDate.getValue().atStartOfDay());
-            LocalDate now = LocalDate.now().plusDays(1);
-            Timestamp end = Timestamp.valueOf(now.atStartOfDay());
-            
+            Timestamp end = Timestamp.valueOf(endDate.getValue().atStartOfDay());
+            Period period = Period.between(startDate.getValue(), endDate.getValue());
 
-            HashSet<String> itemFrequencies = Manager.getExcessReport(start, end);
-            System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
+            //print error message screen
+            if(period.isNegative()) {
+                throw new Exception("Dates");
+            }
+
+            HashMap<String, Integer> itemFrequencies = Manager.getSalesReport(start, end);
+            // System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
             GridPane salesBox = initializePane();
 
-            for(String key : itemFrequencies) {
-               writeToGUI(key, salesBox); 
+            for(String key : itemFrequencies.keySet()) {
+               writeToGUI(key, itemFrequencies.get(key), salesBox); 
             }
 
 
@@ -114,7 +115,7 @@ public class ExcessController {
 	}
 
 	// displaying from List
-	public void writeToGUI(String ingredientName, GridPane resultPane) {
+	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
@@ -122,13 +123,14 @@ public class ExcessController {
 		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 
-		// Label amountLabel = new Label();
-		// amountLabel.setText(amount + "");
-		// amountLabel.setPadding(new Insets(0, 0, 10, 0));
-		// GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
-		// GridPane.setHalignment(amountLabel, HPos.RIGHT);
+		Label amountLabel = new Label();
+		amountLabel.setText(amount + "");
+		amountLabel.setPadding(new Insets(0, 0, 10, 0));
+		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
+		GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
-		resultPane.getChildren().addAll(nameLabel);
+		resultPane.getChildren().addAll(nameLabel, amountLabel);
 		salesPane.setContent(resultPane);
 	}
+
 }
