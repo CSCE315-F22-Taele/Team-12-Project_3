@@ -676,11 +676,32 @@ public class dbExec {
 		ArrayList<Order> allOrders = getAllOrderIDsWithinTime(start, end);
 
 		for (Order order : allOrders) {
+			ArrayList<Item> orderItems = new ArrayList<>();
+			try {
+				ResultSet itemRows = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(order.getOrderId()));
+
+				while (itemRows.next()) {
+					UUID itemId = UUID.fromString(itemRows.getString("id"));
+					String name = itemRows.getString("item_name");
+					UUID orderId = order.getOrderId();
+					int amount = Integer.parseInt(itemRows.getString("quantity"));
+					double priceItem = Double.parseDouble(itemRows.getString("total_price"));
+					Item item = new Item(itemId, name, orderId, amount, priceItem);
+					orderItems.add(item);
+				}
+
+				order.setItems(orderItems);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 			for (Item item : order.getItems()) {
 				if (itemCounts.containsKey(item.getName()))
 					itemCounts.put(item.getName(), itemCounts.get(item.getName()) + item.getAmount());
 				else
 					itemCounts.put(item.getName(), item.getAmount());
+
+				// System.out.println(item.getName()); //TODO: Might uncomment this later dunno
 			}
 		}
 
@@ -711,7 +732,7 @@ public class dbExec {
 			allItemsBelow10.add("None");
 		return allItemsBelow10;
 	}
-
+	
 	/**
 	 * This is used to generate the restock report, where it displays a list of items
 	 * whose current inventory is less than the item's minimum amount to have around before needing to restock.
