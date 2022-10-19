@@ -17,7 +17,11 @@ CREATE TABLE users (
 
 INSERT INTO users (id, username, user_type)
 VALUES
-	('0', 'Joe America2', 0),
+	('74bfa9a8-7c52-4eaf-b7de-107c980751c4', 'akash_jothi', 0),
+	('297a3fb9-05b5-44a0-8aca-2b6accefb80f', 'chris_anand', 0),
+	('f73967b2-b0e7-4701-bfb9-52431c958058', 'senhe_hao', 0),
+	('c478e89b-4dfe-4896-a019-87dfea248bc8', 'paul_taele', 1),
+	('e0b64984-c4d7-401e-beaf-1f72d9591f8a', 'a', 1);
 
 CREATE TABLE credentials (	
 	id VARCHAR(36) PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
@@ -26,8 +30,11 @@ CREATE TABLE credentials (
 
 INSERT INTO credentials (id, password)
 VALUES
-	('e0b9544e-4d24-4255-aa1b-30aabbbcaa6e', '1776'),
-	('23ebca17-7a06-4814-8a84-9664d9175880', 'minecraft');
+	('74bfa9a8-7c52-4eaf-b7de-107c980751c4', 'communication'),
+	('297a3fb9-05b5-44a0-8aca-2b6accefb80f', 'refactoring'),
+	('f73967b2-b0e7-4701-bfb9-52431c958058', 'accessibility'),
+	('c478e89b-4dfe-4896-a019-87dfea248bc8', 'documentation'),
+	('e0b64984-c4d7-401e-beaf-1f72d9591f8a', 'a');
 
 CREATE TABLE inventory (
 	ingredient_id VARCHAR(36) PRIMARY KEY,

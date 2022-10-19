@@ -17,6 +17,9 @@ public class Authentication {
 		if (userName.equals("") || password.equals("")) {			// if either left blank, can't authenticate
 			return false;
 		}
+		if (!dbExec.checkUserExistence(userName)) {			// user can't be found in database
+			return false;
+		}
 		
 		UserType actType = dbExec.findUserTypeByName(userName);		// user's actual type by name
 		UserType desType = getTypeFromString(Main.authen);			// type that the user is trying to sign in as

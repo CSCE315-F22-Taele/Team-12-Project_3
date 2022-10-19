@@ -29,7 +29,6 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class dbExec {
-	
 	public static User findUserByUserName(String userName, UserType type) {
 		UUID userId = null;
 		try {
@@ -45,12 +44,23 @@ public class dbExec {
 		return user;
 	}
 
-
+	public static boolean checkUserExistence(String userName) {
+		boolean res = false;
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
+			res = result.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
 	public static UserType findUserTypeByName(String userName) {
 		UserType t = null;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
-			result.next();
+			if (result.next() == false) {
+
+			}
 			int res = Integer.parseInt(result.getString("user_type"));
 			t = (res == 0) ? UserType.SERVER : UserType.MANAGER;
 		} catch (SQLException e) {
