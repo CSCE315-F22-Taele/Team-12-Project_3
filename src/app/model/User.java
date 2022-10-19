@@ -25,7 +25,7 @@ public class User {
 	/**
 	 * Get user's ID
 	 * 
-	 * @return: user's unique ID
+	 * @return user's unique ID
 	 */
 	public UUID getUserId() {
 		return userId;
@@ -34,7 +34,7 @@ public class User {
 	/**
 	 * Set user's ID
 	 * 
-	 * @param userId: new user ID to set
+	 * @param userId new user ID to set
 	 */
 	public void setUserId(UUID userId) {
 		this.userId = userId;
@@ -43,7 +43,7 @@ public class User {
 	/**
 	 * Get user's username
 	 * 
-	 * @return: user's unique username
+	 * @return user's unique username
 	 */
 	public String getUsername() {
 		return username;
@@ -52,7 +52,7 @@ public class User {
 	/**
 	 * Set user's username
 	 * 
-	 * @param username: new username to set
+	 * @param username new username to set
 	 */
 	public void setUsername(String username) {
 		this.username = username;
@@ -61,7 +61,7 @@ public class User {
 	/**
 	 * Get user's type, either manager or server
 	 * 
-	 * @return: UserType denoting user's privileges
+	 * @return UserType denoting user's privileges
 	 */
 	public UserType getType() {
 		return type;
@@ -70,7 +70,7 @@ public class User {
 	/**
 	 * Set user's type, either promoting or demoting them
 	 * 
-	 * @param type: new UserType to set to
+	 * @param type new UserType to set to
 	 */
 	public void setType(UserType type) {
 		this.type = type;

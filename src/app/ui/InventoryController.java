@@ -3,7 +3,6 @@ package app.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 // import org.omg.IOP.ExceptionDetailMessage;
 
@@ -21,14 +20,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
+/** 
+ * Handles user actions on inventory page
+ */
 public class InventoryController {
 	@FXML
 	private Button backBtn;
@@ -51,7 +50,6 @@ public class InventoryController {
 	 * Initialize the dropdown menu and the gridPane so that it holds some of the
 	 * items in inventory upon load
 	 * 
-	 * @return void
 	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
@@ -64,17 +62,12 @@ public class InventoryController {
 
 			comboBox.getItems().add(ingredient.getName());
 		}
-		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
-	// event handlers
-
-	//
 	/**
 	 * Prevents user from entering non-digit characters
 	 * 
 	 * @param e
-	 * @return void
 	 */
 	public void inputListener(KeyEvent e) {
 		constrainInput(quantityEntry);
@@ -84,8 +77,7 @@ public class InventoryController {
 	/**
 	 * Prevent non-alpha characters
 	 * 
-	 * @param input
-	 * @return void
+	 * @param input TextField to constrain
 	 */
 	private void constrainInput(TextField input) {
 		if (!input.getText().matches("\\d*")) {
@@ -97,8 +89,7 @@ public class InventoryController {
 	/**
 	 * Opens error window
 	 * 
-	 * @param errorMsg
-	 * @return void
+	 * @param errorMsg message to appear in error window when it opens
 	 */
 	public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
@@ -112,7 +103,6 @@ public class InventoryController {
 	/**
 	 * Goes back to the manager page
 	 * 
-	 * @return void
 	 */
 	public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
@@ -121,7 +111,6 @@ public class InventoryController {
 	/**
 	 * Add amount to whatever inventory item
 	 * 
-	 * @return void
 	 */
 	public void addAmount() throws IOException {
 		try{
@@ -146,7 +135,6 @@ public class InventoryController {
 	/**
 	 * Change the threshold for a given inventory item
 	 * 
-	 * @return void
 	 */
 	public void setMin() throws IOException {
 		try{
@@ -171,7 +159,6 @@ public class InventoryController {
 	/**
 	 * Restock all the inventory items given what the user input
 	 * 
-	 * @return void
 	 */
 	public void restockAll() throws IOException {
 		try{
@@ -189,8 +176,7 @@ public class InventoryController {
 	/**
 	 * Initializing and setting up display for inventory
 	 * 
-	 * @param GridPane
-	 * @return void
+	 * @return initialized UI container
 	 */
 	public GridPane initializePane() {
 		GridPane resultPane = new GridPane();
@@ -210,13 +196,12 @@ public class InventoryController {
 	}
 
 	/**
-	 * displaying from List
+	 * Displaying from List
 	 * 
-	 * @param ingredientName
-	 * @param amount
-	 * @param min
-	 * @param resultPane
-	 * @return void
+	 * @param ingredientName name of ingredient
+	 * @param amount quantity of ingredient in inventory
+	 * @param min ingredient's minimum threshold before needing restock
+	 * @param resultPane UI element to edit
 	 */
 	public void writeToGUI(String ingredientName, int amount, int min, GridPane resultPane) {
 

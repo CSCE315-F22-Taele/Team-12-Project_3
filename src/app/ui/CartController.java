@@ -2,7 +2,6 @@ package app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import app.Main;
 import app.model.Item;
@@ -19,15 +18,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
 import javafx.util.Pair;
 
+/**
+ * Handles user actions on cart page (when creating a new order)
+ */
 public class CartController {
 	@FXML
 	private Button backBtn;
@@ -49,9 +48,7 @@ public class CartController {
 	private GridPane cartBox;
 
 	/**
-	 * Initialize the ui elements before entering the page
-	 * 
-	 * @return void
+	 * Initialize the UI elements before entering the page
 	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
@@ -64,16 +61,12 @@ public class CartController {
 
 			comboBox.getItems().add((item.getKey()).getName());
 		}
-		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
-
-	// event handlers
 
 	/**
 	 * Listen in on certain input fields
 	 * 
 	 * @param e
-	 * @return void
 	 */
 	public void inputListener(KeyEvent e) {
 		constrainInput(quantityEntry);
@@ -82,8 +75,7 @@ public class CartController {
 	/**
 	 * Prevents non-alpha characters from being input
 	 * 
-	 * @param input
-	 * @return void
+	 * @param input TextField to constrain
 	 */
 	private void constrainInput(TextField input) {
 		if (!input.getText().matches("\\d*")) {
@@ -94,8 +86,6 @@ public class CartController {
 
 	/**
 	 * Goes back to previous page
-	 * 
-	 * @return void
 	 */
 	public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
@@ -103,8 +93,6 @@ public class CartController {
 
 	/**
 	 * Removes all from the cart
-	 * 
-	 * @return void
 	 */
 	public void deleteClick() throws IOException {
 		Server.clearCart();
@@ -113,8 +101,6 @@ public class CartController {
 
 	/**
 	 * Does a database query after hitting submit to add order to database
-	 * 
-	 * @return void
 	 */
 	public void submitClick() throws IOException {
 		String customerName = nameEntry.getText();
@@ -131,8 +117,6 @@ public class CartController {
 
 	/**
 	 * Adds the associated item name and amount to the cart for server to order
-	 * 
-	 * @return void
 	 */
 	public void addAmount() {
 		int amount = Integer.parseInt(quantityEntry.getText());
@@ -167,9 +151,8 @@ public class CartController {
 	/**
 	 * Displaying the contents of the cart from List
 	 * 
-	 * @param itemName
-	 * @param amount
-	 * @return void
+	 * @param itemName name of added item
+	 * @param amount amount of item that was added
 	 */
 	public void writeToGUI(String itemName, int amount) {
 		Label nameLabel = new Label();

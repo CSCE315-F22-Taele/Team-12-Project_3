@@ -7,7 +7,6 @@ import java.util.List;
 
 
 import app.Main;
-import app.model.Ingredient;
 import app.service.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,31 +15,18 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.DatePicker;
 
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import java.time.LocalDate;
 import java.time.Period;
-import java.util.Map;
-import java.util.spi.LocaleServiceProvider;
 import java.util.HashMap;
 
 /**
- * The sales report page controller
+ * Handles user action on the sales report page
  */
 public class SalesController {
     @FXML
@@ -56,6 +42,7 @@ public class SalesController {
 
 	/**
 	 * Error message to display is something within this file goes wrong
+	 *
 	 * @param errorMsg
 	 * @throws IOException
 	 */
@@ -102,13 +89,17 @@ public class SalesController {
 
 	/**
 	 * Goes back to the manager page if back button is clicked
+	 *
 	 * @throws IOException
 	 */
     public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 
-    // initializing and setting up display for inventory
+    /**
+	 * Initializing and setting up display for inventory
+	 * @return initialized UI container
+	 */
 	public GridPane initializePane() {
 		GridPane resultPane = new GridPane();
 
@@ -126,7 +117,12 @@ public class SalesController {
 		return resultPane;
 	}
 
-	// displaying from List
+	/**
+	 * Displaying from List
+	 * @param ingredientName name of ingredient to display
+	 * @param amount amount of ingredient sold in timeframe
+	 * @param resultPane UI container to populate
+	 */
 	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
 
 		Label nameLabel = new Label();

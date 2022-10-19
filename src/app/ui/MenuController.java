@@ -1,29 +1,17 @@
 package app.ui;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import app.Main;
-import app.db.jdbcpostgreSQL;
 import app.model.Item;
-import app.model.Order;
-import app.model.UserType;
 import app.repository.dbExec;
-import app.repository.queries;
-import app.service.Server;
-import app.service.Authentication;
 import app.service.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -33,10 +21,12 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
+/**
+ * Handles user actions on menu page
+ */
 public class MenuController {
 	@FXML
 	private Button backBtn;
@@ -62,7 +52,6 @@ public class MenuController {
 	/**
 	 * Initalize the ui elements
 	 * 
-	 * @return void
 	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
@@ -74,14 +63,12 @@ public class MenuController {
 			writeToGUI(item.getKey().getName(), item.getKey().getTotalPrice());
 			comboBox.getItems().add(item.getKey().getName());
 		}
-		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
 	/**
 	 * Opens an error window
 	 * 
-	 * @param errorMsg
-	 * @return void
+	 * @param errorMsg message to put in error window
 	 */
 	public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
@@ -95,7 +82,6 @@ public class MenuController {
 	/**
 	 * Go back to previous page
 	 * 
-	 * @return void
 	 */
 	public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("Manager.fxml")));
@@ -104,11 +90,10 @@ public class MenuController {
 	/**
 	 * Deletes a given item if selected from dropBox, menuItem will be deleted
 	 * 
-	 * @return void
 	 */
 	public void deleteClick() throws IOException {
 		String itemName = comboBox.getSelectionModel().getSelectedItem();
-		if(itemName.isEmpty()){
+		if (itemName.isEmpty()) {
 			// ERROR
 		} else {
 			dbExec.removeItemFromMenu(itemName);
@@ -118,9 +103,8 @@ public class MenuController {
 	}
 
 	/**
-	 * If hit will update the price from a menu item
+	 * If hit, will update the price from a menu item
 	 * 
-	 * @return void
 	 */
 	public void updatePriceClick() throws IOException {
 		String amount = updatedPriceEntry.getText();
@@ -132,7 +116,7 @@ public class MenuController {
 
 			Item pastItem = dbExec.getMenuByItem(itemName);
 			UUID orderId = UUID.randomUUID();
-			
+
 			Item item = new Item(pastItem.getItemId(), pastItem.getName(), orderId, 1, amt);
 
 			dbExec.updateItemToMenu(item);
@@ -146,7 +130,6 @@ public class MenuController {
 	/**
 	 * Add item to the menu list
 	 * 
-	 * @return void
 	 */
 	public void addItemToMenu() throws IOException {
 		String price = priceEntry.getText();
@@ -174,11 +157,10 @@ public class MenuController {
 
 	}
 
-	// initializing and setting up display for cart
 	/**
 	 * Initializing and setting up display for cart
 	 * 
-	 * @return GridPane
+	 * @return initialized UI container
 	 */
 	public GridPane initializePane() {
 		GridPane cartBox = new GridPane();
@@ -200,11 +182,10 @@ public class MenuController {
 	/**
 	 * Displaying from list
 	 * 
-	 * @param itemName
-	 * @param amount
-	 * @return void
+	 * @param itemName name of menu item
+	 * @param price item's price
 	 */
-	public void writeToGUI(String itemName, double amount) {
+	public void writeToGUI(String itemName, double price) {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(itemName);
@@ -213,7 +194,7 @@ public class MenuController {
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 
 		Label amountLabel = new Label();
-		amountLabel.setText(amount + "");
+		amountLabel.setText(price + "");
 		amountLabel.setPadding(new Insets(0, 0, 10, 0));
 		GridPane.setConstraints(amountLabel, 1, menuBox.getChildren().size());
 		GridPane.setHalignment(amountLabel, HPos.RIGHT);

@@ -13,8 +13,8 @@ public class Authentication {
 	/**
 	 * Get type that user is trying to sign in as, based on the page that led them to authentication
 	 * 
-	 * @param type: name of file from which the user navigated
-	 * @return: UserType that user is trying to sign in as
+	 * @param type name of file from which the user navigated
+	 * @return UserType that user is trying to sign in as
 	 */
 	public static UserType getTypeFromString(String type) {
 		if (type.toLowerCase().equals("server.fxml"))
@@ -26,9 +26,9 @@ public class Authentication {
 	 * Determine if password matches user's things from credentials
 	 * Also make sure user isn't trying to get more privilege than they actually have
 	 * 
-	 * @param userName: username entered by user
-	 * @param password: password entered by user
-	 * @return: the validity of username+password combination
+	 * @param userName username entered by user
+	 * @param password password entered by user
+	 * @return the validity of username+password combination
 	 */
 	public static boolean checkPassword(String userName, String password) {
 		if (userName.equals("") || password.equals("")) {			// if either left blank, can't authenticate
@@ -44,7 +44,7 @@ public class Authentication {
 		if (actType == UserType.SERVER && desType == UserType.MANAGER) {			// server can't sign in as manager
 			return false;
 		}
-		// other than that, manager can sign in as server, and obviously manager:manager and server:server work
+		// other than that, manager can sign in as server, and obviously managermanager and serverserver work
 
 		User user = dbExec.findUserByUserName(userName, actType);
 		Credentials credential = new Credentials(user.getUserId(), password);

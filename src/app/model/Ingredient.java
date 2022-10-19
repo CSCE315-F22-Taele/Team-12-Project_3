@@ -17,11 +17,11 @@ public class Ingredient implements Comparable {
 	 * Create a new Ingredient object based on the parameters that define it
 	 * Default constructor, instantiates threshold to 100
 	 * 
-	 * @param: ingredientId
-	 * @param: name
-	 * @param: itemId
-	 * @param: orderId
-	 * @param: amount
+	 * @param ingredientId
+	 * @param name
+	 * @param itemId
+	 * @param orderId
+	 * @param amount
 	 */
 	public Ingredient(UUID ingredientId, String name, UUID itemId, UUID orderId, int amount) {
 		this.ingredientId = ingredientId;
@@ -35,12 +35,12 @@ public class Ingredient implements Comparable {
 	/**
 	 * Create a new Ingredient object, this time providing the threshold to create
 	 * 
-	 * @param ingredientId:
-	 * @param name:
-	 * @param itemId:
-	 * @param orderId:
-	 * @param amount:
-	 * @param threshold:
+	 * @param ingredientId 
+	 * @param name 
+	 * @param itemId
+	 * @param orderId
+	 * @param amount
+	 * @param threshold
 	 */
 	public Ingredient(UUID ingredientId, String name, UUID itemId, UUID orderId, int amount, int threshold) {
 		this(ingredientId, name, itemId, orderId, amount);
@@ -50,7 +50,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Get ID of ingredient
 	 * 
-	 * @return: ingredient's unique ID
+	 * @return ingredient's unique ID
 	 */
 	public UUID getIngredientId() {
 		return ingredientId;
@@ -59,7 +59,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Get name of ingredient
 	 * 
-	 * @return: ingredient's unique name
+	 * @return ingredient's unique name
 	 */
 	public String getName() {
 		return name;
@@ -68,7 +68,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Set name of ingredient
 	 * 
-	 * @param name: name to set 
+	 * @param name name to set 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -77,7 +77,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Get ingredient's item
 	 * 
-	 * @return: item to which this ingredient belongs
+	 * @return item to which this ingredient belongs
 	 */
 	public UUID getItemId() {
 		return itemId;
@@ -86,7 +86,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Set ingredient's item
 	 * 
-	 * @param itemId: item to set ingredient ownership to
+	 * @param itemId item to set ingredient ownership to
 	 */
 	public void setItemId(UUID itemId) {
 		this.itemId = itemId;
@@ -95,7 +95,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Get item's order
 	 * 
-	 * @return: order to which the item belongs
+	 * @return order to which the item belongs
 	 */
 	public UUID getOrderId() {
 		return orderId;
@@ -104,7 +104,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Set item's order
 	 * 
-	 * @param orderId: order to set item ownership to
+	 * @param orderId order to set item ownership to
 	 */
 	public void setOrderId(UUID orderId) {
 		this.orderId = orderId;
@@ -113,7 +113,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Get amount of ingredient per item
 	 * 
-	 * @return: quantity of this ingredient in the item
+	 * @return quantity of this ingredient in the item
 	 */
 	public int getAmount() {
 		return amount;
@@ -122,7 +122,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Set amount of ingredient per item
 	 * 
-	 * @param amount: amount to which to set quantity of ingredient in item
+	 * @param amount amount to which to set quantity of ingredient in item
 	 */
 	public void setAmount(int amount) {
 		this.amount = amount;
@@ -131,7 +131,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Get value below which ingredient should be restocked
 	 * 
-	 * @return: minimum amount of ingredient to be kept in inventory at all times
+	 * @return minimum amount of ingredient to be kept in inventory at all times
 	 */
 	public int getThreshold() {
 		return this.threshold;
@@ -140,7 +140,7 @@ public class Ingredient implements Comparable {
 	/**
 	 * Set lower bound for ingredient quantity
 	 * 
-	 * @param threshold: value to which to set minimum threshold
+	 * @param threshold value to which to set minimum threshold
 	 */
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;

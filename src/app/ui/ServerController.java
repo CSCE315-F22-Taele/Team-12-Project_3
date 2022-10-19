@@ -19,11 +19,10 @@ import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 
 /**
- * The orders page controller on server side
+ * Handles user actions on server page (adding new orders)
  */
 public class ServerController {
 	ArrayList<Order> allOrders = new ArrayList<Order>();
-	// int selectedIdx = -1;
 	String selectedName;
 	Order currOrder;
 
@@ -72,6 +71,9 @@ public class ServerController {
 		}
 	}
 
+	/**
+	 * Mark selected order as served and remove corresponding UI elements
+	 */
 	public void serveClick() {
 		TitledPane temp = null;
 		for (TitledPane tp : ordersAccrdn.getPanes()) {
@@ -85,6 +87,7 @@ public class ServerController {
 
 	/**
 	 * Changes to the cart scene to add new order
+	 *
 	 * @throws IOException
 	 */
 	public void addClick() throws IOException {
@@ -93,6 +96,7 @@ public class ServerController {
 
 	/**
 	 * Returns to the starting page
+	 *
 	 * @throws IOException
 	 */
 	public void backClick() throws IOException {

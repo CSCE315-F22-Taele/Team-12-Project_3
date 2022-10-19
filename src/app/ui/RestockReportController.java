@@ -1,12 +1,9 @@
 package app.ui;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 import app.Main;
-import app.model.Ingredient;
 import app.service.Manager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,31 +12,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.DatePicker;
-
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.Map;
-import java.util.spi.LocaleServiceProvider;
-import java.util.HashMap;
 
 /**
- * The restock page controller
+ * Handles user action on restock report page
  */
 public class RestockReportController {
     @FXML
@@ -51,6 +31,7 @@ public class RestockReportController {
 
 	/**
 	 * Error message to display is something within this file goes wrong
+	 *
 	 * @param errorMsg
 	 * @throws IOException
 	 */
@@ -65,6 +46,7 @@ public class RestockReportController {
 
 	/**
 	 * Acts as a refresh button
+	 * 
 	 * @throws IOException
 	 */
     public void updateClick() throws IOException {
@@ -86,13 +68,16 @@ public class RestockReportController {
 
 	/**
 	 * Goes back to the manager page if back button is clicked
+	 * 
 	 * @throws IOException
 	 */
     public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 
-    // initializing and setting up display for inventory
+    /**
+	 * initializing and setting up display for inventory
+	 */
 	public GridPane initializePane() {
 		GridPane resultPane = new GridPane();
 
@@ -109,7 +94,12 @@ public class RestockReportController {
 		return resultPane;
 	}
 
-	// displaying from List
+	/**
+	 * Displaying from List
+	 * 
+	 * @param ingredientName name of ingredient to display
+	 * @resultPane UI container to be populated
+	 */
 	public void writeToGUI(String ingredientName, GridPane resultPane) {
 
 		Label nameLabel = new Label();
@@ -117,12 +107,6 @@ public class RestockReportController {
 		nameLabel.setPadding(new Insets(0, 0, 10, 0));
 		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
-
-		// Label amountLabel = new Label();
-		// amountLabel.setText(amount + "");
-		// amountLabel.setPadding(new Insets(0, 0, 10, 0));
-		// GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
-		// GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
 		resultPane.getChildren().addAll(nameLabel);
 		restockPane.setContent(resultPane);

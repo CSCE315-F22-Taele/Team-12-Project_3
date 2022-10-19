@@ -3,37 +3,26 @@ package app.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import app.Main;
-import app.model.Ingredient;
-import app.model.Order;
-import app.model.UserType;
-import app.repository.dbExec;
-import app.service.Server;
-import app.service.Authentication;
 import app.service.Menu;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.util.Pair;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
+/**
+ * Handles user action on menu ingredient page (adding a new item to the menu and linking ingredients)
+ */
 public class MenuIngredientController {
     // This set is used to preserve ordering
     private static LinkedHashSet<String> allIngredients;
@@ -76,7 +65,6 @@ public class MenuIngredientController {
 		/**
 		 * Set the button and the row properly
 		 * 
-		 * @return void
 		 */
 		@Override
 		protected void updateItem(String item, boolean empty) {
@@ -94,7 +82,6 @@ public class MenuIngredientController {
 	/**
 	 * Make the lists and display all ordered for the rows
 	 * 
-	 * @return void
 	 */
 	public void initialize() {
 		allIngredients = new LinkedHashSet<>(); // Just so that it remembers order
@@ -111,7 +98,6 @@ public class MenuIngredientController {
 	/**
 	 * Refresh the list whenever something is added or whenever something is deleted
 	 * 
-	 * @return void
 	 */
 	public void refreshList() {
         ObservableList<String> list = FXCollections.observableArrayList(allIngredients);
@@ -125,7 +111,6 @@ public class MenuIngredientController {
 	/**
 	 * Goes back to the menu display whenever hit
 	 * 
-	 * @return void
 	 */
 	public void backClick() throws IOException {
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
@@ -134,7 +119,6 @@ public class MenuIngredientController {
 	/**
 	 * Adds the ingredient and link them to some given item
 	 * 
-	 * @return void
 	 */
 	public void addClick() throws IOException {
 		String ingred = ingredientEntry.getValue();
@@ -152,7 +136,6 @@ public class MenuIngredientController {
 	/**
 	 * finalizes the linking of ingredient items to a given menu item to add
 	 * 
-	 * @return void
 	 */
 	public void submitClick() {
 		try {

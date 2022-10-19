@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 
 /**
- * The reports page controller
+ * Handles user action on reports page
  */
 public class ReportsController {
     @FXML
@@ -19,12 +19,16 @@ public class ReportsController {
     @FXML
     private Button restockBtn;
 
+    /**
+     * Function not used, included for completeness and uniformity
+     */
     public void initialize() {
         //
     }
 
     /**
 	 * Goes back to the manager page if back button is clicked
+     *
 	 * @throws IOException
 	 */
     public void backClick() throws IOException {
@@ -32,6 +36,7 @@ public class ReportsController {
     }
     /**
 	 * Goes to the sales report page if sales button is clicked
+     *
 	 * @throws IOException
 	 */
     public void salesClick() throws IOException {
@@ -40,6 +45,7 @@ public class ReportsController {
 
     /**
 	 * Goes to the excess report page if excess button is clicked
+     *
 	 * @throws IOException
 	 */
     public void excessClick() throws IOException {
@@ -47,6 +53,7 @@ public class ReportsController {
     }
     /**
 	 * Goes to the restock report page if restock button is clicked
+     *
 	 * @throws IOException
 	 */
     public void restockClick() throws IOException {

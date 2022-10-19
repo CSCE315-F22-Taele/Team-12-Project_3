@@ -86,15 +86,15 @@ public class Menu {
 	/**
 	 * Add new item to menu
 	 * 
-	 * @param item: new Item to be added to menu
-	 * @param ingredientNames: list of ingredients present in item
-	 * @param fromUI: whether or not UI was used to add menu item
+	 * @param item new Item to be added to menu
+	 * @param ingredientNames list of ingredients present in item
+	 * @param fromUI whether or not UI was used to add menu item
 	 */
 	public static void insertItemToMenu(Item item, AbstractCollection<String> ingredientNames, boolean fromUI) {
         UUID ingredientId;
         try{
             dbExec.addItemToTwoTables(item); // Add item to "menu" and "items"
-            for(String ingred: ingredientNames){
+            for(String ingred : ingredientNames){
                 Ingredient ingredient = dbIngredients.get(ingred);
                 if(ingredient == null){
                     ingredientId = UUID.randomUUID();
@@ -106,6 +106,10 @@ public class Menu {
     
                 // This method sets the itemId and orderId anyway, BUT also adds to database
 				if(fromUI) item.addIngredient(ingredient);
+				else {
+					ingredient.setItemId(item.getItemId());
+					ingredient.setOrderId(item.getOrderId());
+				}
 				dbExec.addIngredientToItem(ingredient);
             }
         }
@@ -120,7 +124,7 @@ public class Menu {
 	public static void addIngredients() {
 		/*
 		 * ArrayList<Ingredient> inventory = Inventory.list;
-		 * for (Ingredient ingredient: inventory) {
+		 * for (Ingredient ingredient inventory) {
 		 * ingredient.setAmount(1);
 		 * }
 		 */
@@ -207,19 +211,7 @@ public class Menu {
 
 		for (int i = 0; i < list.size(); i++) {
 			Item listItem = list.get(i);
-
-			ArrayList<Ingredient> ingredients = new ArrayList<>();
-			ingredients = listItem.getIngredients();
-
-			for (int j = 0; j < ingredients.size(); j++) {
-				Ingredient itemIngredient = ingredients.get(j);
-				itemIngredient.setAmount(1);
-				ingredients.set(j, itemIngredient);
-			}
-			listItem.setIngredients(ingredients);
-
-			list.set(i, listItem);
-			dbExec.addItemToMenu(listItem);
+			insertItemToMenu(listItem, listItem.getIngredientNames(), false);
 		}
 	}
 

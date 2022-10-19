@@ -7,10 +7,9 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import app.db.jdbcpostgreSQL;
 
 /**
- * Initial page to load
+ * Handles user actions on home page
  */
 public class StartController {
 	@FXML
@@ -29,6 +28,7 @@ public class StartController {
     /**
      * If the server button is clicked, it changes Main.authen to server.fxml to indicate
      * the change to the server's side
+     *
      * @throws IOException
      */
 	public void serverClick() throws IOException {
@@ -38,6 +38,7 @@ public class StartController {
     /**
      * If the manager button is clicked, it changes Main.authen to manager.fxml to indicate
      * the change to the manager's side
+     *
      * @throws IOException
      */
     public void managerClick() throws IOException {

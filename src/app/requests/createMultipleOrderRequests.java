@@ -14,8 +14,8 @@ import javafx.util.Pair;
 
 public class createMultipleOrderRequests {
 	/**
-	 * 
-	 * @param amountOfOrders
+	 * generates a given number of random orders and populates database
+	 * @param amountOfOrders number of orders to randomly generate
 	 */
 	public static void createMultipleOrders(long amountOfOrders) {
 		Main.authen = "server.fxml";

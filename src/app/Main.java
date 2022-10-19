@@ -44,7 +44,6 @@ public class Main extends Application {
 		jdbcpostgreSQL db = new jdbcpostgreSQL();
 		jdbcpostgreSQL.openConnection();
 
-		Menu.addItemsToMenu();
 		Inventory.addIngredients();
 		Menu.addIngredients();
 		Menu.addItemsToMenu();
