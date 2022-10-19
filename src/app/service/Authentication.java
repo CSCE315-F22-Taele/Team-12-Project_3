@@ -20,14 +20,14 @@ public class Authentication {
 		UserType actType = dbExec.findUserTypeByName(userName);		// user's actual type by name
 		UserType desType = getTypeFromString(Main.authen);			// type that the user is trying to sign in as
 
-		// System.out.println("User is a " + actType.toString() + " trying to sign in as a " + desType.toString());
-		if (actType == UserType.SERVER && desType == UserType.MANAGER) {			// server can't sign in as manager
-			return false;
-		}
-		// other than that, manager can sign in as server, and obviously manager:manager and server:server work
+	// 	// System.out.println("User is a " + actType.toString() + " trying to sign in as a " + desType.toString());
+	// 	if (actType == UserType.SERVER && desType == UserType.MANAGER) {			// server can't sign in as manager
+	// 		return false;
+	// 	}
+	// 	// other than that, manager can sign in as server, and obviously manager:manager and server:server work
 
-		User user = dbExec.findUserByUserName(userName, actType);
-		Credentials credential = new Credentials(user.getUserId(), password);
-		return credential.checkPassword(password);
-	}
+	// 	User user = dbExec.findUserByUserName(userName, actType);
+	// 	Credentials credential = new Credentials(user.getUserId(), password);
+	// 	return credential.checkPassword(password);
+	// }
 }
