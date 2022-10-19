@@ -411,7 +411,7 @@ public class dbExec {
 		ArrayList<Order> ordersByServer = new ArrayList<>();
 		ArrayList<Double> orderPriceList = new ArrayList<>();
 		try {
-			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrdersNotServed(userId));
 
 			while (result.next()) {
 				UUID id = UUID.fromString(result.getString("id"));

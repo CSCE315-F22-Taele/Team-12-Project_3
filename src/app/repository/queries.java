@@ -266,6 +266,10 @@ public class queries {
 		return String.format("SELECT * from orders WHERE server_id = '%s'", userId.toString());
 	}
 
+	public static String getServerOrdersNotServed(UUID userId) {
+		return String.format("SELECT * from orders WHERE server_id = '%s' AND is_served = false", userId.toString());
+	}
+
 	/**
 	 * Formats the query to get all of the items in the items database
 	 * with the order_id passed in
