@@ -41,6 +41,8 @@ import java.util.HashMap;
 public class RestockReportController {
     @FXML
 	private Button backBtn;
+	@FXML
+	private Button refreshBtn;
     @FXML
     private ScrollPane restockPane;
 
@@ -55,23 +57,18 @@ public class RestockReportController {
 
     public void updateClick() throws IOException {
         try {
-            HashMap<String, Integer> itemFrequencies = Manager.getTrends(start, end);
-            System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
+            ArrayList<String> allMinInventoryItems = Manager.getRestockReport();
+            System.out.println("Size of allMinInventoryItems restockReportController: " + allMinInventoryItems.size());
             GridPane salesBox = initializePane();
 
-            for(String key : itemFrequencies.keySet()) {
-               writeToGUI(key, itemFrequencies.get(key), salesBox); 
+            for(String key : allMinInventoryItems) {
+               writeToGUI(key, salesBox); 
             }
 
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            if(e.getMessage().equals("Dates")) {
-                openErrorWindow("End Date should come after Start Date");
-            }
-            else {
-                openErrorWindow("Something wrong within TrendsController");
-            }
+            openErrorWindow("Something wrong within RestockReportController");
         }
     }
 
@@ -99,7 +96,7 @@ public class RestockReportController {
 	}
 
 	// displaying from List
-	public void writeToGUI(String ingredientName, int amount, GridPane resultPane) {
+	public void writeToGUI(String ingredientName, GridPane resultPane) {
 
 		Label nameLabel = new Label();
 		nameLabel.setText(ingredientName);
@@ -107,13 +104,13 @@ public class RestockReportController {
 		GridPane.setConstraints(nameLabel, 0, resultPane.getChildren().size());
 		GridPane.setHalignment(nameLabel, HPos.CENTER);
 
-		Label amountLabel = new Label();
-		amountLabel.setText(amount + "");
-		amountLabel.setPadding(new Insets(0, 0, 10, 0));
-		GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
-		GridPane.setHalignment(amountLabel, HPos.RIGHT);
+		// Label amountLabel = new Label();
+		// amountLabel.setText(amount + "");
+		// amountLabel.setPadding(new Insets(0, 0, 10, 0));
+		// GridPane.setConstraints(amountLabel, 1, resultPane.getChildren().size());
+		// GridPane.setHalignment(amountLabel, HPos.RIGHT);
 
-		resultPane.getChildren().addAll(nameLabel, amountLabel);
+		resultPane.getChildren().addAll(nameLabel);
 		restockPane.setContent(resultPane);
 	}
 }

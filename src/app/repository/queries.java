@@ -223,4 +223,9 @@ public class queries {
 
 		// return String.format("SELECT * FROM items");
 	}
+
+	public static String getMinimumReport() {
+		return String.format(
+			"SELECT ingredient_name FROM inventory WHERE quantity < threshold");
+	}
 }

@@ -71,7 +71,7 @@ public class ExcessController {
             
 
             HashSet<String> itemFrequencies = Manager.getExcessReport(start, end);
-            System.out.println("Size of itemFrequencies salesController: " + itemFrequencies.size());
+            System.out.println("Size of itemFrequencies excessController: " + itemFrequencies.size());
             GridPane salesBox = initializePane();
 
             for(String key : itemFrequencies) {
@@ -81,12 +81,8 @@ public class ExcessController {
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
-            if(e.getMessage().equals("Dates")) {
-                openErrorWindow("End Date should come after Start Date");
-            }
-            else {
-                openErrorWindow("Something wrong within TrendsController");
-            }
+            openErrorWindow("Something wrong within ExcessController");
+            
         }
     }
 

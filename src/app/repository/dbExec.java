@@ -523,10 +523,22 @@ public class dbExec {
 
 		
 		}
-
-
-
-
 		return allItemsBelow10;
 	}
+
+	public static ArrayList<String> getMinimumReport() {
+		ArrayList<String> allMinInventoryItems = new ArrayList<>();
+
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getMinimumReport());
+			while(result.next()) {
+				String inventoryItemName = result.getString("ingredient_name");
+				allMinInventoryItems.add(inventoryItemName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return allMinInventoryItems;
 	}
+}

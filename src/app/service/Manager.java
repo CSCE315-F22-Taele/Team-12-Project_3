@@ -52,4 +52,8 @@ public class Manager {
 	public static HashSet<String> getExcessReport(Timestamp start, Timestamp end) {
 		return dbExec.getExcessCountByMenuItem(start, end);
 	}
+
+	public static ArrayList<String> getRestockReport() {
+		return dbExec.getMinimumReport();
+	}
 }
