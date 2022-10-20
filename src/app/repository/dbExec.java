@@ -23,11 +23,9 @@ import java.util.HashSet;
  */
 public class dbExec {
 	/**
-	 * Using the userName, it returns a User object with the ID, userName, and
-	 * user_type defined.
-	 * 
+	 * Using the userName, it returns a User object with the ID, userName, and user_type defined.
 	 * @param userName user's name
-	 * @param type     user's type
+	 * @param type user's type
 	 * @return desired user
 	 */
 	public static User findUserByUserName(String userName, UserType type) {
@@ -47,7 +45,6 @@ public class dbExec {
 
 	/**
 	 * Checks if a user exists in the database
-	 * 
 	 * @param userName User's name to check
 	 * @return boolean signifying user's existence
 	 */
@@ -64,7 +61,6 @@ public class dbExec {
 
 	/**
 	 * Return type of user
-	 * 
 	 * @param userName username to check type
 	 * @return User's type (server or manager)
 	 */
@@ -84,10 +80,8 @@ public class dbExec {
 	}
 
 	/**
-	 * Using the Order that is passed in, it updates the orders table in the
-	 * database
+	 * Using the Order that is passed in, it updates the orders table in the database
 	 * by adding this order to it.
-	 * 
 	 * @param order current order to add
 	 */
 	public static void addOrder(Order order) {
@@ -101,7 +95,6 @@ public class dbExec {
 	/**
 	 * An order can have multiple items, so this adds the Item object to the items
 	 * database to keep it updated
-	 * 
 	 * @param item current item to add
 	 */
 	public static void addItemToOrder(Item item) {
@@ -113,10 +106,8 @@ public class dbExec {
 	}
 
 	/**
-	 * An item can have multiple ingredients, so this adds the ingredients for an
-	 * item
-	 * to the ingredients database to keep it updated
-	 * 
+	 * An item can have multiple ingredients, so this adds the ingredients for an item
+	 * to the ingredients database to keep it updated 
 	 * @param ingredient current ingredient to add
 	 */
 	public static void addIngredientToItem(Ingredient ingredient) {
@@ -128,25 +119,22 @@ public class dbExec {
 	}
 
 	/**
-	 * An item can have multiple ingredients, so it takes the item's ingredients
-	 * list
+	 * An item can have multiple ingredients, so it takes the item's ingredients list
 	 * and adds all of them at once.
-	 * 
 	 * @param newItem current item to view and get the ingredients list from
 	 */
-	public static void linkIngredientsToItem(Item newItem) {
-		try {
+	public static void linkIngredientsToItem(Item newItem){
+		try{
 			for (Ingredient ingredient : newItem.getIngredients()) {
 				int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addIngredientToItem(ingredient));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e){
 			e.printStackTrace();
 		}
 	}
 
 	/**
 	 * Adds newItem to the database menu
-	 * 
 	 * @param newItem item to add to the menu database
 	 */
 	public static void addItemToMenu(Item newItem) {
@@ -161,10 +149,9 @@ public class dbExec {
 	/**
 	 * This takes in a new Item object to be added to the database
 	 * and adds it to both the menu and items table
-	 * 
 	 * @param newItem new item to be added to restaurant's catalog
 	 */
-	public static void addItemToTwoTables(Item newItem) {
+	public static void addItemToTwoTables(Item newItem){
 		try {
 			int result = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToMenu(newItem));
 			int result2 = jdbcpostgreSQL.stmt.executeUpdate(queries.addItemToTable(newItem));
@@ -175,7 +162,6 @@ public class dbExec {
 
 	/**
 	 * Given the item, this will update the item's price if a change was made
-	 * 
 	 * @param item the current item to look at
 	 */
 	public static void updateItemToMenu(Item item) {
@@ -187,10 +173,9 @@ public class dbExec {
 	}
 
 	/**
-	 * Using the id sent in, which is in ingredient_id, it will set the
+	 * Using the id sent in, which is in ingredient_id, it will set the 
 	 * quantity for this ingredient in the inventory table
-	 * 
-	 * @param id     ingredient_id to look for
+	 * @param id ingredient_id to look for
 	 * @param amount quantity to set to
 	 */
 	public static void updateIngredientInInventory(UUID id, int amount) {
@@ -204,7 +189,6 @@ public class dbExec {
 	/**
 	 * Given the name of the ingredient, it returns an Ingredient object
 	 * with the inventory information stored in the object
-	 * 
 	 * @param name name of ingredient
 	 * @return the ingredient object with inventory info of this ingredient stored
 	 */
@@ -235,7 +219,6 @@ public class dbExec {
 	/**
 	 * Given the ingredient, this will insert the ingredient into the inventory
 	 * table in the database
-	 * 
 	 * @param ingredient ingredient to add
 	 */
 	public static void addIngredientToInventory(Ingredient ingredient) {
@@ -248,7 +231,6 @@ public class dbExec {
 
 	/**
 	 * Checks to see if the inventory is empty
-	 * 
 	 * @return true if inventory is empty; otherwise false
 	 */
 	public static boolean isInventoryEmpty() {
@@ -272,7 +254,6 @@ public class dbExec {
 
 	/**
 	 * Checks to see if the menu is empty
-	 * 
 	 * @return true if menu is empty; otherwise false
 	 */
 	public static boolean isMenuEmpty() {
@@ -297,7 +278,6 @@ public class dbExec {
 	/**
 	 * Given the name of the menu item name, it will search
 	 * and delete that item from the menu table
-	 * 
 	 * @param name menu item to remove
 	 */
 	public static void removeItemFromMenu(String name) {
@@ -315,9 +295,7 @@ public class dbExec {
 	 * that menu item and a string for its description. Note that the Item's
 	 * orderID will not be initialized because this is just to get all menu items
 	 * on the restaurant's catalog
-	 * 
-	 * @return an arraylist of pairs, where key = menu item of type Item and value =
-	 *         description
+	 * @return an arraylist of pairs, where key = menu item of type Item and value = description
 	 */
 	public static ArrayList<Pair<Item, String>> getMenuItems() {
 		ArrayList<Pair<Item, String>> items = new ArrayList<>();
@@ -346,10 +324,9 @@ public class dbExec {
 
 	/**
 	 * This gets all of the ingredients in the inventory table in the database
-	 * 
 	 * @return HashMap with key = ingredient name and value = Ingredient object
 	 */
-	public static HashMap<String, Ingredient> getAllIngredients() {
+	public static HashMap<String, Ingredient> getAllIngredients(){
 		HashMap<String, Ingredient> ingredients = new HashMap<String, Ingredient>();
 
 		ResultSet result;
@@ -376,16 +353,14 @@ public class dbExec {
 
 	/**
 	 * This gets all of the ingredients in the inventory table in the database
-	 * 
 	 * @return Arraylist of all ingredients
 	 */
 	public static ArrayList<Ingredient> getAllInventory() {
 		return new ArrayList<Ingredient>(getAllIngredients().values());
 	}
-
+	
 	/**
 	 * This restocks all of the inventory's quantity to whatever the amount is
-	 * 
 	 * @param amount quantity to set to for each ingredient
 	 */
 	public static void restockAll(int amount) {
@@ -397,10 +372,9 @@ public class dbExec {
 	}
 
 	/**
-	 * This restocks a specfic ingredient's quantity in inventory to whatever the
+	 * This restocks a specfic ingredient's quantity in inventory to whatever the 
 	 * amount is
-	 * 
-	 * @param amount     quantity to set to for each ingredient
+	 * @param amount quantity to set to for each ingredient
 	 * @param ingredient specific ingredient to edit
 	 */
 	public static void restockIngredient(int amount, Ingredient ingredient) {
@@ -415,11 +389,10 @@ public class dbExec {
 
 	/**
 	 * Update's ingredient's max threshold to given threshold
-	 * 
-	 * @param thresh     threshold to update to
+	 * @param thresh threshold to update to
 	 * @param ingredient ingredient to update threshold with
 	 */
-	public static void changeIngredientThresh(int thresh, Ingredient ingredient) {
+	public static void changeIngredientThresh(int thresh, Ingredient ingredient){
 		try {
 			int result = jdbcpostgreSQL.stmt
 					.executeUpdate(queries.updateIngredientThreshold(ingredient.getIngredientId(), thresh));
@@ -438,7 +411,7 @@ public class dbExec {
 		ArrayList<Order> ordersByServer = new ArrayList<>();
 		ArrayList<Double> orderPriceList = new ArrayList<>();
 		try {
-			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrders(userId));
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getServerOrdersNotServed(userId));
 
 			while (result.next()) {
 				UUID id = UUID.fromString(result.getString("id"));
@@ -489,7 +462,6 @@ public class dbExec {
 	/**
 	 * This sets the is_served attribute in the database to true indicating that
 	 * this order has been served.
-	 * 
 	 * @param orderId orderId of the served order
 	 */
 	public static void removeOrder(UUID orderId) {
@@ -501,11 +473,9 @@ public class dbExec {
 	}
 
 	/**
-	 * Gets an item's ingredients from the ingredients table using order_id and
-	 * item_id
-	 * 
+	 * Gets an item's ingredients from the ingredients table using order_id and item_id
 	 * @param orderId orderId of the item
-	 * @param itemId  itemId of the item
+	 * @param itemId itemId of the item
 	 * @return Arraylist of ingredients for this item
 	 */
 	public static ArrayList<Ingredient> getItemIngredients(UUID orderId, UUID itemId) {
@@ -533,7 +503,6 @@ public class dbExec {
 	/**
 	 * Returns the menu item's information as an Item object by using the name
 	 * of the menu item sent it.
-	 * 
 	 * @param itemName menu item to look for
 	 * @return Item object consisting of the menu item's information
 	 */
@@ -561,17 +530,15 @@ public class dbExec {
 	}
 
 	/**
-	 * Gets all of the order_ids from the orders table that happen in between start
-	 * time
+	 * Gets all of the order_ids from the orders table that happen in between start time 
 	 * and end time
-	 * 
 	 * @param start time to start the search
-	 * @param end   time to end the search
+	 * @param end time to end the search
 	 * @return arraylist of all orders that fall in the time range
 	 */
 	public static ArrayList<Order> getAllOrderIDsWithinTime(Timestamp start, Timestamp end) {
 		ArrayList<Order> orders = new ArrayList<>();
-
+		
 		String name = "";
 		ResultSet result;
 		try {
@@ -597,14 +564,13 @@ public class dbExec {
 		}
 		return orders;
 	}
-
+	
 	/**
-	 * This gets all of the order_ids within the time range (start, end) using the
+	 * This gets all of the order_ids within the time range (start, end) using the 
 	 * getAllOrderIDsWithinTime() and gets the counts for each menu item
 	 * sold in that time range
-	 * 
 	 * @param start time to start the search
-	 * @param end   time to end the search
+	 * @param end time to end the search
 	 * @return HashMap where key = menu item name, value = how many of those sold
 	 */
 	public static HashMap<String, Integer> getCountByMenuItem(Timestamp start, Timestamp end) {
@@ -614,21 +580,20 @@ public class dbExec {
 		try {
 			// Period period = Period.between(start, end);
 			// int numDays = period.getDays();
-
-			for (int i = 0; i < allOrders.size(); i++) {
-				ResultSet result = jdbcpostgreSQL.stmt
-						.executeQuery(queries.getCountByMenuItem(allOrders.get(i).getOrderId()));
-				while (result.next()) {
+			
+			for(int i = 0; i < allOrders.size(); i++) {
+				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getCountByMenuItem(allOrders.get(i).getOrderId()));
+				while(result.next()) {
 					String itemName = result.getString("item_name");
 					int quantity = result.getInt("quantity");
-					if (itemFrequencies.containsKey(itemName))
+					if(itemFrequencies.containsKey(itemName))
 						itemFrequencies.put(itemName, itemFrequencies.get(itemName) + quantity);
 					else
 						itemFrequencies.put(itemName, quantity);
 				}
 			}
-
-		} catch (SQLException e) {
+			
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 
@@ -639,9 +604,7 @@ public class dbExec {
 	 * This gets all of the menu item names without the description associated
 	 * with it, so it return just an arraylist of menu items stored in item
 	 * object
-	 * 
-	 * @return arraylist of items, where each one specifies the menu item in the
-	 *         catalog
+	 * @return arraylist of items, where each one specifies the menu item in the catalog
 	 */
 	public static ArrayList<Item> getMenuItemsNoDescription() {
 		ArrayList<Item> items = new ArrayList<>();
@@ -670,25 +633,25 @@ public class dbExec {
 
 	/**
 	 * This calculates how well a menu item sold within the time range (start, end)
-	 * 
 	 * @param menuItemName menu item of interest
-	 * @param start        time to start the search for
-	 * @param end          time to end the search
+	 * @param start time to start the search for
+	 * @param end time to end the search
 	 * @return total quantity of this menu item sold in this time range
 	 */
 	public static int getOrdersQuantityByMenuItem(String menuItemName, Timestamp start, Timestamp end) {
 		int totalQuantity = 0;
 		try {
 			ArrayList<Order> orders = getAllOrderIDsWithinTime(start, end);
-
-			for (Order order : orders) {
+			
+			for(Order order : orders) {
 				ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getOrderItems(order.getOrderId()));
-				while (result.next()) {
+				while(result.next()) {
 					String menuItemInOrder = result.getString("item_name");
-					if (menuItemInOrder.equals(menuItemName))
+					if(menuItemInOrder.equals(menuItemName))
 						totalQuantity += result.getInt("quantity");
 				}
 			}
+			
 
 		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
@@ -698,16 +661,12 @@ public class dbExec {
 	}
 
 	/**
-	 * This is used the calculate the excess report, where it finds a list of items
-	 * that
-	 * sold less than 10% of their inventory between the timestamp and the current
-	 * time,
+	 * This is used the calculate the excess report, where it finds a list of items that  
+	 * sold less than 10% of their inventory between the timestamp and the current time, 
 	 * assuming no restocks have happened during the window.
-	 * 
 	 * @param start time to start the search for
-	 * @param end   current time
-	 * @return Hashset containing all ingredients that match the condition explained
-	 *         above
+	 * @param end current time
+	 * @return Hashset containing all ingredients that match the condition explained above
 	 */
 	public static HashSet<String> getExcessCountByMenuItem(Timestamp start, Timestamp end) {
 		HashMap<String, Ingredient> inventory = getAllIngredients();
@@ -773,23 +732,19 @@ public class dbExec {
 			allItemsBelow10.add("None");
 		return allItemsBelow10;
 	}
-
+	
 	/**
-	 * This is used to generate the restock report, where it displays a list of
-	 * items
-	 * whose current inventory is less than the item's minimum amount to have around
-	 * before needing to restock.
-	 * 
-	 * @return arraylist of all ingredients which have their quantity that is less
-	 *         than
-	 *         the threshold value set by the manager
+	 * This is used to generate the restock report, where it displays a list of items
+	 * whose current inventory is less than the item's minimum amount to have around before needing to restock.
+	 * @return arraylist of all ingredients which have their quantity that is less than
+	 * the threshold value set by the manager 
 	 */
 	public static ArrayList<String> getMinimumReport() {
 		ArrayList<String> allMinInventoryItems = new ArrayList<>();
 
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getMinimumReport());
-			while (result.next()) {
+			while(result.next()) {
 				String inventoryItemName = result.getString("ingredient_name");
 				allMinInventoryItems.add(inventoryItemName);
 			}
@@ -802,7 +757,6 @@ public class dbExec {
 
 	/**
 	 * Update an order's timestamp
-	 * 
 	 * @param newTimeStamp new timestamp to update to
 	 */
 	public static void updateTimeStamp(UUID orderId, Timestamp newTimeStamp) {

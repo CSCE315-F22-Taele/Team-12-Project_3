@@ -21,24 +21,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
 /**
- * Handles user action on menu ingredient page (adding a new item to the menu and linking ingredients)
+ * Handles user action on menu ingredient page (adding a new item to the menu
+ * and linking ingredients)
  */
 public class MenuIngredientController {
-    // This set is used to preserve ordering
-    private static LinkedHashSet<String> allIngredients;
-    // private HashMap<String, Ingredient> dbIngredients;
+	// This set is used to preserve ordering
+	private static LinkedHashSet<String> allIngredients;
+	// private HashMap<String, Ingredient> dbIngredients;
 
-    @FXML
-    private Button backBtn;
-    @FXML
-    private ComboBox<String> ingredientEntry;
-    @FXML
-    private Button addBtn;
-    @FXML
-    private Button submitBtn;
+	@FXML
+	private Button backBtn;
+	@FXML
+	private ComboBox<String> ingredientEntry;
+	@FXML
+	private Button addBtn;
+	@FXML
+	private Button submitBtn;
 
-    @FXML
-    private HBox viewBox;
+	@FXML
+	private HBox viewBox;
 
 	/**
 	 * Class extends from ListCell, which is originally used in ListView.
@@ -51,16 +52,16 @@ public class MenuIngredientController {
 		Pane pane = new Pane();
 		Button button = new Button("X");
 
-        public DelCell() {
-            super();
-            hbox.getChildren().addAll(label, pane, button);
-            HBox.setHgrow(pane, Priority.ALWAYS);
-            button.setOnAction(event -> {
-                String ingredName = getItem();
-                allIngredients.remove(ingredName);
-                getListView().getItems().remove(ingredName);
-            });
-        }
+		public DelCell() {
+			super();
+			hbox.getChildren().addAll(label, pane, button);
+			HBox.setHgrow(pane, Priority.ALWAYS);
+			button.setOnAction(event -> {
+				String ingredName = getItem();
+				allIngredients.remove(ingredName);
+				getListView().getItems().remove(ingredName);
+			});
+		}
 
 		/**
 		 * Set the button and the row properly
@@ -72,12 +73,12 @@ public class MenuIngredientController {
 			setText(null);
 			setGraphic(null);
 
-            if (item != null && !empty) {
-                label.setText(item);
-                setGraphic(hbox);
-            }
-        }
-    }
+			if (item != null && !empty) {
+				label.setText(item);
+				setGraphic(hbox);
+			}
+		}
+	}
 
 	/**
 	 * Make the lists and display all ordered for the rows
@@ -87,9 +88,9 @@ public class MenuIngredientController {
 		allIngredients = new LinkedHashSet<>(); // Just so that it remembers order
 		// dbIngredients = dbExec.getAllIngredients();
 
-        ArrayList<String> sortedList = new ArrayList<>(Menu.dbIngredients.keySet());
-        Collections.sort(sortedList);
-		for (String ingredient: sortedList) {
+		ArrayList<String> sortedList = new ArrayList<>(Menu.dbIngredients.keySet());
+		Collections.sort(sortedList);
+		for (String ingredient : sortedList) {
 			ingredientEntry.getItems().add(ingredient);
 		}
 		refreshList();
@@ -100,12 +101,12 @@ public class MenuIngredientController {
 	 * 
 	 */
 	public void refreshList() {
-        ObservableList<String> list = FXCollections.observableArrayList(allIngredients);
-        ListView<String> lv = new ListView<>(list);
-        HBox.setHgrow(lv, Priority.ALWAYS);
-        lv.setCellFactory(param -> new DelCell());
-        viewBox.getChildren().removeAll(viewBox.getChildren());
-        viewBox.getChildren().add(lv);
+		ObservableList<String> list = FXCollections.observableArrayList(allIngredients);
+		ListView<String> lv = new ListView<>(list);
+		HBox.setHgrow(lv, Priority.ALWAYS);
+		lv.setCellFactory(param -> new DelCell());
+		viewBox.getChildren().removeAll(viewBox.getChildren());
+		viewBox.getChildren().add(lv);
 	}
 
 	/**
@@ -122,10 +123,11 @@ public class MenuIngredientController {
 	 */
 	public void addClick() throws IOException {
 		String ingred = ingredientEntry.getValue();
-		if (ingred == null) {
+		if (ingred == null || ingred.equals("") || ingred == "") {
 			// TODO: Error
 		} else {
 			// Returns True if not in HashSet
+			// System.out.println("ingred:" + ingred);
 			if (allIngredients.add(ingred)) {
 				ingredientEntry.setValue("");
 				refreshList();
@@ -141,12 +143,11 @@ public class MenuIngredientController {
 		try {
 			Menu.insertItemToMenu(Main.menuItemToAdd, allIngredients, true);
 
-            allIngredients.clear();
-            Main.menuItemToAdd = null;
-            submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+			allIngredients.clear();
+			Main.menuItemToAdd = null;
+			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("menu.fxml")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

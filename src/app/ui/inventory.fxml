@@ -13,7 +13,7 @@
 
 <!-- <?import javafx.scene.control.TextField?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.InventoryController">
    <top>
       <VBox prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -44,7 +44,7 @@
             <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="50.0" prefWidth="540.0" spacing="10.0">
                <children>
                   <ComboBox fx:id="comboBox" maxHeight="-Infinity" prefHeight="35.0" prefWidth="235.0" promptText="Pick Item" visibleRowCount="6" />
-                  <TextField fx:id="quantityEntry" onAction="#inputListener" prefHeight="26.0" prefWidth="175.0" promptText="Add Quantity/Set Threshold" />
+                  <TextField fx:id="quantityEntry" onKeyTyped="#inputListener" prefHeight="26.0" prefWidth="175.0" promptText="Add Quantity/Set Threshold" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -109,7 +109,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="restockEntry" onAction="#inputListener" promptText="Restock Amount" />
+            <TextField fx:id="restockEntry" onKeyTyped="#inputListener" promptText="Restock Amount" />
             <Button fx:id="restockBtn" mnemonicParsing="false" onAction="#restockAll" text="Restock All" />
          </children>
       </HBox>
