@@ -29,6 +29,11 @@ public class RestockReportController {
     @FXML
     private ScrollPane restockPane;
 
+
+	public void initialize() throws IOException {
+		updateClick();
+	}
+
 	/**
 	 * Error message to display is something within this file goes wrong
 	 *

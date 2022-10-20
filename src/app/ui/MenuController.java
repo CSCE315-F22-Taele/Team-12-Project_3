@@ -19,6 +19,7 @@ import javafx.util.Pair;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -63,6 +64,11 @@ public class MenuController {
 			writeToGUI(item.getKey().getName(), item.getKey().getTotalPrice());
 			comboBox.getItems().add(item.getKey().getName());
 		}
+	}
+
+	public void inputListener(KeyEvent e) {
+		CartController.constrainInput(priceEntry);
+		CartController.constrainInput(updatedPriceEntry);
 	}
 
 	/**

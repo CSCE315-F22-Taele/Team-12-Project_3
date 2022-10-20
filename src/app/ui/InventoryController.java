@@ -70,20 +70,8 @@ public class InventoryController {
 	 * @param e
 	 */
 	public void inputListener(KeyEvent e) {
-		constrainInput(quantityEntry);
-		constrainInput(restockEntry);
-	}
-
-	/**
-	 * Prevent non-alpha characters
-	 * 
-	 * @param input TextField to constrain
-	 */
-	private void constrainInput(TextField input) {
-		if (!input.getText().matches("\\d*")) {
-			input.setText(input.getText().replaceAll("[^\\d]", ""));
-			input.positionCaret(input.getText().length());
-		}
+		CartController.constrainInput(quantityEntry);
+		CartController.constrainInput(restockEntry);
 	}
 
 	/**

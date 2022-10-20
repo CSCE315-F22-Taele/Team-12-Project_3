@@ -14,7 +14,7 @@
 
 <!-- <?import javafx.scene.control.TextField?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.MenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.MenuController">
    <top>
       <VBox prefHeight="100.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -45,7 +45,7 @@
             <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="50.0" prefWidth="540.0" spacing="10.0">
                <children>
                   <TextField fx:id="nameEntry" prefHeight="26.0" prefWidth="329.0" promptText="Item Name" />
-                  <TextField fx:id="priceEntry" prefHeight="26.0" prefWidth="85.0" promptText="Price" />
+                  <TextField fx:id="priceEntry" onKeyTyped="#inputListener" prefHeight="26.0" prefWidth="85.0" promptText="Price" />
                   <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addItemToMenu" prefHeight="30.0" prefWidth="90.0" text="Add" />
                </children>
                <VBox.margin>
@@ -99,7 +99,7 @@
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <ComboBox fx:id="comboBox" prefWidth="150.0" />
-            <TextField fx:id="updatedPriceEntry" prefHeight="25.0" prefWidth="79.0" promptText="New Price" />
+            <TextField fx:id="updatedPriceEntry" onKeyTyped="#inputListener" prefHeight="25.0" prefWidth="79.0" promptText="New Price" />
             <Button fx:id="updateBtn" layoutX="207.0" layoutY="20.0" mnemonicParsing="false" onAction="#updatePriceClick" text="Update Price" />
             <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#deleteClick" text="Delete Item" />
          </children>
