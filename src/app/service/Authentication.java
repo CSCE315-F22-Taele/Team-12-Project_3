@@ -1,7 +1,7 @@
 package app.service;
 
 import app.Main;
-import app.model.Credentials;
+// import app.model.Credentials;
 import app.model.User;
 import app.model.UserType;
 import app.repository.dbExec;
@@ -47,7 +47,9 @@ public class Authentication {
 		// other than that, manager can sign in as server, and obviously managermanager and serverserver work
 
 		User user = dbExec.findUserByUserName(userName, actType);
-		Credentials credential = new Credentials(user.getUserId(), password);
-		return credential.checkPassword(password);
+		String realPass = dbExec.getUserPassword(user.getUserId());
+		// Credentials credential = new Credentials(user.getUserId(), realPass);
+		// return credential.checkPassword(password);
+		return realPass.equals(password);
 	}
 }

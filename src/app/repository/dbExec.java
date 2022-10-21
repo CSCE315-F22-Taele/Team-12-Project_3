@@ -68,15 +68,25 @@ public class dbExec {
 		UserType t = null;
 		try {
 			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.findUserTypeByName(userName));
-			if (result.next() == false) {
-
-			}
+			result.next();
 			int res = Integer.parseInt(result.getString("user_type"));
 			t = (res == 0) ? UserType.SERVER : UserType.MANAGER;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return t;
+	}
+
+	public static String getUserPassword(UUID userId) {
+		String pwd = "";
+		try {
+			ResultSet result = jdbcpostgreSQL.stmt.executeQuery(queries.getUserCredentials(userId));
+			result.next();
+			pwd = result.getString("password");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pwd;
 	}
 
 	/**
