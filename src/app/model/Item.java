@@ -173,6 +173,6 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return name + " x" + (amount + 1);
+		return name + " x" + amount;
 	}
 }

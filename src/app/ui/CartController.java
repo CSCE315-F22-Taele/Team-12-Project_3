@@ -78,8 +78,8 @@ public class CartController {
 	 * @param input TextField to constrain
 	 */
 	public static void constrainInput(TextField input) {
-		if (!input.getText().matches("\\d*")) {
-			input.setText(input.getText().replaceAll("[^\\d]", ""));
+		if (!input.getText().matches("\\d+\\.\\d{1,2}")) {
+			input.setText(input.getText().replaceAll("[^\\d+\\.\\d{1,2}]", ""));
 			input.positionCaret(input.getText().length());
 		}
 	}
