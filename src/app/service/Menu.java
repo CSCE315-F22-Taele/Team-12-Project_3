@@ -1,14 +1,20 @@
 package app.service;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
-import app.Main;
 import app.model.Ingredient;
 import app.model.Item;
 import app.repository.dbExec;
 
+/**
+ * Store all items in menu, as well as handle adding items and ingredients to database
+ */
 public class Menu {
+
+	public static HashMap<String, Ingredient> dbIngredients = dbExec.getAllIngredients();;
 
 	public static final Item classicHamburger = new Item(UUID.randomUUID(), "Classic Hamburger", null, 1,
 			6.49);
@@ -77,10 +83,48 @@ public class Menu {
 	public static final Item cups = new Item(UUID.randomUUID(), "Cups", null, 1, 0);
 	public static final Item tissues = new Item(UUID.randomUUID(), "Tissues", null, 1, 0);
 
+	/**
+	 * Add new item to menu
+	 * 
+	 * @param item new Item to be added to menu
+	 * @param ingredientNames list of ingredients present in item
+	 * @param fromUI whether or not UI was used to add menu item
+	 */
+	public static void insertItemToMenu(Item item, AbstractCollection<String> ingredientNames, boolean fromUI) {
+        UUID ingredientId;
+        try{
+            dbExec.addItemToTwoTables(item); // Add item to "menu" and "items"
+            for(String ingred : ingredientNames){
+                Ingredient ingredient = dbIngredients.get(ingred);
+                if(ingredient == null){
+                    ingredientId = UUID.randomUUID();
+                    ingredient = new Ingredient(ingredientId, ingred, null, null, 0);
+                    dbExec.addIngredientToInventory(ingredient); // completely new ingredient
+					dbIngredients.put(ingred, ingredient);
+                }
+                ingredient.setAmount(1); // To add to menuItem
+    
+                // This method sets the itemId and orderId anyway, BUT also adds to database
+				if(fromUI) item.addIngredient(ingredient);
+				else {
+					ingredient.setItemId(item.getItemId());
+					ingredient.setOrderId(item.getOrderId());
+				}
+				dbExec.addIngredientToItem(ingredient);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+	
+	/**
+	 * Associate items to their corresponding ingredients
+	 */
 	public static void addIngredients() {
 		/*
 		 * ArrayList<Ingredient> inventory = Inventory.list;
-		 * for (Ingredient ingredient: inventory) {
+		 * for (Ingredient ingredient inventory) {
 		 * ingredient.setAmount(1);
 		 * }
 		 */
@@ -128,6 +172,9 @@ public class Menu {
 
 	public static final ArrayList<Item> list = new ArrayList<Item>();
 
+	/**
+	 * Add all items to menu table, provided it isn't populated already
+	 */
 	public static void addItemsToMenu() {
 
 		if (!dbExec.isMenuEmpty()) {
@@ -164,19 +211,7 @@ public class Menu {
 
 		for (int i = 0; i < list.size(); i++) {
 			Item listItem = list.get(i);
-
-			ArrayList<Ingredient> ingredients = new ArrayList<>();
-			ingredients = listItem.getIngredients();
-
-			for (int j = 0; j < ingredients.size(); j++) {
-				Ingredient itemIngredient = ingredients.get(j);
-				itemIngredient.setAmount(1);
-				ingredients.set(j, itemIngredient);
-			}
-			listItem.setIngredients(ingredients);
-
-			list.set(i, listItem);
-			dbExec.addItemToMenu(listItem);
+			insertItemToMenu(listItem, listItem.getIngredientNames(), false);
 		}
 	}
 

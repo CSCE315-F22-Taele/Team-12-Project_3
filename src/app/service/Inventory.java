@@ -3,10 +3,12 @@ package app.service;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import app.Main;
 import app.model.Ingredient;
 import app.repository.dbExec;
 
+/**
+ * Store entire inventory of ingredients, as well as load them into the database
+ */
 public class Inventory {
 	public static boolean isLoaded = false;
 	public static final Ingredient beefPatty = new Ingredient(UUID.randomUUID(), "Beef patty", null,
@@ -81,13 +83,13 @@ public class Inventory {
 
 	public static final ArrayList<Ingredient> list = new ArrayList<Ingredient>();
 
+	/**
+	 * Add all ingredients to inventory table, provided it isn't populated already
+	 */
 	public static void addIngredients() {
-
-		// System.out.println("before if statement");
 		if (!dbExec.isInventoryEmpty()) {
 			return;
 		}
-		// System.out.println("past if statement");
 		list.add(beefPatty);
 		list.add(buns);
 		list.add(avocado);
@@ -127,6 +129,5 @@ public class Inventory {
 		for (Ingredient ingredient : list) {
 			dbExec.addIngredientToInventory(ingredient);
 		}
-		// System.out.println("past for loop");
 	}
 }

@@ -10,6 +10,9 @@ import java.util.UUID;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/**
+ * Store user's password separately for security purposes
+ */
 public class Credentials {
 	private UUID userId;
 	private String hashedPassword;
@@ -26,8 +29,8 @@ public class Credentials {
 
 	/**
 	 * Checks if the given password matches user's password in database
-	 * @param password
-	 * @return: Boolean if the passwords match, else false
+	 * @param password password to check against
+	 * @return: true if the passwords match, else false
 	 */
 	public boolean checkPassword(String password) {
 		String hashedPassword2 = hashPassword(password);
@@ -36,7 +39,7 @@ public class Credentials {
 
 	/**
 	 * Encrypt a user's password
-	 * @param: password
+	 * @param password unencrypted password
 	 * @return: hashed password
 	 */
 	public String hashPassword(String password) {
@@ -61,18 +64,34 @@ public class Credentials {
 		return hashedPassword;
 	}
 
+	/**
+	 * Return userId
+	 * @return: userId
+	 */
 	public UUID getUserId() {
 		return userId;
 	}
 
+	/**
+	 * Set user's ID
+	 * @param userId
+	 */
 	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 
+	/**
+	 * Return's User's password hash
+	 * @return: hashedPassword
+	 */
 	public String getHashedPassword() {
 		return hashedPassword;
 	}
 
+	/**
+	 * Sets user's password has to provided argument
+	 * @param hashedPassword
+	 */
 	public void setHashedPassword(String hashedPassword) {
 		this.hashedPassword = hashedPassword;
 	}

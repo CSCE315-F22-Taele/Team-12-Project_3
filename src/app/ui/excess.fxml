@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.SalesController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.ui.ExcessController">
    <children>
       <Button fx:id="updateTimes" layoutX="459.0" layoutY="99.0" mnemonicParsing="false" onAction="#updateClick" prefHeight="25.0" prefWidth="86.0" text="Update" />
       <HBox fx:id="StartTime" layoutX="147.0" prefHeight="100.0" prefWidth="334.0">

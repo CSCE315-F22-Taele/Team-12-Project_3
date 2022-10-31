@@ -3,7 +3,6 @@ package app.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 // import org.omg.IOP.ExceptionDetailMessage;
 
@@ -21,19 +20,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
+/** 
+ * Handles user actions on inventory page
+ */
 public class InventoryController {
 	@FXML
 	private Button backBtn;
 	@FXML
 	private Button addBtn;
+	@FXML
+	private Button minBtn;
 	@FXML
 	private Button restockBtn;
 	@FXML
@@ -45,42 +46,39 @@ public class InventoryController {
 	@FXML
 	private ScrollPane inventoryPane;
 
+	/**
+	 * Initialize the dropdown menu and the gridPane so that it holds some of the
+	 * items in inventory upon load
+	 * 
+	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
-		/*
-		 * comboBox.getItems().addAll("Option A", "Option B", "Option C", "Option D",
-		 * "Option E", "Option F", "Option H",
-		 * "Option I");
-		 */
-
 		ArrayList<Ingredient> inventory = Manager.getAllInventory();
 		Collections.sort(inventory);
 		GridPane inventoryBox = initializePane();
 
 		for (Ingredient ingredient : inventory) {
-			writeToGUI(ingredient.getName(), ingredient.getAmount(), 100, inventoryBox); // Min for ingredients is 100
+			writeToGUI(ingredient.getName(), ingredient.getAmount(), ingredient.getThreshold(), inventoryBox); // Min for ingredients is 100
 
 			comboBox.getItems().add(ingredient.getName());
 		}
-		// System.out.println(inventory.toString());
-		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
-	// event handlers
-
-	// Prevents user from entering non-digit characters
+	/**
+	 * Prevents user from entering non-digit characters
+	 * 
+	 * @param e
+	 */
 	public void inputListener(KeyEvent e) {
-		constrainInput(quantityEntry);
-		constrainInput(restockEntry);
+		CartController.constrainInput(quantityEntry);
+		CartController.constrainInput(restockEntry);
 	}
 
-	private void constrainInput(TextField input) {
-		if (!input.getText().matches("\\d*")) {
-			input.setText(input.getText().replaceAll("[^\\d]", ""));
-			input.positionCaret(input.getText().length());
-		}
-	}
-
+	/**
+	 * Opens error window
+	 * 
+	 * @param errorMsg message to appear in error window when it opens
+	 */
 	public void openErrorWindow(String errorMsg) throws IOException {
 		Main.errorMsg = errorMsg;
 		Parent root = FXMLLoader.load(getClass().getResource("error.fxml"));
@@ -90,23 +88,30 @@ public class InventoryController {
 		stage.show(); // Once user closes that, it will go back to this scene
 	}
 
+	/**
+	 * Goes back to the manager page
+	 * 
+	 */
 	public void backClick() throws IOException {
-		// System.out.println("Inventory --> Manager");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("manager.fxml")));
 	}
 
+	/**
+	 * Add amount to whatever inventory item
+	 * 
+	 */
 	public void addAmount() throws IOException {
 		try{
 			int amount = Integer.parseInt(quantityEntry.getText());
 			String name = comboBox.getSelectionModel().getSelectedItem();
-			if(name.isEmpty()){
+			if(name == null){
 				throw new Exception("name");
 			}
 			Manager.restockIngredient(amount, name);
+			quantityEntry.setText("");
 	
 			this.initialize();
 		} catch(Exception e){
-			System.out.println(e.getMessage());
 			if(e.getMessage().equals("name")){
 				openErrorWindow("Invalid name to add!!!");
 			} else{
@@ -115,11 +120,40 @@ public class InventoryController {
 		}
 	}
 
+	/**
+	 * Change the threshold for a given inventory item
+	 * 
+	 */
+	public void setMin() throws IOException {
+		try{
+			int threshold = Integer.parseInt(quantityEntry.getText());
+			String name = comboBox.getSelectionModel().getSelectedItem();
+			if(name == null){
+				throw new Exception("name");
+			}
+			Manager.changeIngredientThreshold(threshold, name);
+			quantityEntry.setText("");
+	
+			this.initialize();
+		} catch(Exception e){
+			if(e.getMessage().equals("name")){
+				openErrorWindow("Invalid name to set threshold!!!");
+			} else{
+				openErrorWindow("Invalid amount to set threshold!!!");
+			}
+		}
+	}
+
+	/**
+	 * Restock all the inventory items given what the user input
+	 * 
+	 */
 	public void restockAll() throws IOException {
 		try{
 			int amount = Integer.parseInt(restockEntry.getText());
 			Manager.restockAll(amount);
 
+			restockEntry.setText("");
 			this.initialize();
 		}
 		catch(Exception e){
@@ -127,7 +161,11 @@ public class InventoryController {
 		}
 	}
 
-	// initializing and setting up display for inventory
+	/**
+	 * Initializing and setting up display for inventory
+	 * 
+	 * @return initialized UI container
+	 */
 	public GridPane initializePane() {
 		GridPane resultPane = new GridPane();
 
@@ -145,7 +183,14 @@ public class InventoryController {
 		return resultPane;
 	}
 
-	// displaying from List
+	/**
+	 * Displaying from List
+	 * 
+	 * @param ingredientName name of ingredient
+	 * @param amount quantity of ingredient in inventory
+	 * @param min ingredient's minimum threshold before needing restock
+	 * @param resultPane UI element to edit
+	 */
 	public void writeToGUI(String ingredientName, int amount, int min, GridPane resultPane) {
 
 		Label nameLabel = new Label();

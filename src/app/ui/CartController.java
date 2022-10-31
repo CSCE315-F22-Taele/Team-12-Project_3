@@ -2,7 +2,6 @@ package app.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import app.Main;
 import app.model.Item;
@@ -19,15 +18,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 
 import javafx.util.Pair;
 
+/**
+ * Handles user actions on cart page (when creating a new order)
+ */
 public class CartController {
 	@FXML
 	private Button backBtn;
@@ -48,6 +47,9 @@ public class CartController {
 
 	private GridPane cartBox;
 
+	/**
+	 * Initialize the UI elements before entering the page
+	 */
 	public void initialize() {
 		comboBox.getItems().removeAll(comboBox.getItems());
 
@@ -59,46 +61,63 @@ public class CartController {
 
 			comboBox.getItems().add((item.getKey()).getName());
 		}
-		// comboBox.getSelectionModel().select(comboBox.getItems().get(0));
 	}
 
-	// event handlers
-
-	// Prevents user from entering non-digit characters
+	/**
+	 * Listen in on certain input fields
+	 * 
+	 * @param e
+	 */
 	public void inputListener(KeyEvent e) {
 		constrainInput(quantityEntry);
 	}
 
-	private void constrainInput(TextField input) {
-		if (!input.getText().matches("\\d*")) {
-			input.setText(input.getText().replaceAll("[^\\d]", ""));
+	/**
+	 * Prevents non-alpha characters from being input
+	 * 
+	 * @param input TextField to constrain
+	 */
+	public static void constrainInput(TextField input) {
+		if (!input.getText().matches("\\d+\\.\\d{1,2}")) {
+			input.setText(input.getText().replaceAll("[^\\d+\\.\\d{1,2}]", ""));
 			input.positionCaret(input.getText().length());
 		}
 	}
 
+	/**
+	 * Goes back to previous page
+	 */
 	public void backClick() throws IOException {
-		// System.out.println("Cart --> Server");
 		backBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 	}
 
+	/**
+	 * Removes all from the cart
+	 */
 	public void deleteClick() throws IOException {
 		Server.clearCart();
 		cartBox.getChildren().removeAll(cartBox.getChildren());
 	}
 
+	/**
+	 * Does a database query after hitting submit to add order to database
+	 */
 	public void submitClick() throws IOException {
 		String customerName = nameEntry.getText();
 		if (customerName.isEmpty()) {
 			// ERROR
 		} else {
 			createOrderRequest req = new createOrderRequest(customerName, Main.username, Server.getCart());
-			Order customerOrder = Server.createOrder(req);
+			Order customerOrder = Server.createOrder(req, false);
 			// Do some query with Order object
 			deleteClick();
 			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource("server.fxml")));
 		}
 	}
 
+	/**
+	 * Adds the associated item name and amount to the cart for server to order
+	 */
 	public void addAmount() {
 		int amount = Integer.parseInt(quantityEntry.getText());
 		String itemName = comboBox.getSelectionModel().getSelectedItem();
@@ -107,7 +126,11 @@ public class CartController {
 		writeToGUI(itemName, amount);
 	}
 
-	// initializing and setting up display for cart
+	/**
+	 * Initializing and setting up display for the cart
+	 * 
+	 * @return GridPane
+	 */
 	public GridPane initializePane() {
 		GridPane cartBox = new GridPane();
 
@@ -125,7 +148,12 @@ public class CartController {
 		return cartBox;
 	}
 
-	// displaying from List
+	/**
+	 * Displaying the contents of the cart from List
+	 * 
+	 * @param itemName name of added item
+	 * @param amount amount of item that was added
+	 */
 	public void writeToGUI(String itemName, int amount) {
 		Label nameLabel = new Label();
 		nameLabel.setText(itemName);
