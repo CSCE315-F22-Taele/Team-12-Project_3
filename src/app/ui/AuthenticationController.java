@@ -1,6 +1,7 @@
 package app.ui;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import app.Main;
 import app.service.Authentication;
@@ -38,7 +39,7 @@ public class AuthenticationController {
 	/**
 	 * Attempts to log the user in(whether server or manager)
 	 */
-	public void submitClick() throws IOException {
+	public void submitClick() throws IOException, InterruptedException {
 		String uEntry = userEntry.getText();
 		Main.username = uEntry;
 		String passEntry = passwordEntry.getText();
@@ -46,8 +47,12 @@ public class AuthenticationController {
 		if (Authentication.checkPassword(uEntry, passEntry)) {
 			submitBtn.getScene().setRoot(FXMLLoader.load(getClass().getResource(Main.authen)));
 		} else {
-			passwordEntry.setText("");
-			passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
-		}
+      passwordEntry.setText("");
+      userEntry.setText("");
+      passwordEntry.setPromptText("Wrong Username/Password! Try Again...");
+      // TimeUnit.SECONDS.sleep(3);
+      // Thread.sleep(2500);
+      // passwordEntry.setPromptText("Enter Password:");
+    }
 	}
 }

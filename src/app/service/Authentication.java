@@ -34,6 +34,7 @@ public class Authentication {
 		if (userName.equals("") || password.equals("")) {			// if either left blank, can't authenticate
 			return false;
 		}
+
 		if (!dbExec.checkUserExistence(userName)) {			// user can't be found in database
 			return false;
 		}
