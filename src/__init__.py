@@ -17,8 +17,11 @@ def create_app(test_config=None):
     from .models import (
         db, Inventory, UserType, Credentials, User
     )
-    from .routes import inventory # TODO: import routes
+    from .routes import (
+        user, inventory
+    )
 
+    app.register_blueprint(user.bp)
     app.register_blueprint(inventory.bp)
 
     db.app = app
