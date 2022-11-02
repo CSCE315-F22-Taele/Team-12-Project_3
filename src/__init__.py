@@ -14,7 +14,7 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     # IMPORTS NEED TO BE HERE INSTEAD OF AT THE TOP
-    from .models import db, inventory # import the rest of the models here
+    from .models import db, Inventory # import the rest of the models here
     # TODO: import routes
 
     db.app = app
