@@ -15,7 +15,9 @@ def create_app(test_config=None):
 
     # IMPORTS NEED TO BE HERE INSTEAD OF AT THE TOP
     from .models import db, Inventory # import the rest of the models here
-    # TODO: import routes
+    from .routes import inventory # TODO: import routes
+
+    app.register_blueprint(inventory.bp)
 
     db.app = app
     db.init_app(app)
