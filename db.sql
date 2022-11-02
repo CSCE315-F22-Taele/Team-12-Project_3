@@ -62,7 +62,7 @@ CREATE TABLE orders (
 CREATE TABLE items (
 	id VARCHAR(36) REFERENCES menu(item_id),
 	item_name VARCHAR(255) NOT NULL,
-	order_id VARCHAR(36),
+	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
 	quantity INTEGER NOT NULL DEFAULT 0,
 	total_price FLOAT NOT NULL DEFAULT 0,
 
@@ -73,7 +73,7 @@ CREATE TABLE ingredients (
 	ingredient_id VARCHAR(36) REFERENCES inventory(ingredient_id) ON DELETE CASCADE,
 	ingredient_name varchar(255) NOT NULL,
 	item_id VARCHAR(36) REFERENCES menu(item_id) ON DELETE CASCADE,
-	order_id VARCHAR(36),
+	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
 	amount INTEGER NOT NULL DEFAULT 0,
 
 	PRIMARY KEY(ingredient_id, item_id, order_id)
