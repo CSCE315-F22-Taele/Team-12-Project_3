@@ -30,8 +30,8 @@ def addUser():
                               password=password)
 
     # Add a user & their associated credentials
+    user.user_credential.append(credentials)
     db.session.add(user)
-    db.session.add(credentials)
     db.session.commit()
     
     return user.to_dict()
