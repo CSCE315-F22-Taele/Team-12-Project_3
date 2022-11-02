@@ -1,13 +1,12 @@
 from . import db
 from uuid import uuid4
 
-class Item(db.Model):
+class OrderMenu(db.Model):
 
     # Primary Keys will be tuple, but they must be in proper order
-    __tablename__ = "items"
-    id = db.Column(db.String(36), db.ForeignKey('inventory.ingredient_id'), primary_key=True)
-    itemName = db.Column("item_name", db.String(255), nullable=False)
-    order_id = db.Column(db.String(36), db.ForeignKey("orders.id"), primary_key=True)
+    __tablename__ = "order_menu"
+    orderId = db.Column("order_id", db.String(36), db.ForeignKey("orders.id"), primary_key=True)
+    itemId = db.Column("item_id", db.String(36), db.ForeignKey('menu.item_id'), primary_key=True)
     quantity = db.Column(db.Integer, nullable=False, default=0)
     totalPrice = db.Column("total_price", db.Integer, nullable=False, default=0)
 
