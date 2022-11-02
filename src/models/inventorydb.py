@@ -16,11 +16,6 @@ class Inventory(db.Model):
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-        # return {
-        #     "name": self.ingredient_name,
-        #     "quantity": self.quantity,
-        #     "threshold": self.threshold
-        # }
 
     def to_json(self):
         self.to_dict()

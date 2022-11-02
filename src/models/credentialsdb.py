@@ -6,7 +6,6 @@ class Credentials(db.Model):
     password = db.Column(db.String(255), nullable=False)
 
     def __init__(self, **kwargs):
-        self.id = str(uuid4())
         super().__init__(**kwargs)
 
     def to_dict(self):
