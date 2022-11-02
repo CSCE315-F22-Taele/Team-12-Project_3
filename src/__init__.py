@@ -15,14 +15,17 @@ def create_app(test_config=None):
 
     # IMPORTS NEED TO BE HERE INSTEAD OF AT THE TOP
     from .models import (
-        db, Inventory, UserType, Credentials, User
+        db, 
+        UserType, Credentials, User,
+        Menu, MenuInventory, Inventory
     )
     from .routes import (
-        user, inventory
+        user, 
+        # inventory
     )
 
     app.register_blueprint(user.bp)
-    app.register_blueprint(inventory.bp)
+    # app.register_blueprint(inventory.bp)
 
     db.app = app
     db.init_app(app)
