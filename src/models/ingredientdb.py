@@ -8,7 +8,7 @@ class Ingredient(db.Model):
     ingredient_id = db.Column(db.String(36), db.ForeignKey('inventory.ingredient_id'), primary_key=True)
     ingredient_name = db.Column(db.String(255), nullable=False)
     item_id = db.Column(db.String(36), db.ForeignKey('menu.item_id'), primary_key=True)
-    order_id = db.Column(db.String(36), primary_key=True)
+    order_id = db.Column(db.String(36), db.ForeignKey("orders.id"), primary_key=True)
     amount = db.Column(db.Integer, nullable=False, default=0)
     threshold = 100
 

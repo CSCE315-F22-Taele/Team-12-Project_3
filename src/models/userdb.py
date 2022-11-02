@@ -1,4 +1,4 @@
-from . import db, Credentials
+from . import db, Credentials, Order
 from uuid import uuid4
 
 class User(db.Model):
@@ -8,6 +8,7 @@ class User(db.Model):
     user_type = db.Column(db.Integer, db.ForeignKey("user_types.id"), nullable=False, default=0)
 
     credentials = db.relationship("Credentials", cascade="all, delete-orphan")
+    orders = db.relationship("Order", cascade="all, delete-orphan")
 
     def __init__(self, **kwargs):
         self.id = str(uuid4())
