@@ -14,7 +14,9 @@ def create_app(test_config=None):
         app.config.from_mapping(test_config)
 
     # IMPORTS NEED TO BE HERE INSTEAD OF AT THE TOP
-    from .models import db, Inventory # import the rest of the models here
+    from .models import (
+        db, Inventory, UserType, Credentials, User
+    )
     from .routes import inventory # TODO: import routes
 
     app.register_blueprint(inventory.bp)
