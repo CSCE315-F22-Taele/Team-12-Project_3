@@ -52,31 +52,33 @@ CREATE TABLE menu (
 
 CREATE TABLE orders (
 	id VARCHAR(36) PRIMARY KEY,
-	customerName VARCHAR(255) NOT NULL,
-	server_id VARCHAR(36) REFERENCES users(id) ON DELETE CASCADE,
+	customer_name VARCHAR(255) NOT NULL,
+	server_id VARCHAR(36) REFERENCES users(id),
 	time_ordered TIMESTAMP WITHOUT time zone NOT NULL DEFAULT now(),
 	is_served BOOLEAN NOT NULL DEFAULT false,
 	price FLOAT NOT NULL DEFAULT 0
 );
 
-CREATE TABLE items (
-	id VARCHAR(36) REFERENCES menu(item_id),
-	item_name VARCHAR(255) NOT NULL,
-	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
-	quantity INTEGER NOT NULL DEFAULT 0,
-	total_price FLOAT NOT NULL DEFAULT 0,
+-- Linking Tables
 
-	PRIMARY KEY(id, order_id)
+-- If item_id or ingredient_id updated in main tables, linking table updated accordingly
+-- If menu item deleted, related ingredient links die BUT inventory still holds ingredients
+-- Replaces ingredients
+CREATE TABLE menu_inventory (
+	item_id VARCHAR(36) REFERENCES menu(item_id) ON UPDATE CASCADE ON DELETE CASCADE,
+	ingredient_id VARCHAR(36) REFERENCES inventory(ingredient_id) ON UPDATE CASCADE,
+
+	PRIMARY KEY(item_id, ingredient_id)
 );
 
-CREATE TABLE ingredients (
-	ingredient_id VARCHAR(36) REFERENCES inventory(ingredient_id) ON DELETE CASCADE,
-	ingredient_name varchar(255) NOT NULL,
-	item_id VARCHAR(36) REFERENCES menu(item_id) ON DELETE CASCADE,
-	order_id VARCHAR(36) REFERENCES orders(id) ON DELETE CASCADE,
-	amount INTEGER NOT NULL DEFAULT 0,
+-- Replaces Items
+CREATE TABLE order_menu (
+	order_id VARCHAR(36) REFERENCES orders(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	item_id VARCHAR(36) REFERENCES menu(item_id) ON UPDATE CASCADE,
+	quantity INTEGER NOT NULL DEFAULT 0,
+	total_price FLOAT NOT NULL DEFAULT 0
 
-	PRIMARY KEY(ingredient_id, item_id, order_id)
+	PRIMARY KEY(order_id, item_id)
 );
 
 -- grant privileges to all users for all tables
@@ -86,5 +88,5 @@ GRANT ALL ON TABLE credentials to public;
 GRANT ALL ON TABLE orders to public;
 GRANT ALL ON TABLE inventory to public;
 GRANT ALL ON TABLE menu to public;
-GRANT ALL ON TABLE items to public;
-GRANT ALL ON TABLE ingredients to public;
+GRANT ALL ON TABLE menu_inventory to public; -- previously ingredients
+GRANT ALL ON TABLE order_menu to public; -- previously items
