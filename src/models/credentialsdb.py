@@ -13,6 +13,3 @@ class Credentials(db.Model):
 
     def to_json(self):
         self.to_dict()
-
-    # def __repr__(self):
-    #     return f"Inventory Item: {self.ingredient_name} {self.quantity} {self.threshold}"
