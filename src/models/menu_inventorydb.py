@@ -1,12 +1,14 @@
-from . import db
+from . import db, Inventory
 from uuid import uuid4
 
 class MenuInventory(db.Model):
 
     # Primary Keys will be tuple, but they must be in proper order
     __tablename__ = "menu_inventory"
-    item_id = db.Column(db.String(36), db.ForeignKey('menu.item_id'), primary_key=True)
-    ingredient_id = db.Column(db.String(36), db.ForeignKey('inventory.ingredient_id'), primary_key=True)
+    item_id = db.Column(db.String(36), db.ForeignKey('menu.item_id', onupdate="CASCADE", ondelete="CASCADE"), primary_key=True)
+    ingredient_id = db.Column(db.String(36), db.ForeignKey('inventory.ingredient_id', onupdate="CASCADE"), primary_key=True)
+
+    inventoryIngredients = db.relationship("Inventory")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

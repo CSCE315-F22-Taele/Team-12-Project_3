@@ -7,7 +7,8 @@ class User(db.Model):
     username = db.Column(db.String(50), unique=True)
     user_type = db.Column(db.Integer, db.ForeignKey("user_types.id"), nullable=False, default=0)
 
-    credentials = db.relationship("Credentials", cascade="all, delete-orphan")
+    # Relationship between User & Credentials, so that you can add to both in one transaction
+    user_credential = db.relationship("Credentials")
 
     def __init__(self, **kwargs):
         self.id = str(uuid4())

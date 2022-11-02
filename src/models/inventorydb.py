@@ -1,4 +1,4 @@
-from . import db, Ingredient
+from . import db
 from uuid import uuid4
 
 # A table, that when run using db.create_all() will create this table
@@ -7,8 +7,6 @@ class Inventory(db.Model):
     ingredient_name = db.Column(db.String(255), nullable=False, unique=True)
     quantity = db.Column(db.Integer, nullable=False, default=0)
     threshold = db.Column(db.Integer, default=100)
-
-    ingredients = db.relationship("Ingredient", cascade="all, delete-orphan")
 
     def __init__(self, **kwargs):
         self.ingredient_id = str(uuid4())

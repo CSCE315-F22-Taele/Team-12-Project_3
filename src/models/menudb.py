@@ -1,15 +1,14 @@
-from . import db, Ingredient, Item
+from . import db, MenuInventory
 from uuid import uuid4
 
 # A table, that when run using db.create_all() will create this table
 class Menu(db.Model):
-    item_id = db.Column(db.String(36), primary_key=True)
-    item_name = db.Column(db.String(255), nullable=False, unique=True)
+    itemId = db.Column("item_id", db.String(36), primary_key=True)
+    itemName = db.Column("item_name", db.String(255), nullable=False, unique=True)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False, default=0)
 
-    ingredients = db.relationship("Ingredient", cascade="all, delete-orphan")
-    items = db.relationship("Item", cascade="all, delete-orphan")
+    menuIngredients = db.relationship("MenuInventory")
 
     def __init__(self, **kwargs):
         self.ingredient_id = str(uuid4())

@@ -4,9 +4,9 @@ db = SQLAlchemy()
 
 from .user_typedb import UserType
 from .credentialsdb import Credentials
+from .userdb import User # Depends on Credentials
 
-from .ingredientdb import Ingredient
-from .itemdb import Item
 from .inventorydb import Inventory
-from .orderdb import Order
-from .userdb import User # This depends on Credentials & Order
+from .menu_inventorydb import MenuInventory
+from .menudb import Menu
+# from .itemdb import Item
