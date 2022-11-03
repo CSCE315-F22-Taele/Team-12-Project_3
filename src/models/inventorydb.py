@@ -3,8 +3,8 @@ from uuid import uuid4
 
 # A table, that when run using db.create_all() will create this table
 class Inventory(db.Model):
-    ingredient_id = db.Column(db.String(36), primary_key=True)
-    ingredient_name = db.Column(db.String(255), nullable=False, unique=True)
+    ingredientId = db.Column("ingredient_id", db.String(36), primary_key=True)
+    ingredientName = db.Column("ingredient_name", db.String(255), nullable=False, unique=True)
     quantity = db.Column(db.Integer, nullable=False, default=0)
     threshold = db.Column(db.Integer, default=100)
 

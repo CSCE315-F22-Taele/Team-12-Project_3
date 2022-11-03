@@ -60,6 +60,7 @@ CREATE TABLE orders (
 );
 
 -- Linking Tables
+-- Might want DELETE ON CASCADE both ways
 
 -- If item_id or ingredient_id updated in main tables, linking table updated accordingly
 -- If menu item deleted, related ingredient links die BUT inventory still holds ingredients

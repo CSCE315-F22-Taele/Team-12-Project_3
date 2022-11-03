@@ -21,11 +21,13 @@ def create_app(test_config=None):
     )
     from .routes import (
         user, 
-        # inventory
+        # inventory,
+        menu
     )
 
     app.register_blueprint(user.bp)
     # app.register_blueprint(inventory.bp)
+    app.register_blueprint(menu.bp)
 
     db.app = app
     db.init_app(app)

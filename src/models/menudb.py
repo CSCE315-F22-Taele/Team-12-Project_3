@@ -11,7 +11,7 @@ class Menu(db.Model):
     menuIngredients = db.relationship("MenuInventory")
 
     def __init__(self, **kwargs):
-        self.ingredient_id = str(uuid4())
+        self.itemId = str(uuid4())
         super().__init__(**kwargs)
 
     def to_dict(self):
