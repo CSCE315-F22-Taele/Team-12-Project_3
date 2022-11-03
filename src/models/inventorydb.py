@@ -9,7 +9,6 @@ class Inventory(db.Model):
     threshold = db.Column(db.Integer, default=100)
 
     def __init__(self, **kwargs):
-        self.ingredient_id = str(uuid4())
         super().__init__(**kwargs)
 
     def to_dict(self):
@@ -19,4 +18,4 @@ class Inventory(db.Model):
         self.to_dict()
 
     def __repr__(self):
-        return f"Inventory Item: {self.ingredient_name} {self.quantity} {self.threshold}"
+        return f"{self.ingredientId} {self.ingredientName} {self.quantity} {self.threshold}"

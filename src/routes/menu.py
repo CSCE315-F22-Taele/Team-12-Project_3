@@ -1,7 +1,8 @@
 from flask import request, Blueprint
 from ..models import db, Menu, MenuInventory, Inventory
+from uuid import uuid4
 
-bp = Blueprint('menu', __name__, '/menu')
+bp = Blueprint('menu', __name__, url_prefix='/menu')
 
 '''
 {
@@ -29,10 +30,20 @@ def addMenuItem():
     #   We append Inventory.ingredientId to MenuInventory.inventoryIngredients
     #   We append MenuInventory.ingredientId to Menu.menuIngredients
     # When done, add item to "Menu" database
-    menuItem = Menu(itemName=itemName, description=description, price=price)
+    menuItem = Menu(
+        itemId=str(uuid4()),
+        itemName=itemName, 
+        description=description, 
+        price=price
+    )
     for ingredientName in linkedInventory:
         if ingredientName not in inventoryMapping:
-            ingredient = Inventory(ingredientName)
+            ingredient = Inventory(
+                    ingredientId=str(uuid4()),
+                    ingredientName=ingredientName,
+                    quantity=0,
+                    threshold=100
+                )
             db.session.add(ingredient)
             inventoryMapping[ingredientName] = ingredient
         inv = inventoryMapping.get(ingredientName)
@@ -48,4 +59,7 @@ def addMenuItem():
 
 @bp.delete("/")
 def delMenuItem():
-    pass
+    itemName = request.json['item_name']
+    rowsDeleted = Menu.query.filter_by(itemName=itemName).delete()
+    db.session.commit()
+    return {"deleted": rowsDeleted}

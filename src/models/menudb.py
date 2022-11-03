@@ -1,5 +1,4 @@
 from . import db, MenuInventory
-from uuid import uuid4
 
 # A table, that when run using db.create_all() will create this table
 class Menu(db.Model):
@@ -8,10 +7,10 @@ class Menu(db.Model):
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False, default=0)
 
-    menuIngredients = db.relationship("MenuInventory")
+    # uselist required so that menuIngredients always considered a list; avoids Nonetype
+    menuIngredients = db.relationship("MenuInventory", uselist=True)
 
     def __init__(self, **kwargs):
-        self.itemId = str(uuid4())
         super().__init__(**kwargs)
 
     def to_dict(self):

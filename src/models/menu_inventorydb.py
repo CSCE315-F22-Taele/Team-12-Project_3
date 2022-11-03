@@ -8,7 +8,8 @@ class MenuInventory(db.Model):
     itemId = db.Column("item_id", db.String(36), db.ForeignKey('menu.item_id', onupdate="CASCADE", ondelete="CASCADE"), primary_key=True)
     ingredientId = db.Column("ingredient_id", db.String(36), db.ForeignKey('inventory.ingredient_id', onupdate="CASCADE"), primary_key=True)
 
-    inventoryIngredients = db.relationship("Inventory")
+    # uselist required so that inventoryIngredients always considered a list; avoids Nonetype
+    inventoryIngredients = db.relationship("Inventory", uselist=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -18,3 +19,6 @@ class MenuInventory(db.Model):
 
     def to_json(self):
         self.to_dict()
+
+    def __repr__(self):
+        return f"{self.itemId} {self.ingredientId}"
