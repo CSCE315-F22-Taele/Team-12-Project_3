@@ -3,7 +3,7 @@ from ..models import db, User, Credentials, UserType
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-# Get entire inventory
+# Get all Users
 # Optionally, get one if endpoint is ?name=""
 @bp.get("/")
 def getUser():
