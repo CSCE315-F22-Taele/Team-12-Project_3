@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from ..models import db, User, Credentials, UserType
 
-bp = Blueprint('user', __name__, url_prefix='/user')
+bp = Blueprint('user', __name__, url_prefix='/users')
 
 # Get all Users
 # Optionally, get one if endpoint is ?name=""
@@ -14,6 +14,12 @@ def getUser():
     else:
         users = User.query.order_by(User.username.asc()).all()
     return {"users": [usr.to_dict() for usr in users]}    
+
+@bp.get("/<str:name>")
+def getUser(name):
+    name = name.replace("+", " ")
+    users = User.query.filter_by(username=name).all() # Should return just one
+    return {"users": [usr.to_dict() for usr in users]}   
 
 # Add User to database
 @bp.post("/")

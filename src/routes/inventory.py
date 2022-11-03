@@ -4,28 +4,40 @@ from ..models import db, Inventory
 bp = Blueprint('inventory', __name__, url_prefix='/inventory')
 
 # Get entire inventory
-# Optionally, get one if endpoint is ?name=""
+# Alternatively, get one ingredient if endpoint is ?name=""
 @bp.get("/")
-def get_inventory():
+def getInventory():
     name = request.args.get('name')
     if name is not None:
         name = name.replace("+", " ")
-        inventory_ingredients = Inventory.query.filter_by(ingredient_name=name).all() # Should just be one
+        inventoryIngredients = Inventory.query.filter_by(ingredient_name=name).all() # This returns 1, but within a list
     else:
-        inventory_ingredients = Inventory.query.order_by(Inventory.ingredient_name.asc()).all()
-    return {"inventory": [inv.to_dict() for inv in inventory_ingredients]}    
+        inventoryIngredients = Inventory.query.order_by(Inventory.ingredient_name.asc()).all()
+    return {"inventory": [inv.to_dict() for inv in inventoryIngredients]}
 
 # Add ingredient to inventory
 @bp.post("/")
-def create_inventory_ingredient():
+def createInventoryIngredient():
     name = request.json["name"]
     quantity = request.json["quantity"]
     threshold = request.json["threshold"]
-    inventory_ingredient = Inventory(ingredient_name=name, 
+    inventoryIngredient = Inventory(ingredient_name=name, 
                                      quantity=quantity, 
                                      threshold=threshold)
 
-    db.session.add(inventory_ingredient)
+    db.session.add(inventoryIngredient)
     db.session.commit()
     
-    return inventory_ingredient.to_dict()
+    return inventoryIngredient.to_dict()
+
+@bp.put("/")
+def restockSingleIngredient():
+    pass
+
+@bp.put("/")
+def chThreshSingleIngredient():
+    pass
+
+@bp.put("/")
+def restockAllIngredients():
+    pass
