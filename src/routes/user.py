@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from ..models import db, User, Credentials, UserType
 
-bp = Blueprint('users', __name__, url_prefix='/users')
+bp = Blueprint('user', __name__, url_prefix='/users')
 
 # Get all Users
 # Optionally, get one if endpoint is ?name=""
