@@ -20,7 +20,7 @@ def updateMenuPrice():
         return None, # TODO: Error Code
     menuItem.price = newPrice
     db.session.commit()
-    return "Update Successful"
+    return "Update Successful" # TODO: Better Code
 
 
 '''
