@@ -1,84 +1,141 @@
 # Inventory
 
-### GET
+### GET /inventory
+Retrieves all the ingredients in the inventory
 
-/inventory
-- Get all inventory items
-- response: {
-
-}
-
-/inventory?under-stocked
-- Get all inventory items under threshold
-- response: {
+**Response**
+```json
+{
 
 }
+```
 
-/inventory/<string: ingredientName>
-- Get a specific ingredient from inventory
-- response: {
+<br>
 
-}
+### GET /inventory?under-stocked
+Get all inventory items under threshold
 
-### PUT
-
-/inventory
-
-/inventory
-
-/inventory
-
-### DELETE
-
-/inventory/<string: ingredientName>
-- Delete a specific ingredient from inventory
-- response: {
+**Response**
+```json
+{
 
 }
+```
+
+<br>
+
+### GET /inventory/{ingredientName}
+Get a specific ingredient from inventory
+
+**Request**
+
+|variable|type|
+|-|-|
+| ingredientName | string |
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### PUT /inventory
+
+### PUT /inventory
+
+### PUT /inventory
+
+
+### DELETE /inventory/{ingredientName}
+Delete a specific ingredient from inventory
+
+**Request**
+|variable|type|
+|-|-|
+| ingredientName | string |
+    
+**Response**
+```json
+{
+
+}
+```
 
 # Menu
 
-### GET
-
-/menu
-- Get all menu items
-- response: {
+### GET /menu
+Get all menu items
+**response**
+```json
+{
     
 }
+```
 
-/menu/<string: itemName>
-- Get a specific menu item
-- response: {
+<br>
+
+### GET /menu/{itemName}
+Get a specific menu item
+
+**Request**
+|variable|type|
+|-|-|
+| itemName | string |
+
+**Response**
+```json
+{
     
 }
+```
 
-### POST
+<br>
 
-/menu
-- Create a new menu item AND also create associated ingredients if new
-- request: {
+### POST /menu
+Create a new menu item AND also create associated ingredients if new
 
-}
-- response: {
-
-}
-
-### PUT
-
-/menu
-- Update a menu item's price
-- request: {
-    itemName: string
-    newPrice: double
-}
-- response: {
+**Request**
+```json
+{
 
 }
+```
 
-### DELETE
-
-/menu/<string: itemName>
-- Delete the specified item from the database
-- response: {
+**Response**
+```json
+{
 
 }
+```
+
+<br>
+
+### PUT /menu
+Update a menu item's price
+**Request**
+```json
+{
+    "itemName": "Test Item"
+    "newPrice": 17.82
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+### DELETE /menu/<string: itemName>
+Delete the specified item from the database
+
+**Response**
+```json
+{
+
+}
+```
