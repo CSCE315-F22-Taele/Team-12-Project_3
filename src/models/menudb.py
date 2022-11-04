@@ -13,8 +13,15 @@ class Menu(db.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def to_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    def to_dict(self, includeDescripts=False):
+        ret = {
+            "itemId": self.item_id,
+            "itemName": self.item_name,
+            "price": self.price
+        }
+        if includeDescripts: ret["description"] = self.descriptions
+        return ret
+            
 
     def to_json(self):
         self.to_dict()

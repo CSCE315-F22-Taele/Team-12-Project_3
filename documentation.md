@@ -74,7 +74,7 @@ Get all the items for orders after a given timestamp where the item sold less th
             "itemName": "Test Item1",
             "sales": 26,
             "currentStock": 2752
-        }
+        },
         {
             "itemName": "Test Item2",
             "sales": 1,
@@ -363,14 +363,22 @@ Get a specific ingredient from inventory
 
 <br>
 
-### PUT /inventory/ingredient/restock
-Restock a specific ingredient from inventory, adding the amount to the current quantity
+### PUT /inventory/restock
+Restock specified ingredients in the inventory by their respective amounts
 
 **Request**
 ```json
 {
-    "ingredientName": "Test Ingredient",
-    "amount": 20
+    "ingredients": [
+        {
+            "ingredientName": "Test Ingredient1",
+            "amount": 20
+        },
+        {
+            "ingredientName": "Test Ingredient2",
+            "amount": 27
+        }
+    ]
 }
 ```
 
@@ -395,7 +403,7 @@ Restock all the ingredients in the inventory, adding the amount to each quantity
 
 <br>
 
-### PUT /inventory/ingredient/threshold
+### PUT /inventory/threshold
 Change the threshold of a particular ingredient in the inventory
 
 **Request**

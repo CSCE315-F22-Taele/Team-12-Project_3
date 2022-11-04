@@ -11,8 +11,14 @@ class Inventory(db.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def to_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+    def to_dict(self, understockCond=False):
+        if understockCond and self.quantity < self.threshold: return
+        return {
+            "ingredientId": self.ingredient_id,
+            "ingredientName": self.ingredient_name,
+            "quantity": self.quantity,
+            "threshold": self.threshold
+        }
 
     def to_json(self):
         self.to_dict()

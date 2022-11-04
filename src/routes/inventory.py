@@ -4,40 +4,44 @@ from ..models import db, Inventory
 bp = Blueprint('inventory', __name__, url_prefix='/inventory')
 
 # Get entire inventory
-# Alternatively, get one ingredient if endpoint is ?name=""
+# Alternatively, get understocked ingredients if endpoint is ?restock-report
 @bp.get("/")
 def getInventory():
-    name = request.args.get('name')
-    if name is not None:
-        name = name.replace("+", " ")
-        inventoryIngredients = Inventory.query.filter_by(ingredient_name=name).all() # This returns 1, but within a list
+    understockCond = request.args.get('restock-report')
+    inventoryIngredients = Inventory.query.order_by(Inventory.ingredient_name.asc()).all()
+    return {"ingredients": [inv.to_dict(understockCond) for inv in inventoryIngredients]}
+
+@bp.get("/ingredient")
+def getInventoryIngredient():
+    ingredientName = request.json.get("ingredientName")
+    ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
+    return ingredient.to_dict()
+
+@bp.put("/restock")
+def restockIngredients():
+    allCondition = request.args.get("all")
+    ingredients = request.json.get("ingredients")
+    if allCondition:
+        pass
+    elif ingredients:
+        for ingredient_json in ingredients:
+            ingredientName = request.json.get("ingredientName")
+            amount = request.json.get("amount")
+            ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
+            ingredient.quantity += amount
+
+        # TODO:
     else:
-        inventoryIngredients = Inventory.query.order_by(Inventory.ingredient_name.asc()).all()
-    return {"inventory": [inv.to_dict() for inv in inventoryIngredients]}
+        return {"error"}, 400 # TODO
 
-# Add ingredient to inventory
-@bp.post("/")
-def createInventoryIngredient():
-    name = request.json["name"]
-    quantity = request.json["quantity"]
-    threshold = request.json["threshold"]
-    inventoryIngredient = Inventory(ingredient_name=name, 
-                                     quantity=quantity, 
-                                     threshold=threshold)
-
-    db.session.add(inventoryIngredient)
     db.session.commit()
-    
-    return inventoryIngredient.to_dict()
+    return # TODO: 
 
-@bp.put("/")
-def restockSingleIngredient():
-    pass
-
-@bp.put("/")
-def chThreshSingleIngredient():
-    pass
-
-@bp.put("/")
-def restockAllIngredients():
-    pass
+@bp.put("/threshold")
+def updateThresholdIngredient():
+    ingredientName = request.json.get("ingredientName")
+    newThreshold = request.json.get("newThreshold")
+    ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
+    ingredient.threshold = newThreshold
+    db.session.commit()
+    return {"success": True}

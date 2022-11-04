@@ -6,32 +6,17 @@ bp = Blueprint('menu', __name__, url_prefix='/menu')
 
 @bp.get('/')
 def getAllMenuItems():
+    includeDescripts = request.args.get('descriptions')
     menuItems = Menu.query.order_by(Menu.item_name.asc()).all()
-    return {"menu_items": [itm.to_dict() for itm in menuItems]}
+    return {"items": [itm.to_dict(includeDescripts) for itm in menuItems]}
 
-# Put has same behavior always, assumes you pass in a complete entity & that it replaces existing entity in db
-@bp.put('/')
-def updateMenuPrice():
-    itemName = request.json["itemName"]
-    newPrice = request.json["newPrice"]
+@bp.get('/item')
+def getMenuItem():
+    itemName = request.json.get('itemName')
+    menuItem = Menu.query.filer_by(item_name=itemName).first()
+    return menuItem.to_dict(includeDescripts=True)
 
-    menuItem = Menu.query.filter_by(item_name=itemName).first()
-    if menuItem is None:
-        return None, # TODO: Error Code
-    menuItem.price = newPrice
-    db.session.commit()
-    return "Update Successful" # TODO: Better Code
-
-
-'''
-{
-    itemName: str,
-    description: str,
-    price: float,
-    linkedInventory: list(str)
-}
-'''
-@bp.post('/')
+@bp.post('/item')
 def addMenuItem():
     itemName = request.json['itemName']
     description = request.json['description']
@@ -49,6 +34,7 @@ def addMenuItem():
     #   We append Inventory.ingredientId to MenuInventory.inventoryIngredients
     #   We append MenuInventory.ingredientId to Menu.menuIngredients
     # When done, add item to "Menu" database
+    newCounts = 0
     menuItem = Menu(
         item_id=str(uuid4()),
         item_name=itemName, 
@@ -64,6 +50,7 @@ def addMenuItem():
                     threshold=100
                 )
             db.session.add(ingredient) # Doesn't actually run the query yet, more like "stages" them for the commit
+            newCounts += 1
             inventoryMapping[ingredientName] = ingredient
         inv = inventoryMapping.get(ingredientName)
         menuInventory = MenuInventory(item_id=menuItem.item_id, ingredient_id=inv.ingredient_id)
@@ -73,12 +60,28 @@ def addMenuItem():
     db.session.add(menuItem)
     db.session.commit()
 
-    return "Item Creation Successful", 200
+    return {
+        "itemCreated": 1,
+        "ingredientsLinked": len(linkedInventory),
+        "newIngredientsCreated": newCounts
+    }
 
+# Put has same behavior always, assumes you pass in a complete entity & that it replaces existing entity in db
+@bp.put('/item/price')
+def updateMenuItemPrice():
+    itemName = request.json["itemName"]
+    newPrice = request.json["newPrice"]
+
+    menuItem = Menu.query.filter_by(item_name=itemName).first()
+    if menuItem is None:
+        return None, # TODO: Error Code
+    menuItem.price = newPrice
+    db.session.commit()
+    return {"success": True}
 
 @bp.delete("/")
 def delMenuItem():
     itemName = request.json['itemName']
-    rowsDeleted = Menu.query.filter_by(item_name=itemName).delete()
+    Menu.query.filter_by(item_name=itemName).delete()
     db.session.commit()
-    return {"deleted": rowsDeleted}
+    return {"success": True}
