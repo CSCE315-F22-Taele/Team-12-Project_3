@@ -1,3 +1,97 @@
+# Menu
+
+### GET /menu
+Get all menu items
+
+**Response**
+```json
+{
+    
+}
+```
+
+<br>
+
+### GET /menu/item
+Get a specific menu item
+
+**Request**
+```json
+{
+    "itemName": "Test Item"
+}
+```
+
+**Response**
+```json
+{
+    
+}
+```
+
+<br>
+
+### POST /menu/item
+Create a new menu item AND also create associated ingredients if new
+
+**Request**
+```json
+{
+    "itemName": "New Item",
+    "description": "This is a new item",
+    "price": 42.21,
+    "linkedInventory": [
+        "Ingredient Name1",
+        "Ingredient Name2"
+    ]
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### PUT /menu/item/price
+Update a menu item's price
+
+**Request**
+```json
+{
+    "itemName": "Test Item",
+    "newPrice": 17.82
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+### DELETE /menu/item
+Delete the specified item from the database
+
+**Request**
+```json
+{
+    "itemName": "Test Item"
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+
 # Inventory
 
 ### GET /inventory
@@ -102,99 +196,6 @@ Delete a specific ingredient from inventory
 }
 ```
     
-**Response**
-```json
-{
-
-}
-```
-
-# Menu
-
-### GET /menu
-Get all menu items
-
-**Response**
-```json
-{
-    
-}
-```
-
-<br>
-
-### GET /menu/item
-Get a specific menu item
-
-**Request**
-```json
-{
-    "itemName": "Test Item"
-}
-```
-
-**Response**
-```json
-{
-    
-}
-```
-
-<br>
-
-### POST /menu/item
-Create a new menu item AND also create associated ingredients if new
-
-**Request**
-```json
-{
-    "itemName": "New Item",
-    "description": "This is a new item",
-    "price": 42.21,
-    "linkedInventory": [
-        "Ingredient Name1",
-        "Ingredient Name2"
-    ]
-}
-```
-
-**Response**
-```json
-{
-
-}
-```
-
-<br>
-
-### PUT /menu/item/price
-Update a menu item's price
-
-**Request**
-```json
-{
-    "itemName": "Test Item",
-    "newPrice": 17.82
-}
-```
-
-**Response**
-```json
-{
-
-}
-```
-
-### DELETE /menu/item
-Delete the specified item from the database
-
-**Request**
-```json
-{
-    "itemName": "Test Item"
-}
-```
-
 **Response**
 ```json
 {
