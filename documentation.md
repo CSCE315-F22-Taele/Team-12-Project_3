@@ -6,7 +6,23 @@ Get all the orders(not recommended at all)
 **Response**
 ```json
 {
-
+    "orders": [
+        {
+            "orderId": "97sf-fayg-9s6f-a1no",
+            "customerName": "Chimmy Cherian",
+            "serverId": "2f7f-fslg-glob-ba7o",
+            "timeOrdered": "...",
+            "isServed": true, // or false
+            "price": 24.22,
+            "items": [
+                {
+                    "itemName": "Test Item1",
+                    "quantity": 3,
+                    "totalPrice": 36.21
+                }
+            ]
+        }
+    ]
 }
 ```
 
@@ -18,7 +34,23 @@ Get all the orders that haven't been served
 **Response**
 ```json
 {
-
+    "orders": [
+        {
+            "orderId": "97sf-fayg-9s6f-a1no",
+            "customerName": "Chimmy Cherian",
+            "serverId": "2f7f-fslg-glob-ba7o",
+            "timeOrdered": "...",
+            "isServed": false,
+            "price": 24.22,
+            "items": [
+                {
+                    "itemName": "Test Item1",
+                    "quantity": 3,
+                    "totalPrice": 36.21
+                }
+            ]
+        }
+    ]
 }
 ```
 
@@ -37,7 +69,18 @@ Get all the items for orders after a given timestamp where the item sold less th
 **Response**
 ```json
 {
-
+    "items": [
+        {
+            "itemName": "Test Item1",
+            "sales": 26,
+            "currentStock": 2752
+        }
+        {
+            "itemName": "Test Item2",
+            "sales": 1,
+            "currentStock": 100
+        }
+    ]
 }
 ```
 
@@ -57,7 +100,13 @@ Get sales by item from order history given startDate & endDate
 **Response**
 ```json
 {
-
+    "items": {
+        {
+            "itemName": "Test Item",
+            "sales": 28,
+            "revenue": 725.26
+        }
+    }
 }
 ```
 
@@ -86,7 +135,24 @@ Create an order with its linked items and add it to the database
 **Response**
 ```json
 {
-
+    "orderId": "7a9a-h10a-its0-ajof",
+    "customerName": "Perry Chow",
+    "serverId": "a601-iaft-aiyg-oaf2",
+    "timeOrdered": "",
+    "isServed": false,
+    "price": 47.21,
+    "items": [
+        {
+            "itemName": "Test Item1",
+            "quantity": 3,
+            "totalPrice": 36.21
+        },
+        {
+            "itemName": "Test Item2",
+            "quantity": 1,
+            "totalPrice": 1.00
+        }
+    ]
 }
 ```
 
@@ -105,7 +171,7 @@ Set the order as served in the database
 **Response**
 ```json
 {
-
+    "success": true
 }
 ```
 
@@ -118,7 +184,32 @@ Get all menu items
 **Response**
 ```json
 {
-    
+    "items": [
+        {
+            "itemId": "97sf-fayg-9s6f-a1no",
+            "itemName": "Test Item",
+            "price": 10.22
+        }
+    ]
+}
+```
+
+<br>
+
+### GET /menu?descriptions
+Get all menu items with descriptions
+
+**Response**
+```json
+{
+    "items": [
+        {
+            "itemId": "97sf-fayg-9s6f-a1no",
+            "itemName": "Test Item",
+            "description": "This is a test item",
+            "price": 10.22
+        }
+    ]
 }
 ```
 
@@ -137,7 +228,10 @@ Get a specific menu item
 **Response**
 ```json
 {
-    
+    "itemId": "97sf-fayg-9s6f-a1no",
+    "itemName": "Test Item",
+    "description": "This is a test item",
+    "price": 10.27
 }
 ```
 
@@ -154,7 +248,8 @@ Create a new menu item AND also create associated ingredients if new
     "price": 42.21,
     "linkedInventory": [
         "Ingredient Name1",
-        "Ingredient Name2"
+        "Ingredient Name2",
+        "New Ingredient Name1"
     ]
 }
 ```
@@ -162,7 +257,9 @@ Create a new menu item AND also create associated ingredients if new
 **Response**
 ```json
 {
-
+    "itemCreated": 1,
+    "ingredientsLinked": 3,
+    "newIngredientsCreated": 1
 }
 ```
 
@@ -182,7 +279,7 @@ Update a menu item's price
 **Response**
 ```json
 {
-
+    "success": true
 }
 ```
 
@@ -199,7 +296,7 @@ Delete the specified item from the database
 **Response**
 ```json
 {
-
+    "success": true
 }
 ```
 
@@ -212,7 +309,14 @@ Retrieves all the ingredients in the inventory
 **Response**
 ```json
 {
-
+    "ingredients": [
+        {
+            "ingredientId": "97sf-fayg-9s6f-a1no",
+            "ingredientName": "Test Ingredient",
+            "quantity": 710,
+            "threshold": 100
+        }
+    ]
 }
 ```
 
@@ -224,7 +328,14 @@ Get all ingredients that have a lower quantity than their respective threshold
 **Response**
 ```json
 {
-
+    "ingredients": [
+        {
+            "ingredientId": "97sf-fayg-9s6f-a1no",
+            "ingredientName": "Test Ingredient",
+            "quantity": 99,
+            "threshold": 100
+        }
+    ]
 }
 ```
 
@@ -243,7 +354,10 @@ Get a specific ingredient from inventory
 **Response**
 ```json
 {
-
+    "ingredientId": "97sf-fayg-9s6f-a1no",
+    "ingredientName": "Test Ingredient",
+    "quantity": 99,
+    "threshold": 100
 }
 ```
 
@@ -263,7 +377,7 @@ Restock a specific ingredient from inventory, adding the amount to the current q
 **Response**
 ```json
 {
-
+    "newQuantity": 120
 }
 ```
 
@@ -274,6 +388,9 @@ Restock all the ingredients in the inventory, adding the amount to each quantity
 
 **Response**
 ```json
+{
+    "countRestocked": 18
+}
 ```
 
 <br>
@@ -292,7 +409,7 @@ Change the threshold of a particular ingredient in the inventory
 **Response**
 ```json
 {
-
+    "success": true
 }
 ```
 
@@ -311,6 +428,6 @@ Delete a specific ingredient from inventory
 **Response**
 ```json
 {
-
+    "success": true
 }
 ```
