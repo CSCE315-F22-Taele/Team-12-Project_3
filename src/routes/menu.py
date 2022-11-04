@@ -12,8 +12,8 @@ def getAllMenuItems():
 # Put has same behavior always, assumes you pass in a complete entity & that it replaces existing entity in db
 @bp.put('/')
 def updateMenuPrice():
-    itemName = request.json["item_name"]
-    newPrice = request.json["new_price"]
+    itemName = request.json["itemName"]
+    newPrice = request.json["newPrice"]
 
     menuItem = Menu.query.filter_by(item_name=itemName).first()
     if menuItem is None:
@@ -33,10 +33,10 @@ def updateMenuPrice():
 '''
 @bp.post('/')
 def addMenuItem():
-    itemName = request.json['item_name']
+    itemName = request.json['itemName']
     description = request.json['description']
     price = request.json['price']
-    linkedInventory = request.json['linked_inventory'] # list of strings
+    linkedInventory = request.json['linkedInventory'] # list of strings
 
     inventory = Inventory.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
     inventoryMapping = {inv.ingredient_name: inv for inv in inventory}
@@ -78,7 +78,7 @@ def addMenuItem():
 
 @bp.delete("/")
 def delMenuItem():
-    itemName = request.json['item_name']
+    itemName = request.json['itemName']
     rowsDeleted = Menu.query.filter_by(item_name=itemName).delete()
     db.session.commit()
     return {"deleted": rowsDeleted}

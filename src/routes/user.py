@@ -24,7 +24,7 @@ def getUser(username):
 @bp.post("/")
 def addUser():
     username = request.json["username"]
-    userType = request.json["user_type"]
+    userType = request.json["userType"]
     password = request.json["password"]
 
     userTypeInt = 0 if userType == "SERVER" else 1

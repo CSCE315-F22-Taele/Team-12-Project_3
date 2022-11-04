@@ -100,7 +100,13 @@ Create a new menu item AND also create associated ingredients if new
 **Request**
 ```json
 {
-
+    "itemName": "New Item",
+    "description": "This is a new item",
+    "price": 42.21,
+    "linkedInventory": [
+        "Ingredient Name1",
+        "Ingredient Name2"
+    ]
 }
 ```
 
@@ -118,7 +124,7 @@ Update a menu item's price
 **Request**
 ```json
 {
-    "itemName": "Test Item"
+    "itemName": "Test Item",
     "newPrice": 17.82
 }
 ```
@@ -130,8 +136,12 @@ Update a menu item's price
 }
 ```
 
-### DELETE /menu/<string: itemName>
+### DELETE /menu/{itemName}
 Delete the specified item from the database
+**Request**
+|variable|type|
+|-|-|
+| itemName | string |
 
 **Response**
 ```json
