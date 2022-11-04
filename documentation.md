@@ -28,10 +28,11 @@ Get all ingredients that have a lower quantity than their respective threshold
 Get a specific ingredient from inventory
 
 **Request**
-
-|variable|type|
-|-|-|
-| ingredientName | string |
+```json
+{
+    "ingredientName": "Test Ingredient"
+}
+```
 
 **Response**
 ```json
@@ -92,9 +93,11 @@ Change the threshold of a particular ingredient in the inventory
 Delete a specific ingredient from inventory
 
 **Request**
-|variable|type|
-|-|-|
-| ingredientName | string |
+```json
+{
+    "ingredientName": "Test Ingredient"
+}
+```
     
 **Response**
 ```json
@@ -121,9 +124,11 @@ Get all menu items
 Get a specific menu item
 
 **Request**
-|variable|type|
-|-|-|
-| itemName | string |
+```json
+{
+    "itemName": "Test Item"
+}
+```
 
 **Response**
 ```json
@@ -181,9 +186,11 @@ Update a menu item's price
 Delete the specified item from the database
 
 **Request**
-|variable|type|
-|-|-|
-| itemName | string |
+```json
+{
+    "itemName": "Test Item"
+}
+```
 
 **Response**
 ```json
