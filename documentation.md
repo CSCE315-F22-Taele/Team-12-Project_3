@@ -24,7 +24,7 @@ Get all ingredients that have a lower quantity than their respective threshold
 
 <br>
 
-### GET /inventory/{ingredientName}
+### GET /inventory/ingredient
 Get a specific ingredient from inventory
 
 **Request**
@@ -43,7 +43,7 @@ Get a specific ingredient from inventory
 
 <br>
 
-### PUT /inventory/restock/
+### PUT /inventory/ingredient/restock
 Restock a specific ingredient from inventory, adding the amount to the current quantity
 
 **Request**
@@ -72,7 +72,7 @@ Restock all the ingredients in the inventory, adding the amount to each quantity
 
 <br>
 
-### PUT /inventory/threshold/
+### PUT /inventory/ingredient/threshold
 Change the threshold of a particular ingredient in the inventory
 
 **Request**
@@ -85,11 +85,14 @@ Change the threshold of a particular ingredient in the inventory
 
 **Response**
 ```json
+{
+
+}
 ```
 
 <br>
 
-### DELETE /inventory/{ingredientName}
+### DELETE /inventory/ingredient
 Delete a specific ingredient from inventory
 
 **Request**
@@ -120,7 +123,7 @@ Get all menu items
 
 <br>
 
-### GET /menu/{itemName}
+### GET /menu/item
 Get a specific menu item
 
 **Request**
@@ -139,7 +142,7 @@ Get a specific menu item
 
 <br>
 
-### POST /menu
+### POST /menu/item
 Create a new menu item AND also create associated ingredients if new
 
 **Request**
@@ -164,7 +167,7 @@ Create a new menu item AND also create associated ingredients if new
 
 <br>
 
-### PUT /menu
+### PUT /menu/item/price
 Update a menu item's price
 
 **Request**
@@ -182,7 +185,7 @@ Update a menu item's price
 }
 ```
 
-### DELETE /menu/{itemName}
+### DELETE /menu/item
 Delete the specified item from the database
 
 **Request**
