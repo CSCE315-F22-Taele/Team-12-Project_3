@@ -1,3 +1,115 @@
+# Orders
+
+### GET /orders
+Get all the orders(not recommended at all)
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### GET /orders?not-served
+Get all the orders that haven't been served
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### GET /orders/items/excess-report
+Get all the items for orders after a given timestamp where the item sold less than 10% of their current inventory
+
+**Request**
+```json
+{
+    "startDate": "YEAR-MONTH-DAY" // 2021-10-5
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### GET /orders/items/sales-report
+Get sales by item from order history given startDate & endDate
+
+**Request**
+```json
+{
+    "startDate": "YEAR-MONTH-DAY", // 2021-10-5
+    "endDate": "YEAR-MONTH-DAY", // 2021-10-10
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### POST /orders/order
+Create an order with its linked items and add it to the database
+
+**Request**
+```json
+{
+    "customerName": "Tony Jellygum",
+    "items": [
+        {
+            "itemName": "Test Item1",
+            "quantity": 3
+        },
+        {
+            "itemName": "Test Item2",
+            "quantity": 2
+        },
+    ]
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+<br>
+
+### PUT /orders/order/serve
+Set the order as served in the database
+
+**Request**
+```json
+{
+    "orderId": "7da7-j1od-61nf-ag02"
+}
+```
+
+**Response**
+```json
+{
+
+}
+```
+
+
 # Menu
 
 ### GET /menu
@@ -106,7 +218,7 @@ Retrieves all the ingredients in the inventory
 
 <br>
 
-### GET /inventory?under-stocked
+### GET /inventory?restock-report
 Get all ingredients that have a lower quantity than their respective threshold
 
 **Response**
