@@ -23,4 +23,4 @@ class Order(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def to_json(self):
-        self.to_dict()
+        return self.to_dict()

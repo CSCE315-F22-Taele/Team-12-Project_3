@@ -21,7 +21,7 @@ class Inventory(db.Model):
         }
 
     def to_json(self):
-        self.to_dict()
+        return self.to_dict()
 
     def __repr__(self):
         return f"{self.ingredientId} {self.ingredientName} {self.quantity} {self.threshold}"
