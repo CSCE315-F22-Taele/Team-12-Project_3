@@ -5,11 +5,10 @@ bp = Blueprint('user', __name__, url_prefix='/users')
 
 # Get all Users
 # Optionally, get one if endpoint is ?name=""
-@bp.get("/")
-def getUser():
-    name = request.args.get('username')
-    if name is not None:
-        name = name.replace("+", " ")
+@bp.get("/<string:username>")
+def getUser(username):
+    if username is not None:
+        name = username.replace("+", " ")
         users = User.query.filter_by(username=name).all() # Should return just one
     else:
         users = User.query.order_by(User.username.asc()).all()

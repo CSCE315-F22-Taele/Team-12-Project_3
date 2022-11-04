@@ -77,7 +77,7 @@ CREATE TABLE order_menu (
 	order_id VARCHAR(36) REFERENCES orders(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	item_id VARCHAR(36) REFERENCES menu(item_id) ON UPDATE CASCADE,
 	quantity INTEGER NOT NULL DEFAULT 0,
-	total_price FLOAT NOT NULL DEFAULT 0
+	total_price FLOAT NOT NULL DEFAULT 0,
 
 	PRIMARY KEY(order_id, item_id)
 );
