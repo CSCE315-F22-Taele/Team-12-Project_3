@@ -1,6 +1,6 @@
 # Inventory
 
-## GET
+### GET
 
 /inventory
 - Get all inventory items
@@ -20,7 +20,7 @@
 
 }
 
-# PUT
+### PUT
 
 /inventory
 
@@ -28,7 +28,7 @@
 
 /inventory
 
-# DELETE
+### DELETE
 
 /inventory/<string: ingredientName>
 - Delete a specific ingredient from inventory
@@ -38,7 +38,7 @@
 
 # Menu
 
-# GET
+### GET
 
 /menu
 - Get all menu items
@@ -52,7 +52,7 @@
     
 }
 
-# POST
+### POST
 
 /menu
 - Create a new menu item AND also create associated ingredients if new
@@ -63,7 +63,7 @@
 
 }
 
-# PUT
+### PUT
 
 /menu
 - Update a menu item's price
@@ -75,7 +75,7 @@
 
 }
 
-# DELETE
+### DELETE
 
 /menu/<string: itemName>
 - Delete the specified item from the database
