@@ -46,8 +46,6 @@ def addMenuItem():
             ingredient = Inventory(
                     ingredient_id=str(uuid4()),
                     ingredient_name=ingredientName,
-                    quantity=0,
-                    threshold=100
                 )
             db.session.add(ingredient) # Doesn't actually run the query yet, more like "stages" them for the commit
             newCounts += 1

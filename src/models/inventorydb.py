@@ -5,8 +5,8 @@ from uuid import uuid4
 class Inventory(db.Model):
     ingredient_id = db.Column(db.String(36), primary_key=True)
     ingredient_name = db.Column(db.String(255), nullable=False, unique=True)
-    quantity = db.Column(db.Integer, nullable=False, default=0)
-    threshold = db.Column(db.Integer, default=100)
+    quantity = db.Column(db.Integer, nullable=False, server_default="0")
+    threshold = db.Column(db.Integer, server_default="100")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

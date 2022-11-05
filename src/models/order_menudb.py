@@ -7,8 +7,8 @@ class OrderMenu(db.Model):
     __tablename__ = "order_menu"
     order_id = db.Column(db.String(36), db.ForeignKey("orders.id"), primary_key=True)
     item_id = db.Column(db.String(36), db.ForeignKey('menu.item_id'), primary_key=True)
-    quantity = db.Column(db.Integer, nullable=False, default=0)
-    total_price = db.Column(db.Integer, nullable=False, default=0)
+    quantity = db.Column(db.Integer, nullable=False, server_default="0")
+    total_price = db.Column(db.Integer, nullable=False, server_default="0")
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

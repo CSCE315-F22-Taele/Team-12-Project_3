@@ -5,7 +5,7 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(36), primary_key=True)
     username = db.Column(db.String(50), unique=True)
-    user_type = db.Column(db.Integer, db.ForeignKey("user_types.id"), nullable=False, default=0)
+    user_type = db.Column(db.Integer, db.ForeignKey("user_types.id"), nullable=False, server_default="0")
 
     # Relationship between User & Credentials, so that you can add to both in one transaction
     user_credential = db.relationship("Credentials")
