@@ -19,7 +19,7 @@ class Menu(db.Model):
             "itemName": self.item_name,
             "price": self.price
         }
-        if includeDescripts: ret["description"] = self.descriptions
+        if includeDescripts: ret["description"] = self.description
         return ret
             
 
