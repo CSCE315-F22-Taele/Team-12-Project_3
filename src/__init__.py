@@ -21,7 +21,7 @@ def create_app(test_config=None):
     )
     from .routes import (
         user, 
-        # inventory,
+        inventory,
         menu
     )
 
@@ -29,7 +29,7 @@ def create_app(test_config=None):
 
     
     baseBP.register_blueprint(user.bp)
-    # baseBP.register_blueprint(inventory.bp)
+    baseBP.register_blueprint(inventory.bp)
     baseBP.register_blueprint(menu.bp)
 
     app.register_blueprint(baseBP)
