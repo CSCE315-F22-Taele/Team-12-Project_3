@@ -7,8 +7,11 @@ bp = Blueprint('inventory', __name__, url_prefix='/inventory')
 # Alternatively, get understocked ingredients if endpoint is ?restock-report
 @bp.get("/")
 def getInventory():
-    understockCond = request.args.get('restock-report')
-    inventoryIngredients = Inventory.query.order_by(Inventory.ingredient_name.asc()).all()
+    understockCond = ('restock-report' in request.args)
+    inventoryQuery = Inventory.query
+    if understockCond:
+        inventoryQuery = inventoryQuery.filter(Inventory.quantity < Inventory.threshold)
+    inventoryIngredients = inventoryQuery.order_by(Inventory.ingredient_name.asc()).all()
     return {"ingredients": [inv.to_dict(understockCond) for inv in inventoryIngredients]}
 
 @bp.get("/ingredient")
@@ -19,7 +22,7 @@ def getInventoryIngredient():
 
 @bp.put("/restock")
 def restockIngredients():
-    allCondition = request.args.get("all")
+    allCondition = ("all" in request.args)
     ingredientsList = request.json.get("ingredients")
     if allCondition:
         allIngredients = Inventory.query.all()
