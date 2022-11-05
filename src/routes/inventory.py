@@ -20,28 +20,44 @@ def getInventoryIngredient():
 @bp.put("/restock")
 def restockIngredients():
     allCondition = request.args.get("all")
-    ingredients = request.json.get("ingredients")
+    ingredientsList = request.json.get("ingredients")
     if allCondition:
-        pass
-    elif ingredients:
-        for ingredient_json in ingredients:
-            ingredientName = request.json.get("ingredientName")
-            amount = request.json.get("amount")
-            ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
+        allIngredients = Inventory.query.all()
+        amount = request.json.get("amount")
+        for ingredient in allIngredients:
             ingredient.quantity += amount
-
-        # TODO:
+        countRestocked = len(allIngredients)
+    elif ingredientsList:
+        ingredientNameList = [ingredient['ingredientName'] for ingredient in ingredientsList]
+        ingredientObjectsList = Inventory.query.filter(
+                                    Inventory.ingredient_name.in_(ingredientNameList)
+                                ).all()
+        assert(len(ingredientsList) == len(ingredientObjectsList)), "LENGTHS DON'T MATCH" # TODO: Throw a better exception
+        for ingredientObj, ingredientJson in zip(ingredientObjectsList, ingredientsList):
+            amount = ingredientJson.get("amount")
+            ingredientObj.quantity += amount
+        countRestocked = len(ingredientNameList)
     else:
-        return {"error"}, 400 # TODO
+        return {"error"}, 400 # TODO: Throw a better exception
 
     db.session.commit()
-    return # TODO: 
+    return {"countRestocked": countRestocked}
 
 @bp.put("/threshold")
 def updateThresholdIngredient():
-    ingredientName = request.json.get("ingredientName")
-    newThreshold = request.json.get("newThreshold")
-    ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
-    ingredient.threshold = newThreshold
+    ingredientsList = request.json.get("ingredients")
+    if ingredientsList:
+        ingredientNameList = [ingredient['ingredientName'] for ingredient in ingredientsList]
+        ingredientObjectsList = Inventory.query.filter(
+                                    Inventory.ingredient_name.in_(ingredientNameList)
+                                ).all()
+        assert(len(ingredientsList) == len(ingredientObjectsList)), "LENGTHS DON'T MATCH" # TODO: Throw a better exception
+        for ingredientObj, ingredientJson in zip(ingredientObjectsList, ingredientsList):
+            newThreshold = ingredientJson.get("newThreshold")
+            ingredientObj.threshold += newThreshold
+        countChanged = len(ingredientNameList)
+    else:
+        return {"error"}, 400 # TODO: Throw a better exception
+
     db.session.commit()
-    return {"success": True}
+    return {"countRestocked": countChanged}

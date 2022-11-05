@@ -385,14 +385,21 @@ Restock specified ingredients in the inventory by their respective amounts
 **Response**
 ```json
 {
-    "newQuantity": 120
+    "countRestocked": 2
 }
 ```
 
 <br>
 
 ### PUT /inventory/restock?all
-Restock all the ingredients in the inventory, adding the amount to each quantity
+Restock all the ingredients in the inventory adding a static amount to each quantity
+
+**Request**
+```json
+{
+    "amount": 250
+}
+```
 
 **Response**
 ```json
@@ -404,20 +411,28 @@ Restock all the ingredients in the inventory, adding the amount to each quantity
 <br>
 
 ### PUT /inventory/threshold
-Change the threshold of a particular ingredient in the inventory
+Change the threshold of all ingredients in the specified list
 
 **Request**
 ```json
 {
-    "ingredientName": "Test Ingredient",
-    "newThreshold": 120
+    "ingredients": [
+        {
+            "ingredientName": "Test Ingredient",
+            "newThreshold": 120
+        },
+        {
+            "ingredientName": "Test Ingredient2",
+            "newThreshold": 130
+        }
+    ]
 }
 ```
 
 **Response**
 ```json
 {
-    "success": true
+    "countChanged": 2
 }
 ```
 
