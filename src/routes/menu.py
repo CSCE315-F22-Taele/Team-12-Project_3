@@ -6,7 +6,7 @@ bp = Blueprint('menu', __name__, url_prefix='/menu')
 
 @bp.get('/')
 def getAllMenuItems():
-    includeDescripts = request.args.get('descriptions')
+    includeDescripts = ('descriptions' in request.args)
     menuItems = Menu.query.order_by(Menu.item_name.asc()).all()
     return {"items": [itm.to_dict(includeDescripts) for itm in menuItems]}
 
