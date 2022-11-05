@@ -1,5 +1,4 @@
 from . import db
-from uuid import uuid4
 
 class Credentials(db.Model):
     id = db.Column(db.String(36), db.ForeignKey('users.id', ondelete="CASCADE"), primary_key=True)

@@ -1,5 +1,4 @@
 from . import db
-from uuid import uuid4
 
 # A table, that when run using db.create_all() will create this table
 class Inventory(db.Model):
