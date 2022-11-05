@@ -1,6 +1,4 @@
-from flask import Flask, Blueprint
-from flask_sqlalchemy import SQLAlchemy
-import os
+import requests
 
 reqs = [
 {
@@ -125,8 +123,8 @@ reqs = [
     ]
 },
     {
-    "itemName": "GleEmSauce",
-    "description": "GleEmSauce",
+    "itemName": "Gle Em Sauce",
+    "description": "Gle Em Sauce",
     "price": 0,
     "linkedInventory": [
         "GleEmSauce"
@@ -245,3 +243,7 @@ reqs = [
         "Vanilla Ice Cream"
     ]
 }]
+
+for req in reqs:
+    response = requests.post("http://127.0.0.1:5000/api/menu/item", json=req)
+    print(response.text)
