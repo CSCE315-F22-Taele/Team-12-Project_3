@@ -12,7 +12,7 @@ def getInventory():
     if understockCond:
         inventoryQuery = inventoryQuery.filter(Inventory.quantity < Inventory.threshold)
     inventoryIngredients = inventoryQuery.order_by(Inventory.ingredient_name.asc()).all()
-    return {"ingredients": [inv.to_dict(understockCond) for inv in inventoryIngredients]}
+    return {"ingredients": [inv.to_dict() for inv in inventoryIngredients]}
 
 @bp.get("/ingredient")
 def getInventoryIngredient():

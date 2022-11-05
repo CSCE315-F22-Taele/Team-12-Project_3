@@ -11,8 +11,7 @@ class Inventory(db.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def to_dict(self, understockCond=False):
-        if understockCond and self.quantity < self.threshold: return
+    def to_dict(self):
         return {
             "ingredientId": self.ingredient_id,
             "ingredientName": self.ingredient_name,
