@@ -1,6 +1,7 @@
 from . import db, OrderMenu, Menu
-from uuid import uuid4
 import datetime
+
+# time_ordered = db.Column(db.DateTime(timezone=False), nullable=False)
 
 class Order(db.Model):
 
@@ -9,7 +10,7 @@ class Order(db.Model):
     id = db.Column(db.String(36), primary_key=True)
     customer_name = db.Column(db.String(255), nullable=False)
     server_id = db.Column(db.String(36), db.ForeignKey('users.id'))
-    time_ordered = db.Column(db.DateTime(timezone=False), nullable=False, server_default="datetime.datetime.utcnow")
+    time_ordered = db.Column(db.DateTime(timezone=False), nullable=False)
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 

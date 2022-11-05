@@ -1,5 +1,6 @@
 from flask import request, Blueprint
 from ..models import db, Menu, MenuInventory, Inventory
+from uuid import uuid4
 
 bp = Blueprint('menu', __name__, url_prefix='/menu')
 
@@ -35,13 +36,17 @@ def addMenuItem():
     # When done, add item to "Menu" database
     newCounts = 0
     menuItem = Menu(
+        item_id=str(uuid4()),
         item_name=itemName, 
         description=description, 
         price=price
     )
     for ingredientName in linkedInventory:
         if ingredientName not in inventoryMapping:
-            ingredient = Inventory(ingredient_name=ingredientName)
+            ingredient = Inventory(
+                    ingredient_id=str(uuid4()),
+                    ingredient_name=ingredientName,
+                )
             db.session.add(ingredient) # Doesn't actually run the query yet, more like "stages" them for the commit
             newCounts += 1
             inventoryMapping[ingredientName] = ingredient
