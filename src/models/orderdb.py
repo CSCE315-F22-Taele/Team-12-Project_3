@@ -1,4 +1,4 @@
-from . import db, Ingredient, Item
+from . import db, OrderMenu
 from uuid import uuid4
 import datetime
 
@@ -13,14 +13,21 @@ class Order(db.Model):
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 
-    ingredients = db.relationship("Ingredient", cascade="all, delete-orphan")
-    items = db.relationship("Item", cascade="all, delete-orphan")
+    orderMenuItems = db.relationship("OrderMenu", uselist=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def to_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        return {
+            "orderId": self.id,
+            "customerName": self.customer_name,
+            "serverId": self.server_id,
+            "timeOrdered": self.time_ordered,
+            "isServed": self.is_served,
+            "price": self.price,
+            "items": self.orderMenuItems # FIXME: This might be horribly wrong
+        }
 
     def to_json(self):
         return self.to_dict()

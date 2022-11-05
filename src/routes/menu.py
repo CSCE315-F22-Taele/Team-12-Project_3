@@ -51,9 +51,8 @@ def addMenuItem():
             newCounts += 1
             inventoryMapping[ingredientName] = ingredient
         inv = inventoryMapping.get(ingredientName)
-        menuInventory = MenuInventory(item_id=menuItem.item_id, ingredient_id=inv.ingredient_id)
-        menuInventory.inventoryIngredients.append(inv)
-        menuItem.menuIngredients.append(menuInventory)
+        MenuInventory.insert().values(item_id=menuItem.item_id, ingredient_id=inv.ingredient_id)
+        menuItem.menuIngredients.append(inv)
 
     db.session.add(menuItem)
     db.session.commit()

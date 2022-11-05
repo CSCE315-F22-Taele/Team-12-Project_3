@@ -1,4 +1,4 @@
-from . import db, MenuInventory
+from . import db, MenuInventory, Inventory
 
 # A table, that when run using db.create_all() will create this table
 class Menu(db.Model):
@@ -8,7 +8,11 @@ class Menu(db.Model):
     price = db.Column(db.Float, nullable=False, server_default="0")
 
     # uselist required so that menuIngredients always considered a list; avoids Nonetype
-    menuIngredients = db.relationship("MenuInventory", uselist=True)
+    menuIngredients = db.relationship(
+                        "Inventory", 
+                        secondary=MenuInventory,
+                        uselist=True
+                    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

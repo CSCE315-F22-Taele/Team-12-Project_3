@@ -1,4 +1,4 @@
-from . import db
+from . import db, Menu
 from uuid import uuid4
 
 class OrderMenu(db.Model):
@@ -9,6 +9,8 @@ class OrderMenu(db.Model):
     item_id = db.Column(db.String(36), db.ForeignKey('menu.item_id'), primary_key=True)
     quantity = db.Column(db.Integer, nullable=False, server_default="0")
     total_price = db.Column(db.Integer, nullable=False, server_default="0")
+
+    menuItems = db.relationship("Menu", uselist=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
