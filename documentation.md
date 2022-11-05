@@ -249,7 +249,7 @@ Create a new menu item AND also create associated ingredients if new
     "linkedInventory": [
         "Ingredient Name1",
         "Ingredient Name2",
-        "    Ingredient Name1"
+        "New Ingredient Name1"
     ]
 }
 ```
