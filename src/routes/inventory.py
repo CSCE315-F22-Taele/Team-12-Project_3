@@ -57,7 +57,7 @@ def updateThresholdIngredient():
         assert(len(ingredientsList) == len(ingredientObjectsList)), "LENGTHS DON'T MATCH" # TODO: Throw a better exception
         for ingredientObj, ingredientJson in zip(ingredientObjectsList, ingredientsList):
             newThreshold = ingredientJson.get("newThreshold")
-            ingredientObj.threshold += newThreshold
+            ingredientObj.threshold = newThreshold
         countChanged = len(ingredientNameList)
     else:
         return {"error"}, 400 # TODO: Throw a better exception
