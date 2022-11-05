@@ -14,11 +14,11 @@ class Order(db.Model):
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 
-    orderMenuItems = db.relationship(
-                        "Menu", 
-                        secondary=OrderMenu,
-                        uselist=True
-                    )
+    items = db.relationship(
+                "Menu", 
+                secondary=OrderMenu,
+                uselist=True
+            )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -31,7 +31,7 @@ class Order(db.Model):
             "timeOrdered": self.time_ordered,
             "isServed": self.is_served,
             "price": self.price,
-            "items": self.orderMenuItems # FIXME: This might be horribly wrong
+            "items": self.items # FIXME: This might be horribly wrong
         }
 
     def to_json(self):
