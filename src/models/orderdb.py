@@ -1,4 +1,4 @@
-from . import db, OrderMenu
+from . import db, OrderMenu, Menu
 from uuid import uuid4
 import datetime
 
@@ -13,7 +13,11 @@ class Order(db.Model):
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 
-    orderMenuItems = db.relationship("OrderMenu", uselist=True)
+    orderMenuItems = db.relationship(
+                        "Menu", 
+                        secondary=OrderMenu,
+                        uselist=True
+                    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

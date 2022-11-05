@@ -1,8 +1,9 @@
 from . import db, MenuInventory, Inventory
+from uuid import uuid4
 
 # A table, that when run using db.create_all() will create this table
 class Menu(db.Model):
-    item_id = db.Column("item_id", db.String(36), primary_key=True)
+    item_id = db.Column("item_id", db.String(36), primary_key=True, default=uuid4)
     item_name = db.Column("item_name", db.String(255), nullable=False, unique=True)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False, server_default="0")
