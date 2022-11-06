@@ -150,7 +150,7 @@ Create an order with its linked items and add it to the database
         {
             "itemName": "Test Item2",
             "quantity": 1,
-            "totalPrice": 1.00
+            "totalPrice": 11.00
         }
     ]
 }
