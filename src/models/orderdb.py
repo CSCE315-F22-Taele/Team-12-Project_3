@@ -1,4 +1,5 @@
 from . import db, Menu, OrderMenu
+from sqlalchemy.ext.associationproxy import association_proxy
 import datetime
 
 # time_ordered = db.Column(db.DateTime(timezone=False), nullable=False)
@@ -14,16 +15,32 @@ class Order(db.Model):
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 
-    menuItems = db.relationship(
-                "Menu", 
-                secondary="order_menu",
-                uselist=True
-            )
+    orderMenuLinking = db.relationship(
+        "OrderMenu",
+        uselist=True
+    )
+    menuItems = association_proxy("orderMenuLinking", "menuItem")
+
+    # menuItems = db.relationship(
+    #             "Menu", 
+    #             secondary="order_menu",
+    #             uselist=True
+    #         )
+
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     def to_dict(self):
+        # FIXME: THIS IS SO BAD AND UGLY
+        itemsInfo = []
+        for menuLinkingObj, itmObj in zip(self.orderMenuLinking, self.menuItems):
+            menuLinkingObjDict = menuLinkingObj.to_dict()
+            dictToAdd = itmObj.to_dict()
+            dictToAdd['quantity'] = menuLinkingObjDict['quantity']
+            dictToAdd['totalPrice'] = menuLinkingObjDict['total_price']
+            itemsInfo.append(dictToAdd)
+
         return {
             "orderId": self.id,
             "customerName": self.customer_name,
@@ -31,7 +48,7 @@ class Order(db.Model):
             "timeOrdered": self.time_ordered,
             "isServed": self.is_served,
             "price": self.price,
-            "items": [itm.to_dict() for itm in self.menuItems]
+            "items": itemsInfo
         }
 
     def to_json(self):
