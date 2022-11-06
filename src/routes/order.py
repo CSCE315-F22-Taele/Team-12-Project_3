@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from ..models import db, Order, OrderMenu, Menu
 
-bp = Blueprint('order', __name__, url_prefix='/orders')
+bp = Blueprint('orders', __name__, url_prefix='/orders')
 
 # Adding order, will need Order, Item, & Ingredient
 # TODO: Assign a random server

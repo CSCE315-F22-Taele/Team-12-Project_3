@@ -1,4 +1,4 @@
-from . import db, OrderMenu, Menu
+from . import db, Menu, OrderMenu
 import datetime
 
 # time_ordered = db.Column(db.DateTime(timezone=False), nullable=False)
@@ -14,9 +14,9 @@ class Order(db.Model):
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 
-    items = db.relationship(
+    menuItems = db.relationship(
                 "Menu", 
-                secondary=OrderMenu,
+                secondary="order_menu",
                 uselist=True
             )
 
@@ -31,7 +31,7 @@ class Order(db.Model):
             "timeOrdered": self.time_ordered,
             "isServed": self.is_served,
             "price": self.price,
-            "items": self.items # FIXME: This might be horribly wrong
+            "items": [itm.to_dict() for itm in self.menuItems]
         }
 
     def to_json(self):

@@ -17,12 +17,14 @@ def create_app(test_config=None):
     from .models import (
         db, 
         UserType, Credentials, User,
-        Menu, MenuInventory, Inventory
+        Menu, MenuInventory, Inventory,
+        Order, OrderMenu
     )
     from .routes import (
         user, 
         inventory,
-        menu
+        menu,
+        order
     )
 
     baseBP = Blueprint('root', __name__, url_prefix='/api')
@@ -31,6 +33,7 @@ def create_app(test_config=None):
     baseBP.register_blueprint(user.bp)
     baseBP.register_blueprint(inventory.bp)
     baseBP.register_blueprint(menu.bp)
+    baseBP.register_blueprint(order.bp)
 
     app.register_blueprint(baseBP)
 
