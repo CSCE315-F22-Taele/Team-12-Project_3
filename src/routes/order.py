@@ -1,5 +1,7 @@
 from flask import Blueprint, request
 from ..models import db, Order, OrderMenu, Menu
+from datetime import datetime
+from uuid import uuid4
 
 bp = Blueprint('orders', __name__, url_prefix='/orders')
 
@@ -32,3 +34,55 @@ Add order to db.session
 Commit order
 
 '''
+
+
+
+@bp.post("/order")
+def createOrder():
+    menu = Menu.query.all()
+    menuMapping = {itm.item_name: itm for itm in menu}
+    customerName = request.json['customerName']
+    items = request.json['items']
+    
+    
+    newOrder = Order(customer_name = customerName)
+    orderId = str(uuid4())
+    totalPrice = 0
+    timeOrdered = datetime.now()
+    
+    for itm in items:
+        menuItem = menuMapping[itm.itemName]
+        priceThisItem = menuItem.price * itm.quantity
+        totalPrice += priceThisItem
+        OrderMenu.insert().values(order_id=orderId, 
+                                 item_id=menuItem.item_id, 
+                                 quantity=itm.quantity, 
+                                 total_price=priceThisItem)
+
+        # newOrder.menuItems.append(menuMapping.get(itm).item_name)
+        newOrder.menuItems.append(menuMapping.get(itm.item_name))
+        
+    newOrder.id = orderId
+    # TODO: fix server_id
+    newOrder.server_id = "1"  
+    newOrder.time_ordered = timeOrdered
+    newOrder.is_served = False
+    newOrder.price = totalPrice
+    db.session.add(newOrder)
+    db.session.commit()
+    
+    return {
+        "orderId": orderId,
+        "customerName": customerName,
+        "serverId": "1",
+        "timeOrdered": timeOrdered,
+        "isServed": False,
+        "price": totalPrice,
+        "items": [
+            {"itemName": itm.item_name, 
+             "quantity": itm.quantity, 
+             "totalPrice": } for itm in items]
+        
+    }
+        
+        
