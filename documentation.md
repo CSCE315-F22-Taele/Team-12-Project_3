@@ -29,7 +29,14 @@ Get all the orders(not recommended at all)
 <br>
 
 ### GET /orders?not-served
-Get all the orders that haven't been served
+Get all the orders that haven't been served. Optionally, pass in a serverId to get orders related to that server.
+
+**Request**
+```json
+{
+    "serverId": "2f7f-fslg-glob-ba7o" // OPTIONAL
+}
+```
 
 **Response**
 ```json
