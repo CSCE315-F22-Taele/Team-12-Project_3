@@ -26,7 +26,7 @@ LEFT JOIN
         LEFT JOIN order_menu om ON
             o.id = om.order_id
         WHERE o.time_ordered >= timestamp '2022-11-01'
-            AND o.time_ordered < timestamp '2022-11-03'
+            AND o.time_ordered <= timestamp '2022-11-03'
     ) omBetween
 ON m.item_id = omBetween.item_id
 GROUP BY
@@ -35,9 +35,9 @@ GROUP BY
 
 -- Excess Report
 SELECT 
-    i.ingredient_name, 
+    DISTINCT(m.item_id),
     m.item_name, 
-    SUM(omAfterTime.quantity) item_sales
+    COALESCE(SUM(omAfterTime.quantity), 0) item_sales
 FROM menu m
 LEFT JOIN 
     (
@@ -56,6 +56,8 @@ GROUP BY
     i.ingredient_id,
     m.item_id
 HAVING
-    SUM(omAfterTime.quantity) < i.quantity OR
+    SUM(omAfterTime.quantity) < i.quantity*.1 OR
     SUM(omAfterTime.quantity) IS NULL
+ORDER BY
+    m.item_name ASC
 ;

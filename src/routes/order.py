@@ -35,11 +35,7 @@ Loop through linkedItems:
 
 Add order to db.session
 Commit order
-
 '''
-
-
-
 @bp.post("/order")
 def createOrder():
     menu = Menu.query.all()
@@ -91,7 +87,6 @@ def createOrder():
             } 
             for itm, orderMenu in zip(items, newOrder.menuItems)
         ]
-        
     }
         
 
