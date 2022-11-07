@@ -55,7 +55,8 @@ Get all the orders that haven't been served. Optionally, pass in a serverId to g
                     "itemName": "Test Item1",
                     "quantity": 3,
                     "totalPrice": 36.21
-                }
+                },
+                ...
             ]
         }
     ]
@@ -83,11 +84,7 @@ Get all the items for orders after a given timestamp where the item sold less th
             "sales": 26,
             "currentStock": 2752
         },
-        {
-            "itemName": "Test Item2",
-            "sales": 1,
-            "currentStock": 100
-        }
+        ...
     ]
 }
 ```
@@ -108,13 +105,14 @@ Get sales by item from order history given startDate & endDate
 **Response**
 ```json
 {
-    "items": {
+    "items": [
         {
             "itemName": "Test Item",
             "sales": 28,
             "revenue": 725.26
-        }
-    }
+        },
+        ...
+    ]
 }
 ```
 
@@ -132,10 +130,7 @@ Create an order with its linked items and add it to the database
             "itemName": "Test Item1",
             "quantity": 3
         },
-        {
-            "itemName": "Test Item2",
-            "quantity": 2
-        },
+        ...
     ]
 }
 ```
@@ -155,11 +150,7 @@ Create an order with its linked items and add it to the database
             "quantity": 3,
             "totalPrice": 36.21
         },
-        {
-            "itemName": "Test Item2",
-            "quantity": 1,
-            "totalPrice": 11.00
-        }
+        ...
     ]
 }
 ```
@@ -197,7 +188,8 @@ Get all menu items
             "itemId": "97sf-fayg-9s6f-a1no",
             "itemName": "Test Item",
             "price": 10.22
-        }
+        },
+        ...
     ]
 }
 ```
@@ -216,7 +208,8 @@ Get all menu items with descriptions
             "itemName": "Test Item",
             "description": "This is a test item",
             "price": 10.22
-        }
+        },
+        ...
     ]
 }
 ```
@@ -323,7 +316,8 @@ Retrieves all the ingredients in the inventory
             "ingredientName": "Test Ingredient",
             "quantity": 710,
             "threshold": 100
-        }
+        },
+        ...
     ]
 }
 ```
@@ -342,7 +336,8 @@ Get all ingredients that have a lower quantity than their respective threshold
             "ingredientName": "Test Ingredient",
             "quantity": 99,
             "threshold": 100
-        }
+        },
+        ...
     ]
 }
 ```
@@ -382,10 +377,7 @@ Restock specified ingredients in the inventory by their respective amounts
             "ingredientName": "Test Ingredient1",
             "amount": 20
         },
-        {
-            "ingredientName": "Test Ingredient2",
-            "amount": 27
-        }
+        ...
     ]
 }
 ```
@@ -429,10 +421,7 @@ Change the threshold of all ingredients in the specified list
             "ingredientName": "Test Ingredient",
             "newThreshold": 120
         },
-        {
-            "ingredientName": "Test Ingredient2",
-            "newThreshold": 130
-        }
+        ...
     ]
 }
 ```
