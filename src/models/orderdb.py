@@ -15,18 +15,12 @@ class Order(db.Model):
     is_served = db.Column(db.Boolean, nullable=False, server_default="False")
     price = db.Column(db.Float, nullable=False, server_default="0")
 
+    # TODO: look at back-populates or backref???
     orderMenuLinking = db.relationship(
         "OrderMenu",
         uselist=True
     )
     menuItems = association_proxy("orderMenuLinking", "menuItem")
-
-    # menuItems = db.relationship(
-    #             "Menu", 
-    #             secondary="order_menu",
-    #             uselist=True
-    #         )
-
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
