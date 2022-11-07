@@ -19,7 +19,8 @@ Get all the orders(not recommended at all)
                     "itemName": "Test Item1",
                     "quantity": 3,
                     "totalPrice": 36.21
-                }
+                },
+                ...
             ]
         }
     ]
