@@ -1,7 +1,15 @@
 # Orders
 
 ### GET /orders
-Get all the orders(not recommended at all)
+Get all the orders(not recommended at all). Optionally, pass in a serverId to get orders related to that server.
+**Ensure that the request type is json, and simply pass in an empty {}.**
+
+**Request**
+```json
+{
+    "serverId": "2f7f-fslg-glob-ba7o" // OPTIONAL
+}
+```
 
 **Response**
 ```json
@@ -31,6 +39,7 @@ Get all the orders(not recommended at all)
 
 ### GET /orders?not-served
 Get all the orders that haven't been served. Optionally, pass in a serverId to get orders related to that server.
+**Ensure that the request type is json, and simply pass in an empty {}.**
 
 **Request**
 ```json

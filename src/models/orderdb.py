@@ -22,6 +22,10 @@ class Order(db.Model):
     )
     menuItems = association_proxy("orderMenuLinking", "menuItem")
 
+    # NOTE: We eagerly load the mappings with items, but not with ingredients yet
+    #       because we would only want to access ingredients in the PUT request.
+    #       Loading above is "eager", and in PUT request it is on "query"
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
