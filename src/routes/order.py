@@ -81,7 +81,7 @@ def createOrder():
         "items": [
             {"itemName": itm.item_name, 
              "quantity": itm.quantity, 
-             "totalPrice": menuItem.total_price} for itm, menuItem in zip(items, OrderMenu.menuItems)]
+             "totalPrice": menuItem.total_price} for itm, menuItem in zip(items, newOrder.menuItems)]
         
     }
         
