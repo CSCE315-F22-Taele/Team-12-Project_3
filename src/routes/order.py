@@ -33,6 +33,9 @@ def getSalesReport():
     endDateFormatted = datetime.strptime(endDate, '%Y-%m-%d')
     assert (endDateFormatted >= startDateFormatted), "endDate lies before startDate"
 
+    # NOTE: outerjoin is used because if no conditions match it will insert anyway
+    #       but with some values nulled out. This allows you to get menu items that didn't
+    #       appear in the inventory.
     salesReport = db.session.query(
                     Menu.item_name, 
                     func.sum(OrderMenu.quantity), 
@@ -54,8 +57,8 @@ def getSalesReport():
         "items": [
             {
                 "itemName": itemName,
-                "sales": sales or 0,
-                "revenue": revenue or 0
+                "sales": sales or 0,        # Because some items didn't appear in orders, they will be null
+                "revenue": revenue or 0     # Thus, by doing this it's either a value or defaulted to 0
             }
             for itemName, sales, revenue in salesReport
         ]
@@ -80,9 +83,12 @@ Commit order
 def createOrder():
     menu = Menu.query.all()
     menuMapping = {itm.item_name: itm for itm in menu}
-    customerName = request.json['customerName']
-    items = request.json['items']
-    
+    customerName = request.json.get('customerName')
+    items = request.json.get('items')
+    serverId = request.json.get('serverId')
+
+    assert(customerName and items), "customerName or items not provided!"
+    assert(not serverId or (isinstance(serverId, str) and len(serverId) == 36)), "serverId provided is invalid"
     
     timeOrdered = datetime.now()
     newOrder = Order(
@@ -107,7 +113,7 @@ def createOrder():
     assert(len(newOrder.menuItems) == len(items)), "LENGTHS NOT EQUAL" # TODO: Throw a better error for anthony
 
     # TODO: fix server_id
-    newOrder.server_id = "1"  
+    newOrder.server_id = serverId or "1"  
     newOrder.price = totalPrice
     db.session.add(newOrder)
     db.session.commit()
