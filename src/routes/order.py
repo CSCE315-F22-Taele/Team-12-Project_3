@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
-from sqlalchemy import and_, func
+from sqlalchemy import and_, or_, func, distinct
+from sqlalchemy.sql.functions import coalesce
 from datetime import datetime
 from uuid import uuid4
 
@@ -64,6 +65,53 @@ def getSalesReport():
         ]
     }
 
+@bp.get("/items/excess-report")
+def getExcessReport():
+    startDateStr = request.json.get("startDate")    # get provided time as string
+    endDate = datetime.now()                        # get current time (upper bound on interval)
+    assert(startDateStr), "startDate not provided"
+
+    startDate = datetime.strptime(startDateStr, "%Y-%m-%d")
+    assert(endDate >= startDate), "startDate later than current time"
+
+    omAfterTime = db.session.query(
+                    OrderMenu.quantity,
+                    OrderMenu.item_id
+                ).\
+                    select_from(Order).\
+                    outerjoin(OrderMenu,
+                        and_ (
+                                Order.time_ordered >= startDate,
+                                OrderMenu.order_id == Order.id
+                        )
+                    ).\
+                    subquery()
+    excessReport = db.session.query(
+                    func.distinct(Menu.item_id),
+                    Menu.item_name, 
+                    func.sum(omAfterTime.c.quantity)
+                ).\
+                    outerjoin(omAfterTime, Menu.item_id == omAfterTime.c.item_id).\
+                    outerjoin(MenuInventory, Menu.item_id == MenuInventory.c.item_id).\
+                    outerjoin(Inventory, MenuInventory.c.ingredient_id == Inventory.ingredient_id).\
+                    group_by(Inventory.ingredient_id, Menu.item_id).\
+                    having(
+                        or_ (
+                            func.sum(omAfterTime.c.quantity) < Inventory.quantity * 0.1,
+                            func.sum(omAfterTime.c.quantity).is_(None)
+                        )
+                    ).\
+                    order_by(Menu.item_name).\
+                    all()
+    return {
+        "items": [
+            {
+                "itemId": itemId,
+                "itemName": itemName,
+                "sales": sales or 0
+            } for itemId, itemName, sales in excessReport
+        ]
+    }
 
 '''
 menu = Menu.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
