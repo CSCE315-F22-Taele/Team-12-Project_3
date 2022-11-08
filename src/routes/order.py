@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
-from sqlalchemy import and_
+from sqlalchemy import and_, func
 from datetime import datetime
 from uuid import uuid4
 
@@ -21,6 +21,45 @@ def getOrders():
 
     orders = orderQuery.order_by(Order.time_ordered.asc()).all()
     return {"orders": [order.to_dict() for order in orders]}
+
+
+@bp.get("/items/sales-report")
+def getSalesReport():
+    startDate = request.json.get('startDate')
+    endDate = request.json.get('endDate')
+    assert (startDate and endDate), "startDate or endDate not provided"
+
+    startDateFormatted = datetime.strptime(startDate, '%Y-%m-%d')
+    endDateFormatted = datetime.strptime(endDate, '%Y-%m-%d')
+    assert (endDateFormatted >= startDateFormatted), "endDate lies before startDate"
+
+    salesReport = db.session.query(
+                    Menu.item_name, 
+                    func.sum(OrderMenu.quantity), 
+                    func.sum(OrderMenu.total_price)
+                ).\
+                    outerjoin(OrderMenu, Menu.item_id == OrderMenu.item_id).\
+                    outerjoin(Order, 
+                        and_(
+                                Order.id == OrderMenu.order_id,
+                                Order.time_ordered >= startDateFormatted,
+                                Order.time_ordered <= endDateFormatted
+                            )
+                        ).\
+                    group_by(Menu.item_id).\
+                    order_by(Menu.item_name).\
+                    all()
+
+    return {
+        "items": [
+            {
+                "itemName": itemName,
+                "sales": sales or 0,
+                "revenue": revenue or 0
+            }
+            for itemName, sales, revenue in salesReport
+        ]
+    }
 
 
 '''

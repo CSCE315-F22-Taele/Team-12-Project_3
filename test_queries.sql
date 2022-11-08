@@ -15,22 +15,17 @@ LEFT JOIN menu ON order_menu.item_id = menu.item_id
 
 -- Sales Report
 SELECT 
-    m.item_id,
-    m.item_name,
-    COALESCE(SUM(omBetween.quantity), 0) sales,
-    COALESCE(SUM(omBetween.total_price), 0) revenue
-FROM menu m
-LEFT JOIN
-    (
-        SELECT * FROM orders o
-        LEFT JOIN order_menu om ON
-            o.id = om.order_id
-        WHERE o.time_ordered >= timestamp '2022-11-01'
-            AND o.time_ordered <= timestamp '2022-11-03'
-    ) omBetween
-ON m.item_id = omBetween.item_id
-GROUP BY
-    m.item_id
+    menu.item_name,
+    sum(order_menu.quantity) as sales, 
+    sum(order_menu.total_price) as revenue
+FROM menu 
+LEFT OUTER JOIN order_menu ON menu.item_id = order_menu.item_id
+LEFT OUTER JOIN orders ON 
+    orders.id = order_menu.order_id AND 
+    orders.time_ordered >= timestamp '2022-10-30' AND 
+    orders.time_ordered <= timestamp '2022-11-07'
+GROUP BY menu.item_id
+ORDER BY menu.item_name
 ;
 
 -- Excess Report
