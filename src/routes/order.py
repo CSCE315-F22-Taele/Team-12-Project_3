@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
+from sqlalchemy import and_
 from datetime import datetime
 from uuid import uuid4
 
@@ -96,18 +97,28 @@ def serveOrder():
     assert orderId, "orderId not given!" # TODO: Throw a better error
 
     order = Order.query.get(orderId) # get used here instead because orderId is primary key
-    print(order)
-    print(order.is_served)
     assert order.is_served == False, "order already served!" # Throw a better error
 
-    # Order.query().\
-    #     filter(
-            
-    #         )
+    inventoryQuery = db.session.query(Inventory, OrderMenu.quantity).\
+                    select_from(Order).\
+                    join(
+                        OrderMenu, 
+                        and_(Order.id == OrderMenu.order_id, Order.id == orderId)).\
+                    join(MenuInventory, OrderMenu.item_id == MenuInventory.columns.item_id).\
+                    join(Inventory, MenuInventory.columns.ingredient_id==Inventory.ingredient_id)
+    orderIngredients = db.session.execute(inventoryQuery)
+    
+    ingredientsUsed = [] # list of dicts
+    for inventoryObj, amtUsed in orderIngredients:
+        inventoryObj.quantity -= amtUsed
+        ingredientsUsed.append(
+                {
+                    "ingredientName": inventoryObj.ingredient_name,
+                    "amountRemoved": amtUsed,
+                }
+            )
 
-    db.session.query().\
-        join(OrderMenu, Order.id).\
-        join(MenuInventory, OrderMenu.item_id).\
-        join(Inventory, MenuInventory.ingredient_id)
+    order.is_served = True
+    db.session.commit()
 
-    return {}
+    return {"ingredientsUsed": ingredientsUsed}

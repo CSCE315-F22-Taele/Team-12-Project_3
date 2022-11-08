@@ -61,3 +61,20 @@ HAVING
 ORDER BY
     m.item_name ASC
 ;
+
+-- Query inventory
+UPDATE inventory i
+SET quantity = quantity - 5
+WHERE 
+    i.ingredient_id IN (
+        SELECT i.ingredient_id 
+        FROM orders o
+        LEFT JOIN order_menu om
+        ON o.id = om.order_id
+            AND o.id = '1'
+        LEFT JOIN menu_inventory mi
+        ON om.item_id = mi.item_id
+        LEFT JOIN inventory i
+        ON mi.ingredient_id = i.ingredient_id
+    )
+;

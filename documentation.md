@@ -179,7 +179,13 @@ Set the order as served in the database
 **Response**
 ```json
 {
-    "success": true
+    "ingredientsUsed": [
+        {
+            "ingredientName": "Test Ingredient",
+            "amountRemoved": 5
+        },
+        ...
+    ]
 }
 ```
 
