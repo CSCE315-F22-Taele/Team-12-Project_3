@@ -128,12 +128,13 @@ Get sales by item from order history given startDate & endDate
 <br>
 
 ### POST /orders/order
-Create an order with its linked items and add it to the database
+Create an order with its linked items and add it to the database. Optionally pass in serverId to manually assign.
 
 **Request**
 ```json
 {
     "customerName": "Tony Jellygum",
+    "serverId": "a601-iaft-aiyg-oaf2", // OPTIONAL
     "items": [
         {
             "itemName": "Test Item1",
