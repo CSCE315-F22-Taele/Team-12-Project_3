@@ -1,15 +1,8 @@
 # Orders
 
-### GET /orders
+### GET /orders?serverId=2f7f-fslg-glob-ba7o
 Get all the orders(not recommended at all). Optionally, pass in a serverId to get orders related to that server.
 **Ensure that the request type is json, and simply pass in an empty {}.**
-
-**Request**
-```json
-{
-    "serverId": "2f7f-fslg-glob-ba7o" // OPTIONAL
-}
-```
 
 **Response**
 ```json
@@ -37,16 +30,8 @@ Get all the orders(not recommended at all). Optionally, pass in a serverId to ge
 
 <br>
 
-### GET /orders?not-served
+### GET /orders?not-served&serverId=2f7f-fslg-glob-ba7o
 Get all the orders that haven't been served. Optionally, pass in a serverId to get orders related to that server.
-**Ensure that the request type is json, and simply pass in an empty {}.**
-
-**Request**
-```json
-{
-    "serverId": "2f7f-fslg-glob-ba7o" // OPTIONAL
-}
-```
 
 **Response**
 ```json
@@ -74,15 +59,8 @@ Get all the orders that haven't been served. Optionally, pass in a serverId to g
 
 <br>
 
-### GET /orders/items/excess-report
+### GET /orders/items/excess-report?startDate=YYYY-MM-DD
 Get all the items for orders after a given timestamp where the item sold less than 10% of their current inventory
-
-**Request**
-```json
-{
-    "startDate": "YEAR-MONTH-DAY" // 2021-10-5
-}
-```
 
 **Response**
 ```json
@@ -100,16 +78,8 @@ Get all the items for orders after a given timestamp where the item sold less th
 
 <br>
 
-### GET /orders/items/sales-report
+### GET /orders/items/sales-report?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 Get sales by item from order history given startDate & endDate
-
-**Request**
-```json
-{
-    "startDate": "YEAR-MONTH-DAY", // 2021-10-5
-    "endDate": "YEAR-MONTH-DAY", // 2021-10-10
-}
-```
 
 **Response**
 ```json
@@ -232,15 +202,8 @@ Get all menu items with descriptions
 
 <br>
 
-### GET /menu/item
+### GET /menu/item?itemName=Test Item
 Get a specific menu item
-
-**Request**
-```json
-{
-    "itemName": "Test Item"
-}
-```
 
 **Response**
 ```json
@@ -360,15 +323,8 @@ Get all ingredients that have a lower quantity than their respective threshold
 
 <br>
 
-### GET /inventory/ingredient
+### GET /inventory/ingredient?ingredientName=Test Ingredient
 Get a specific ingredient from inventory
-
-**Request**
-```json
-{
-    "ingredientName": "Test Ingredient"
-}
-```
 
 **Response**
 ```json
