@@ -145,20 +145,30 @@ def createOrder():
         time_ordered=timeOrdered,
     )
 
+    
     totalPrice = 0
+    prices = []
     for itm in items:
-        menuItem = menuMapping[itm.itemName]
-        priceThisItem = menuItem.price * itm.quantity
+        menuItem = menuMapping[itm.get("itemName")]
+        priceThisItem = menuItem.price * itm.get("quantity")
         totalPrice += priceThisItem
-        OrderMenu.insert().values(order_id=newOrder.id, 
-                                 item_id=menuItem.item_id, 
-                                 quantity=itm.quantity, 
-                                 total_price=priceThisItem)
+        # OrderMenu.insert().values(order_id=newOrder.id, 
+        #                          item_id=menuItem.item_id, 
+        #                          quantity=itm.get("quantity"), 
+        #                          total_price=priceThisItem)
+        prices.append(priceThisItem)
+        db.session.add(OrderMenu(
+            order_id=newOrder.id, 
+            item_id=menuItem.item_id, 
+            quantity=itm.get("quantity"), 
+            total_price=priceThisItem
+        ))
 
         # newOrder.menuItems.append(menuMapping.get(itm).item_name)
-        newOrder.menuItems.append(menuMapping.get(itm.item_name))
+        # newOrder.menuItems.append(menuMapping.get(itm.get("itemName")))
         
-    assert(len(newOrder.menuItems) == len(items)), "LENGTHS NOT EQUAL" # TODO: Throw a better error for anthony
+    # assert(len(newOrder.menuItems) == len(items)), "LENGTHS NOT EQUAL" # TODO: Throw a better error for anthony
+    print(len(newOrder.menuItems), len(items))
 
     # TODO: fix server_id
     newOrder.server_id = serverId or "1"  
@@ -169,17 +179,17 @@ def createOrder():
     return {
         "orderId": newOrder.id,
         "customerName": customerName,
-        "serverId": "1",
+        "serverId": serverId,
         "timeOrdered": timeOrdered,
         "isServed": False,
         "price": totalPrice,
         "items": [
             {
-                "itemName": itm.item_name, 
-                "quantity": itm.quantity, 
-                "totalPrice": orderMenu.total_price
+                "itemName": itm.get("itemName"), 
+                "quantity": itm.get("quantity"), 
+                "totalPrice": price
             } 
-            for itm, orderMenu in zip(items, newOrder.menuItems)
+            for itm, price in zip(items, prices)
         ]
     }
         
