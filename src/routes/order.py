@@ -12,7 +12,7 @@ bp = Blueprint('orders', __name__, url_prefix='/orders')
 @bp.get('/')
 def getOrders():
     notServed = ("not-served" in request.args)
-    serverId = request.json.get("serverId")
+    serverId = request.args.get("serverId")
     orderQuery = Order.query
 
     if notServed:
