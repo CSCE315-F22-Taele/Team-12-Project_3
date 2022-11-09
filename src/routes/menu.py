@@ -12,7 +12,7 @@ def getAllMenuItems():
 
 @bp.get('/item')
 def getMenuItem():
-    itemName = request.json.get('itemName')
+    itemName = request.args.get('itemName')
     menuItem = Menu.query.filter_by(item_name=itemName).first()
     return menuItem.to_dict(includeDescripts=True)
 

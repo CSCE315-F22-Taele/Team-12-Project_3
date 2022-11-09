@@ -14,9 +14,10 @@ def getInventory():
     inventoryIngredients = inventoryQuery.order_by(Inventory.ingredient_name.asc()).all()
     return {"ingredients": [inv.to_dict() for inv in inventoryIngredients]}
 
-@bp.get("/ingredient")
+@bp.get("/ingredient") # /ingredient?ingredientName=""
 def getInventoryIngredient():
-    ingredientName = request.json.get("ingredientName")
+    ingredientName = request.args.get("ingredientName")
+    assert(ingredientName), "ingredientName not provided!"
     ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
     return ingredient.to_dict()
 

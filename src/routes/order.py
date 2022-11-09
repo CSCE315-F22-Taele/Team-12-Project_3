@@ -26,8 +26,8 @@ def getOrders():
 
 @bp.get("/items/sales-report")
 def getSalesReport():
-    startDate = request.json.get('startDate')
-    endDate = request.json.get('endDate')
+    startDate = request.args.get('startDate')
+    endDate = request.args.get('endDate')
     assert (startDate and endDate), "startDate or endDate not provided"
 
     startDateFormatted = datetime.strptime(startDate, '%Y-%m-%d')
@@ -67,7 +67,7 @@ def getSalesReport():
 
 @bp.get("/items/excess-report")
 def getExcessReport():
-    startDateStr = request.json.get("startDate")    # get provided time as string
+    startDateStr = request.args.get("startDate")    # get provided time as string
     endDate = datetime.now()                        # get current time (upper bound on interval)
     assert(startDateStr), "startDate not provided"
 
