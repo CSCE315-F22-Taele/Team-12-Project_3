@@ -1,11 +1,3 @@
-import useSWR from "swr";
-
-/* const pusher = async () => {
-	const response = await fetch("api/path/");
-	const data = response.json();
-	return data;
-}; */
-
 export default async function Order() {
 	// const [order, setOrder] = useState("");
 

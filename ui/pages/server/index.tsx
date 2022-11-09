@@ -1,7 +1,6 @@
-import axios from "axios";
+import { flaskAPI } from "../../components/utils";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
+import { useState } from "react";
 
 interface thisProp {
 	serverId: string;
@@ -34,7 +33,7 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 
 	const router = useRouter();
 
-	const addInfo = (index: number) => {	
+	const addInfo = (index: number) => {
 		orders[index].show = !orders[index].show;
 		setOrders([...orders]);
 	};
@@ -88,16 +87,14 @@ export async function getServerSideProps() {
 		serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
 	});
 
-	const config = {
+	const response = await flaskAPI({
 		method: "get",
-		url: process.env.FLASK_URL + "/orders",
+		url: "/orders",
 		headers: {
 			"Content-Type": "application/json",
 		},
 		data: data,
-	};
-
-	const response = await axios(config);
+	});
 	const orders = response.data;
 
 	return {

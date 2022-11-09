@@ -1,4 +1,4 @@
-import axios from "axios";
+import { flaskAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -16,16 +16,16 @@ export default function Sales({ serverId }: { serverId: string }) {
 	const [sales, setSales] = useState<Sale[]>([]);
 
 	const getReport = async () => {
-		const response = await axios({
+		const response = await flaskAPI({
 			method: "get",
-			url: "http://127.0.0.1:5000/api/orders/items/sales-report",
+			url: "/sales-report",
 			params: {
 				startDate,
 				endDate,
 			},
 		});
 
-		const data = response.data
+		const data = response.data;
 
 		setSales(data["items"]);
 	};

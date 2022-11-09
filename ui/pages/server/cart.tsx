@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
-import axios from "axios";
+import { ChangeEvent, useState } from "react";
+import { flaskAPI } from "../../components/utils";
 
 interface menuItem {
 	itemId: string;
@@ -79,14 +79,14 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 		const config = {
 			method: "post",
-			url: "http://127.0.0.1:5000/api/orders/order",
+			url: "/add-order",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			data: data,
 		};
 
-		const response = await axios(config);
+		const response = await flaskAPI(config);
 
 		setCustomerName("");
 		setOrderList([]);
@@ -98,8 +98,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		const menuObjectPrice = event.target.value.substring(indexOfSpace + 1);
 		setSelectedItem(menuObjectName);
 		setItemPrice(Number(menuObjectPrice));
-
-		
 	};
 
 	const addInfo = (index: number) => {
@@ -180,7 +178,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 }
 
 export async function getServerSideProps() {
-	const response = await axios.get(process.env.FLASK_URL + "/menu");
+	const response = await flaskAPI.get("/menu");
 	const data = response.data;
 
 	return {

@@ -1,7 +1,6 @@
-import axios from "axios";
+import { flaskAPI } from "../../components/utils";
 import { useRouter } from "next/router";
-import { useState, ChangeEvent } from "react";
-import useSWR from "swr";
+import { useState } from "react";
 
 interface thisProp {
 	menuItems: any;
@@ -22,7 +21,8 @@ export default function Menu({ menuItems }: thisProp) {
 	const [itemPrice, setItemPrice] = useState(0);
 	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
 
-	const addToMenu = () => {};
+	const addToMenu = () => {
+	};
 	const updatePrice = () => {};
 	const deleteItem = () => {};
 
@@ -76,28 +76,6 @@ export default function Menu({ menuItems }: thisProp) {
 			},
 			data: data,
 		});
-	};
-
-	const restockAll = async () => {
-		ingredientList.map((ingredient, index) => {
-			ingredientList[index].quantity += restockAmount;
-		});
-		setIngredientList([...ingredientList]);
-
-		const data = JSON.stringify({
-			amount: restockAmount,
-		});
-
-		const config = {
-			method: "PUT",
-			url: "http://127.0.0.1:5000/api/inventory/restock?all",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: data,
-		};
-
-		const response = await axios(config);
 	}; */
 
 	return (
@@ -168,7 +146,7 @@ export default function Menu({ menuItems }: thisProp) {
 }
 
 export async function getServerSideProps() {
-	const response = await axios.get(process.env.FLASK_URL + "/menu");
+	const response = await flaskAPI.get("/menu");
 	const data = response.data;
 
 	return {

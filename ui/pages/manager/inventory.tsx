@@ -1,7 +1,6 @@
-import axios from "axios";
+import { flaskAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import useSWR from "swr";
 
 interface thisProp {
 	ingredients: any;
@@ -42,15 +41,14 @@ export default function Inventory({ ingredients }: thisProp) {
 			],
 		});
 
-		const response = await axios({
+		const response = await flaskAPI({
 			method: "PUT",
-			url: "http://127.0.0.1:5000/api/inventory/restock",
+			url: "/restock",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			data: data,
 		});
-
 	};
 
 	const setThreshold = async () => {
@@ -69,9 +67,9 @@ export default function Inventory({ ingredients }: thisProp) {
 			],
 		});
 
-		const response = await axios({
+		const response = await flaskAPI({
 			method: "PUT",
-			url: "http://127.0.0.1:5000/api/inventory/threshold",
+			url: "/threshold",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -91,14 +89,14 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const config = {
 			method: "PUT",
-			url: "http://127.0.0.1:5000/api/inventory/restock?all",
+			url: "/restock-all",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			data: data,
 		};
 
-		const response = await axios(config);
+		const response = await flaskAPI(config);
 	};
 
 	return (
@@ -173,10 +171,10 @@ export default function Inventory({ ingredients }: thisProp) {
 export async function getServerSideProps() {
 	const config = {
 		method: "get",
-		url: process.env.FLASK_URL + "/inventory",
+		url: "/inventory",
 	};
 
-	const response = await axios(config);
+	const response = await flaskAPI(config);
 	const ingredients = response.data;
 
 	return {

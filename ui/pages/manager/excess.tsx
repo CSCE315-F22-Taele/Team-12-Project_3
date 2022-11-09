@@ -1,4 +1,4 @@
-import axios from "axios";
+import { flaskAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -20,9 +20,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 	});
 
 	const getReport = async () => {
-		const response = await axios({
+		const response = await flaskAPI({
 			method: "get",
-			url: "http://127.0.0.1:5000/api/orders/items/excess-report",
+			url: "/excess-report",
 			params: {
 				startDate,
 			},

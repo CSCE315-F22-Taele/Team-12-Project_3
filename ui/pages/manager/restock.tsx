@@ -1,4 +1,4 @@
-import axios from "axios";
+import { flaskAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -24,7 +24,7 @@ export default function Excess({ restockItems }: thisProp) {
 				Back
 			</button>
 
-			<h1>Excess Report</h1>
+			<h1>Restock Report</h1>
 
 			<div className="excess">{JSON.stringify(restockItems)}</div>
 		</>
@@ -32,9 +32,7 @@ export default function Excess({ restockItems }: thisProp) {
 }
 
 export async function getServerSideProps() {
-	const response = await axios.get(
-		process.env.FLASK_URL + "/inventory?restock-report"
-	);
+	const response = await flaskAPI.get("/restock-report");
 	const data = response.data;
 
 	return {

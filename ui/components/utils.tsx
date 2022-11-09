@@ -1,3 +1,4 @@
+import axios from "axios";
 import router from "next/router";
 import { useCallback, useEffect } from "react";
 import { createGlobalState } from "react-use";
@@ -12,3 +13,7 @@ export const routerPush = (
 	router.push("/" + userType, undefined);
 	setUserType(() => userType);
 };
+
+export const flaskAPI = axios.create({
+	baseURL: process.env.BASE_URL,
+});
