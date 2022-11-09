@@ -1,17 +1,44 @@
+import axios from "axios";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
-const fetcher = async () => {
-	const response = await fetch("http://");
-	const data = response.json();
-	return data;
-};
+interface thisProp {
+	serverId: string;
+	serverOrders: any;
+}
 
-export default function Server() {
-	const orderList: string[] = ["one", "two", "three", "four"];
+interface OrderItem {
+	itemId: string;
+	itemName: string;
+	price: number;
+	quantity: number;
+	totalPrice: number;
+}
+
+interface ServerOrder {
+	orderId: string;
+	customerName: string;
+	serverId: string;
+	timeOrdered: string;
+	isServed: boolean;
+	price: number;
+	items: OrderItem[];
+	show?: boolean;
+}
+
+export default function Server({ serverId, serverOrders }: thisProp) {
+	const [orders, setOrders] = useState<ServerOrder[]>(serverOrders["orders"]);
 
 	const serveOrder = () => {};
 
 	const router = useRouter();
+
+	const addInfo = (index: number) => {	
+		orders[index].show = !orders[index].show;
+		setOrders([...orders]);
+	};
+
 	return (
 		<>
 			<button
@@ -22,11 +49,25 @@ export default function Server() {
 			</button>
 			<h1>Server</h1>
 			<div className="ordersList">
-				{orderList.map((order, index) => {
+				{orders.map((order, index) => {
+					const items = order["items"];
 					return (
 						<div key={index}>
-							<h1>{order}</h1>
-							<button>Expand</button>
+							<label>{order.customerName}</label>
+							{order.show &&
+								order.items.map((item) => {
+									return (
+										item.itemName +
+										"; Quantity: " +
+										item.quantity +
+										"; Price: " +
+										item.price
+									);
+								})}
+							{order.show && order.price}
+							<button onClick={() => addInfo(index)}>
+								Expand
+							</button>
 						</div>
 					);
 				})}
@@ -40,4 +81,28 @@ export default function Server() {
 			</button>
 		</>
 	);
+}
+
+export async function getServerSideProps() {
+	const data = JSON.stringify({
+		serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+	});
+
+	const config = {
+		method: "get",
+		url: process.env.FLASK_URL + "/orders",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		data: data,
+	};
+
+	const response = await axios(config);
+	const orders = response.data;
+
+	return {
+		props: {
+			serverOrders: orders,
+		},
+	};
 }

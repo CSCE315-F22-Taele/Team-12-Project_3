@@ -1,6 +1,4 @@
-import { useState } from "react";
-// import useSWR from "swr";
-import axios from "axios";
+import useSWR from "swr";
 
 /* const pusher = async () => {
 	const response = await fetch("api/path/");

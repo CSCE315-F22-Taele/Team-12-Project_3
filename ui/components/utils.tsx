@@ -9,6 +9,6 @@ export const routerPush = (
 	userType: string,
 	setUserType: (state: IHookStateSetAction<string>) => void
 ) => {
-	router.push("/" + userType, undefined, { shallow: true });
+	router.push("/" + userType, undefined);
 	setUserType(() => userType);
 };

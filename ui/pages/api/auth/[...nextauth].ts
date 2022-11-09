@@ -64,9 +64,9 @@ export default NextAuth({
 			return session;
 		},
 	},
-	secret: "ewrgthytdyjutyhfg",
+	secret: process.env.SECRET,
 	jwt: {
-		secret: "ewrgthytdyjutyhfg",
+		secret: process.env.SECRET,
 	},
 	// custom auth pages
 	pages: {
