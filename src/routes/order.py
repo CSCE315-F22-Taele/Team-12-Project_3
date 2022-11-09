@@ -136,7 +136,7 @@ def createOrder():
     serverId = request.json.get('serverId')
 
     assert(customerName and items), "customerName or items not provided!"
-    assert(not serverId or (isinstance(serverId, str) and len(serverId) == 36)), "serverId provided is invalid"
+    assert(not serverId or (isinstance(serverId, str) and len(serverId) > 36)), "serverId provided is invalid"
     
     timeOrdered = datetime.now()
     newOrder = Order(
@@ -145,17 +145,12 @@ def createOrder():
         time_ordered=timeOrdered,
     )
 
-    
     totalPrice = 0
     prices = []
     for itm in items:
         menuItem = menuMapping[itm.get("itemName")]
         priceThisItem = menuItem.price * itm.get("quantity")
         totalPrice += priceThisItem
-        # OrderMenu.insert().values(order_id=newOrder.id, 
-        #                          item_id=menuItem.item_id, 
-        #                          quantity=itm.get("quantity"), 
-        #                          total_price=priceThisItem)
         prices.append(priceThisItem)
         db.session.add(OrderMenu(
             order_id=newOrder.id, 
@@ -163,12 +158,6 @@ def createOrder():
             quantity=itm.get("quantity"), 
             total_price=priceThisItem
         ))
-
-        # newOrder.menuItems.append(menuMapping.get(itm).item_name)
-        # newOrder.menuItems.append(menuMapping.get(itm.get("itemName")))
-        
-    # assert(len(newOrder.menuItems) == len(items)), "LENGTHS NOT EQUAL" # TODO: Throw a better error for anthony
-    print(len(newOrder.menuItems), len(items))
 
     # TODO: fix server_id
     newOrder.server_id = serverId or "1"  
