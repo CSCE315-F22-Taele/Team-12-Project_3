@@ -1,6 +1,15 @@
-import { flaskAPI } from "../../components/utils";
+import {
+	flaskAPI,
+	getInventoryAPI,
+	getInventoryProxyAPI,
+	serverSideInstance,
+	setRestockAllProxyAPI,
+	setRestockProxyAPI,
+	setThresholdProxyAPI,
+} from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { GetServerSidePropsContext } from "next";
 
 interface thisProp {
 	ingredients: any;
@@ -43,7 +52,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const response = await flaskAPI({
 			method: "PUT",
-			url: "/restock",
+			url: setRestockProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -69,7 +78,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const response = await flaskAPI({
 			method: "PUT",
-			url: "/threshold",
+			url: setThresholdProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -89,7 +98,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const config = {
 			method: "PUT",
-			url: "/restock-all",
+			url: setRestockAllProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -116,9 +125,11 @@ export default function Inventory({ ingredients }: thisProp) {
 						setSelectedIngredient(e.target.value);
 					}}
 					className="ingredients">
-					{ingredientList.map((ingredient) => {
+					{ingredientList.map((ingredient, index) => {
 						return (
-							<option value={ingredient.ingredientName}>
+							<option
+								key={index}
+								value={ingredient.ingredientName}>
 								{ingredient.ingredientName +
 									" " +
 									ingredient.quantity}
@@ -168,13 +179,14 @@ export default function Inventory({ ingredients }: thisProp) {
 	);
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const config = {
 		method: "get",
-		url: "/inventory",
+		url: getInventoryAPI,
 	};
 
-	const response = await flaskAPI(config);
+	const instance = serverSideInstance(context);
+	const response = await instance(config);
 	const ingredients = response.data;
 
 	return {

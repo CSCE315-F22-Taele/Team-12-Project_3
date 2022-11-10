@@ -1,6 +1,15 @@
-import { flaskAPI } from "../../components/utils";
+import {
+	flaskAPI,
+	getOrdersAPI,
+	getOrdersProxyAPI,
+	serverSideInstance,
+} from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { getToken } from "next-auth/jwt";
+import { GetServerSidePropsContext } from "next";
 
 interface thisProp {
 	serverId: string;
@@ -27,7 +36,9 @@ interface ServerOrder {
 }
 
 export default function Server({ serverId, serverOrders }: thisProp) {
-	const [orders, setOrders] = useState<ServerOrder[]>(serverOrders["orders"]);
+	const [orders, setOrders] = useState<ServerOrder[]>(
+		serverOrders["orders"] || []
+	);
 
 	const serveOrder = () => {};
 
@@ -38,14 +49,29 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 		setOrders([...orders]);
 	};
 
+	/* const {data: session} = useSession()
+	console.log(session?.user.id) */
+
 	return (
 		<>
-			<button
-				onClick={() => {
-					router.push("/");
-				}}>
-				Back
-			</button>
+			<div>
+				<button
+					onClick={() => {
+						router.push("/");
+					}}>
+					Back
+				</button>
+				<button
+					onClick={async (e) => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
+					}}>
+					Sign Out
+				</button>
+			</div>
 			<h1>Server</h1>
 			<div className="ordersList">
 				{orders.map((order, index) => {
@@ -53,6 +79,9 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 					return (
 						<div key={index}>
 							<label>{order.customerName}</label>
+							<button onClick={() => addInfo(index)}>
+								Expand
+							</button>
 							{order.show &&
 								order.items.map((item) => {
 									return (
@@ -64,9 +93,6 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 									);
 								})}
 							{order.show && order.price}
-							<button onClick={() => addInfo(index)}>
-								Expand
-							</button>
 						</div>
 					);
 				})}
@@ -74,7 +100,7 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 			<button onClick={serveOrder}>Serve Order</button>
 			<button
 				onClick={() => {
-					router.push("/server/cart", undefined, { shallow: true });
+					router.push("/server/cart");
 				}}>
 				Add New Order
 			</button>
@@ -82,14 +108,15 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 	);
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const data = JSON.stringify({
 		serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
 	});
 
-	const response = await flaskAPI({
+	const instance = serverSideInstance(context);
+	const response = await instance({
 		method: "get",
-		url: "/orders",
+		url: getOrdersAPI,
 		headers: {
 			"Content-Type": "application/json",
 		},

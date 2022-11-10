@@ -1,6 +1,5 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { TypeORMLegacyAdapter } from "@next-auth/typeorm-legacy-adapter";
 
 export default NextAuth({
 	providers: [
@@ -42,11 +41,7 @@ export default NextAuth({
 			},
 		}),
 	],
-	/* adapter: TypeORMLegacyAdapter({
-		type: 'postgres',
-		url: process.env.DB_URL,
-		synchronize: true,
-	}), */
+	
 	session: {
 		strategy: "jwt",
 	},
@@ -63,10 +58,6 @@ export default NextAuth({
 
 			return session;
 		},
-	},
-	secret: process.env.SECRET,
-	jwt: {
-		secret: process.env.SECRET,
 	},
 	// custom auth pages
 	pages: {

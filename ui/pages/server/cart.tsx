@@ -1,6 +1,13 @@
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { ChangeEvent, useState } from "react";
-import { flaskAPI } from "../../components/utils";
+import {
+	addOrderProxyAPI,
+	flaskAPI,
+	getMenuAPI,
+	getMenuProxyAPI,
+	serverSideInstance,
+} from "../../components/utils";
 
 interface menuItem {
 	itemId: string;
@@ -13,10 +20,10 @@ interface thisProp {
 	menuItems: any;
 }
 
-interface Order {
+interface OrderItem {
 	itemName: string;
 	quantity: number;
-	price: number;
+	price?: number;
 }
 
 interface expandString {
@@ -32,7 +39,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
 	const [itemQuantity, setItemQuantity] = useState(0);
 	const [itemPrice, setItemPrice] = useState(menu[0].price);
-	const [orderList, setOrderList] = useState<Order[]>([]);
+	const [orderList, setOrderList] = useState<OrderItem[]>([]);
 	const [expandedStringList, setExpandedString] = useState<expandString[]>(
 		[]
 	);
@@ -47,9 +54,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 			},
 		]);
 
-		console.log(itemPrice);
 		var res: number = itemQuantity * itemPrice;
-		console.log(res);
 		setExpandedString([
 			...expandedStringList,
 			{
@@ -73,13 +78,13 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	const submitOrder = async () => {
 		const data = JSON.stringify({
 			customerName: customerName,
-			items: JSON.stringify(orderList),
 			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+			items: orderList,
 		});
 
 		const config = {
-			method: "post",
-			url: "/add-order",
+			method: "POST",
+			url: addOrderProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -88,7 +93,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 		const response = await flaskAPI(config);
 
-		setCustomerName("");
 		setOrderList([]);
 	};
 
@@ -111,7 +115,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		<>
 			<button
 				onClick={() => {
-					router.push("/server", undefined, { shallow: true });
+					router.push("/server");
 				}}>
 				Back
 			</button>
@@ -124,9 +128,10 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 						setItemStates(e);
 					}}
 					className="menuItems">
-					{menu.map((menuItem) => {
+					{menu.map((menuItem, index) => {
 						return (
 							<option
+								key={index}
 								value={
 									menuItem.itemName + " " + menuItem.price
 								}>
@@ -170,6 +175,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 					onChange={(e) => {
 						setCustomerName(e.target.value);
 					}}
+					value={customerName}
 					className="CustomerName"></input>
 				<button onClick={submitOrder}>Submit Order</button>
 			</div>
@@ -177,8 +183,9 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	);
 }
 
-export async function getServerSideProps() {
-	const response = await flaskAPI.get("/menu");
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const instance = serverSideInstance(context);
+	const response = await instance.get(getMenuAPI);
 	const data = response.data;
 
 	return {

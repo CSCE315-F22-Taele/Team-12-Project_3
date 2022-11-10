@@ -1,4 +1,4 @@
-import { flaskAPI } from "../../components/utils";
+import { flaskAPI, getSalesReportProxyAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export default function Sales({ serverId }: { serverId: string }) {
 	const getReport = async () => {
 		const response = await flaskAPI({
 			method: "get",
-			url: "/sales-report",
+			url: getSalesReportProxyAPI,
 			params: {
 				startDate,
 				endDate,
@@ -34,7 +34,7 @@ export default function Sales({ serverId }: { serverId: string }) {
 		<>
 			<button
 				onClick={() => {
-					router.push("/manager", undefined);
+					router.push("/manager/reports");
 				}}>
 				Back
 			</button>

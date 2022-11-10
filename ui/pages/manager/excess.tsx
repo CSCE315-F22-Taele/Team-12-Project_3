@@ -1,4 +1,4 @@
-import { flaskAPI } from "../../components/utils";
+import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
@@ -22,7 +22,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 	const getReport = async () => {
 		const response = await flaskAPI({
 			method: "get",
-			url: "/excess-report",
+			url: getExcessReportProxyAPI,
 			params: {
 				startDate,
 			},
@@ -36,7 +36,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 		<>
 			<button
 				onClick={() => {
-					router.push("/manager");
+					router.push("/manager/reports");
 				}}>
 				Back
 			</button>

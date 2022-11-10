@@ -1,6 +1,12 @@
-import { flaskAPI } from "../../components/utils";
+import {
+	flaskAPI,
+	getMenuAPI,
+	getMenuProxyAPI,
+	serverSideInstance,
+} from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { GetServerSidePropsContext } from "next";
 
 interface thisProp {
 	menuItems: any;
@@ -21,8 +27,7 @@ export default function Menu({ menuItems }: thisProp) {
 	const [itemPrice, setItemPrice] = useState(0);
 	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
 
-	const addToMenu = () => {
-	};
+	const addToMenu = () => {};
 	const updatePrice = () => {};
 	const deleteItem = () => {};
 
@@ -122,9 +127,9 @@ export default function Menu({ menuItems }: thisProp) {
 						setSelectedItem(e.target.value);
 					}}
 					className="menuItems">
-					{menu.map((menuItem) => {
+					{menu.map((menuItem, index) => {
 						return (
-							<option value={menuItem.itemName}>
+							<option key={index} value={menuItem.itemName}>
 								{menuItem.itemName}
 							</option>
 						);
@@ -145,8 +150,9 @@ export default function Menu({ menuItems }: thisProp) {
 	);
 }
 
-export async function getServerSideProps() {
-	const response = await flaskAPI.get("/menu");
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const instance = serverSideInstance(context);
+	const response = await instance.get(getMenuAPI);
 	const data = response.data;
 
 	return {

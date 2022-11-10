@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Manager() {
@@ -5,12 +6,24 @@ export default function Manager() {
 
 	return (
 		<>
-			<button
-				onClick={() => {
-					router.push("/", undefined);
-				}}>
-				Back
-			</button>
+			<div>
+				<button
+					onClick={() => {
+						router.push("/", undefined);
+					}}>
+					Back
+				</button>
+				<button
+					onClick={async (e) => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
+					}}>
+					Sign Out
+				</button>
+			</div>
 			<h1>Manager</h1>
 			<button
 				onClick={() => {

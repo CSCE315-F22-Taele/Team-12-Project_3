@@ -1,3 +1,14 @@
+const getExcessReportAPI = "/api/excess-report";
+const setRestockAPI = "/api/restock";
+const setThresholdAPI = "/api/threshold";
+const setRestockAllAPI = "/api/restock-all";
+const getMenuAPI = "/api/menu";
+const getRestockReportAPI = "/api/restock-report";
+const getSalesReportAPI = "/api/sales-report";
+const addOrderAPI = "/api/add-order";
+const getOrdersAPI = "/api/orders";
+const getInventoryAPI = "/api/inventory";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
@@ -5,44 +16,47 @@ const nextConfig = {
 	async rewrites() {
 		return [
 			{
-				source: "/excess-report",
-				destination: process.env.FLASK_URL + "/orders/items/excess-report",
+				source: getExcessReportAPI,
+				destination:
+					process.env.FLASK_URL + "/api/orders/items/excess-report",
 			},
 			{
-				source: "/restock",
-				destination: process.env.FLASK_URL + "/inventory/restock",
+				source: setRestockAPI,
+				destination: process.env.FLASK_URL + "/api/inventory/restock",
 			},
 			{
-				source: "/threshold",
-				destination: process.env.FLASK_URL + "/inventory/threshold",
+				source: setThresholdAPI,
+				destination: process.env.FLASK_URL + "/api/inventory/threshold",
 			},
 			{
-				source: "/restock-all",
-				destination: process.env.FLASK_URL + "/restock?all",
+				source: setRestockAllAPI,
+				destination: process.env.FLASK_URL + "/api/restock?all",
 			},
 			{
-				source: "/menu",
-				destination: process.env.FLASK_URL + "/menu",
+				source: getMenuAPI,
+				destination: process.env.FLASK_URL + "/api/menu",
 			},
 			{
-				source: "/restock-report",
-				destination: process.env.FLASK_URL + "/inventory?restock-report",
+				source: getRestockReportAPI,
+				destination:
+					process.env.FLASK_URL + "/api/inventory?restock-report",
 			},
 			{
-				source: "/sales-report",
-				destination: process.env.FLASK_URL + "/orders/items/sales-report",
+				source: getSalesReportAPI,
+				destination:
+					process.env.FLASK_URL + "/api/orders/items/sales-report",
 			},
 			{
-				source: "/add-order",
-				destination: process.env.FLASK_URL + "/orders/order",
+				source: addOrderAPI,
+				destination: process.env.FLASK_URL + "/api/orders/order",
 			},
 			{
-				source: "/orders",
-				destination: process.env.FLASK_URL + "/orders",
+				source: getOrdersAPI,
+				destination: process.env.FLASK_URL + "/api/orders",
 			},
 			{
-				source: "/inventory",
-				destination: process.env.FLASK_URL + "/inventory",
+				source: getInventoryAPI,
+				destination: process.env.FLASK_URL + "/api/inventory",
 			},
 		];
 	},

@@ -1,6 +1,8 @@
-import { flaskAPI } from "../../components/utils";
+import { getRestockReportAPI, serverSideInstance } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { GetServerSidePropsContext } from "next";
+import { getToken } from "next-auth/jwt";
 
 interface thisProp {
 	restockItems: any;
@@ -19,7 +21,7 @@ export default function Excess({ restockItems }: thisProp) {
 		<>
 			<button
 				onClick={() => {
-					router.push("/manager");
+					router.push("/manager/reports");
 				}}>
 				Back
 			</button>
@@ -31,13 +33,14 @@ export default function Excess({ restockItems }: thisProp) {
 	);
 }
 
-export async function getServerSideProps() {
-	const response = await flaskAPI.get("/restock-report");
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const instance = serverSideInstance(context);
+	const response = await instance.get(getRestockReportAPI);
 	const data = response.data;
 
 	return {
 		props: {
-			restockItems: data["ingredients"],
+			restockItems: data,
 		},
 	};
 }
