@@ -1,6 +1,9 @@
 import { flaskAPI, getSalesReportProxyAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
 
 interface Sale {
 	itemName: string;
@@ -32,16 +35,18 @@ export default function Sales({ serverId }: { serverId: string }) {
 
 	return (
 		<>
-			<button
-				onClick={() => {
-					router.push("/manager/reports");
-				}}>
-				Back
-			</button>
+			<StyledDiv>
+				<StyledButton
+					onClick={() => {
+						router.push("/manager/reports");
+					}}>
+					Back
+				</StyledButton>
+			</StyledDiv>
 
-			<h1>Sales Report</h1>
+			<StyledH1>Sales Report</StyledH1>
 
-			<div className="time-values">
+			<StyledDiv className="time-values">
 				<label> Start date: </label>
 				<input
 					type="date"
@@ -54,11 +59,11 @@ export default function Sales({ serverId }: { serverId: string }) {
 					className="end"
 					onChange={(e) => setEndDate(e.target.value)}
 				/>
-				<button onClick={getReport}>Get Report</button>
+				<StyledButton onClick={getReport}>Get Report</StyledButton>
 
-				<div className="sales">{startDate + " " + endDate}</div>
-				<div className="sales">{JSON.stringify(sales)}</div>
-			</div>
+				<StyledDiv className="sales">{startDate + " " + endDate}</StyledDiv>
+				<StyledDiv className="sales">{JSON.stringify(sales)}</StyledDiv>
+			</StyledDiv>
 		</>
 	);
 }

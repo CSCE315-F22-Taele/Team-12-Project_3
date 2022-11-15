@@ -1,6 +1,6 @@
 import {
 	flaskAPI,
-	getInventoryAPI,
+	getInventoryAPI,h1
 	getInventoryProxyAPI,
 	serverSideInstance,
 	setRestockAllProxyAPI,
@@ -10,6 +10,9 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
+import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
 
 interface thisProp {
 	ingredients: any;
@@ -110,16 +113,16 @@ export default function Inventory({ ingredients }: thisProp) {
 
 	return (
 		<>
-			<button
+			<StyledButton
 				onClick={() => {
 					router.push("/manager", undefined);
 				}}>
 				Back
-			</button>
+			</StyledButton>
 
-			<h1>Inventory </h1>
+			<StyledH1>Inventory </StyledH1>
 
-			<div>
+			<StyledDiv>
 				<select
 					onChange={(e) => {
 						setSelectedIngredient(e.target.value);
@@ -145,26 +148,26 @@ export default function Inventory({ ingredients }: thisProp) {
 						setIngredientAmount(Number(e.target.value));
 					}}
 					className="ingredient_amount"></input>
-			</div>
+			</StyledDiv>
 
-			<div>
+			<StyledDiv>
 				<label>Ingredient</label>
-				<button onClick={addQuantity}>Quantity +</button>
-				<button onClick={setThreshold}>Threshold set</button>
-			</div>
+				<StyledButton onClick={addQuantity}>Quantity +</StyledButton>
+				<StyledButton onClick={setThreshold}>Threshold set</StyledButton>
+			</StyledDiv>
 
-			<div className="ingredientsList">
+			<StyledDiv className="ingredientsList">
 				{ingredientList.map((ingredient, index) => {
 					return (
-						<div key={index}>
+						<StyledDiv key={index}>
 							{ingredient.ingredientName} {ingredient.quantity}{" "}
 							{ingredient.threshold}
-						</div>
+						</StyledDiv>
 					);
 				})}
-			</div>
+			</StyledDiv>
 
-			<div>
+			<StyledDiv>
 				<input
 					type="text"
 					inputMode="numeric"
@@ -173,8 +176,8 @@ export default function Inventory({ ingredients }: thisProp) {
 						setRestockAmount(Number(e.target.value));
 					}}
 					className="restock_amount"></input>
-				<button onClick={restockAll}>Restock All</button>
-			</div>
+				<StyledButton onClick={restockAll}>Restock All</StyledButton>
+			</StyledDiv>
 		</>
 	);
 }

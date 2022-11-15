@@ -1,6 +1,9 @@
 import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
 
 interface Excess {
 	itemName: string;
@@ -34,16 +37,18 @@ export default function Excess({ serverId }: { serverId: string }) {
 
 	return (
 		<>
-			<button
-				onClick={() => {
-					router.push("/manager/reports");
-				}}>
-				Back
-			</button>
+			<StyledDiv>
+				<StyledButton
+					onClick={() => {
+						router.push("/manager/reports");
+					}}>
+					Back
+				</StyledButton>
+			</StyledDiv>
 
-			<h1>Excess Report</h1>
+			<StyledH1>Excess Report</StyledH1>
 
-			<div className="time-values">
+			<StyledDiv className="time-values">
 				<label> Start date: </label>
 				<input
 					type="date"
@@ -52,10 +57,10 @@ export default function Excess({ serverId }: { serverId: string }) {
 				/>
 				<label> Current date: </label>
 				<input placeholder={currentDate} readOnly />
-				<button onClick={getReport}>Get Report</button>
+				<StyledButton onClick={getReport}>Get Report</StyledButton>
 
-				<div className="excess">{JSON.stringify(excess)}</div>
-			</div>
+				<StyledDiv className="excess">{JSON.stringify(excess)}</StyledDiv>
+			</StyledDiv>
 		</>
 	);
 }

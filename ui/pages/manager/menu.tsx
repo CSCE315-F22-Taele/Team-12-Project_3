@@ -1,5 +1,4 @@
-import {
-	flaskAPI,
+import {flaskAPI,
 	getMenuAPI,
 	getMenuProxyAPI,
 	serverSideInstance,
@@ -7,6 +6,20 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
+import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
+
+// import Table from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel, FormControl } from '@mui/material';
+// import Paper from '@mui/material/Paper';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
 
 interface thisProp {
 	menuItems: any;
@@ -18,6 +31,7 @@ interface menuItem {
 	price: number;
 }
 
+
 export default function Menu({ menuItems }: thisProp) {
 	const router = useRouter();
 
@@ -27,6 +41,7 @@ export default function Menu({ menuItems }: thisProp) {
 	const [itemPrice, setItemPrice] = useState(0);
 	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
 
+	
 	const addToMenu = () => {};
 	const updatePrice = () => {};
 	const deleteItem = () => {};
@@ -85,67 +100,102 @@ export default function Menu({ menuItems }: thisProp) {
 
 	return (
 		<>
-			<button
-				onClick={() => {
-					router.push("/manager", undefined);
-				}}>
-				Back
-			</button>
+			<StyledDiv>
+				<StyledButton
+					onClick={() => {
+						router.push("/manager", undefined);
+					}}>
+					Back
+				</StyledButton>
+			</StyledDiv>
+			
+			<StyledH1>Menu</StyledH1>
 
-			<h1>Menu</h1>
-
-			<div>
-				<input
+			<StyledDiv>
+				<TextField
 					type="text"
-					placeholder="Item entry"
+					label="Item Entry"
 					onChange={(e) => setNewItemName(e.target.value)}
-					className="item_entry"></input>
-				<input
+					className="item_entry"></TextField>
+				<TextField
 					type="text"
 					inputMode="numeric"
-					placeholder="Price"
+					label="Price"
 					onChange={(e) => {
 						setNewItemPrice(Number(e.target.value));
 					}}
-					className="item_price"></input>
-				<button onClick={addToMenu}>Add</button>
-			</div>
+					className="item_price"></TextField>
+				<StyledButton onClick={addToMenu}>Add</StyledButton>
+			</StyledDiv>
 
-			<div className="menuList">
-				{menu.map((menuItem, index) => {
+			<StyledDiv className="menuList">
+				{/* {menu.map((menuItem, index) => {
 					return (
-						<div key={index}>
+						<StyledDiv key={index}>
 							{menuItem.itemName} {menuItem.price}
-						</div>
+						</StyledDiv>
 					);
-				})}
-			</div>
+				})} */}
+				<StyledDiv>
+					<TableContainer component={Paper}>
+						<Table sx={{ maxWidth: 400, maxHeight: 200 }} aria-label="simple table">
+							<TableHead>
+							<TableRow>
+								<TableCell>Menu Item</TableCell>
+								<TableCell align="right">Price&nbsp;($)</TableCell>
+							</TableRow>
+							</TableHead>
+							<TableBody>
+								{menu.map((eachItem) => (
+									<TableRow
+										key={eachItem.itemName}
+										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+									>
+										<TableCell component="th" scope="row">
+											{eachItem.itemName}
+										</TableCell>
+										<TableCell align="right">{eachItem.price}</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</StyledDiv>
+			</StyledDiv>
 
-			<div className="MenuItemSelection">
-				<select
-					onChange={(e) => {
-						setSelectedItem(e.target.value);
-					}}
-					className="menuItems">
-					{menu.map((menuItem, index) => {
-						return (
-							<option key={index} value={menuItem.itemName}>
-								{menuItem.itemName}
-							</option>
-						);
-					})}
-				</select>
-				<input
-					type="text"
-					placeholder="New Price"
-					onChange={(e) => {
-						setItemPrice(Number(e.target.value));
-					}}
-					className="price"></input>
+			<Box sx={{minWidth: 200}}>
+				<FormControl fullWidth>
+					<StyledDiv className="MenuItemSelection">
+						{/* <InputLabel id="SelectMenuItemLabel">Pick Menu Item</InputLabel> */}
+						<Select
+							labelId="SelectMenuItemLabel"
+							label="Pick Menu Item"
+							id="SelectMenuItem"
+							onChange={(event: SelectChangeEvent) => {
+								setSelectedItem(event.target.value as string);
+							}}
+							className="menuItems">
+							{menu.map((menuItem, index) => {
+								return (
+									<MenuItem key={index} value={menuItem.itemName}>
+										{menuItem.itemName}
+									</MenuItem>
+								);
+							})}
+						</Select>
+						<TextField
+							type="text"
+							placeholder="New Price"
+							onChange={(e) => {
+								setItemPrice(Number(e.target.value));
+							}}
+							className="price"></TextField>
 
-				<button onClick={updatePrice}>Update Price</button>
-				<button onClick={deleteItem}>Delete Item</button>
-			</div>
+						<StyledButton onClick={updatePrice}>Update Price</StyledButton>
+						<StyledButton onClick={deleteItem}>Delete Item</StyledButton>
+					</StyledDiv>
+				</FormControl>
+			</Box>
 		</>
 	);
 }

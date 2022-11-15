@@ -10,6 +10,10 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { getToken } from "next-auth/jwt";
 import { GetServerSidePropsContext } from "next";
+// import { ThemeProvider } from "@emotion/react";
+import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
 
 interface thisProp {
 	serverId: string;
@@ -35,6 +39,7 @@ interface ServerOrder {
 	show?: boolean;
 }
 
+
 export default function Server({ serverId, serverOrders }: thisProp) {
 	const [orders, setOrders] = useState<ServerOrder[]>(
 		serverOrders["orders"] || []
@@ -54,34 +59,36 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 
 	return (
 		<>
-			<div>
-				<button
-					onClick={() => {
-						router.push("/");
-					}}>
-					Back
-				</button>
-				<button
-					onClick={async (e) => {
-						const url = await signOut({
-							redirect: false,
-							callbackUrl: "/",
-						});
-						router.push(url.url);
-					}}>
-					Sign Out
-				</button>
-			</div>
-			<h1>Server</h1>
-			<div className="ordersList">
+			<ThemeProvider theme={StyledGrid}>
+				<StyledDiv>
+					<StyledButton
+						onClick={() => {
+							router.push("/");
+						}}>
+						Back
+					</StyledButton>
+					
+					<StyledButton
+						onClick={async (e) => {
+							const url = await signOut({
+								redirect: false,
+								callbackUrl: "/",
+							});
+							router.push(url.url);
+						}}>
+						Sign Out
+					</StyledButton>
+				</StyledDiv>
+				<StyledH1>Server</StyledH1>
+				
 				{orders.map((order, index) => {
 					const items = order["items"];
 					return (
-						<div key={index}>
-							<label>{order.customerName}</label>
-							<button onClick={() => addInfo(index)}>
+						<StyledDiv key={index}>
+							{order.customerName}
+							<StyledButton onClick={() => addInfo(index)}>
 								Expand
-							</button>
+							</StyledButton>
 							{order.show &&
 								order.items.map((item) => {
 									return (
@@ -93,17 +100,20 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 									);
 								})}
 							{order.show && order.price}
-						</div>
+						</StyledDiv>
 					);
 				})}
-			</div>
-			<button onClick={serveOrder}>Serve Order</button>
-			<button
-				onClick={() => {
-					router.push("/server/cart");
-				}}>
-				Add New Order
-			</button>
+				
+				<StyledDiv>	
+					<StyledButton onClick={serveOrder}>Serve Order</StyledButton>
+					<StyledButton
+						onClick={() => {
+							router.push("/server/cart");
+						}}>
+						Add New Order
+					</StyledButton>
+				</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
 }

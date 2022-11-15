@@ -1,3 +1,6 @@
+import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
 export default async function Order() {
 	// const [order, setOrder] = useState("");
 
@@ -43,7 +46,7 @@ export default async function Order() {
 				onChange={(e) => setOrder(e.target.value)}
 			/>
 			<button onClick={submitOrder}>Submit order</button> */}
-			<h1>Order Page</h1>
+			<StyledH1>Order Page</StyledH1>
 		</>
 	);
 }
