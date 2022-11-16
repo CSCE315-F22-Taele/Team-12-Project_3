@@ -14,6 +14,9 @@ import { GetServerSidePropsContext } from "next";
 import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { Button, createTheme, Grid, Box } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel, FormControl } from '@mui/material';
+// import Paper from '@mui/material/Paper';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface thisProp {
 	serverId: string;
@@ -101,6 +104,43 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 								})}
 							{order.show && order.price}
 						</StyledDiv>
+						// <TableContainer component={Paper}>
+						// 	<Table sx={{ minWidth: 650 }} aria-label="simple table">
+						// 		<TableHead>
+						// 		<TableRow>
+						// 			<TableCell>Customer Name</TableCell>
+						// 			<TableCell align="right">Item Name</TableCell>
+						// 			<TableCell align="right">Quantity</TableCell>
+						// 			<TableCell align="right">Price</TableCell>
+						// 		</TableRow>
+						// 		</TableHead>
+						// 		<TableBody>
+						// 		{items.map((row) => (
+						// 			<TableRow
+						// 			key={row.itemName}
+						// 			sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+						// 			>
+						// 				<TableCell component="th" scope="row">
+						// 					{order.customerName}
+						// 				</TableCell>
+						// 				<TableCell align="right">
+						// 					{order.items.map((item) => {
+						// 						return (
+						// 							item.itemName +
+						// 							"; Quantity: " +
+						// 							item.quantity +
+						// 							"; Price: " +
+						// 							item.price
+						// 						);
+						// 					})}
+						// 				</TableCell>
+						// 				<TableCell align="right">{row.fat}</TableCell>
+						// 				<TableCell align="right">{row.carbs}</TableCell>
+						// 			</TableRow>
+						// 		))}
+						// 		</TableBody>
+						// 	</Table>
+						// </TableContainer>
 					);
 				})}
 				

@@ -112,6 +112,7 @@ export const StyledButton = styled(Button)(({theme, variant}) => ({
 export const StyledDiv = styled('div')(({theme, ...otherProps}) => ({
   margin: "auto",
   textAlignLast: "center",
+
 }));
 
 

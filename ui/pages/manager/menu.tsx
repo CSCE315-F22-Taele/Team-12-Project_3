@@ -8,7 +8,7 @@ import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
+import { Button, createTheme, Grid, Box, Container } from "@mui/material";
 
 // import Table from '@mui/material/Table';
 // import TableBody from '@mui/material/TableBody';
@@ -136,9 +136,19 @@ export default function Menu({ menuItems }: thisProp) {
 						</StyledDiv>
 					);
 				})} */}
-				<StyledDiv>
-					<TableContainer component={Paper}>
-						<Table sx={{ maxWidth: 400, maxHeight: 200 }} aria-label="simple table">
+				<div id = "asdasd" style={{width: "100%"}}>
+				<Box 
+					sx={{
+					  display: 'flex',
+					  justifyContent: 'center',
+					  alignContent: 'center',
+					  p: 1,
+					  m: 1,
+					  bgcolor: 'background.paper',
+					  borderRadius: 1,
+					}}>
+					<TableContainer component={Paper} sx={{ maxWidth: 700, maxHeight: 200 }}>
+						<Table aria-label="simple table">
 							<TableHead>
 							<TableRow>
 								<TableCell>Menu Item</TableCell>
@@ -160,7 +170,8 @@ export default function Menu({ menuItems }: thisProp) {
 							</TableBody>
 						</Table>
 					</TableContainer>
-				</StyledDiv>
+				</Box>
+				</div>
 			</StyledDiv>
 
 			<Box sx={{minWidth: 200}}>

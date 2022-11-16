@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
+import { Button, createTheme, Grid, Box, TextField } from "@mui/material";
+import { Dayjs } from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface Excess {
 	itemName: string;
@@ -49,14 +53,32 @@ export default function Excess({ serverId }: { serverId: string }) {
 			<StyledH1>Excess Report</StyledH1>
 
 			<StyledDiv className="time-values">
-				<label> Start date: </label>
-				<input
-					type="date"
-					className="start"
-					onChange={(e) => setStartDate(e.target.value)}
-				/>
+				<LocalizationProvider dateAdapter={AdapterDayjs}>
+					<DatePicker
+						inputFormat="MM/DD/YYYY"
+						label="Start Date"
+						value={startDate}
+						onChange={(newValue) => {
+							//should be 2022-11-17
+							// console.log(newValue);
+							var fullDateWithOtherInfo = newValue.$d.toLocaleString();
+							var date = fullDateWithOtherInfo.substring(0, fullDateWithOtherInfo.indexOf(",")).split("/");
+							var month = date[0];
+							var day = date[1];
+							var year = date[2];
+							var parsedDate = year + "-" + month + "-" + day;
+							// console.log("parsed", parsedDate);
+							// console.log("asd", newValue.$d.toLocaleString());
+							setStartDate(parsedDate);
+
+						}}
+						renderInput={(params) => <TextField {...params} />}
+					/>
+				</LocalizationProvider>
 				<label> Current date: </label>
-				<input placeholder={currentDate} readOnly />
+				<TextField 
+					label={currentDate} disabled 
+					/>
 				<StyledButton onClick={getReport}>Get Report</StyledButton>
 
 				<StyledDiv className="excess">{JSON.stringify(excess)}</StyledDiv>

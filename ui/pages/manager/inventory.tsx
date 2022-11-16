@@ -1,6 +1,6 @@
 import {
 	flaskAPI,
-	getInventoryAPI,h1
+	getInventoryAPI,
 	getInventoryProxyAPI,
 	serverSideInstance,
 	setRestockAllProxyAPI,
