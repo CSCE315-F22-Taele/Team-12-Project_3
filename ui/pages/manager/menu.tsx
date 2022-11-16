@@ -103,7 +103,7 @@ export default function Menu({ menuItems }: thisProp) {
 			<StyledDiv>
 				<StyledButton
 					onClick={() => {
-						router.push("/manager", undefined);
+						router.push("/manager");
 					}}>
 					Back
 				</StyledButton>

@@ -115,7 +115,7 @@ export default function Inventory({ ingredients }: thisProp) {
 		<>
 			<StyledButton
 				onClick={() => {
-					router.push("/manager", undefined);
+					router.push("/manager");
 				}}>
 				Back
 			</StyledButton>

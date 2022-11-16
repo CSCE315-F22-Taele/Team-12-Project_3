@@ -45,7 +45,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	return {
 		props: {
-			restockItems: data,
+			restockItems: data["ingredients"],
 		},
 	};
 }

@@ -45,7 +45,7 @@ interface ServerOrder {
 
 export default function Server({ serverId, serverOrders }: thisProp) {
 	const [orders, setOrders] = useState<ServerOrder[]>(
-		serverOrders["orders"] || []
+		serverOrders["orders"] || null
 	);
 
 	const serveOrder = () => {};
@@ -56,9 +56,6 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 		orders[index].show = !orders[index].show;
 		setOrders([...orders]);
 	};
-
-	/* const {data: session} = useSession()
-	console.log(session?.user.id) */
 
 	return (
 		<>

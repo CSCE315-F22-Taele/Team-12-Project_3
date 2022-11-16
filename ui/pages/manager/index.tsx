@@ -12,7 +12,7 @@ export default function Manager() {
 			<StyledDiv>
 				<StyledButton
 					onClick={() => {
-						router.push("/", undefined);
+						router.push("/");
 					}}>
 					Back
 				</StyledButton>
@@ -32,19 +32,19 @@ export default function Manager() {
 			<StyledDiv>
 				<StyledButton
 					onClick={() => {
-						router.push("/manager/reports", undefined);
+						router.push("/manager/reports");
 					}}>
 					Reports
 				</StyledButton>
 				<StyledButton
 					onClick={() => {
-						router.push("/manager/menu", undefined);
+						router.push("/manager/menu");
 					}}>
 					Menu
 				</StyledButton>
 				<StyledButton
 					onClick={() => {
-						router.push("/manager/inventory", undefined);
+						router.push("/manager/inventory");
 					}}>
 					Inventory
 				</StyledButton>
