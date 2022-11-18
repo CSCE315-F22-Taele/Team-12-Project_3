@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 import { useGlobalUser } from "../components/utils";
 import { routerPush } from "../components/utils";
 import { useSession } from "next-auth/react";
-import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
 import { Button, createTheme, Grid, Box } from "@mui/material";
+import { StyledDiv, StyledTheme } from "../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
 // import img from "../public/Reveille.jpg"
 
 const justMainPageStyleDiv = {
@@ -20,14 +20,16 @@ export default function Home() {
 	const {data: session} = useSession()
 
 	return (
-		<StyledDiv sx={justMainPageStyleDiv}>
-			{/* <Image src={img} alt="Reveille"/> */}
-			<StyledButton onClick={() => routerPush("server", setUserType)} sx={justMainPageStyleButtons}>
-				Server
-			</StyledButton>
-			<StyledButton onClick={() => routerPush("manager", setUserType)} sx={justMainPageStyleButtons}>
-				Manager
-			</StyledButton>
-		</StyledDiv>
+		<ThemeProvider theme={StyledTheme}>
+			<StyledDiv sx={justMainPageStyleDiv}>
+				{/* <Image src={img} alt="Reveille"/> */}
+				<Button onClick={() => routerPush("server", setUserType)} sx={justMainPageStyleButtons}>
+					Server
+				</Button>
+				<Button onClick={() => routerPush("manager", setUserType)} sx={justMainPageStyleButtons}>
+					Manager
+				</Button>
+			</StyledDiv>
+		</ThemeProvider>
 	);
 }

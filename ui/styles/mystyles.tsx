@@ -71,6 +71,8 @@ import { Button } from '@mui/material';
 import { styled } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import { create } from '@mui/material/styles/createTransitions';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+
 
 // const StyledFormTheme = createTheme({
 //   components: {
@@ -90,38 +92,34 @@ import { create } from '@mui/material/styles/createTransitions';
 
 // export { StyledFormTheme };
 
-export const StyledButton = styled(Button)(({theme, variant}) => ({
-  color: 'black',
-  alignContent: 'center',
-  // border: '2px solid blue',
-  // backgroundColor: "blue",
-  backgroundColor: 'lightblue',
-  borderRadius: 10,
-  marginRight: 10,
-  textAlignLast: "center",
-  size: "large",
-  // '&.hover': {
-  //   backgroundColor: 'red'
-  // }
+// export const StyledButton = styled(Button)(({theme, variant}) => ({
+//   color: 'white',
+//   alignContent: 'center',
+//   // border: '2px solid blue',
+//   // backgroundColor: "blue",
+//   backgroundColor: 'rgb(167, 11, 40)',
+//   borderRadius: 10,
+//   marginRight: 10,
+//   textAlignLast: "center",
+//   size: "large",
+//   '&:hover': {
+//     color: "black"
+//   }
   
-  // '&.Mui-checked': {
-  //   color: 'green'
-  // }
-}));
+//   // '&.Mui-checked': {
+//   //   color: 'green'
+//   // }
+// }));
 
 export const StyledDiv = styled('div')(({theme, ...otherProps}) => ({
-  margin: "auto",
+  margin: "20px",
   textAlignLast: "center",
 
 }));
 
 
-export const StyledH1 = styled('h1')(({theme, ...otherProps}) => ({
-  fontSize: 30,
-  textAlignLast: "center",
-}));
 
-const StyledGrid = createTheme({
+const StyledTheme = createTheme({
   components: {
     MuiGrid: {
       styleOverrides: {
@@ -141,9 +139,68 @@ const StyledGrid = createTheme({
           margin: "auto",
         }
       }
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: 'white',
+          alignContent: 'center',
+          // border: '2px solid blue',
+          // backgroundColor: "blue",
+          backgroundColor: 'rgb(167, 11, 40)',
+          borderRadius: 10,
+          marginRight: 10,
+          marginLeft: 10,
+          height: 55,
+          textAlignLast: "center",
+          size: "large",
+          '&:hover': {
+            color: "black"
+          }
+        }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          h1: {
+            fontSize: 30,
+            textAlignLast: "center",
+          }
+          
+        }
+      }
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: {
+          [`&.${tableCellClasses.head}`]: {
+            backgroundColor: "rgb(167, 11, 40)",
+            color: "white",
+            fontWeight: "bolder"
+          }
+        }
+      }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          height: 50,
+          [`& fieldset`]: {
+            borderRadius: 10,
+          }
+        }
+      }
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
+        }
+      }
     }
   }
 });
 
-export { StyledGrid };
+export { StyledTheme };
 

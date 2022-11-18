@@ -8,12 +8,13 @@ import {
 	getMenuProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
-import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { StyledDiv, StyledTheme } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { Button, createTheme, Grid, Box } from "@mui/material";
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel } from '@mui/material';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
 
 interface menuItem {
@@ -28,6 +29,7 @@ interface thisProp {
 }
 
 interface OrderItem {
+	
 	itemName: string;
 	quantity: number;
 	price?: number;
@@ -50,6 +52,13 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	const [expandedStringList, setExpandedString] = useState<expandString[]>(
 		[]
 	);
+	const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>([]);
+
+	const tableColumns: GridColDef[] = [
+		{ field: 'itemName', headerName: 'Item Name', type: 'string', width: 300 },
+		{ field: 'quantity', headerName: 'Quantity', type: 'number', width: 150 },
+		{ field: 'price', headerName: 'Price ($)', type: 'number', width: 150 },
+	  ];
 
 	const addToCart = () => {
 		setOrderList([
@@ -73,6 +82,9 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 				show: false,
 			},
 		]);
+
+		setSelectedItem("");
+		setItemQuantity(0);
 	};
 
 	const deleteAllInCart = () => {
@@ -101,6 +113,8 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		const response = await flaskAPI(config);
 
 		setOrderList([]);
+
+		router.push("/server");
 	};
 
 	// const setItemStates = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -121,75 +135,87 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 	return (
 		<>
-			<StyledDiv>
-				<StyledButton
-					onClick={() => {
-						router.push("/server");
-					}}>
-					Back
-				</StyledButton>
-			</StyledDiv>
-			
+			<ThemeProvider theme={StyledTheme}>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/server");
+						}}>
+						Back
+					</Button>
+				</StyledDiv>
+				
 
-			<StyledH1>Cart</StyledH1>
+				<Typography><h1>Cart</h1></Typography>
 
-			<StyledDiv className="MenuItemSelection">
-				<Select
-					onChange={(event: SelectChangeEvent) => {
-						setItemStates(event);
-					}}
-					className="menuItems">
-					{menu.map((menuItem, index) => {
-						return (
-							<MenuItem
-								key={index}
-								value={
-									menuItem.itemName + " " + menuItem.price
-								}>
-								{menuItem.itemName + ": $" + menuItem.price}
-							</MenuItem>
-						);
-					})}
-				</Select>
-				<TextField
-					type="text"
-					inputMode="numeric"
-					label="Enter quantity"
-					onChange={(e) => {
-						setItemQuantity(Number(e.target.value));
-					}}
-					className="Quantity"></TextField>
-				<StyledButton onClick={addToCart}>Add</StyledButton>
-			</StyledDiv>
-			<StyledDiv className="itemsList">
-				{orderList.map((order, index) => {
-					return (
-						<StyledDiv key={index}>
-							{order.itemName}
-							<StyledButton onClick={() => addInfo(index)}>
-								Expand
-							</StyledButton>
-							<StyledButton>Delete</StyledButton>
-							{expandedStringList[index].show &&
-								expandedStringList[index].displayString}
-						</StyledDiv>
-					);
-				})}
-				{JSON.stringify(orderList)}
-			</StyledDiv>
+				<StyledDiv className="MenuItemSelection">
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setItemStates(event);
+						}}
+						className="menuItems">
+						{menu.map((menuItem, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={
+										menuItem.itemName + " " + menuItem.price
+									}>
+									{menuItem.itemName + ": $" + menuItem.price}
+								</MenuItem>
+							);
+						})}
+					</Select>
+					<TextField
+						type="text"
+						inputMode="numeric"
+						label="Enter quantity"
+						onChange={(e) => {
+							setItemQuantity(Number(e.target.value));
+						}}
+						className="Quantity"></TextField>
+					<Button onClick={addToCart}>Add</Button>
+				</StyledDiv>
+				<StyledDiv className="itemsList" sx={{textAlign: "-webkit-center", margin: "40px"}}>
+					<div style={{ height: 400, width: '100%' }}>
+						<DataGrid
+							getRowId={(r) => r.itemName + " " + r.quantity + " " + r.price}
+							rows={orderList}
+							columns={tableColumns}
+							pageSize={5}
+							rowsPerPageOptions={[5]}
+							checkboxSelection
+							sx={{maxWidth: 700, maxHeight: 700}}
+							onSelectionModelChange={(newSelection) => {
+								const selectedIDs = new Set(newSelection);
+								const selectedRows = orderList.filter((row) => {
+										console.log(row);
+										selectedIDs.has(row);
+									}
+								);
+								console.log(selectedIDs);
+								setOrderList(selectedRows);
+							}}
+						/>
+						
+					</div>
+					{/* {JSON.stringify(orderList)} */}
+				</StyledDiv>
 
-			<StyledDiv className="AddOrdersSection">
-				<StyledButton onClick={deleteAllInCart}>Delete All</StyledButton>
-				<TextField
-					type="text"
-					label="Enter your name"
-					onChange={(e) => {
-						setCustomerName(e.target.value);
-					}}
-					value={customerName}
-					className="CustomerName"></TextField>
-				<StyledButton onClick={submitOrder}>Submit Order</StyledButton>
-			</StyledDiv>
+				<StyledDiv className="AddOrdersSection">
+					<Button onClick={deleteAllInCart}>Delete Selected</Button>
+					<Button onClick={deleteAllInCart}>Delete All</Button>
+					<TextField
+						type="text"
+						label="Enter your name"
+						onChange={(e) => {
+							setCustomerName(e.target.value);
+						}}
+						value={customerName}
+						className="CustomerName"></TextField>
+					<Button onClick={submitOrder}>Submit Order</Button>
+				</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
 }

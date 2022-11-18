@@ -10,9 +10,11 @@ import {
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
-import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { StyledTheme, StyledDiv } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { Button, createTheme, Grid, Box } from "@mui/material";
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel, FormControl } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface thisProp {
 	ingredients: any;
@@ -113,71 +115,107 @@ export default function Inventory({ ingredients }: thisProp) {
 
 	return (
 		<>
-			<StyledButton
-				onClick={() => {
-					router.push("/manager");
-				}}>
-				Back
-			</StyledButton>
+			<ThemeProvider theme={StyledTheme}>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/manager");
+						}}>
+						Back
+					</Button>
 
-			<StyledH1>Inventory </StyledH1>
+					<Typography><h1>Inventory</h1></Typography>
+				</StyledDiv>
+				<StyledDiv>
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setSelectedIngredient(event.target.value as string);
+						}}
+						className="ingredients">
+						{ingredientList.map((ingredient, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={ingredient.ingredientName}>
+									{ingredient.ingredientName}
+								</MenuItem>
+							);
+						})}
+					</Select>
+					<TextField
+						type="text"
+						inputMode="numeric"
+						label="Enter amount"
+						onChange={(e) => {
+							setIngredientAmount(Number(e.target.value));
+						}}
+						className="ingredient_amount"></TextField>
+				</StyledDiv>
 
-			<StyledDiv>
-				<select
-					onChange={(e) => {
-						setSelectedIngredient(e.target.value);
-					}}
-					className="ingredients">
+				<StyledDiv>
+					<Button onClick={addQuantity}>Quantity +</Button>
+					<Button onClick={setThreshold}>Threshold set</Button>
+				</StyledDiv>
+
+				{/* <StyledDiv className="ingredientsList">
 					{ingredientList.map((ingredient, index) => {
 						return (
-							<option
-								key={index}
-								value={ingredient.ingredientName}>
-								{ingredient.ingredientName +
-									" " +
-									ingredient.quantity}
-							</option>
+							<StyledDiv key={index}>
+								{ingredient.ingredientName} {ingredient.quantity}{" "}
+								{ingredient.threshold}
+							</StyledDiv>
 						);
 					})}
-				</select>
-				<input
-					type="text"
-					inputMode="numeric"
-					placeholder="Enter amount"
-					onChange={(e) => {
-						setIngredientAmount(Number(e.target.value));
-					}}
-					className="ingredient_amount"></input>
-			</StyledDiv>
+				</StyledDiv> */}
+				<Box 
+					sx={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignContent: 'center',
+					p: 1,
+					m: 1,
+					bgcolor: 'background.paper',
+					borderRadius: 1,
+					}}>
+					<TableContainer component={Paper} sx={{ maxWidth: 700, maxHeight: 400 }}>
+						<Table aria-label="simple table">
+							<TableHead>
+							<TableRow>
+								<TableCell>Ingredient Name</TableCell>
+								<TableCell align="right">Quantity</TableCell>
+								<TableCell align="right">Threshold</TableCell>
+							</TableRow>
+							</TableHead>
+							<TableBody>
+								{ingredientList.map((eachItem) => (
+									<TableRow
+										key={eachItem.ingredientName}
+										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+									>
+										<TableCell component="th" scope="row">
+											{eachItem.ingredientName}
+										</TableCell>
+										<TableCell align="right">{eachItem.quantity}</TableCell>
+										<TableCell align="right">{eachItem.threshold}</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Box>
 
-			<StyledDiv>
-				<label>Ingredient</label>
-				<StyledButton onClick={addQuantity}>Quantity +</StyledButton>
-				<StyledButton onClick={setThreshold}>Threshold set</StyledButton>
-			</StyledDiv>
-
-			<StyledDiv className="ingredientsList">
-				{ingredientList.map((ingredient, index) => {
-					return (
-						<StyledDiv key={index}>
-							{ingredient.ingredientName} {ingredient.quantity}{" "}
-							{ingredient.threshold}
-						</StyledDiv>
-					);
-				})}
-			</StyledDiv>
-
-			<StyledDiv>
-				<input
-					type="text"
-					inputMode="numeric"
-					placeholder="Restock amount"
-					onChange={(e) => {
-						setRestockAmount(Number(e.target.value));
-					}}
-					className="restock_amount"></input>
-				<StyledButton onClick={restockAll}>Restock All</StyledButton>
-			</StyledDiv>
+				<StyledDiv>
+					<TextField
+						type="text"
+						inputMode="numeric"
+						label="Restock amount"
+						onChange={(e) => {
+							setRestockAmount(Number(e.target.value));
+						}}
+						className="restock_amount"></TextField>
+					<Button onClick={restockAll}>Restock All</Button>
+				</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
 }

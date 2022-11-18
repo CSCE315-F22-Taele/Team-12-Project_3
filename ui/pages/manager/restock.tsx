@@ -3,37 +3,97 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
 import { getToken } from "next-auth/jwt";
-import { StyledButton, StyledDiv, StyledGrid, StyledH1 } from "../../styles/mystyles";
+import { StyledDiv, StyledTheme } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
+import { Typography, Button, createTheme, Grid, Box, Table, TableContainer, TableCell, TableHead, Paper, TableRow, TableBody } from "@mui/material";
 
 interface thisProp {
 	restockItems: any;
 }
 
-interface Excess {
-	itemName: string;
-	sales: number;
-	currentStock: number;
+interface Restock {
+	ingredientId: string;
+	ingredientName: number;
+	quantity: number;
+	threshold: number;
 }
 
 export default function Excess({ restockItems }: thisProp) {
 	const router = useRouter();
 
+	const [itemsToRestock, SetRestockItems] = useState<Restock[]>([])
+
+	let itemsToAdd : Restock[] = [];
+	console.log("length: ", restockItems.length);
+	for(let i = 0; i < restockItems.length; i++) {
+		let item : Restock = {
+			ingredientId: restockItems[i]["ingredientId"],
+			ingredientName: restockItems[i]["ingredientName"],
+			quantity: restockItems[i]["quantity"],
+			threshold: restockItems[i]["threshold"],
+		};
+		// item.ingredientId = restockItems[i]["ingredientId"];
+		// itemsToAdd.push(Restock( , restockItems[i]["quantity"], restockItems[i]["threshold"]));
+		itemsToAdd.push(item);
+	}
+
+	SetRestockItems(itemsToAdd);
+
 	return (
 		<>
-			<StyledDiv>
-				<StyledButton
-					onClick={() => {
-						router.push("/manager/reports");
-					}}>
-					Back
-				</StyledButton>
-			</StyledDiv>
+			<ThemeProvider theme={StyledTheme}>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/manager/reports");
+						}}>
+						Back
+					</Button>
+				</StyledDiv>
 
-			<StyledH1>Restock Report</StyledH1>
+				<Typography><h1>Restock Report</h1></Typography>
 
-			<StyledDiv className="excess">{JSON.stringify(restockItems)}</StyledDiv>
+				<StyledDiv className="excess">{JSON.stringify(restockItems)}</StyledDiv>
+
+				<StyledDiv className="excess">
+						<Box 
+							sx={{
+							display: 'flex',
+							justifyContent: 'center',
+							alignContent: 'center',
+							p: 1,
+							m: 1,
+							bgcolor: 'background.paper',
+							borderRadius: 1,
+							}}>
+							<TableContainer component={Paper} sx={{ maxWidth: 700, maxHeight: 200 }}>
+								<Table aria-label="simple table">
+									<TableHead>
+									<TableRow>
+										<TableCell>Menu Item</TableCell>
+										<TableCell align="right">Quantity</TableCell>
+										<TableCell align="right">Threshold</TableCell>
+									</TableRow>
+									</TableHead>
+									<TableBody>
+										{itemsToRestock.map((eachItem) => (
+											<TableRow
+												key={eachItem.ingredientName}
+												sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+											>
+												<TableCell component="th" scope="row">
+													{eachItem.ingredientName}
+												</TableCell>
+												<TableCell align="right">{eachItem.quantity}</TableCell>
+												<TableCell align="right">{eachItem.threshold}</TableCell>
+											</TableRow>
+										))}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Box>
+					</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
 }
