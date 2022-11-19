@@ -1,7 +1,6 @@
 from flask import Blueprint, request
-from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
-from sqlalchemy import and_, or_, func, distinct
-from sqlalchemy.sql.functions import coalesce
+from src.models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
+from sqlalchemy import and_, or_, func
 from datetime import datetime
 from uuid import uuid4
 
@@ -136,7 +135,7 @@ def createOrder():
     serverId = request.json.get('serverId')
 
     assert(customerName and items), "customerName or items not provided!"
-    assert(not serverId or (isinstance(serverId, str) and len(serverId) > 36)), "serverId provided is invalid"
+    assert(not serverId or (isinstance(serverId, str) and len(serverId) >= 36)), "serverId provided is invalid"
     
     timeOrdered = datetime.now()
     newOrder = Order(

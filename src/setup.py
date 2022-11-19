@@ -247,3 +247,61 @@ reqs = [
 for req in reqs:
     response = requests.post("http://127.0.0.1:5000/api/menu/item", json=req)
     print(response.text)
+
+
+orders = [
+    {
+        "customerName": "kyle",
+        "serverId": "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+        "items": [
+            {
+                "itemName": "Classic Hamburger",
+                "quantity": 2
+            },
+            {
+                "itemName": "Pepsi",
+                "quantity": 2
+            }
+        ]
+    },
+    {
+        "customerName": "aaron",
+        "serverId": "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+        "items": [
+            {
+                "itemName": "Caesar Salad",
+                "quantity": 1
+            },
+            {
+                "itemName": "Bacon Burger",
+                "quantity": 2
+            },
+            {
+                "itemName": "Diet Pepsi",
+                "quantity": 3
+            }
+        ]
+    },
+    {
+        "customerName": "",
+        "serverId": "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+        "items": [
+            {
+                "itemName": "Gig Em Patty Melt",
+                "quantity": 15
+            },
+            {
+                "itemName": "French Fries",
+                "quantity": 10
+            },
+            {
+                "itemName": "Chocolate Ice Cream Cup",
+                "quantity": 5
+            }
+        ]
+    }
+]
+
+for ord in orders:
+    response = requests.post("http://127.0.0.1:5000/api/orders/order", json=ord)
+    print(response.text)

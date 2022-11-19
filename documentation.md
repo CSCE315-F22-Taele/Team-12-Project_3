@@ -1,10 +1,12 @@
 # Orders
 
 ### GET /orders?serverId=2f7f-fslg-glob-ba7o
+
 Get all the orders(not recommended at all). Optionally, pass in a serverId to get orders related to that server.
 **Ensure that the request type is json, and simply pass in an empty {}.**
 
 **Response**
+
 ```json
 {
     "orders": [
@@ -31,9 +33,11 @@ Get all the orders(not recommended at all). Optionally, pass in a serverId to ge
 <br>
 
 ### GET /orders?not-served&serverId=2f7f-fslg-glob-ba7o
+
 Get all the orders that haven't been served. Optionally, pass in a serverId to get orders related to that server.
 
 **Response**
+
 ```json
 {
     "orders": [
@@ -60,9 +64,11 @@ Get all the orders that haven't been served. Optionally, pass in a serverId to g
 <br>
 
 ### GET /orders/items/excess-report?startDate=YYYY-MM-DD
+
 Get all the items for orders after a given timestamp where the item sold less than 10% of their current inventory
 
 **Response**
+
 ```json
 {
     "items": [
@@ -79,9 +85,11 @@ Get all the items for orders after a given timestamp where the item sold less th
 <br>
 
 ### GET /orders/items/sales-report?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
 Get sales by item from order history given startDate & endDate
 
 **Response**
+
 ```json
 {
     "items": [
@@ -98,9 +106,11 @@ Get sales by item from order history given startDate & endDate
 <br>
 
 ### POST /orders/order
+
 Create an order with its linked items and add it to the database. Optionally pass in serverId to manually assign.
 
 **Request**
+
 ```json
 {
     "customerName": "Tony Jellygum",
@@ -116,6 +126,7 @@ Create an order with its linked items and add it to the database. Optionally pas
 ```
 
 **Response**
+
 ```json
 {
     "orderId": "7a9a-h10a-its0-ajof",
@@ -138,9 +149,11 @@ Create an order with its linked items and add it to the database. Optionally pas
 <br>
 
 ### PUT /orders/order/serve
+
 Set the order as served in the database
 
 **Request**
+
 ```json
 {
     "orderId": "7da7-j1od-61nf-ag02"
@@ -148,6 +161,7 @@ Set the order as served in the database
 ```
 
 **Response**
+
 ```json
 {
     "ingredientsUsed": [
@@ -160,13 +174,14 @@ Set the order as served in the database
 }
 ```
 
-
 # Menu
 
 ### GET /menu
+
 Get all menu items
 
 **Response**
+
 ```json
 {
     "items": [
@@ -183,9 +198,11 @@ Get all menu items
 <br>
 
 ### GET /menu?descriptions
+
 Get all menu items with descriptions
 
 **Response**
+
 ```json
 {
     "items": [
@@ -203,9 +220,11 @@ Get all menu items with descriptions
 <br>
 
 ### GET /menu/item?itemName=Test Item
+
 Get a specific menu item
 
 **Response**
+
 ```json
 {
     "itemId": "97sf-fayg-9s6f-a1no",
@@ -218,9 +237,11 @@ Get a specific menu item
 <br>
 
 ### POST /menu/item
+
 Create a new menu item AND also create associated ingredients if new
 
 **Request**
+
 ```json
 {
     "itemName": "New Item",
@@ -235,6 +256,7 @@ Create a new menu item AND also create associated ingredients if new
 ```
 
 **Response**
+
 ```json
 {
     "itemCreated": 1,
@@ -246,9 +268,11 @@ Create a new menu item AND also create associated ingredients if new
 <br>
 
 ### PUT /menu/item/price
+
 Update a menu item's price
 
 **Request**
+
 ```json
 {
     "itemName": "Test Item",
@@ -257,6 +281,7 @@ Update a menu item's price
 ```
 
 **Response**
+
 ```json
 {
     "success": true
@@ -264,9 +289,11 @@ Update a menu item's price
 ```
 
 ### DELETE /menu/item
+
 Delete the specified item from the database
 
 **Request**
+
 ```json
 {
     "itemName": "Test Item"
@@ -274,19 +301,21 @@ Delete the specified item from the database
 ```
 
 **Response**
+
 ```json
 {
     "success": true
 }
 ```
 
-
 # Inventory
 
 ### GET /inventory
+
 Retrieves all the ingredients in the inventory
 
 **Response**
+
 ```json
 {
     "ingredients": [
@@ -304,9 +333,11 @@ Retrieves all the ingredients in the inventory
 <br>
 
 ### GET /inventory?restock-report
+
 Get all ingredients that have a lower quantity than their respective threshold
 
 **Response**
+
 ```json
 {
     "ingredients": [
@@ -324,9 +355,11 @@ Get all ingredients that have a lower quantity than their respective threshold
 <br>
 
 ### GET /inventory/ingredient?ingredientName=Test Ingredient
+
 Get a specific ingredient from inventory
 
 **Response**
+
 ```json
 {
     "ingredientId": "97sf-fayg-9s6f-a1no",
@@ -339,9 +372,11 @@ Get a specific ingredient from inventory
 <br>
 
 ### PUT /inventory/restock
+
 Restock specified ingredients in the inventory by their respective amounts
 
 **Request**
+
 ```json
 {
     "ingredients": [
@@ -355,6 +390,7 @@ Restock specified ingredients in the inventory by their respective amounts
 ```
 
 **Response**
+
 ```json
 {
     "countRestocked": 2
@@ -364,9 +400,11 @@ Restock specified ingredients in the inventory by their respective amounts
 <br>
 
 ### PUT /inventory/restock?all
+
 Restock all the ingredients in the inventory adding a static amount to each quantity
 
 **Request**
+
 ```json
 {
     "amount": 250
@@ -374,6 +412,7 @@ Restock all the ingredients in the inventory adding a static amount to each quan
 ```
 
 **Response**
+
 ```json
 {
     "countRestocked": 18
@@ -383,9 +422,11 @@ Restock all the ingredients in the inventory adding a static amount to each quan
 <br>
 
 ### PUT /inventory/threshold
+
 Change the threshold of all ingredients in the specified list
 
 **Request**
+
 ```json
 {
     "ingredients": [
@@ -399,6 +440,7 @@ Change the threshold of all ingredients in the specified list
 ```
 
 **Response**
+
 ```json
 {
     "countChanged": 2
@@ -408,16 +450,19 @@ Change the threshold of all ingredients in the specified list
 <br>
 
 ### DELETE /inventory/ingredient
+
 Delete a specific ingredient from inventory
 
 **Request**
+
 ```json
 {
     "ingredientName": "Test Ingredient"
 }
 ```
-    
+
 **Response**
+
 ```json
 {
     "success": true

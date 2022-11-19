@@ -1,61 +1,233 @@
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import { ChangeEvent, useState } from "react";
+import {
+	addOrderProxyAPI,
+	flaskAPI,
+	getMenuAPI,
+	getMenuProxyAPI,
+	serverSideInstance,
+} from "../../components/utils";
+import { StyledDiv, StyledTheme } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box } from "@mui/material";
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+//may not need table stuff. Left it here in case we want to display a table of menu items and they select
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel } from '@mui/material';
+import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 
-const fetcher = async () => {
-	const response = await fetch("link");
-	const data = response.json();
-	return data;
-};
 
-export default function Server({ serverId }: { serverId: string }) {
-	const orderList: string[] = ["three", "four"];
-	const menuItemsList: string[] = ["ketchup", "ranch sauce"];
+interface menuItem {
+	itemId: string;
+	itemName: string;
+	price: number;
+}
 
+interface thisProp {
+	serverId: string;
+	menuItems: any;
+}
+
+interface OrderItem {
+	
+	itemName: string;
+	quantity: number;
+	price?: number;
+}
+
+interface expandString {
+	displayString: string;
+	show: boolean;
+}
+
+export default function Cart({ serverId, menuItems }: thisProp) {
 	const router = useRouter();
+	const menu: menuItem[] = menuItems["items"];
+
+	const [customerName, setCustomerName] = useState("");
+	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
+	const [itemQuantity, setItemQuantity] = useState(0);
+	const [itemPrice, setItemPrice] = useState(menu[0].price);
+	const [orderList, setOrderList] = useState<OrderItem[]>([]);
+	const [expandedStringList, setExpandedString] = useState<expandString[]>(
+		[]
+	);
+	const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>([]);
+
+	const tableColumns: GridColDef[] = [
+		{ field: 'itemName', headerName: 'Item Name', type: 'string', width: 300 },
+		{ field: 'quantity', headerName: 'Quantity', type: 'number', width: 150 },
+		{ field: 'price', headerName: 'Price ($)', type: 'number', width: 150 },
+	  ];
+
+	const addToCart = () => {
+		setOrderList([
+			...orderList,
+			{
+				itemName: selectedItem,
+				quantity: itemQuantity,
+				price: itemQuantity * itemPrice,
+			},
+		]);
+
+		var res: number = itemQuantity * itemPrice;
+		setExpandedString([
+			...expandedStringList,
+			{
+				displayString:
+					"Price: " +
+					itemQuantity * itemPrice +
+					" Quantity: " +
+					itemQuantity,
+				show: false,
+			},
+		]);
+
+		setSelectedItem("");
+		setItemQuantity(0);
+	};
+
+	const deleteAllInCart = () => {
+		setOrderList([]);
+		setSelectedItem(menu[0].itemName);
+		setItemPrice(menu[0].price);
+		setItemQuantity(0);
+	};
+
+	const submitOrder = async () => {
+		const data = JSON.stringify({
+			customerName: customerName,
+			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+			items: orderList,
+		});
+
+		const config = {
+			method: "POST",
+			url: addOrderProxyAPI,
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: data,
+		};
+
+		const response = await flaskAPI(config);
+
+		setOrderList([]);
+
+		router.push("/server");
+	};
+
+	// const setItemStates = (event: ChangeEvent<HTMLSelectElement>) => {
+	const setItemStates = (event: SelectChangeEvent) => {
+		const indexOfSpace = event.target.value.lastIndexOf(" ");
+		const menuObjectName = event.target.value.substring(0, indexOfSpace);
+		const menuObjectPrice = event.target.value.substring(indexOfSpace + 1);
+		setSelectedItem(menuObjectName);
+		setItemPrice(Number(menuObjectPrice));
+	};
+
+	const addInfo = (index: number) => {
+		expandedStringList[index].show = !expandedStringList[index].show;
+		setExpandedString([...expandedStringList]);
+	};
+
+	// useEffect(() => {}, [expandedStringList]);
+
 	return (
 		<>
-			<button
-				onClick={() => {
-					router.push("/server", undefined, { shallow: true });
-				}}>
-				Back
-			</button>
+			<ThemeProvider theme={StyledTheme}>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/server");
+						}}>
+						Back
+					</Button>
+				</StyledDiv>
+				
 
-			<h1>Cart</h1>
+				<Typography><h1>Cart</h1></Typography>
 
-			<div className="MenuItemSelection">
-				<select name="menuItemsList" id="menuItemsList">
-					{menuItemsList.map((menuItem, index) => {
-						return (
-                            <option value={menuItem}>
-                                {menuItem + ": " + index}
-                            </option>
-						);
-					})}
-				</select>
-				<textarea className="Quantity" rows={1} cols={25}>
-					{"Quantity"}
-				</textarea>
-				<button>add</button>
-			</div>
-			<div className="itemsList">
-				{orderList.map((order, index) => {
-					return (
-						<div key={index}>
-							<h1>{order}</h1>
-							<button>Expand</button>
-						</div>
-					);
-				})}
-			</div>
+				<StyledDiv className="MenuItemSelection">
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setItemStates(event);
+						}}
+						className="menuItems">
+						{menu.map((menuItem, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={
+										menuItem.itemName + " " + menuItem.price
+									}>
+									{menuItem.itemName + ": $" + menuItem.price}
+								</MenuItem>
+							);
+						})}
+					</Select>
+					<TextField
+						type="text"
+						inputMode="numeric"
+						label="Enter quantity"
+						onChange={(e) => {
+							setItemQuantity(Number(e.target.value));
+						}}
+						className="Quantity"></TextField>
+					<Button onClick={addToCart}>Add</Button>
+				</StyledDiv>
+				<StyledDiv className="itemsList" sx={{textAlign: "-webkit-center", margin: "40px"}}>
+					<div style={{ height: 400, width: '100%' }}>
+						<DataGrid
+							getRowId={(r) => r.itemName + " " + r.quantity + " " + r.price}
+							rows={orderList}
+							columns={tableColumns}
+							pageSize={5}
+							rowsPerPageOptions={[5]}
+							checkboxSelection
+							sx={{maxWidth: 700, maxHeight: 700}}
+							onSelectionModelChange={(newSelection) => {
+								const selectedIDs = new Set(newSelection);
+								const selectedRows = orderList.filter((row) => {
+										console.log(row);
+										selectedIDs.has(row);
+									}
+								);
+								console.log(selectedIDs);
+								setOrderList(selectedRows);
+							}}
+						/>
+						
+					</div>
+					{/* {JSON.stringify(orderList)} */}
+				</StyledDiv>
 
-			<div className="AddOrdersSection">
-				<button>Delete All</button>
-				<textarea className="CustomerName" rows={1} cols={25}>
-					{"Enter Name"}
-				</textarea>
-				<button>Submit Order</button>
-			</div>
+				<StyledDiv className="AddOrdersSection">
+					<Button onClick={deleteAllInCart}>Delete Selected</Button>
+					<Button onClick={deleteAllInCart}>Delete All</Button>
+					<TextField
+						type="text"
+						label="Enter your name"
+						onChange={(e) => {
+							setCustomerName(e.target.value);
+						}}
+						value={customerName}
+						className="CustomerName"></TextField>
+					<Button onClick={submitOrder}>Submit Order</Button>
+				</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const instance = serverSideInstance(context);
+	const response = await instance.get(getMenuAPI);
+	const data = response.data;
+
+	return {
+		props: {
+			menuItems: data,
+		},
+	};
 }

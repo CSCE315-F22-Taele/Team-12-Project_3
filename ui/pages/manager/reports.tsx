@@ -1,16 +1,45 @@
 import { useRouter } from "next/router";
-
+import { StyledDiv, StyledTheme } from "../../styles/mystyles";
+import { ThemeProvider } from "@mui/material/styles";
+import { Button, createTheme, Grid, Box, Typography } from "@mui/material";
 
 export default function Manager() {
 	const router = useRouter();
 
 	return (
 		<>
-			<button onClick={() => {router.push("/manager", undefined, {shallow: true});}}>Back</button>
-			<h1>Manager</h1>
-			<button onClick={() => {router.push("/manager/sales", undefined, {shallow: true});}}>Sales</button>
-			<button onClick={() => {router.push("/manager/excess", undefined, {shallow: true});}}>Excess</button>
-			<button onClick={() => {router.push("/manager/restock", undefined, {shallow: true});}}>Restock</button>
+			<ThemeProvider theme={StyledTheme}>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/manager");
+						}}>
+						Back
+					</Button>
+				</StyledDiv>
+				<Typography><h1>Reports</h1></Typography>
+
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/manager/sales");
+						}}>
+						Sales
+					</Button>
+					<Button
+						onClick={() => {
+							router.push("/manager/excess");
+						}}>
+						Excess
+					</Button>
+					<Button
+						onClick={() => {
+							router.push("/manager/restock");
+						}}>
+						Restock
+					</Button>
+				</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
 }
