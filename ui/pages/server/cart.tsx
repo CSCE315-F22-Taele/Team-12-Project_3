@@ -29,7 +29,7 @@ interface thisProp {
 }
 
 interface OrderItem {
-	
+	rowId: number;
 	itemName: string;
 	quantity: number;
 	price?: number;
@@ -53,6 +53,8 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		[]
 	);
 	const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>([]);
+	const [itemQuantityFirstPass, setItemQuantityFirstPass] = useState(true);
+	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
 
 	const tableColumns: GridColDef[] = [
 		{ field: 'itemName', headerName: 'Item Name', type: 'string', width: 300 },
@@ -61,9 +63,13 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	  ];
 
 	const addToCart = () => {
+		if(itemQuantity <= 0)
+			return;
+
 		setOrderList([
 			...orderList,
 			{
+				rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
 				itemName: selectedItem,
 				quantity: itemQuantity,
 				price: itemQuantity * itemPrice,
@@ -85,6 +91,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 		setSelectedItem("");
 		setItemQuantity(0);
+		setItemQuantityFirstPass(true);
 	};
 
 	const deleteAllInCart = () => {
@@ -93,8 +100,20 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		setItemPrice(menu[0].price);
 		setItemQuantity(0);
 	};
+	const deleteSelectedInCart = () => {
+		setOrderList(selectedDeleteList);
+		setSelectedItem(menu[0].itemName);
+		setItemPrice(menu[0].price);
+		setItemQuantity(0);
+	};
 
 	const submitOrder = async () => {
+		if(customerName === "") {
+			setCustomerNameFirstPass(false);
+			return;
+		}
+		
+		
 		const data = JSON.stringify({
 			customerName: customerName,
 			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
@@ -172,14 +191,17 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 						label="Enter quantity"
 						onChange={(e) => {
 							setItemQuantity(Number(e.target.value));
+							setItemQuantityFirstPass(false);
 						}}
+						error={itemQuantity <= 0 && !itemQuantityFirstPass}
+						helperText={(itemQuantity <= 0 && !itemQuantityFirstPass)  ? "Please enter a positive number" : ""}
 						className="Quantity"></TextField>
 					<Button onClick={addToCart}>Add</Button>
 				</StyledDiv>
 				<StyledDiv className="itemsList" sx={{textAlign: "-webkit-center", margin: "40px"}}>
 					<div style={{ height: 400, width: '100%' }}>
 						<DataGrid
-							getRowId={(r) => r.itemName + " " + r.quantity + " " + r.price}
+							getRowId={(r) => r.rowId}
 							rows={orderList}
 							columns={tableColumns}
 							pageSize={5}
@@ -188,13 +210,10 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 							sx={{maxWidth: 700, maxHeight: 700}}
 							onSelectionModelChange={(newSelection) => {
 								const selectedIDs = new Set(newSelection);
-								const selectedRows = orderList.filter((row) => {
-										console.log(row);
-										selectedIDs.has(row);
-									}
+								const selectedRows = orderList.filter((row) => 
+									!selectedIDs.has(row.rowId)	
 								);
-								console.log(selectedIDs);
-								setOrderList(selectedRows);
+								setSelectedDeleteList(selectedRows);
 							}}
 						/>
 						
@@ -203,14 +222,17 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 				</StyledDiv>
 
 				<StyledDiv className="AddOrdersSection">
-					<Button onClick={deleteAllInCart}>Delete Selected</Button>
+					<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
 					<Button onClick={deleteAllInCart}>Delete All</Button>
 					<TextField
 						type="text"
 						label="Enter your name"
 						onChange={(e) => {
 							setCustomerName(e.target.value);
+							setCustomerNameFirstPass(false);
 						}}
+						error={customerName === "" && !customerNameFirstPass}
+						helperText={(customerName === "" && !customerNameFirstPass) ? "Enter a name here" : ""}
 						value={customerName}
 						className="CustomerName"></TextField>
 					<Button onClick={submitOrder}>Submit Order</Button>
