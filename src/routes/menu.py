@@ -26,14 +26,6 @@ def addMenuItem():
     inventory = Inventory.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
     inventoryMapping = {inv.ingredient_name: inv for inv in inventory}
 
-    # In the loop...
-    #   If new ingredient
-    #       We insert ingredient into "Inventory" database
-    #   Else
-    #       We get ingredient instance's UUID
-    #   We append Inventory.ingredientId to MenuInventory.inventoryIngredients
-    #   We append MenuInventory.ingredientId to Menu.menuIngredients
-    # When done, add item to "Menu" database
     newCounts = 0
     menuItem = Menu(
         item_id=str(uuid4()),
