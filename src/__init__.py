@@ -51,10 +51,9 @@ def create_app(test_config=None):
     app.register_blueprint(baseBP)
 
     docs = FlaskApiSpec(app)
-    # docs.register(user.CreateUserResource, blueprint='user', endpoint='CreateUserResource')
-    # docs.register(user.create_user, blueprint='user')
     docs.register(user.UserResource, blueprint='user')
-    docs.register(user.CreateUserResource, blueprint='user')
+    docs.register(inventory.InventoryResource, blueprint='inventory')
+    docs.register(inventory.IngredientResource, blueprint='inventory')
 
     db.app = app
     db.init_app(app)
