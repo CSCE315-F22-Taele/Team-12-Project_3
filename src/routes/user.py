@@ -19,7 +19,7 @@ class UserResource(MethodResource):
             return make_response(jsonify(error="Username Not Found!"), 404)
         return user.to_dict()
 
-    @marshal_with(UserResponseSchema(), code=204, description="Entity Successfully Deleted")
+    @marshal_with(UserResponseSchema, code=204, description="Entity Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Delete an existing user from the database")
     def delete(self, username):
