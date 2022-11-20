@@ -55,9 +55,7 @@ class UserResource(MethodResource):
 
     @parser.error_handler
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
-        # error_message = {"msg": "The request was unable to be followed due to missing data."}
-        # error_message['errors'] = err.messages.get('json')
-        return make_response(jsonify(error=err.messages.get('json')), 422)
+        abort(make_response(jsonify(error=err.messages.get('json')), 422))
 
 user_view = UserResource.as_view("userresource")
 bp.add_url_rule('/user/<string:username>', view_func=user_view, methods=['GET', 'DELETE'])
