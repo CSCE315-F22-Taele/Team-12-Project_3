@@ -43,7 +43,6 @@ def create_app(test_config=None):
         'APISPEC_SWAGGER_UI_URL': '/swagger-ui/'  # URI to access UI of API Doc
     })
 
-
     baseBP = Blueprint('root', __name__, url_prefix='/api')
     baseBP.register_blueprint(user.bp)
     baseBP.register_blueprint(inventory.bp)
