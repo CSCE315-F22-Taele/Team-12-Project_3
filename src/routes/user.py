@@ -17,19 +17,18 @@ class UserResource(MethodResource):
         user = User.query.filter_by(username=username).first() # Should return just one or None
         if user is None:
             return make_response(jsonify(error="Username Not Found!"), 404)
-        return user.to_dict()
+        return user
 
-    @marshal_with(UserResponseSchema, code=204, description="Entity Successfully Deleted")
+    @marshal_with(None, code=204, description="Entity Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Delete an existing user from the database")
     def delete(self, username):
         user = User.query.filter_by(username=username).first()
         if user is None:
              return make_response(jsonify(error="Username Not Found!"), 404)
-        ret = user.to_dict()
         User.query.filter_by(username=username).delete()
         db.session.commit()
-        return ret
+        return {}
 
     @use_kwargs(UserRequestSchema) # request body must follow this format
     @marshal_with(UserResponseSchema, code=201, description="Entity Successfully Created")
@@ -51,7 +50,7 @@ class UserResource(MethodResource):
         user.user_credential.append(credentials)
         db.session.add(user)
         db.session.commit()
-        return user.to_dict()
+        return user, 201 # Must specify the status code even though marshal_with
 
     @parser.error_handler
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
