@@ -21,23 +21,7 @@ interface Restock {
 export default function Excess({ restockItems }: thisProp) {
 	const router = useRouter();
 
-	const [itemsToRestock, SetRestockItems] = useState<Restock[]>([])
-
-	let itemsToAdd : Restock[] = [];
-	console.log("length: ", restockItems.length);
-	for(let i = 0; i < restockItems.length; i++) {
-		let item : Restock = {
-			ingredientId: restockItems[i]["ingredientId"],
-			ingredientName: restockItems[i]["ingredientName"],
-			quantity: restockItems[i]["quantity"],
-			threshold: restockItems[i]["threshold"],
-		};
-		// item.ingredientId = restockItems[i]["ingredientId"];
-		// itemsToAdd.push(Restock( , restockItems[i]["quantity"], restockItems[i]["threshold"]));
-		itemsToAdd.push(item);
-	}
-
-	SetRestockItems(itemsToAdd);
+	const [itemsToRestock, setRestockItems] = useState<Restock[]>(restockItems)
 
 	return (
 		<>
@@ -53,8 +37,6 @@ export default function Excess({ restockItems }: thisProp) {
 
 				<Typography><h1>Restock Report</h1></Typography>
 
-				<StyledDiv className="excess">{JSON.stringify(restockItems)}</StyledDiv>
-
 				<StyledDiv className="excess">
 						<Box 
 							sx={{
@@ -66,7 +48,7 @@ export default function Excess({ restockItems }: thisProp) {
 							bgcolor: 'background.paper',
 							borderRadius: 1,
 							}}>
-							<TableContainer component={Paper} sx={{ maxWidth: 700, maxHeight: 200 }}>
+							<TableContainer component={Paper} sx={{ maxWidth: 700, maxHeight: "75vh" }}>
 								<Table aria-label="simple table">
 									<TableHead>
 									<TableRow>

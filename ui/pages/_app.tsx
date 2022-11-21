@@ -6,6 +6,7 @@ import {
 	createTheme,
 	CssBaseline,
 	PaletteMode,
+	Paper,
 	ThemeProvider,
 	useMediaQuery,
 } from "@mui/material";
@@ -19,7 +20,7 @@ const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
 const getColorMode = (mode: PaletteMode) => ({
 	palette: {
 		mode,
-		...(mode === "light"
+		/* 		...(mode === "light"
 			? {
 					// palette values for light mode
 					primary: amber,
@@ -41,7 +42,7 @@ const getColorMode = (mode: PaletteMode) => ({
 						primary: "#fff",
 						secondary: grey[500],
 					},
-			  }),
+			  }), */
 	},
 });
 
