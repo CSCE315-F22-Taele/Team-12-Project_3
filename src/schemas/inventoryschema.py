@@ -1,11 +1,20 @@
 from marshmallow import Schema, fields, validate, validates_schema, ValidationError
 
+# To take check for restock-report parameter
 class RestockSchema(Schema):
+    amount = fields.Int(required=True, validate=validate.Range(min=0, error="Amount added must be >= 0"))
+
+# To take check for restock-report parameter
+class ReportSchema(Schema):
     restock_report = fields.Boolean(
         attribute="restock-report", 
         default=False,
         description="If specified will return inventory ingredients where quantity < threshold. Specify with query parameter ?restock-report"
     )
+
+# To marshal output of patch and put, marshal NEEDS a schema
+class CountResponseSchema(Schema):
+    countUpdated = fields.Int()
 
 class IngredientRequestSchema(Schema):
     ingredientName = fields.Str(required=True) # deserialize this key -> ingredient_name
