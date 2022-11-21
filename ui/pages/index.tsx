@@ -31,21 +31,19 @@ export default function Home({ toggleContrast }: thisProps) {
 	// const theme = useTheme()
 
 	return (
-		<ThemeProvider theme={StyledTheme}>
-			<StyledDiv sx={justMainPageStyleDiv}>
-				{/* <Image src={img} alt="Reveille"/> */}
-				<Button onClick={toggleContrast}>Toggle Contrast</Button>
-				<Button
-					onClick={() => routerPush("server", setUserType)}
-					sx={justMainPageStyleButtons}>
-					Server
-				</Button>
-				<Button
-					onClick={() => routerPush("manager", setUserType)}
-					sx={justMainPageStyleButtons}>
-					Manager
-				</Button>
-			</StyledDiv>
-		</ThemeProvider>
+		<StyledDiv sx={justMainPageStyleDiv}>
+			{/* <Image src={img} alt="Reveille"/> */}
+			<Button onClick={toggleContrast}>Toggle Contrast</Button>
+			<Button
+				onClick={() => routerPush("server", setUserType)}
+				sx={justMainPageStyleButtons}>
+				Server
+			</Button>
+			<Button
+				onClick={() => routerPush("manager", setUserType)}
+				sx={justMainPageStyleButtons}>
+				Manager
+			</Button>
+		</StyledDiv>
 	);
 }

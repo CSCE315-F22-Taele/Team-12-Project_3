@@ -114,7 +114,7 @@ export const StyledDiv = styled("div")(({ theme, ...otherProps }) => ({
 	textAlignLast: "center",
 }));
 
-const StyledTheme = createTheme({
+export const StyledTheme = createTheme({
 	components: {
 		MuiGrid: {
 			styleOverrides: {
@@ -157,11 +157,10 @@ const StyledTheme = createTheme({
 		},
 		MuiTypography: {
 			styleOverrides: {
-				root: {
-					h1: {
-						fontSize: 30,
-						textAlignLast: "center",
-					},
+				root: {},
+				h1: {
+					fontSize: 30,
+					textAlignLast: "center",
 				},
 			},
 		},
@@ -196,4 +195,86 @@ const StyledTheme = createTheme({
 	},
 });
 
-export { StyledTheme };
+export const StyledThemeDark = createTheme({
+	palette: {
+		mode: "dark",
+	},
+	components: {
+		MuiGrid: {
+			styleOverrides: {
+				root: {
+					color: "grey",
+					// border: "2px solid",
+					textDecoration: "italic",
+					minWidth: 20,
+					margin: "auto",
+				},
+			},
+		},
+		MuiContainer: {
+			styleOverrides: {
+				root: {
+					maxWidth: 5,
+					margin: "auto",
+				},
+			},
+		},
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					color: "white",
+					alignContent: "center",
+					// border: '2px solid blue',
+					// backgroundColor: "blue",
+					backgroundColor: "rgb(167, 11, 40)",
+					borderRadius: 10,
+					marginRight: 10,
+					marginLeft: 10,
+					height: 55,
+					textAlignLast: "center",
+					size: "large",
+					"&:hover": {
+						color: "black",
+					},
+				},
+			},
+		},
+		MuiTypography: {
+			styleOverrides: {
+				root: {},
+				h1: {
+					fontSize: 30,
+					textAlignLast: "center",
+				},
+			},
+		},
+		MuiTableCell: {
+			styleOverrides: {
+				root: {
+					[`&.${tableCellClasses.head}`]: {
+						backgroundColor: "rgb(167, 11, 40)",
+						color: "white",
+						fontWeight: "bolder",
+					},
+				},
+			},
+		},
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					height: 50,
+					[`& fieldset`]: {
+						borderRadius: 10,
+					},
+				},
+			},
+		},
+		MuiSelect: {
+			styleOverrides: {
+				root: {
+					borderRadius: 10,
+				},
+			},
+		},
+	},
+});
