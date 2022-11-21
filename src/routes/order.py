@@ -22,7 +22,6 @@ def getOrders():
     orders = orderQuery.order_by(Order.time_ordered.asc()).all()
     return {"orders": [order.to_dict() for order in orders]}
 
-
 @bp.get("/items/sales-report")
 def getSalesReport():
     startDate = request.args.get('startDate')
