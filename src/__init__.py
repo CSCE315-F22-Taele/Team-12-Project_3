@@ -52,8 +52,8 @@ def create_app(test_config=None):
 
     docs = FlaskApiSpec(app)
     docs.register(user.UserResource, blueprint='user')
-    docs.register(inventory.InventoryResource, blueprint='inventory')
-    docs.register(inventory.IngredientResource, blueprint='inventory')
+    # docs.register(inventory.InventoryResource, blueprint='inventory')
+    # docs.register(inventory.IngredientResource, blueprint='inventory')
 
     db.app = app
     db.init_app(app)
