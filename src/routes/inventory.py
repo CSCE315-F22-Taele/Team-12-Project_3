@@ -27,7 +27,7 @@ class InventoryResource(MethodResource):
             inventoryQuery = inventoryQuery.filter(Inventory.quantity < Inventory.threshold)
         elif len(request.args) > 0: # invalid query parameter passed
             return make_response(jsonify(error="Invalid Query Parameters!"), 400)
-        inventoryIngredients = inventoryQuery.order_by(Inventory.ingredient_name.asc()).all()
+        inventoryIngredients = inventoryQuery.order_by(Inventory.ingredientName.asc()).all()
         return {"ingredients": inventoryIngredients}
 
     @use_kwargs(RestockSchema) # defaults to looking at the json
@@ -54,7 +54,7 @@ class InventoryResource(MethodResource):
         if ingredients:
             ingredientNameList = [ingredient['ingredientName'] for ingredient in ingredients]
             ingredientObjectsList = Inventory.query.filter(
-                                        Inventory.ingredient_name.in_(ingredientNameList)
+                                        Inventory.ingredientName.in_(ingredientNameList)
                                     ).all()
 
             if len(ingredients) != len(ingredientObjectsList):
@@ -83,7 +83,7 @@ class IngredientResource(MethodResource):
     @marshal_with(ErrorSchema, code=404, description="Ingredient Not Found")
     @doc(description="Get a specific ingredient from the inventory")
     def get(self, ingredientName=None):
-        ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
+        ingredient = Inventory.query.filter_by(ingredientName=ingredientName).first()
         if ingredient is None:
             return make_response(jsonify(error="Ingredient Not Found In Database!"), 404)
         return ingredient
@@ -92,10 +92,10 @@ class IngredientResource(MethodResource):
     @marshal_with(ErrorSchema, code=404, description="Ingredient Not Found")
     @doc(description="Delete an existing ingredient from database")
     def delete(self, ingredientName=None):
-        ingredient = Inventory.query.filter_by(ingredient_name=ingredientName).first()
+        ingredient = Inventory.query.filter_by(ingredientName=ingredientName).first()
         if ingredient is None:
             return make_response(jsonify(err="Ingredient Not Found In Database!"), 404)
-        Inventory.query.filter_by(ingredient_name=ingredientName).delete()
+        Inventory.query.filter_by(ingredientName=ingredientName).delete()
         db.session.commit()
         return {}, 204
 

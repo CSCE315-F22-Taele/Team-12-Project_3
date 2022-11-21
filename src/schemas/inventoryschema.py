@@ -37,8 +37,8 @@ class InventoryRequestSchema(Schema):
     ingredients = fields.Nested(IngredientRequestSchema(many=True), required=True)
 
 class IngredientResponseSchema(Schema):
-    ingredient_id = fields.Str(data_type="ingredientId")
-    ingredient_name = fields.Str(data_type="ingredientName")
+    ingredientId = fields.Str()
+    ingredientName = fields.Str()
     quantity = fields.Int()
     threshold = fields.Int()
 
