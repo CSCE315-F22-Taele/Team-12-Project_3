@@ -24,6 +24,7 @@ def getOrders():
 
 @bp.get("/items/sales-report")
 def getSalesReport():
+    print(request.args)
     startDate = request.args.get('startDate')
     endDate = request.args.get('endDate')
     assert (startDate and endDate), "startDate or endDate not provided"
@@ -36,11 +37,11 @@ def getSalesReport():
     #       but with some values nulled out. This allows you to get menu items that didn't
     #       appear in the inventory.
     salesReport = db.session.query(
-                    Menu.item_name, 
+                    Menu.itemName, 
                     func.sum(OrderMenu.quantity), 
                     func.sum(OrderMenu.total_price)
                 ).\
-                    outerjoin(OrderMenu, Menu.item_id == OrderMenu.item_id).\
+                    outerjoin(OrderMenu, Menu.itemId == OrderMenu.item_id).\
                     outerjoin(Order, 
                         and_(
                                 Order.id == OrderMenu.order_id,
@@ -48,8 +49,8 @@ def getSalesReport():
                                 Order.time_ordered <= endDateFormatted
                             )
                         ).\
-                    group_by(Menu.item_id).\
-                    order_by(Menu.item_name).\
+                    group_by(Menu.itemId).\
+                    order_by(Menu.itemName).\
                     all()
 
     return {
@@ -85,21 +86,21 @@ def getExcessReport():
                     ).\
                     subquery()
     excessReport = db.session.query(
-                    func.distinct(Menu.item_id),
-                    Menu.item_name, 
+                    func.distinct(Menu.itemId),
+                    Menu.itemName, 
                     func.sum(omAfterTime.c.quantity)
                 ).\
-                    outerjoin(omAfterTime, Menu.item_id == omAfterTime.c.item_id).\
-                    outerjoin(MenuInventory, Menu.item_id == MenuInventory.c.item_id).\
-                    outerjoin(Inventory, MenuInventory.c.ingredient_id == Inventory.ingredient_id).\
-                    group_by(Inventory.ingredient_id, Menu.item_id).\
+                    outerjoin(omAfterTime, Menu.itemId == omAfterTime.c.item_id).\
+                    outerjoin(MenuInventory, Menu.itemId == MenuInventory.c.item_id).\
+                    outerjoin(Inventory, MenuInventory.c.ingredient_id == Inventory.ingredientId).\
+                    group_by(Inventory.ingredientId, Menu.itemId).\
                     having(
                         or_ (
                             func.sum(omAfterTime.c.quantity) < Inventory.quantity * 0.1,
                             func.sum(omAfterTime.c.quantity).is_(None)
                         )
                     ).\
-                    order_by(Menu.item_name).\
+                    order_by(Menu.itemName).\
                     all()
     return {
         "items": [
@@ -111,24 +112,10 @@ def getExcessReport():
         ]
     }
 
-'''
-menu = Menu.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
-menuMapping = {itm.item_name: itm for itm in menu}
-
-Create order object (customerName): Order(customer_name=customerName)
-Loop through linkedItems:
-    We get the item's id using menuMapping and itemName as key
-    We calculate the totalPrice using item's price and inputted amount
-    We insert into OrderMenu the (order_id, item_id, input_amount, totalPrice)
-    We append the item object to order. (see line 55 in menu.py)
-
-Add order to db.session
-Commit order
-'''
 @bp.post("/order")
 def createOrder():
-    menu = Menu.query.all()
-    menuMapping = {itm.item_name: itm for itm in menu}
+    menu = Menu.query.all() # Very inefficient
+    menuMapping = {itm.itemName: itm for itm in menu}
     customerName = request.json.get('customerName')
     items = request.json.get('items')
     serverId = request.json.get('serverId')
@@ -152,12 +139,13 @@ def createOrder():
         prices.append(priceThisItem)
         db.session.add(OrderMenu(
             order_id=newOrder.id, 
-            item_id=menuItem.item_id, 
+            item_id=menuItem.itemId, 
             quantity=itm.get("quantity"), 
             total_price=priceThisItem
         ))
 
-    # TODO: fix server_id
+    if serverId is None:
+        pass # Implement random serverId here
     newOrder.server_id = serverId or "1"  
     newOrder.price = totalPrice
     db.session.add(newOrder)
@@ -195,7 +183,7 @@ def serveOrder():
                         OrderMenu, 
                         and_(Order.id == OrderMenu.order_id, Order.id == orderId)).\
                     join(MenuInventory, OrderMenu.item_id == MenuInventory.columns.item_id).\
-                    join(Inventory, MenuInventory.columns.ingredient_id==Inventory.ingredient_id)
+                    join(Inventory, MenuInventory.columns.ingredient_id==Inventory.ingredientId)
     orderIngredients = db.session.execute(inventoryQuery)
     
     ingredientsUsed = [] # list of dicts
@@ -203,7 +191,7 @@ def serveOrder():
         inventoryObj.quantity -= amtUsed
         ingredientsUsed.append(
                 {
-                    "ingredientName": inventoryObj.ingredient_name,
+                    "ingredientName": inventoryObj.ingredientName,
                     "amountRemoved": amtUsed,
                 }
             )
