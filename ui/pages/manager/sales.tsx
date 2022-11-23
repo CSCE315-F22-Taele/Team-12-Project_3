@@ -1,27 +1,23 @@
-import { flaskAPI, getSalesReportProxyAPI } from "../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
 import {
-	Button,
-	createTheme,
-	Grid,
 	Box,
-	TextField,
-	Typography,
+	Button,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
+	TextField,
+	Typography,
 } from "@mui/material";
-import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { flaskAPI, getSalesReportProxyAPI } from "../../components/utils";
+import { StyledDiv } from "../../styles/mystyles";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 interface Sale {
@@ -65,27 +61,6 @@ export default function Sales({ serverId }: { serverId: string }) {
 
 			<Typography variant="h1">Sales Report</Typography>
 
-			{/* <StyledDiv className="time-values">
-					<label> Start date: </label>
-					<input
-						type="date"
-						className="start"
-						onChange={(e) => {
-							console.log(e.target.value);
-							setStartDate(e.target.value)
-						}}
-					/>
-					<label> End date: </label>
-					<input
-						type="date"
-						className="end"
-						onChange={(e) => setEndDate(e.target.value)}
-					/>
-					<Button onClick={getReport}>Get Report</Button>
-
-					<StyledDiv className="sales">{startDate + " " + endDate}</StyledDiv>
-					<StyledDiv className="sales">{JSON.stringify(sales)}</StyledDiv>
-				</StyledDiv> */}
 			<StyledDiv>
 				<LocalizationProvider dateAdapter={AdapterDayjs}>
 					<DatePicker

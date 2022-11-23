@@ -1,6 +1,6 @@
 import NextAuth from "next-auth/next";
+import Auth0Provider from "next-auth/providers/auth0";
 import CredentialsProvider from "next-auth/providers/credentials";
-import Auth0Provider from "next-auth/providers/auth0"
 
 export default NextAuth({
 	providers: [

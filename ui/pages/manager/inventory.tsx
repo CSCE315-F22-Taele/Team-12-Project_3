@@ -1,33 +1,31 @@
 import {
-	flaskAPI,
-	getInventoryAPI,
-	getInventoryProxyAPI,
-	serverSideInstance,
-	setRestockAllProxyAPI,
-	setRestockProxyAPI,
-	setThresholdProxyAPI,
-} from "../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { GetServerSidePropsContext } from "next";
-import { StyledTheme, StyledDiv } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
-import {
-	Typography,
+	Box,
+	Button,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
 	TextField,
-	MenuItem,
-	InputLabel,
-	FormControl,
+	Typography,
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import {
+	flaskAPI,
+	getInventoryAPI,
+	serverSideInstance,
+	setRestockAllProxyAPI,
+	updateInventoryProxyAPI,
+} from "../../components/utils";
+import { StyledDiv } from "../../styles/mystyles";
 
 interface thisProp {
 	ingredients: any;
@@ -70,7 +68,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const response = await flaskAPI({
 			method: "PATCH",
-			url: setRestockProxyAPI,
+			url: updateInventoryProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -96,7 +94,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const response = await flaskAPI({
 			method: "PATCH",
-			url: setThresholdProxyAPI,
+			url: updateInventoryProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},

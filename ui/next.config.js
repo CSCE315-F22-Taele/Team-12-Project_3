@@ -52,7 +52,8 @@ const nextConfig = {
 			},
 			{
 				source: getOrdersAPI,
-				destination: process.env.FLASK_URL + "/api/orders",
+				// TODO: add a server's ID
+				destination: process.env.FLASK_URL + "/api/orders?not-served",
 			},
 			{
 				source: getInventoryAPI,

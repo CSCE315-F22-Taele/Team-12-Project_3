@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
 import router from "next/router";
-import { useCallback, useEffect } from "react";
 import { createGlobalState } from "react-use";
 import { IHookStateSetAction } from "react-use/lib/misc/hookState";
 
@@ -41,18 +40,16 @@ export const flaskAPI = axios.create({
 	baseURL: process.env.BASE_URL,
 });
 
-export const getExcessReportProxyAPI = "/api/proxy/excess-report";
-export const setRestockProxyAPI = "/api/proxy/restock";
-export const setThresholdProxyAPI = "/api/proxy/threshold";
-export const setRestockAllProxyAPI = "/api/proxy/restock-all";
+export const getExcessReportProxyAPI = "/api/proxy/orders/items/excess-report";
+export const updateInventoryProxyAPI = "/api/proxy/inventory/update";
+export const setRestockAllProxyAPI = "/api/proxy/inventory/restock-all";
 export const getMenuProxyAPI = "/api/proxy/menu";
-export const getRestockReportProxyAPI = "/api/proxy/restock-report";
-export const getSalesReportProxyAPI = "/api/proxy/sales-report";
-export const addOrderProxyAPI = "/api/proxy/add-order";
+export const getSalesReportProxyAPI = "/api/proxy/orders/items/sales-report";
+export const addOrderProxyAPI = "/api/proxy/orders/order";
 export const getOrdersProxyAPI = "/api/proxy/orders";
 export const getInventoryProxyAPI = "/api/proxy/inventory";
-export const setNewMenuItemProxyAPI = "/api/proxy/menu/item";
-export const serveOrderProxyAPI = "/api/proxy/serve-order";
+export const menuItemProxyAPI = "/api/proxy/menu/item";
+export const serveOrderProxyAPI = "/api/proxy/orders/order/serve";
 
 export const getExcessReportAPI = "/api/excess-report";
 export const setRestockAPI = "/api/restock";

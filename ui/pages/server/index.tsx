@@ -1,41 +1,34 @@
+import { GetServerSidePropsContext } from "next";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+import { Dispatch, SetStateAction, useState } from "react";
 import {
-	serveOrderProxyAPI,
 	flaskAPI,
 	getOrdersAPI,
-	getOrdersProxyAPI,
+	serveOrderProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
-import { useRouter } from "next/router";
-import { Dispatch, useState, SetStateAction } from "react";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
-import { GetServerSidePropsContext } from "next";
 // import { ThemeProvider } from "@emotion/react";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box, Checkbox } from "@mui/material";
 import {
+	Box,
+	Button,
+	Checkbox,
 	Collapse,
 	IconButton,
-	Typography,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
-	TextField,
-	MenuItem,
-	InputLabel,
-	FormControl,
+	Typography,
 } from "@mui/material";
+import { StyledDiv } from "../../styles/mystyles";
 // import Paper from '@mui/material/Paper';
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { GridColDef } from "@mui/x-data-grid";
 
 interface thisProp {
 	serverId: string;
@@ -172,9 +165,12 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 	);
 	const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 
-	// TODO
 	const serveOrder = () => {
 		selectedOrders.forEach(async (orderId) => {
+			setOrders((orders) =>
+				orders.filter((order) => order.orderId !== orderId)
+			);
+
 			const data = JSON.stringify({
 				orderId,
 			});

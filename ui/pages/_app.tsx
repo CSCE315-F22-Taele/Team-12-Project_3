@@ -1,10 +1,10 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
 import { SessionProvider } from "next-auth/react";
+import { ThemeProvider as RemoveFlicker } from "next-themes";
+import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { ThemeProvider as RemoveFlicker } from "next-themes";
 import SetTheme from "../components/SetTheme";
+import "../styles/globals.css";
 
 const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
 	ssr: false,

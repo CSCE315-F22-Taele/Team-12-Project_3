@@ -1,18 +1,6 @@
-import { useRouter } from "next/router";
-import { useGlobalUser } from "../components/utils";
-import { routerPush } from "../components/utils";
-import { useSession } from "next-auth/react";
-import {
-	Button,
-	createTheme,
-	Grid,
-	Box,
-	CssBaseline,
-	Paper,
-} from "@mui/material";
-import { StyledDiv, StyledTheme } from "../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { useTheme } from "@emotion/react";
+import { Button } from "@mui/material";
+import { routerPush, useGlobalUser } from "../components/utils";
+import { StyledDiv } from "../styles/mystyles";
 // import img from "../public/Reveille.jpg"
 
 const justMainPageStyleDiv = {

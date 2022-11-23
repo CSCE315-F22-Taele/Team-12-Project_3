@@ -1,33 +1,18 @@
+import { Button, FormControl } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import {
 	addOrderProxyAPI,
 	flaskAPI,
 	getMenuAPI,
-	getMenuProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box, FormControl } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
-import {
-	Typography,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
-	TextField,
-	MenuItem,
-	InputLabel,
-} from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { grey } from "@mui/material/colors";
+import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface menuItem {
 	itemId: string;
@@ -69,6 +54,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	);
 	const [itemQuantityFirstPass, setItemQuantityFirstPass] = useState(true);
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
+	const [rowNum, setRowNum] = useState(0);
 
 	const tableColumns: GridColDef[] = [
 		{
@@ -95,15 +81,18 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 			return;
 		}
 
+		let numRow = rowNum;
+		numRow++;
 		setOrderList([
 			...orderList,
 			{
-				rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
+				rowId: numRow,
 				itemName: selectedItem,
 				quantity: itemQuantity,
 				price: itemQuantity * itemPrice,
 			},
 		]);
+		setRowNum(numRow);
 
 		setExpandedString([
 			...expandedStringList,
@@ -231,6 +220,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 					className="Quantity"></TextField>
 				<Button onClick={addToCart}>Add</Button>
 			</StyledDiv>
+
 			<StyledDiv
 				sx={{
 					display: "flex",

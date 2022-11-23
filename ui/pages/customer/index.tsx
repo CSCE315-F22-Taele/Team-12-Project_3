@@ -1,22 +1,18 @@
+import { Button, FormControl } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import {
-	addOrderProxyAPI,
+	addOrderAPI,
 	flaskAPI,
 	getMenuAPI,
-	getMenuProxyAPI,
 	serverSideInstance,
-	addOrderAPI,
 } from "../../components/utils";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box, FormControl } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
-import { Typography, TextField, MenuItem, InputLabel } from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
-import { grey } from "@mui/material/colors";
+import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface menuItem {
 	itemId: string;

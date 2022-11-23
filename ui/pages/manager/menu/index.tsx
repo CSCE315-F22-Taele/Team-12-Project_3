@@ -1,22 +1,15 @@
 import {
+	menuItemProxyAPI,
 	flaskAPI,
 	getMenuAPI,
-	getMenuProxyAPI,
 	serverSideInstance,
-} from "../../components/utils";
+} from "../../../components/utils";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { GetServerSidePropsContext } from "next";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box, Container } from "@mui/material";
+import { StyledDiv } from "../../../styles/mystyles";
+import { Button, Box } from "@mui/material";
 
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
 import {
 	Typography,
 	Table,
@@ -31,7 +24,6 @@ import {
 	InputLabel,
 	FormControl,
 } from "@mui/material";
-// import Paper from '@mui/material/Paper';
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 interface thisProp {
@@ -47,69 +39,54 @@ interface menuItem {
 export default function Menu({ menuItems }: thisProp) {
 	const router = useRouter();
 
-	const menu: menuItem[] = menuItems["items"];
-	const [newItemName, setNewItemName] = useState("");
-	const [newItemPrice, setNewItemPrice] = useState(0);
+	const [menu, setMenu] = useState<menuItem[]>(menuItems);
+	const [itemName, setItemName] = useState("");
 	const [itemPrice, setItemPrice] = useState(0);
-	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
 
-	const addToMenu = () => {
-		router.push("/manager/addNewMenuItem");
-	};
-	const updatePrice = () => {};
-	const deleteItem = () => {};
+	const updatePrice = async () => {
+		if (itemName === "" || itemPrice === 0) {
+			return;
+		}
 
-	/* const addQuantity = async () => {
-		ingredientList.map((ingredient) => {
-			if (ingredient.ingredientName !== selectedIngredient) return;
-			ingredient.quantity += ingredientAmount;
+		menu.map((item) => {
+			if (item.itemName !== itemName) return;
+			item.price = itemPrice;
 		});
-		setIngredientList([...ingredientList]);
+		setMenu([...menu]);
 
 		const data = JSON.stringify({
-			ingredients: [
-				{
-					ingredientName: selectedIngredient,
-					amount: ingredientAmount,
-				},
-			],
+			itemName: itemName,
+			newPrice: itemPrice,
 		});
 
-		const response = await axios({
-			method: "PUT",
-			url: "http://127.0.0.1:5000/api/inventory/restock",
+		const config = {
+			method: "PATCH",
+			url: menuItemProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
 			data: data,
-		});
+		};
+
+		const response = await flaskAPI(config);
 	};
+	const deleteItem = async () => {
+		if (itemName === "") {
+			return;
+		}
 
-	const setThreshold = async () => {
-		ingredientList.map((ingredient) => {
-			if (ingredient.ingredientName !== selectedIngredient) return;
-			ingredient.threshold = ingredientAmount;
-		});
-		setIngredientList([...ingredientList]);
+		setMenu([...menu.filter((item) => item.itemName === !itemName)]);
 
-		const data = JSON.stringify({
-			ingredients: [
-				{
-					ingredientName: selectedIngredient,
-					newThreshold: ingredientAmount,
-				},
-			],
-		});
-
-		const response = await axios({
-			method: "PUT",
-			url: "http://127.0.0.1:5000/api/inventory/threshold",
+		const config = {
+			method: "DELETE",
+			url: menuItemProxyAPI + "/" + itemName,
 			headers: {
 				"Content-Type": "application/json",
 			},
-			data: data,
-		});
-	}; */
+		};
+
+		const response = await flaskAPI(config);
+	};
 
 	return (
 		<>
@@ -125,20 +102,9 @@ export default function Menu({ menuItems }: thisProp) {
 			<Typography variant="h1">Menu</Typography>
 
 			<StyledDiv>
-				{/* <TextField
-					type="text"
-					label="Item Entry"
-					onChange={(e) => setNewItemName(e.target.value)}
-					className="item_entry"></TextField>
-				<TextField
-					type="text"
-					inputMode="numeric"
-					label="Price"
-					onChange={(e) => {
-						setNewItemPrice(Number(e.target.value));
-					}}
-					className="item_price"></TextField> */}
-				<Button onClick={addToMenu}>Add New Item</Button>
+				<Button onClick={() => router.push("/manager/menu/addToMenu")}>
+					Add New Item
+				</Button>
 			</StyledDiv>
 
 			<StyledDiv className="menuList">
@@ -201,9 +167,7 @@ export default function Menu({ menuItems }: thisProp) {
 							<Select
 								id="SelectMenuItem"
 								onChange={(event: SelectChangeEvent) => {
-									setSelectedItem(
-										event.target.value as string
-									);
+									setItemName(event.target.value as string);
 								}}
 								className="menuItems"
 								label={"Item"}>
@@ -242,7 +206,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	return {
 		props: {
-			menuItems: data,
+			menuItems: data["items"],
 		},
 	};
 }
