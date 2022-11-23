@@ -51,6 +51,7 @@ export const getSalesReportProxyAPI = "/api/proxy/sales-report";
 export const addOrderProxyAPI = "/api/proxy/add-order";
 export const getOrdersProxyAPI = "/api/proxy/orders";
 export const getInventoryProxyAPI = "/api/proxy/inventory";
+export const setNewMenuItemProxyAPI = "api/proxy/menu/item";
 
 export const getExcessReportAPI = "/api/excess-report";
 export const setRestockAPI = "/api/restock";
@@ -62,6 +63,7 @@ export const getSalesReportAPI = "/api/sales-report";
 export const addOrderAPI = "/api/add-order";
 export const getOrdersAPI = "/api/orders";
 export const getInventoryAPI = "/api/inventory";
+
 
 /* {setRestockAPI,
 setThresholdAPI,

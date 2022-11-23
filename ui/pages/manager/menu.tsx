@@ -113,11 +113,26 @@ export default function Menu({ menuItems }: thisProp) {
 				<Typography><h1>Menu</h1></Typography>
 
 				<StyledDiv>
-					<TextField
+					{/* <TextField
 						type="text"
 						label="Item Entry"
 						onChange={(e) => setNewItemName(e.target.value)}
-						className="item_entry"></TextField>
+						className="item_entry"></TextField> */}
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setNewItemName(event.target.value as string);
+						}}
+						className="ingredients">
+						{menu.map((ingredient, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={ingredient.itemName}>
+									{ingredient.itemName}
+								</MenuItem>
+							);
+						})}
+					</Select>
 					<TextField
 						type="text"
 						inputMode="numeric"
@@ -127,6 +142,9 @@ export default function Menu({ menuItems }: thisProp) {
 						}}
 						className="item_price"></TextField>
 					<Button onClick={addToMenu}>Add</Button>
+					<Button onClick={() => {
+						router.push("/manager/addNewMenuItem");
+					}}>Add New Menu Item</Button>
 				</StyledDiv>
 
 				<StyledDiv className="menuList">

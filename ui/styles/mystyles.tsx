@@ -136,7 +136,7 @@ const StyledTheme = createTheme({
       styleOverrides: {
         root: {
           maxWidth: 5,
-          margin: "auto",
+          // margin: "auto",
         }
       }
     },
@@ -149,8 +149,7 @@ const StyledTheme = createTheme({
           // backgroundColor: "blue",
           backgroundColor: 'rgb(167, 11, 40)',
           borderRadius: 10,
-          marginRight: 10,
-          marginLeft: 10,
+          margin: 10,
           height: 55,
           textAlignLast: "center",
           size: "large",
@@ -188,7 +187,8 @@ const StyledTheme = createTheme({
           height: 50,
           [`& fieldset`]: {
             borderRadius: 10,
-          }
+          },
+          margin: 10,
         }
       }
     },

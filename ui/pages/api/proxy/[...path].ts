@@ -34,6 +34,9 @@ function replaceURL(url: string) {
 		case "/api/proxy/menu":
 			backendURL = "/api/menu";
 			break;
+		case "/api/proxy/menu/item":
+			backendURL = "/api/menu/item";
+			break;
 		case "/api/proxy/restock-report":
 			backendURL = "/api/inventory?restock-report";
 			break;
