@@ -56,11 +56,10 @@ interface ServerOrder {
 
 interface rowProps {
 	order: ServerOrder;
-	selectedOrders: string[];
 	setSelectedOrders: Dispatch<SetStateAction<string[]>>;
 }
 
-function Row({ order, selectedOrders, setSelectedOrders }: rowProps) {
+function Row({ order, setSelectedOrders }: rowProps) {
 	// const { row } = props;
 	const [open, setOpen] = useState(false);
 
@@ -252,7 +251,6 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 								<Row
 									key={row.customerName}
 									order={row}
-									selectedOrders={selectedOrders}
 									setSelectedOrders={setSelectedOrders}
 								/>
 							))}

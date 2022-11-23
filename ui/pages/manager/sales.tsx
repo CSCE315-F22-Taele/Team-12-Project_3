@@ -163,7 +163,9 @@ export default function Sales({ serverId }: { serverId: string }) {
 												{eachItem.sales}
 											</TableCell>
 											<TableCell align="right">
-												{eachItem.revenue}
+												{Math.round(
+													eachItem.revenue * 100
+												) / 100}
 											</TableCell>
 										</TableRow>
 									))}
