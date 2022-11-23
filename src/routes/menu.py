@@ -50,8 +50,10 @@ class ItemResource(MethodResource):
     @doc(description="Delete an existing item from the menu")
     def delete(self, itemName):
         item = Menu.query.filter_by(itemName=itemName).first()
+        print(item)
         if item is None:
             return make_response(jsonify(error="Item Not Found In Database!"), 404)
+        Menu.query.filter_by(itemName=itemName).delete()
         db.session.commit()
         return {"success": True}, 202
 
@@ -80,7 +82,6 @@ class ItemResource(MethodResource):
         price: float
         linkedInventory: list(str)
         '''
-
         inventory = Inventory.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
         inventoryMapping = {inv.ingredientName: inv for inv in inventory}
 

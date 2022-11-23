@@ -31,4 +31,4 @@ class Menu(db.Model):
         return self.to_dict()
 
     def __repr__(self):
-        return f"Menu Item: {self.item_name} {self.price}$"
+        return f"Menu Item: {self.itemName} {self.price}$ {self.description}"

@@ -9,19 +9,14 @@ class DescriptionSchema(Schema):
     )
 
 class ItemRequestSchema(Schema):
-    '''
-    itemName: str
-    description: str
-    price: float
-    linkedInventory: list(str)
-    '''
-    itemName = fields.Str(required=True)
-    description = fields.Str(required=True)
-    price = fields.Float(required=True, validate=validate.Range(min=0, error="Amount added must be >= 0")) # referring to how much to add to quantity
+    itemName = fields.Str()
+    description = fields.Str()
+    price = fields.Float(validate=validate.Range(min=0, error="Price must be >= 0"))
     linkedInventory = fields.List(fields.Str, required=True)
+    # linkedInventory = fields.Str(required=True, many=True)
 
-    @validates(linkedInventory)
-    def validate_inventory(self, inventory):
+    @validates('linkedInventory')
+    def validate_inventory(self, inventory, **kwargs):
         if len(inventory) == 0:
             raise ValidationError('List must be non-empty!')
         elif len(set(inventory)) != len(inventory):
