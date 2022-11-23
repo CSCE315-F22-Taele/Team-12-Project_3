@@ -53,7 +53,9 @@ export default function Menu({ menuItems }: thisProp) {
 	const [itemPrice, setItemPrice] = useState(0);
 	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
 
-	const addToMenu = () => {};
+	const addToMenu = () => {
+		router.push("/manager/addNewMenuItem");
+	};
 	const updatePrice = () => {};
 	const deleteItem = () => {};
 
@@ -123,7 +125,7 @@ export default function Menu({ menuItems }: thisProp) {
 			<Typography variant="h1">Menu</Typography>
 
 			<StyledDiv>
-				<TextField
+				{/* <TextField
 					type="text"
 					label="Item Entry"
 					onChange={(e) => setNewItemName(e.target.value)}
@@ -135,8 +137,8 @@ export default function Menu({ menuItems }: thisProp) {
 					onChange={(e) => {
 						setNewItemPrice(Number(e.target.value));
 					}}
-					className="item_price"></TextField>
-				<Button onClick={addToMenu}>Add</Button>
+					className="item_price"></TextField> */}
+				<Button onClick={addToMenu}>Add New Item</Button>
 			</StyledDiv>
 
 			<StyledDiv className="menuList">
@@ -194,22 +196,28 @@ export default function Menu({ menuItems }: thisProp) {
 			<Box sx={{ minWidth: 200 }} id="SelectMenuItemToChange">
 				<FormControl fullWidth>
 					<StyledDiv className="MenuItemSelection">
-						<Select
-							id="SelectMenuItem"
-							onChange={(event: SelectChangeEvent) => {
-								setSelectedItem(event.target.value as string);
-							}}
-							className="menuItems">
-							{menu.map((menuItem, index) => {
-								return (
-									<MenuItem
-										key={index}
-										value={menuItem.itemName}>
-										{menuItem.itemName}
-									</MenuItem>
-								);
-							})}
-						</Select>
+						<FormControl sx={{ minWidth: 150 }}>
+							<InputLabel>Item</InputLabel>
+							<Select
+								id="SelectMenuItem"
+								onChange={(event: SelectChangeEvent) => {
+									setSelectedItem(
+										event.target.value as string
+									);
+								}}
+								className="menuItems"
+								label={"Item"}>
+								{menu.map((menuItem, index) => {
+									return (
+										<MenuItem
+											key={index}
+											value={menuItem.itemName}>
+											{menuItem.itemName}
+										</MenuItem>
+									);
+								})}
+							</Select>
+						</FormControl>
 						<TextField
 							type="text"
 							label="New Price"

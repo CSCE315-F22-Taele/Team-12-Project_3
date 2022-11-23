@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
 	addOrderProxyAPI,
 	flaskAPI,
@@ -10,7 +10,7 @@ import {
 } from "../../components/utils";
 import { StyledDiv, StyledTheme } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
+import { Button, createTheme, Grid, Box, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import {
@@ -27,6 +27,7 @@ import {
 	InputLabel,
 } from "@mui/material";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { grey } from "@mui/material/colors";
 
 interface menuItem {
 	itemId: string;
@@ -56,9 +57,9 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	const menu: menuItem[] = menuItems["items"];
 
 	const [customerName, setCustomerName] = useState("");
-	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
+	const [selectedItem, setSelectedItem] = useState("");
 	const [itemQuantity, setItemQuantity] = useState(0);
-	const [itemPrice, setItemPrice] = useState(menu[0].price);
+	const [itemPrice, setItemPrice] = useState(0);
 	const [orderList, setOrderList] = useState<OrderItem[]>([]);
 	const [expandedStringList, setExpandedString] = useState<expandString[]>(
 		[]
@@ -86,7 +87,13 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	];
 
 	const addToCart = () => {
-		if (itemQuantity <= 0) return;
+		if (itemQuantity <= 0 || selectedItem === "") {
+			return;
+		}
+
+		if (orderList.some((order) => order.itemName === selectedItem)) {
+			return;
+		}
 
 		setOrderList([
 			...orderList,
@@ -98,7 +105,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 			},
 		]);
 
-		var res: number = itemQuantity * itemPrice;
 		setExpandedString([
 			...expandedStringList,
 			{
@@ -110,28 +116,29 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 				show: false,
 			},
 		]);
-
-		setSelectedItem("");
-		setItemQuantity(0);
-		setItemQuantityFirstPass(true);
 	};
 
 	const deleteAllInCart = () => {
 		setOrderList([]);
-		setSelectedItem(menu[0].itemName);
-		setItemPrice(menu[0].price);
-		setItemQuantity(0);
 	};
 	const deleteSelectedInCart = () => {
-		setOrderList(selectedDeleteList);
-		setSelectedItem(menu[0].itemName);
-		setItemPrice(menu[0].price);
-		setItemQuantity(0);
+		setOrderList((orderList) =>
+			orderList.filter(
+				(row) =>
+					!selectedDeleteList.some(
+						(deletedItem) => deletedItem.rowId === row.rowId
+					)
+			)
+		);
 	};
 
 	const submitOrder = async () => {
 		if (customerName === "") {
 			setCustomerNameFirstPass(false);
+			return;
+		}
+
+		if (orderList.length === 0) {
 			return;
 		}
 
@@ -157,7 +164,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		router.push("/server");
 	};
 
-	// const setItemStates = (event: ChangeEvent<HTMLSelectElement>) => {
 	const setItemStates = (event: SelectChangeEvent) => {
 		const indexOfSpace = event.target.value.lastIndexOf(" ");
 		const menuObjectName = event.target.value.substring(0, indexOfSpace);
@@ -187,23 +193,27 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 			<Typography variant="h1">Cart</Typography>
 
 			<StyledDiv className="MenuItemSelection">
-				<Select
-					onChange={(event: SelectChangeEvent) => {
-						setItemStates(event);
-					}}
-					className="menuItems">
-					{menu.map((menuItem, index) => {
-						return (
-							<MenuItem
-								key={index}
-								value={
-									menuItem.itemName + " " + menuItem.price
-								}>
-								{menuItem.itemName + ": $" + menuItem.price}
-							</MenuItem>
-						);
-					})}
-				</Select>
+				<FormControl sx={{ minWidth: 150 }}>
+					<InputLabel>Item</InputLabel>
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setItemStates(event);
+						}}
+						className="menuItems"
+						label={"Item"}>
+						{menu.map((menuItem, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={
+										menuItem.itemName + " " + menuItem.price
+									}>
+									{menuItem.itemName + ": $" + menuItem.price}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
 				<TextField
 					type="text"
 					inputMode="numeric"
@@ -226,8 +236,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					// backgroundColor: "pink",
-					height: "50vh",
+					height: "371px",
 					margin: "40px",
 				}}>
 				<DataGrid
@@ -240,14 +249,13 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 					sx={{ maxWidth: 700, maxHeight: 700 }}
 					onSelectionModelChange={(newSelection) => {
 						const selectedIDs = new Set(newSelection);
-						const selectedRows = orderList.filter(
-							(row) => !selectedIDs.has(row.rowId)
+						const selectedRows = orderList.filter((row) =>
+							selectedIDs.has(row.rowId)
 						);
 						setSelectedDeleteList(selectedRows);
 					}}
 				/>
 			</StyledDiv>
-			{/* {JSON.stringify(orderList)} */}
 
 			<StyledDiv className="AddOrdersSection">
 				<Button onClick={deleteSelectedInCart}>Delete Selected</Button>

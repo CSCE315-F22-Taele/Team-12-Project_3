@@ -69,7 +69,7 @@ export default function Inventory({ ingredients }: thisProp) {
 		});
 
 		const response = await flaskAPI({
-			method: "PUT",
+			method: "PATCH",
 			url: setRestockProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function Inventory({ ingredients }: thisProp) {
 		});
 
 		const response = await flaskAPI({
-			method: "PUT",
+			method: "PATCH",
 			url: setThresholdProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
@@ -139,21 +139,25 @@ export default function Inventory({ ingredients }: thisProp) {
 				<Typography variant="h1">Inventory</Typography>
 			</StyledDiv>
 			<StyledDiv>
-				<Select
-					onChange={(event: SelectChangeEvent) => {
-						setSelectedIngredient(event.target.value as string);
-					}}
-					className="ingredients">
-					{ingredientList.map((ingredient, index) => {
-						return (
-							<MenuItem
-								key={index}
-								value={ingredient.ingredientName}>
-								{ingredient.ingredientName}
-							</MenuItem>
-						);
-					})}
-				</Select>
+				<FormControl sx={{ minWidth: 150 }}>
+					<InputLabel>Item</InputLabel>
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setSelectedIngredient(event.target.value as string);
+						}}
+						className="ingredients"
+						label={"Item"}>
+						{ingredientList.map((ingredient, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={ingredient.ingredientName}>
+									{ingredient.ingredientName}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
 				<TextField
 					type="text"
 					inputMode="numeric"

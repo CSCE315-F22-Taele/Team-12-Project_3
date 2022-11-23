@@ -51,6 +51,8 @@ export const getSalesReportProxyAPI = "/api/proxy/sales-report";
 export const addOrderProxyAPI = "/api/proxy/add-order";
 export const getOrdersProxyAPI = "/api/proxy/orders";
 export const getInventoryProxyAPI = "/api/proxy/inventory";
+export const setNewMenuItemProxyAPI = "/api/proxy/menu/item";
+export const serveOrderProxyAPI = "/api/proxy/serve-order";
 
 export const getExcessReportAPI = "/api/excess-report";
 export const setRestockAPI = "/api/restock";

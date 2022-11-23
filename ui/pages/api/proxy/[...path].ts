@@ -1,9 +1,6 @@
 import httpProxy from "http-proxy";
 import Cookies from "cookies";
-import url from "url";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { json } from "stream/consumers";
 import { signIn } from "next-auth/react";
 
 let API_URL = process.env.FLASK_URL;
@@ -23,13 +20,13 @@ function replaceURL(url: string) {
 			backendURL = "/api/orders/items/excess-report";
 			break;
 		case "/api/proxy/restock":
-			backendURL = "/api/inventory/restock";
+			backendURL = "/api/inventory/update";
 			break;
 		case "/api/proxy/threshold":
-			backendURL = "/api/inventory/threshold";
+			backendURL = "/api/inventory/update";
 			break;
 		case "/api/proxy/restock-all":
-			backendURL = "/api/inventory/restock?all";
+			backendURL = "/api/inventory/restock-all";
 			break;
 		case "/api/proxy/menu":
 			backendURL = "/api/menu";
@@ -51,6 +48,12 @@ function replaceURL(url: string) {
 			break;
 		case "/api/proxy/hello":
 			backendURL = "/api/hello";
+			break;
+		case "/api/proxy/menu/item":
+			backendURL = "api/menu/item";
+			break;
+		case "/api/proxy/serve-order":
+			backendURL = "api/orders/order/serve";
 			break;
 	}
 	return backendURL;

@@ -121,9 +121,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 										<TableCell align="right">
 											Sales
 										</TableCell>
-										<TableCell align="right">
+										{/* <TableCell align="right">
 											Current Stock
-										</TableCell>
+										</TableCell> */}
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -142,9 +142,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 											<TableCell align="right">
 												{eachItem.sales}
 											</TableCell>
-											<TableCell align="right">
+											{/* <TableCell align="right">
 												{eachItem.currentStock}
-											</TableCell>
+											</TableCell> */}
 										</TableRow>
 									))}
 								</TableBody>

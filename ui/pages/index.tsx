@@ -22,18 +22,14 @@ const justMainPageStyleButtons = {
 	size: "large",
 };
 
-type thisProps = {
-	toggleContrast: () => void;
-};
-
-export default function Home({ toggleContrast }: thisProps) {
+export default function Home() {
 	const [userType, setUserType] = useGlobalUser();
 	// const theme = useTheme()
 
 	return (
 		<StyledDiv sx={justMainPageStyleDiv}>
 			{/* <Image src={img} alt="Reveille"/> */}
-			<Button onClick={toggleContrast}>Toggle Contrast</Button>
+
 			<Button
 				onClick={() => routerPush("server", setUserType)}
 				sx={justMainPageStyleButtons}>
