@@ -2,8 +2,8 @@ from . import db, MenuInventory, Inventory
 
 # A table, that when run using db.create_all() will create this table
 class Menu(db.Model):
-    item_id = db.Column("item_id", db.String(36), primary_key=True)
-    item_name = db.Column("item_name", db.String(255), nullable=False, unique=True)
+    itemId = db.Column("item_id", db.String(36), primary_key=True)
+    itemName = db.Column("item_name", db.String(255), nullable=False, unique=True)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False, server_default="0")
 
@@ -19,8 +19,8 @@ class Menu(db.Model):
 
     def to_dict(self, includeDescripts=False):
         ret = {
-            "itemId": self.item_id,
-            "itemName": self.item_name,
+            "itemId": self.itemId,
+            "itemName": self.itemName,
             "price": self.price
         }
         if includeDescripts: ret["description"] = self.description

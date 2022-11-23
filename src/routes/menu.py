@@ -6,9 +6,9 @@ from marshmallow import fields
 from ..models import db, Menu, MenuInventory, Inventory
 from uuid import uuid4
 from ..schemas import (
-    DescriptionSchema,
-    ItemResponseSchema, MenuResponseSchema,
-    ErrorSchema
+    DescriptionSchema, NewPriceRequestSchema, ItemRequestSchema,
+    ItemResponseSchema, MenuResponseSchema, PostResponseSchema,
+    SuccessSchema, ErrorSchema
 )
 
 bp = Blueprint('menu', __name__, url_prefix='/menu')
@@ -30,6 +30,7 @@ class MenuResource(MethodResource):
 
     @parser.error_handler
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
+        print(1, err.data)
         abort(make_response(jsonify(error="Invalid Query Parameter! Did you mean '?description'?"), 400))
 
 @doc(tags=["Menu"])
@@ -44,7 +45,7 @@ class ItemResource(MethodResource):
             return make_response(jsonify(error="Item Not Found In Database!"), 404)
         return menuItem # Will return defaults as well
 
-    @marshal_with(None, code=204, description="Item Successfully Deleted")
+    @marshal_with(SuccessSchema, code=202, description="Item Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Item Not Found")
     @doc(description="Delete an existing item from the menu")
     def delete(self, itemName):
@@ -52,63 +53,72 @@ class ItemResource(MethodResource):
         if item is None:
             return make_response(jsonify(error="Item Not Found In Database!"), 404)
         db.session.commit()
-        return {"success": True}
+        return {"success": True}, 202
+
+    @use_kwargs(NewPriceRequestSchema) # defaults to looking at the json
+    @marshal_with(SuccessSchema, code=202, description="Successfully Updated Item Price")
+    @marshal_with(ErrorSchema, code=404, description="Invalid Request Body")
+    @marshal_with(ErrorSchema, code=422, description="Parsing Malfunction")
+    @doc(description="Batch updates specified ingredients given the amount and/or threshold. Amount is added while newThreshold is set.")
+    def patch(self, itemName, newPrice):
+        menuItem = Menu.query.filter_by(itemName=itemName).first()
+        if menuItem is None:
+            return make_response(jsonify(error="Item Not Found!"), 404)
+        menuItem.price = newPrice
+        db.session.commit()
+        return {"success": True}, 202
+
+    @use_kwargs(ItemRequestSchema) # defaults to looking at the json
+    @marshal_with(PostResponseSchema, code=201, description="Successfully Created Item")
+    @marshal_with(ErrorSchema, code=404, description="Invalid Request Body")
+    @marshal_with(ErrorSchema, code=422, description="Parsing Malfunction")
+    @doc(description="Adds a new item and its associated ingredients to the database. Creates new ingredients if non-existent")
+    def post(self, itemName, description, price, linkedInventory):
+        '''
+        itemName: str
+        description: str
+        price: float
+        linkedInventory: list(str)
+        '''
+
+        inventory = Inventory.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
+        inventoryMapping = {inv.ingredientName: inv for inv in inventory}
+
+        newIngredients = []
+        menuItem = Menu(
+            itemId=str(uuid4()),
+            itemName=itemName, 
+            description=description, 
+            price=price
+        )
+        for ingredientName in linkedInventory:
+            if ingredientName not in inventoryMapping:
+                ingredient = Inventory(
+                        ingredientId=str(uuid4()),
+                        ingredientName=ingredientName,
+                    )
+                db.session.add(ingredient) # Doesn't actually run the query yet, more like "stages" them for the commit
+                newIngredients.append(ingredientName)
+                inventoryMapping[ingredientName] = ingredient
+            inv = inventoryMapping.get(ingredientName)
+            MenuInventory.insert().values(item_id=menuItem.itemId, ingredient_id=inv.ingredientId)
+            menuItem.menuIngredients.append(inv)
+
+        db.session.add(menuItem)
+        db.session.commit()
+
+        return {
+            "itemCreated": menuItem.itemName,
+            "ingredientsLinked": len(linkedInventory),
+            "newIngredientsCreated": newIngredients
+        }, 201
+
+    @parser.error_handler
+    def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
+        abort(make_response(jsonify(error=err.messages.get('json')), 422))
 
 menu_view = MenuResource.as_view("menuresource")
 item_view = ItemResource.as_view("itemresource")
 bp.add_url_rule("/", view_func=menu_view, methods=["GET"])
+bp.add_url_rule("/item", view_func=item_view, methods=["POST", "PATCH"])
 bp.add_url_rule("/item/<string:itemName>", view_func=item_view, methods=["GET", "DELETE"])
-
-
-
-# @bp.post('/item')
-# def addMenuItem():
-#     itemName = request.json['itemName']
-#     description = request.json['description']
-#     price = request.json['price']
-#     linkedInventory = request.json['linkedInventory'] # list of strings
-
-#     inventory = Inventory.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
-#     inventoryMapping = {inv.ingredientName: inv for inv in inventory}
-
-#     newCounts = 0
-#     menuItem = Menu(
-#         itemId=str(uuid4()),
-#         itemName=itemName, 
-#         description=description, 
-#         price=price
-#     )
-#     for ingredientName in linkedInventory:
-#         if ingredientName not in inventoryMapping:
-#             ingredient = Inventory(
-#                     ingredientId=str(uuid4()),
-#                     ingredientName=ingredientName,
-#                 )
-#             db.session.add(ingredient) # Doesn't actually run the query yet, more like "stages" them for the commit
-#             newCounts += 1
-#             inventoryMapping[ingredientName] = ingredient
-#         inv = inventoryMapping.get(ingredientName)
-#         MenuInventory.insert().values(item_id=menuItem.itemId, ingredient_id=inv.ingredientId)
-#         menuItem.menuIngredients.append(inv)
-
-#     db.session.add(menuItem)
-#     db.session.commit()
-
-#     return {
-#         "itemCreated": 1,
-#         "ingredientsLinked": len(linkedInventory),
-#         "newIngredientsCreated": newCounts
-#     }
-
-# # Put has same behavior always, assumes you pass in a complete entity & that it replaces existing entity in db
-# @bp.put('/item/price')
-# def updateMenuItemPrice():
-#     itemName = request.json["itemName"]
-#     newPrice = request.json["newPrice"]
-
-#     menuItem = Menu.query.filter_by(itemName=itemName).first()
-#     if menuItem is None:
-#         return None, # TODO: Error Code
-#     menuItem.price = newPrice
-#     db.session.commit()
-#     return {"success": True}

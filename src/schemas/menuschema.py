@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields, validate, validates_schema, ValidationError
+from marshmallow import Schema, fields, validate, validates, validates_schema, ValidationError
 
 # To take check for restock-report parameter
 class DescriptionSchema(Schema):
@@ -8,27 +8,28 @@ class DescriptionSchema(Schema):
         description="If specified will return items in menu with descriptions included. Specify with query parameter ?descriptions"
     )
 
-# To marshal output of patch and put, marshal NEEDS a schema
-# class CountResponseSchema(Schema):
-#     countUpdated = fields.Int()
+class ItemRequestSchema(Schema):
+    '''
+    itemName: str
+    description: str
+    price: float
+    linkedInventory: list(str)
+    '''
+    itemName = fields.Str(required=True)
+    description = fields.Str(required=True)
+    price = fields.Float(required=True, validate=validate.Range(min=0, error="Amount added must be >= 0")) # referring to how much to add to quantity
+    linkedInventory = fields.List(fields.Str, required=True)
 
-# class IngredientRequestSchema(Schema):
-#     ingredientName = fields.Str(required=True) # deserialize this key -> ingredient_name
-#     amount = fields.Int(validate=validate.Range(min=0, error="Amount added must be >= 0")) # referring to how much to add to quantity
-#     newThreshold = fields.Int(validate=validate.Range(min=1, error="New threshold must be > 0"))
+    @validates(linkedInventory)
+    def validate_inventory(self, inventory):
+        if len(inventory) == 0:
+            raise ValidationError('List must be non-empty!')
+        elif len(set(inventory)) != len(inventory):
+            raise ValidationError('List must not contain dupliates!')
 
-#     @validates_schema
-#     def validate_amount_or_threshold(self, data, **kwargs):
-#         # Checks if either amount and/or newThreshold passed in.
-#         # If neither passed in, validation error
-#         if not (('amount' in data) or ('newThreshold' in data)):
-#             raise ValidationError(
-#                 "Must provide either valid 'amount' and / or 'newThreshold'!",
-#                 data['ingredientName'] # Use this name to display error
-#             )
-
-# class ItemRequestSchema(Schema):
-#     ingredients = fields.Nested(IngredientRequestSchema(many=True), required=True)
+class NewPriceRequestSchema(Schema):
+    itemName = fields.Str(required=True)
+    newPrice = fields.Float(required=True, validate=validate.Range(min=0, error="New Price must be >= 0"))
 
 class ItemResponseSchema(Schema):
     itemId = fields.Str()
@@ -41,3 +42,7 @@ class MenuResponseSchema(Schema):
     # Allows the list of ingredients to be mapped to "inventory" key
     items = fields.Nested(ItemResponseSchema(many=True))
 
+class PostResponseSchema(Schema):
+    itemCreated = fields.Str()
+    ingredientsLinked = fields.Int()
+    newIngredientsCreated = fields.List(fields.Str)
