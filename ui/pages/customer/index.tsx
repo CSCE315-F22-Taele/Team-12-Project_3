@@ -137,7 +137,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 		const data = JSON.stringify({
 			customerName: customerName,
-			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
 			items: orderList,
 		});
 
@@ -154,7 +153,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 		setOrderList([]);
 
-		router.push("/server");
+		// router.push("/");
 	};
 
 	// const setItemStates = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -175,100 +174,91 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 	return (
 		<>
-			<StyledDiv>
-				<Button
-					onClick={() => {
-						router.push("/server");
-					}}>
-					Back
-				</Button>
-			</StyledDiv>
+			<ThemeProvider theme={StyledTheme}>
+				<Typography variant="h1">Cart</Typography>
 
-			<Typography variant="h1">Cart</Typography>
+				<StyledDiv className="MenuItemSelection">
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setItemStates(event);
+						}}
+						className="menuItems">
+						{menu.map((menuItem, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={
+										menuItem.itemName + " " + menuItem.price
+									}>
+									{menuItem.itemName + ": $" + menuItem.price}
+								</MenuItem>
+							);
+						})}
+					</Select>
+					<TextField
+						type="text"
+						inputMode="numeric"
+						label="Enter quantity"
+						onChange={(e) => {
+							setItemQuantity(Number(e.target.value));
+							setItemQuantityFirstPass(false);
+						}}
+						error={itemQuantity <= 0 && !itemQuantityFirstPass}
+						helperText={
+							itemQuantity <= 0 && !itemQuantityFirstPass
+								? "Please enter a positive number"
+								: ""
+						}
+						className="Quantity"></TextField>
+					<Button onClick={addToCart}>Add</Button>
+				</StyledDiv>
+				<StyledDiv
+					className="itemsList"
+					sx={{ textAlign: "-webkit-center", margin: "40px" }}>
+					<div style={{ height: 400, width: "100%" }}>
+						<DataGrid
+							getRowId={(r) => r.rowId}
+							rows={orderList}
+							columns={tableColumns}
+							pageSize={5}
+							rowsPerPageOptions={[5]}
+							checkboxSelection
+							sx={{ maxWidth: 700, maxHeight: 700 }}
+							onSelectionModelChange={(newSelection) => {
+								const selectedIDs = new Set(newSelection);
+								const selectedRows = orderList.filter(
+									(row) => !selectedIDs.has(row.rowId)
+								);
+								setSelectedDeleteList(selectedRows);
+							}}
+						/>
+					</div>
+					{/* {JSON.stringify(orderList)} */}
+				</StyledDiv>
 
-			<StyledDiv className="MenuItemSelection">
-				<Select
-					onChange={(event: SelectChangeEvent) => {
-						setItemStates(event);
-					}}
-					className="menuItems">
-					{menu.map((menuItem, index) => {
-						return (
-							<MenuItem
-								key={index}
-								value={
-									menuItem.itemName + " " + menuItem.price
-								}>
-								{menuItem.itemName + ": $" + menuItem.price}
-							</MenuItem>
-						);
-					})}
-				</Select>
-				<TextField
-					type="text"
-					inputMode="numeric"
-					label="Enter quantity"
-					onChange={(e) => {
-						setItemQuantity(Number(e.target.value));
-						setItemQuantityFirstPass(false);
-					}}
-					error={itemQuantity <= 0 && !itemQuantityFirstPass}
-					helperText={
-						itemQuantity <= 0 && !itemQuantityFirstPass
-							? "Please enter a positive number"
-							: ""
-					}
-					className="Quantity"></TextField>
-				<Button onClick={addToCart}>Add</Button>
-			</StyledDiv>
-			<StyledDiv
-				sx={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					// backgroundColor: "pink",
-					height: "50vh",
-					margin: "40px",
-				}}>
-				<DataGrid
-					getRowId={(r) => r.rowId}
-					rows={orderList}
-					columns={tableColumns}
-					pageSize={5}
-					rowsPerPageOptions={[5]}
-					checkboxSelection
-					sx={{ maxWidth: 700, maxHeight: 700 }}
-					onSelectionModelChange={(newSelection) => {
-						const selectedIDs = new Set(newSelection);
-						const selectedRows = orderList.filter(
-							(row) => !selectedIDs.has(row.rowId)
-						);
-						setSelectedDeleteList(selectedRows);
-					}}
-				/>
-			</StyledDiv>
-			{/* {JSON.stringify(orderList)} */}
-
-			<StyledDiv className="AddOrdersSection">
-				<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
-				<Button onClick={deleteAllInCart}>Delete All</Button>
-				<TextField
-					type="text"
-					label="Enter your name"
-					onChange={(e) => {
-						setCustomerName(e.target.value);
-						setCustomerNameFirstPass(false);
-					}}
-					error={customerName === "" && !customerNameFirstPass}
-					helperText={
-						customerName === "" && !customerNameFirstPass
-							? "Enter a name here"
-							: ""
-					}
-					value={customerName}
-					className="CustomerName"></TextField>
-				<Button onClick={submitOrder}>Submit Order</Button>
-			</StyledDiv>
+				<StyledDiv className="AddOrdersSection">
+					<Button onClick={deleteSelectedInCart}>
+						Delete Selected
+					</Button>
+					<Button onClick={deleteAllInCart}>Delete All</Button>
+					<TextField
+						type="text"
+						label="Enter your name"
+						onChange={(e) => {
+							setCustomerName(e.target.value);
+							setCustomerNameFirstPass(false);
+						}}
+						error={customerName === "" && !customerNameFirstPass}
+						helperText={
+							customerName === "" && !customerNameFirstPass
+								? "Enter a name here"
+								: ""
+						}
+						value={customerName}
+						className="CustomerName"></TextField>
+					<Button onClick={submitOrder}>Submit Order</Button>
+				</StyledDiv>
+			</ThemeProvider>
 		</>
 	);
 }

@@ -14,13 +14,27 @@ import { GetServerSidePropsContext } from "next";
 import { StyledDiv, StyledTheme } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { Button, createTheme, Grid, Box } from "@mui/material";
-import { Collapse, IconButton, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel, FormControl } from '@mui/material';
+import {
+	Collapse,
+	IconButton,
+	Typography,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	TextField,
+	MenuItem,
+	InputLabel,
+	FormControl,
+} from "@mui/material";
 // import Paper from '@mui/material/Paper';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 interface thisProp {
 	serverId: string;
@@ -50,61 +64,85 @@ function Row(order: ServerOrder) {
 	// const { row } = props;
 	const [open, setOpen] = useState(false);
 
-	
-  
 	return (
-		<ThemeProvider theme={StyledTheme}>
-			<TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+		<>
+			<TableRow
+				sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 				<TableCell>
 					<IconButton
-					aria-label="expand row"
-					size="small"
-					onClick={() => setOpen(!open)}
-					>
-					{open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+						aria-label="expand row"
+						size="small"
+						onClick={() => setOpen(!open)}>
+						{open ? (
+							<KeyboardArrowUpIcon />
+						) : (
+							<KeyboardArrowDownIcon />
+						)}
 					</IconButton>
-				</TableCell> 
+				</TableCell>
 				<TableCell component="th" scope="row" align="left">
 					{order.customerName}
 				</TableCell>
-				<TableCell align="right">{Math.round(order.price * 100) / 100}</TableCell>
+				<TableCell align="right">
+					{Math.round(order.price * 100) / 100}
+				</TableCell>
 				<TableCell align="right">{order.timeOrdered}</TableCell>
 			</TableRow>
-			
-			
+
 			<TableRow>
-			<TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-				<Collapse in={open} timeout="auto" unmountOnExit>
-				<Box sx={{ margin: 1 }}>
-					<Typography variant="h6" gutterBottom component="div">
-					Order Details
-					</Typography>
-					<Table size="small" aria-label="details">
-					<TableHead>
-						<TableRow>
-						<TableCell>Item Name</TableCell>
-						<TableCell align="right">Quantity</TableCell>
-						<TableCell align="right">Price&nbsp;($)</TableCell>
-						</TableRow>
-					</TableHead>
-					<TableBody>
-						{order.items.map((orderItem) => (
-						<TableRow key={orderItem.itemName}
-							sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-							<TableCell component="th" scope="row">
-							{orderItem.itemName}
-							</TableCell>
-							<TableCell align="right">{orderItem.quantity}</TableCell>
-							<TableCell align="right">{Math.round(orderItem.totalPrice * 100) / 100}</TableCell>
-						</TableRow>
-						))}
-					</TableBody>
-					</Table>
-				</Box>
-				</Collapse>
-			</TableCell>
+				<TableCell
+					style={{ paddingBottom: 0, paddingTop: 0 }}
+					colSpan={6}>
+					<Collapse in={open} timeout="auto" unmountOnExit>
+						<Box sx={{ margin: 1 }}>
+							<Typography
+								variant="h6"
+								gutterBottom
+								component="div">
+								Order Details
+							</Typography>
+							<Table size="small" aria-label="details">
+								<TableHead>
+									<TableRow>
+										<TableCell>Item Name</TableCell>
+										<TableCell align="right">
+											Quantity
+										</TableCell>
+										<TableCell align="right">
+											Price&nbsp;($)
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{order.items.map((orderItem) => (
+										<TableRow
+											key={orderItem.itemName}
+											sx={{
+												"&:last-child td, &:last-child th":
+													{ border: 0 },
+											}}>
+											<TableCell
+												component="th"
+												scope="row">
+												{orderItem.itemName}
+											</TableCell>
+											<TableCell align="right">
+												{orderItem.quantity}
+											</TableCell>
+											<TableCell align="right">
+												{Math.round(
+													orderItem.totalPrice * 100
+												) / 100}
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</Box>
+					</Collapse>
+				</TableCell>
 			</TableRow>
-		</ThemeProvider>
+		</>
 	);
 }
 
@@ -123,72 +161,81 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 	};
 
 	const columns: GridColDef[] = [
-		{ field: 'id', headerName: 'Order ID', width: 130 },
-		{ field: 'customerName', headerName: 'Customer Name', width: 130 },
-		{ field: 'totalPrice', headerName: 'Price', width: 130 },
-		{ field: 'age', headerName: 'Age', type: 'number', width: 90}
+		{ field: "id", headerName: "Order ID", width: 130 },
+		{ field: "customerName", headerName: "Customer Name", width: 130 },
+		{ field: "totalPrice", headerName: "Price", width: 130 },
+		{ field: "age", headerName: "Age", type: "number", width: 90 },
 	];
-
-
 
 	return (
 		<>
-			<ThemeProvider theme={StyledTheme}>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/");
-						}}>
-						Back
-					</Button>
-					
-					<Button
-						onClick={async (e) => {
-							const url = await signOut({
-								redirect: false,
-								callbackUrl: "/",
-							});
-							router.push(url.url);
-						}}>
-						Sign Out
-					</Button>
-				</StyledDiv>
-				<Typography><h1>Server</h1></Typography>
-
-				<ThemeProvider theme={StyledTheme}>
-				
-					<Box sx={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignContent: 'center',
-						p: 1,
-						m: 1,
-						bgcolor: 'background.paper',
-						borderRadius: 1,
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/");
 					}}>
-						<TableContainer component={Paper} sx={{ maxWidth: 1000, maxHeight: 1000 }}>
-					
-							<Table aria-label="collapsible table">
-								<TableHead>
-								<TableRow>
-									<TableCell />
-									<TableCell>Customer Name</TableCell>
-									<TableCell align="right">Total Price ($)</TableCell>
-									<TableCell align="right">Time Ordered</TableCell>
-								</TableRow>
-								</TableHead>
-								<TableBody>
-								{orders.map((row) => (
-									<Row key={row.customerName} orderId={row.orderId} customerName={row.customerName} serverId={row.serverId} timeOrdered={row.timeOrdered} isServed={row.isServed} price={row.price} items={row.items}/>
-									// <Row key={row.customerName} order={row}/>
-								))}
-								</TableBody>
-							</Table>
-						</TableContainer>
-					</Box>
-				</ThemeProvider>
-				
-				{/* {orders.map((order, index) => {
+					Back
+				</Button>
+
+				<Button
+					onClick={async (e) => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
+					}}>
+					Sign Out
+				</Button>
+			</StyledDiv>
+			<Typography variant="h1">Server</Typography>
+
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignContent: "center",
+					p: 1,
+					m: 1,
+					bgcolor: "background.paper",
+					borderRadius: 1,
+				}}>
+				<TableContainer
+					component={Paper}
+					sx={{ maxWidth: 1000, maxHeight: 1000 }}>
+					<Table aria-label="collapsible table">
+						<TableHead>
+							<TableRow>
+								<TableCell />
+								<TableCell>Customer Name</TableCell>
+								<TableCell align="right">
+									Total Price ($)
+								</TableCell>
+								<TableCell align="right">
+									Time Ordered
+								</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{orders.map((row) => (
+								<Row
+									key={row.customerName}
+									orderId={row.orderId}
+									customerName={row.customerName}
+									serverId={row.serverId}
+									timeOrdered={row.timeOrdered}
+									isServed={row.isServed}
+									price={row.price}
+									items={row.items}
+								/>
+								// <Row key={row.customerName} order={row}/>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Box>
+
+			{/* {orders.map((order, index) => {
 					const items = order["items"];
 					return (
 						<StyledDiv key={index}>
@@ -247,17 +294,16 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 						// </TableContainer>
 					);
 				})} */}
-				
-				<StyledDiv>	
-					<Button onClick={serveOrder}>Serve Order</Button>
-					<Button
-						onClick={() => {
-							router.push("/server/cart");
-						}}>
-						Add New Order
-					</Button>
-				</StyledDiv>
-			</ThemeProvider>
+
+			<StyledDiv>
+				<Button onClick={serveOrder}>Serve Order</Button>
+				<Button
+					onClick={() => {
+						router.push("/server/cart");
+					}}>
+					Add New Order
+				</Button>
+			</StyledDiv>
 		</>
 	);
 }
