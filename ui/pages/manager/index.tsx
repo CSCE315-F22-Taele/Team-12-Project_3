@@ -9,48 +9,46 @@ export default function Manager() {
 
 	return (
 		<>
-			<ThemeProvider theme={StyledTheme}>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/");
-						}}>
-						Back
-					</Button>
-					<Button
-						onClick={async (e) => {
-							const url = await signOut({
-								redirect: false,
-								callbackUrl: "/",
-							});
-							router.push(url.url);
-						}}>
-						Sign Out
-					</Button>
-				</StyledDiv>
-				<Typography><h1>Manager</h1></Typography>
-				
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/reports");
-						}}>
-						Reports
-					</Button>
-					<Button
-						onClick={() => {
-							router.push("/manager/menu");
-						}}>
-						Menu
-					</Button>
-					<Button
-						onClick={() => {
-							router.push("/manager/inventory");
-						}}>
-						Inventory
-					</Button>
-				</StyledDiv>
-			</ThemeProvider>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/");
+					}}>
+					Back
+				</Button>
+				<Button
+					onClick={async (e) => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
+					}}>
+					Sign Out
+				</Button>
+			</StyledDiv>
+			<Typography variant="h1">Manager</Typography>
+
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager/reports");
+					}}>
+					Reports
+				</Button>
+				<Button
+					onClick={() => {
+						router.push("/manager/menu");
+					}}>
+					Menu
+				</Button>
+				<Button
+					onClick={() => {
+						router.push("/manager/inventory");
+					}}>
+					Inventory
+				</Button>
+			</StyledDiv>
 		</>
 	);
 }

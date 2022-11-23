@@ -8,38 +8,36 @@ export default function Manager() {
 
 	return (
 		<>
-			<ThemeProvider theme={StyledTheme}>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager");
-						}}>
-						Back
-					</Button>
-				</StyledDiv>
-				<Typography><h1>Reports</h1></Typography>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager");
+					}}>
+					Back
+				</Button>
+			</StyledDiv>
+			<Typography variant="h1">Reports</Typography>
 
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/sales");
-						}}>
-						Sales
-					</Button>
-					<Button
-						onClick={() => {
-							router.push("/manager/excess");
-						}}>
-						Excess
-					</Button>
-					<Button
-						onClick={() => {
-							router.push("/manager/restock");
-						}}>
-						Restock
-					</Button>
-				</StyledDiv>
-			</ThemeProvider>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager/sales");
+					}}>
+					Sales
+				</Button>
+				<Button
+					onClick={() => {
+						router.push("/manager/excess");
+					}}>
+					Excess
+				</Button>
+				<Button
+					onClick={() => {
+						router.push("/manager/restock");
+					}}>
+					Restock
+				</Button>
+			</StyledDiv>
 		</>
 	);
 }

@@ -175,9 +175,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	return (
 		<>
 			<ThemeProvider theme={StyledTheme}>
-				<Typography>
-					<h1>Cart</h1>
-				</Typography>
+				<Typography variant="h1">Cart</Typography>
 
 				<StyledDiv className="MenuItemSelection">
 					<Select

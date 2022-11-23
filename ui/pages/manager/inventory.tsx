@@ -13,8 +13,21 @@ import { GetServerSidePropsContext } from "next";
 import { StyledTheme, StyledDiv } from "../../styles/mystyles";
 import { ThemeProvider } from "@mui/material/styles";
 import { Button, createTheme, Grid, Box } from "@mui/material";
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem, InputLabel, FormControl } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {
+	Typography,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Paper,
+	TextField,
+	MenuItem,
+	InputLabel,
+	FormControl,
+} from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 interface thisProp {
 	ingredients: any;
@@ -115,49 +128,48 @@ export default function Inventory({ ingredients }: thisProp) {
 
 	return (
 		<>
-			<ThemeProvider theme={StyledTheme}>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager");
-						}}>
-						Back
-					</Button>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager");
+					}}>
+					Back
+				</Button>
 
-					<Typography><h1>Inventory</h1></Typography>
-				</StyledDiv>
-				<StyledDiv>
-					<Select
-						onChange={(event: SelectChangeEvent) => {
-							setSelectedIngredient(event.target.value as string);
-						}}
-						className="ingredients">
-						{ingredientList.map((ingredient, index) => {
-							return (
-								<MenuItem
-									key={index}
-									value={ingredient.ingredientName}>
-									{ingredient.ingredientName}
-								</MenuItem>
-							);
-						})}
-					</Select>
-					<TextField
-						type="text"
-						inputMode="numeric"
-						label="Enter amount"
-						onChange={(e) => {
-							setIngredientAmount(Number(e.target.value));
-						}}
-						className="ingredient_amount"></TextField>
-				</StyledDiv>
+				<Typography variant="h1">Inventory</Typography>
+			</StyledDiv>
+			<StyledDiv>
+				<Select
+					onChange={(event: SelectChangeEvent) => {
+						setSelectedIngredient(event.target.value as string);
+					}}
+					className="ingredients">
+					{ingredientList.map((ingredient, index) => {
+						return (
+							<MenuItem
+								key={index}
+								value={ingredient.ingredientName}>
+								{ingredient.ingredientName}
+							</MenuItem>
+						);
+					})}
+				</Select>
+				<TextField
+					type="text"
+					inputMode="numeric"
+					label="Enter amount"
+					onChange={(e) => {
+						setIngredientAmount(Number(e.target.value));
+					}}
+					className="ingredient_amount"></TextField>
+			</StyledDiv>
 
-				<StyledDiv>
-					<Button onClick={addQuantity}>Quantity +</Button>
-					<Button onClick={setThreshold}>Threshold set</Button>
-				</StyledDiv>
+			<StyledDiv>
+				<Button onClick={addQuantity}>Quantity +</Button>
+				<Button onClick={setThreshold}>Threshold set</Button>
+			</StyledDiv>
 
-				{/* <StyledDiv className="ingredientsList">
+			{/* <StyledDiv className="ingredientsList">
 					{ingredientList.map((ingredient, index) => {
 						return (
 							<StyledDiv key={index}>
@@ -167,55 +179,63 @@ export default function Inventory({ ingredients }: thisProp) {
 						);
 					})}
 				</StyledDiv> */}
-				<Box 
-					sx={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignContent: 'center',
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignContent: "center",
 					p: 1,
 					m: 1,
-					bgcolor: 'background.paper',
+					bgcolor: "background.paper",
 					borderRadius: 1,
-					}}>
-					<TableContainer component={Paper} sx={{ maxWidth: 700, maxHeight: 400 }}>
-						<Table aria-label="simple table">
-							<TableHead>
+				}}>
+				<TableContainer
+					component={Paper}
+					sx={{ maxWidth: 700, maxHeight: 400 }}>
+					<Table aria-label="simple table">
+						<TableHead>
 							<TableRow>
 								<TableCell>Ingredient Name</TableCell>
 								<TableCell align="right">Quantity</TableCell>
 								<TableCell align="right">Threshold</TableCell>
 							</TableRow>
-							</TableHead>
-							<TableBody>
-								{ingredientList.map((eachItem) => (
-									<TableRow
-										key={eachItem.ingredientName}
-										sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-									>
-										<TableCell component="th" scope="row">
-											{eachItem.ingredientName}
-										</TableCell>
-										<TableCell align="right">{eachItem.quantity}</TableCell>
-										<TableCell align="right">{eachItem.threshold}</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Box>
+						</TableHead>
+						<TableBody>
+							{ingredientList.map((eachItem) => (
+								<TableRow
+									key={eachItem.ingredientName}
+									sx={{
+										"&:last-child td, &:last-child th": {
+											border: 0,
+										},
+									}}>
+									<TableCell component="th" scope="row">
+										{eachItem.ingredientName}
+									</TableCell>
+									<TableCell align="right">
+										{eachItem.quantity}
+									</TableCell>
+									<TableCell align="right">
+										{eachItem.threshold}
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Box>
 
-				<StyledDiv>
-					<TextField
-						type="text"
-						inputMode="numeric"
-						label="Restock amount"
-						onChange={(e) => {
-							setRestockAmount(Number(e.target.value));
-						}}
-						className="restock_amount"></TextField>
-					<Button onClick={restockAll}>Restock All</Button>
-				</StyledDiv>
-			</ThemeProvider>
+			<StyledDiv>
+				<TextField
+					type="text"
+					inputMode="numeric"
+					label="Restock amount"
+					onChange={(e) => {
+						setRestockAmount(Number(e.target.value));
+					}}
+					className="restock_amount"></TextField>
+				<Button onClick={restockAll}>Restock All</Button>
+			</StyledDiv>
 		</>
 	);
 }
