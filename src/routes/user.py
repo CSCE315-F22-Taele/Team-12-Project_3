@@ -3,7 +3,10 @@ from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
 from webargs.flaskparser import parser
 from flask_restful import Api
 from ..models import db, User, Credentials
-from ..schemas import UserRequestSchema, UserResponseSchema, ErrorSchema
+from ..schemas import (
+    UserRequestSchema, UserResponseSchema, 
+    SuccessSchema, ErrorSchema
+)
 
 bp = Blueprint('user', __name__)
 api = Api(bp) # Honestly unsure why this is needed to work
@@ -19,7 +22,7 @@ class UserResource(MethodResource):
             return make_response(jsonify(error="Username Not Found!"), 404)
         return user
 
-    @marshal_with(None, code=204, description="Entity Successfully Deleted")
+    @marshal_with(SuccessSchema, code=202, description="Entity Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Delete an existing user from the database")
     def delete(self, username):
@@ -28,7 +31,7 @@ class UserResource(MethodResource):
              return make_response(jsonify(error="Username Not Found!"), 404)
         User.query.filter_by(username=username).delete()
         db.session.commit()
-        return {}
+        return {"success": True}, 202
 
     @use_kwargs(UserRequestSchema) # request body must follow this format
     @marshal_with(UserResponseSchema, code=201, description="Entity Successfully Created")

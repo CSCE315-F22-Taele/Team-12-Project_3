@@ -6,7 +6,8 @@ from webargs.flaskparser import parser
 from ..models import db, Inventory
 from ..schemas import (
     InventoryRequestSchema, InventoryResponseSchema, IngredientResponseSchema, 
-    ErrorSchema, ReportSchema, RestockSchema, CountResponseSchema
+    ReportSchema, RestockSchema, CountResponseSchema,
+    SuccessSchema, ErrorSchema
 )
 
 bp = Blueprint('inventory', __name__, url_prefix='/inventory')
@@ -58,7 +59,7 @@ class InventoryResource(MethodResource):
                                     ).all()
 
             if len(ingredients) != len(ingredientObjectsList):
-                return make_response(jsonify(error="Consistency Error With IngredientList! Either db stale, or ingredientName passed in nonexistent!"), 400) # TODO: different error should occur here?
+                return make_response(jsonify(error="Consistency Error With IngredientList! Either db stale, or ingredientName passed in nonexistent!"), 400)
 
             for ingredientObj, ingredientJson in zip(ingredientObjectsList, ingredients):
                 newThreshold = ingredientJson.get("newThreshold", ingredientObj.threshold) # new threshold, default old
@@ -88,16 +89,16 @@ class IngredientResource(MethodResource):
             return make_response(jsonify(error="Ingredient Not Found In Database!"), 404)
         return ingredient
 
-    @marshal_with(IngredientResponseSchema, code=204, description="Ingredient Successfully Deleted")
+    @marshal_with(SuccessSchema, code=202, description="Ingredient Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Ingredient Not Found")
     @doc(description="Delete an existing ingredient from database")
     def delete(self, ingredientName=None):
         ingredient = Inventory.query.filter_by(ingredientName=ingredientName).first()
         if ingredient is None:
-            return make_response(jsonify(err="Ingredient Not Found In Database!"), 404)
+            return make_response(jsonify(error="Ingredient Not Found In Database!"), 404)
         Inventory.query.filter_by(ingredientName=ingredientName).delete()
         db.session.commit()
-        return {}, 204
+        return {"success": True}, 202
 
 inventory_view = InventoryResource.as_view("inventoryresource")
 ingredient_view = IngredientResource.as_view("ingredientresource")

@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, validate, validates_schema, ValidationError
 
-# To take check for restock-report parameter
+# To take check for restock body
 class RestockSchema(Schema):
     amount = fields.Int(required=True, validate=validate.Range(min=0, error="Amount added must be >= 0"))
 
