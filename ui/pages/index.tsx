@@ -1,7 +1,8 @@
 import { Button } from "@mui/material";
+import Image from "next/dist/client/image";
 import { routerPush, useGlobalUser } from "../components/utils";
+import Reveille from "../public/ReveillePic.jpg";
 import { StyledDiv } from "../styles/mystyles";
-// import img from "../public/Reveille.jpg"
 
 const justMainPageStyleDiv = {
 	marginTop: "20%",
@@ -16,7 +17,11 @@ export default function Home() {
 
 	return (
 		<StyledDiv sx={justMainPageStyleDiv}>
-			{/* <Image src={img} alt="Reveille"/> */}
+			<Image
+				style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1}}
+				src={Reveille}
+				alt="Reveille"
+			/>
 
 			<Button
 				onClick={() => routerPush("server", setUserType)}
