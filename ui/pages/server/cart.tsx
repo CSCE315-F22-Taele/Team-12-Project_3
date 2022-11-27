@@ -7,7 +7,6 @@ import {
 	addOrderProxyAPI,
 	flaskAPI,
 	getMenuAPI,
-	getMenuProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";

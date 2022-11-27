@@ -4,6 +4,8 @@ import {
 	PaletteMode,
 	ThemeProvider,
 	useMediaQuery,
+	Switch,
+	FormControlLabel
 } from "@mui/material";
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { StyledTheme, StyledThemeDark } from "../styles/mystyles";
@@ -34,12 +36,13 @@ export default function App(props: PropsWithChildren) {
 			localStorage.setItem("theme", newMode);
 			return newMode;
 		});
+		console.log(theme);
 	};
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Button onClick={toggleContrast}>Toggle Contrast</Button>
+			<FormControlLabel control={<Switch onClick={toggleContrast} />} label="Dark Mode"/>
 			{props.children}
 		</ThemeProvider>
 	);
