@@ -1,33 +1,35 @@
+import { Box, Button } from "@mui/material";
+import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
+import { useRef, useState } from "react";
 import {
-	menuItemProxyAPI,
 	flaskAPI,
 	getMenuAPI,
+	getMenuProxyAPI,
+	menuItemProxyAPI,
 	serverSideInstance,
 } from "../../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { GetServerSidePropsContext } from "next";
 import { StyledDiv } from "../../../styles/mystyles";
-import { Button, Box } from "@mui/material";
 
 import {
-	Typography,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
 	TextField,
-	MenuItem,
-	InputLabel,
-	FormControl,
+	Typography,
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import useSWR, { useSWRConfig } from "swr";
 
 interface thisProp {
-	menuItems: any;
+	menuData: menuItem[];
 }
 
 interface menuItem {
@@ -36,27 +38,41 @@ interface menuItem {
 	price: number;
 }
 
-export default function Menu({ menuItems }: thisProp) {
+export default function Menu({ menuData }: thisProp) {
 	const router = useRouter();
+	const { mutate } = useSWRConfig();
+	const { data: menuItems } = useSWR(
+		getMenuProxyAPI,
+		(url) => flaskAPI(url).then((r) => r.data.items),
+		{
+			fallbackData: menuData,
+		}
+	);
 
-	const [menu, setMenu] = useState<menuItem[]>(menuItems);
 	const [itemName, setItemName] = useState("");
-	const [itemPrice, setItemPrice] = useState(0);
+	const priceRef = useRef<any>();
+	const itemPrice = priceRef.current;
 
 	const updatePrice = async () => {
-		if (itemName === "" || itemPrice === 0) {
+		if (itemPrice && (itemName === "" || itemPrice.value == 0)) {
 			return;
 		}
+		const newPrice = Number(itemPrice.value);
 
-		menu.map((item) => {
-			if (item.itemName !== itemName) return;
-			item.price = itemPrice;
-		});
-		setMenu([...menu]);
+		mutate(
+			getMenuProxyAPI,
+			(menu: any) => {
+				return menu.map((item: menuItem) => {
+					if (item.itemName !== itemName) return item;
+					return { ...item, price: newPrice };
+				});
+			},
+			{ revalidate: false }
+		);
 
 		const data = JSON.stringify({
 			itemName: itemName,
-			newPrice: itemPrice,
+			newPrice: newPrice,
 		});
 
 		const config = {
@@ -75,7 +91,17 @@ export default function Menu({ menuItems }: thisProp) {
 			return;
 		}
 
-		setMenu([...menu.filter((item) => item.itemName === !itemName)]);
+		mutate(
+			getMenuProxyAPI,
+			(menu: any) => {
+				return [
+					...menu.filter(
+						(item: menuItem) => item.itemName !== itemName
+					),
+				];
+			},
+			{ revalidate: false }
+		);
 
 		const config = {
 			method: "DELETE",
@@ -138,7 +164,7 @@ export default function Menu({ menuItems }: thisProp) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{menu.map((eachItem) => (
+								{menuItems.map((eachItem: menuItem) => (
 									<TableRow
 										key={eachItem.itemName}
 										sx={{
@@ -161,7 +187,7 @@ export default function Menu({ menuItems }: thisProp) {
 
 			<Box sx={{ minWidth: 200 }} id="SelectMenuItemToChange">
 				<FormControl fullWidth>
-					<StyledDiv className="MenuItemSelection">
+					<StyledDiv className="menuDataelection">
 						<FormControl sx={{ minWidth: 150 }}>
 							<InputLabel>Item</InputLabel>
 							<Select
@@ -169,25 +195,25 @@ export default function Menu({ menuItems }: thisProp) {
 								onChange={(event: SelectChangeEvent) => {
 									setItemName(event.target.value as string);
 								}}
-								className="menuItems"
+								className="menuData"
 								label={"Item"}>
-								{menu.map((menuItem, index) => {
-									return (
-										<MenuItem
-											key={index}
-											value={menuItem.itemName}>
-											{menuItem.itemName}
-										</MenuItem>
-									);
-								})}
+								{menuItems.map(
+									(menuItem: menuItem, index: number) => {
+										return (
+											<MenuItem
+												key={index}
+												value={menuItem.itemName}>
+												{menuItem.itemName}
+											</MenuItem>
+										);
+									}
+								)}
 							</Select>
 						</FormControl>
 						<TextField
 							type="text"
 							label="New Price"
-							onChange={(e) => {
-								setItemPrice(Number(e.target.value));
-							}}
+							inputRef={priceRef}
 							className="price"></TextField>
 
 						<Button onClick={updatePrice}>Update Price</Button>
@@ -202,11 +228,11 @@ export default function Menu({ menuItems }: thisProp) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const instance = serverSideInstance(context);
 	const response = await instance.get(getMenuAPI);
-	const data = response.data;
+	const data = response.data.items;
 
 	return {
 		props: {
-			menuItems: data["items"],
+			menuData: data,
 		},
 	};
 }

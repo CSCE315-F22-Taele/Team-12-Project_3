@@ -30,7 +30,6 @@ export const serverSideInstance = (context: GetServerSidePropsContext) => {
 	return axios.create({
 		baseURL: process.env.BASE_URL,
 		headers: {
-			...context.req.headers,
 			...extractAuthToken(context),
 		},
 	});
@@ -46,10 +45,11 @@ export const setRestockAllProxyAPI = "/api/proxy/inventory/restock-all";
 export const getMenuProxyAPI = "/api/proxy/menu";
 export const getSalesReportProxyAPI = "/api/proxy/orders/items/sales-report";
 export const addOrderProxyAPI = "/api/proxy/orders/order";
-export const getOrdersProxyAPI = "/api/proxy/orders";
+export const getOrdersProxyAPI = "/api/proxy/orders?not-served";
 export const getInventoryProxyAPI = "/api/proxy/inventory";
 export const menuItemProxyAPI = "/api/proxy/menu/item";
 export const serveOrderProxyAPI = "/api/proxy/orders/order/serve";
+export const getRestockReportProxyAPI = "/api/proxy/inventory?restock-report";
 
 export const getExcessReportAPI = "/api/excess-report";
 export const setRestockAPI = "/api/restock";

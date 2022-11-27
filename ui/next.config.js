@@ -30,7 +30,7 @@ const nextConfig = {
 			},
 			{
 				source: setRestockAllAPI,
-				destination: process.env.FLASK_URL + "/api/restock?all",
+				destination: process.env.FLASK_URL + "/api/restock-all",
 			},
 			{
 				source: getMenuAPI,

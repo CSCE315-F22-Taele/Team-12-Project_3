@@ -1,21 +1,23 @@
-import { Button, FormControl } from "@mui/material";
+import {
+	Button,
+	FormControl,
+	InputLabel,
+	MenuItem as ItemIngredient,
+	TextField,
+	Typography,
+} from "@mui/material";
 import Select from "@mui/material/Select";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
 import {
 	flaskAPI,
 	menuItemProxyAPI,
 	serverSideInstance,
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
-import {
-	InputLabel,
-	MenuItem as ItemIngredient,
-	TextField,
-	Typography,
-} from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 interface ingredientItem {
 	ingredientId: string;
@@ -25,7 +27,7 @@ interface ingredientItem {
 }
 
 interface thisProp {
-	ingredients: any;
+	ingredients: ingredientItem[];
 }
 
 interface ItemIngredient {
@@ -35,11 +37,22 @@ interface ItemIngredient {
 
 export default function NewMenuItem({ ingredients }: thisProp) {
 	const router = useRouter();
-	const ingredientList: ingredientItem[] = ingredients;
 
-	const [newMenuItemName, setNewMenuItemName] = useState("");
+	const { mutate } = useSWRConfig();
+	const { data: ingredientList } = useSWR(
+		"api/proxy/inventory",
+		(url) => flaskAPI(url).then((r) => r.data.ingredients),
+		{
+			fallbackData: ingredients,
+		}
+	);
+
+	const newMenuItemNameRef = useRef<any>();
+	const newMenuItem = newMenuItemNameRef.current;
+	const priceRef = useRef<any>();
+	const itemPrice = priceRef.current;
+
 	const [newIngredients, setNewIngredients] = useState<string[]>(["", ""]);
-	const [price, setPrice] = useState(0);
 	const [itemIngredients, setItemIngredients] = useState<ItemIngredient[]>(
 		[]
 	);
@@ -102,9 +115,9 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	const submitOrder = async () => {
 		const data = JSON.stringify({
-			itemName: newMenuItemName,
+			itemName: newMenuItem.value,
 			description: "Temp",
-			price: price,
+			price: Number(itemPrice.value),
 			linkedInventory: itemIngredients.map(
 				(ingredient) => ingredient.ingredientName
 			),
@@ -143,7 +156,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 				<TextField
 					type="text"
 					label="New Menu Item Name"
-					onChange={(e) => setNewMenuItemName(e.target.value)}
+					inputRef={newMenuItemNameRef}
 					className="item_entry"></TextField>
 				<TextField
 					type="text"
@@ -151,16 +164,16 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 					label="Enter Price"
 					onChange={(e) => {
 						if (Number(e.target.value) !== NaN) {
-							setPrice(Number(e.target.value));
 							setPriceFirstPass(false);
 						}
 					}}
-					error={price <= 0 && !priceFirstPass}
+					error={itemPrice && itemPrice.value <= 0 && !priceFirstPass}
 					helperText={
-						price <= 0 && !priceFirstPass
+						itemPrice && itemPrice.value <= 0 && !priceFirstPass
 							? "Please enter a positive number"
 							: ""
 					}
+					inputRef={priceRef}
 					className="Quantity"></TextField>
 			</StyledDiv>
 
@@ -176,15 +189,17 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 						}
 						className="ingredients"
 						label={"Ingredient"}>
-						{ingredientList.map((ingredient, index) => {
-							return (
-								<ItemIngredient
-									key={index}
-									value={ingredient.ingredientName}>
-									{ingredient.ingredientName}
-								</ItemIngredient>
-							);
-						})}
+						{ingredientList.map(
+							(ingredient: ingredientItem, index: number) => {
+								return (
+									<ItemIngredient
+										key={index}
+										value={ingredient.ingredientName}>
+										{ingredient.ingredientName}
+									</ItemIngredient>
+								);
+							}
+						)}
 					</Select>
 				</FormControl>
 				<TextField
@@ -240,11 +255,11 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const instance = serverSideInstance(context);
 	const response = await instance.get("api/inventory");
-	const data = response.data;
+	const data = response.data.ingredients;
 
 	return {
 		props: {
-			ingredients: data["ingredients"],
+			ingredients: data,
 		},
 	};
 }

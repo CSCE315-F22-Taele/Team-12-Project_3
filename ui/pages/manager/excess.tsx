@@ -44,9 +44,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 				startDate,
 			},
 		});
-		const data = response.data;
+		const data = response.data.items;
 
-		setExcess(data["items"]);
+		setExcess(data);
 	};
 
 	return (

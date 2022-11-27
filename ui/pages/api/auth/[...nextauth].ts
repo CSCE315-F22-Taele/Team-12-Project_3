@@ -22,7 +22,7 @@ export default NextAuth({
 					type: "password",
 				},
 			},
-			authorize: (credentials) => {
+			authorize: async (credentials) => {
 				// database look up
 				if (
 					credentials &&

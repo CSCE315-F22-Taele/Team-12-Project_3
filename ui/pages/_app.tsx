@@ -3,7 +3,9 @@ import { ThemeProvider as RemoveFlicker } from "next-themes";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { SWRConfig } from "swr";
 import SetTheme from "../components/SetTheme";
+import { flaskAPI } from "../components/utils";
 import "../styles/globals.css";
 
 const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
@@ -23,7 +25,13 @@ export default function App({
 			{!loading ? (
 				<SessionProvider session={session}>
 					<SetTheme>
-						<Component {...pageProps} />
+						<SWRConfig
+							value={{
+								fetcher: (url) =>
+									flaskAPI(url).then((r) => r.data),
+							}}>
+							<Component {...pageProps} />
+						</SWRConfig>
 					</SetTheme>
 					<ProgressBar />
 				</SessionProvider>
