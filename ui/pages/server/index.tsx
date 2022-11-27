@@ -1,164 +1,74 @@
+import { GetServerSidePropsContext } from "next";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import {
 	flaskAPI,
 	getOrdersAPI,
 	getOrdersProxyAPI,
+	serveOrderProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
-import { getToken } from "next-auth/jwt";
-import { GetServerSidePropsContext } from "next";
 // import { ThemeProvider } from "@emotion/react";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
 import {
-	Collapse,
-	IconButton,
-	Typography,
+	Box,
+	Button,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
-	TextField,
-	MenuItem,
-	InputLabel,
-	FormControl,
+	Typography,
 } from "@mui/material";
+import { StyledDiv } from "../../styles/mystyles";
 // import Paper from '@mui/material/Paper';
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
+import { SWRConfig, useSWRConfig } from "swr";
+import Orders, { ServerOrder } from "../../components/Orders";
 
 interface thisProp {
+	orders: ServerOrder[];
 	serverId: string;
-	serverOrders: any;
 }
 
-interface OrderItem {
-	itemId: string;
-	itemName: string;
-	price: number;
-	quantity: number;
-	totalPrice: number;
-}
+export default function Server({ orders, serverId }: thisProp) {
+	const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
+	const { mutate } = useSWRConfig();
 
-interface ServerOrder {
-	orderId: string;
-	customerName: string;
-	serverId: string;
-	timeOrdered: string;
-	isServed: boolean;
-	price: number;
-	items: OrderItem[];
-	show?: boolean;
-}
+	const serveOrder = () => {
+		selectedOrders.forEach(async (orderId) => {
+			const data = JSON.stringify({
+				orderId,
+			});
 
-function Row(order: ServerOrder) {
-	// const { row } = props;
-	const [open, setOpen] = useState(false);
+			const config = {
+				method: "PUT",
+				url: serveOrderProxyAPI,
+				headers: {
+					"Content-Type": "application/json",
+				},
+				data: data,
+			};
 
-	return (
-		<>
-			<TableRow
-				sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-				<TableCell>
-					<IconButton
-						aria-label="expand row"
-						size="small"
-						onClick={() => setOpen(!open)}>
-						{open ? (
-							<KeyboardArrowUpIcon />
-						) : (
-							<KeyboardArrowDownIcon />
-						)}
-					</IconButton>
-				</TableCell>
-				<TableCell component="th" scope="row" align="left">
-					{order.customerName}
-				</TableCell>
-				<TableCell align="right">
-					{Math.round(order.price * 100) / 100}
-				</TableCell>
-				<TableCell align="right">{order.timeOrdered}</TableCell>
-			</TableRow>
+			mutate(
+				getOrdersProxyAPI,
+				(orders: ServerOrder[]) => {
+					return [
+						...orders.filter((order) => order.orderId !== orderId),
+					];
+				},
+				{ revalidate: false }
+			);
+			await flaskAPI(config);
 
-			<TableRow>
-				<TableCell
-					style={{ paddingBottom: 0, paddingTop: 0 }}
-					colSpan={6}>
-					<Collapse in={open} timeout="auto" unmountOnExit>
-						<Box sx={{ margin: 1 }}>
-							<Typography
-								variant="h6"
-								gutterBottom
-								component="div">
-								Order Details
-							</Typography>
-							<Table size="small" aria-label="details">
-								<TableHead>
-									<TableRow>
-										<TableCell>Item Name</TableCell>
-										<TableCell align="right">
-											Quantity
-										</TableCell>
-										<TableCell align="right">
-											Price&nbsp;($)
-										</TableCell>
-									</TableRow>
-								</TableHead>
-								<TableBody>
-									{order.items.map((orderItem) => (
-										<TableRow
-											key={orderItem.itemName}
-											sx={{
-												"&:last-child td, &:last-child th":
-													{ border: 0 },
-											}}>
-											<TableCell
-												component="th"
-												scope="row">
-												{orderItem.itemName}
-											</TableCell>
-											<TableCell align="right">
-												{orderItem.quantity}
-											</TableCell>
-											<TableCell align="right">
-												{Math.round(
-													orderItem.totalPrice * 100
-												) / 100}
-											</TableCell>
-										</TableRow>
-									))}
-								</TableBody>
-							</Table>
-						</Box>
-					</Collapse>
-				</TableCell>
-			</TableRow>
-		</>
-	);
-}
-
-export default function Server({ serverId, serverOrders }: thisProp) {
-	const [orders, setOrders] = useState<ServerOrder[]>(
-		serverOrders["orders"] || null
-	);
-
-	const serveOrder = () => {};
+			// TODO: show "Served!" popup
+		});
+		setSelectedOrders([]);
+	};
 
 	const router = useRouter();
-
-	const addInfo = (index: number) => {
-		orders[index].show = !orders[index].show;
-		setOrders([...orders]);
-	};
 
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "Order ID", width: 130 },
@@ -202,11 +112,12 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 				}}>
 				<TableContainer
 					component={Paper}
-					sx={{ maxWidth: 1000, maxHeight: 1000 }}>
+					sx={{ maxWidth: 1000, maxHeight: "60vh" }}>
 					<Table aria-label="collapsible table">
 						<TableHead>
 							<TableRow>
 								<TableCell />
+								<TableCell>Select</TableCell>
 								<TableCell>Customer Name</TableCell>
 								<TableCell align="right">
 									Total Price ($)
@@ -217,83 +128,21 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{orders.map((row) => (
-								<Row
-									key={row.customerName}
-									orderId={row.orderId}
-									customerName={row.customerName}
-									serverId={row.serverId}
-									timeOrdered={row.timeOrdered}
-									isServed={row.isServed}
-									price={row.price}
-									items={row.items}
-								/>
-								// <Row key={row.customerName} order={row}/>
-							))}
+							<SWRConfig
+								value={{
+									fallbackData: orders,
+									fetcher: (url) =>
+										flaskAPI(url).then(
+											(r) => r.data.orders
+										),
+									refreshInterval: 2000,
+								}}>
+								<Orders setSelectedOrders={setSelectedOrders} />
+							</SWRConfig>
 						</TableBody>
 					</Table>
 				</TableContainer>
 			</Box>
-
-			{/* {orders.map((order, index) => {
-					const items = order["items"];
-					return (
-						<StyledDiv key={index}>
-							{order.customerName}
-							<Button onClick={() => addInfo(index)}>
-								Expand
-							</Button>
-							{order.show &&
-								order.items.map((item) => {
-									return (
-										item.itemName +
-										"; Quantity: " +
-										item.quantity +
-										"; Price: " +
-										item.totalPrice + " "
-									);
-								})}
-							{order.show && order.price}
-						</StyledDiv>
-						// <TableContainer component={Paper}>
-						// 	<Table sx={{ minWidth: 650 }} aria-label="simple table">
-						// 		<TableHead>
-						// 		<TableRow>
-						// 			<TableCell>Customer Name</TableCell>
-						// 			<TableCell align="right">Item Name</TableCell>
-						// 			<TableCell align="right">Quantity</TableCell>
-						// 			<TableCell align="right">Price</TableCell>
-						// 		</TableRow>
-						// 		</TableHead>
-						// 		<TableBody>
-						// 		{items.map((row) => (
-						// 			<TableRow
-						// 			key={row.itemName}
-						// 			sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-						// 			>
-						// 				<TableCell component="th" scope="row">
-						// 					{order.customerName}
-						// 				</TableCell>
-						// 				<TableCell align="right">
-						// 					{order.items.map((item) => {
-						// 						return (
-						// 							item.itemName +
-						// 							"; Quantity: " +
-						// 							item.quantity +
-						// 							"; Price: " +
-						// 							item.price
-						// 						);
-						// 					})}
-						// 				</TableCell>
-						// 				<TableCell align="right">{row.fat}</TableCell>
-						// 				<TableCell align="right">{row.carbs}</TableCell>
-						// 			</TableRow>
-						// 		))}
-						// 		</TableBody>
-						// 	</Table>
-						// </TableContainer>
-					);
-				})} */}
 
 			<StyledDiv>
 				<Button onClick={serveOrder}>Serve Order</Button>
@@ -309,8 +158,9 @@ export default function Server({ serverId, serverOrders }: thisProp) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const serverId = "74bfa9a8-7c52-4eaf-b7de-107c980751c4";
 	const data = JSON.stringify({
-		serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+		serverId: serverId,
 	});
 
 	const instance = serverSideInstance(context);
@@ -322,11 +172,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		},
 		data: data,
 	});
-	const orders = response.data;
+	const orders = response.data.orders;
 
 	return {
 		props: {
-			serverOrders: orders,
+			orders: orders,
+			serverId: serverId,
 		},
 	};
 }

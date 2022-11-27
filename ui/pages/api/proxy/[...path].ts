@@ -1,9 +1,6 @@
-import httpProxy from "http-proxy";
 import Cookies from "cookies";
-import url from "url";
+import httpProxy from "http-proxy";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
-import { json } from "stream/consumers";
 import { signIn } from "next-auth/react";
 
 let API_URL = process.env.FLASK_URL;
@@ -14,50 +11,6 @@ export const config = {
 		bodyParser: false,
 	},
 };
-
-function replaceURL(url: string) {
-	let backendURL = "";
-
-	switch (url) {
-		case "/api/proxy/excess-report":
-			backendURL = "/api/orders/items/excess-report";
-			break;
-		case "/api/proxy/restock":
-			backendURL = "/api/inventory/restock";
-			break;
-		case "/api/proxy/threshold":
-			backendURL = "/api/inventory/threshold";
-			break;
-		case "/api/proxy/restock-all":
-			backendURL = "/api/inventory/restock?all";
-			break;
-		case "/api/proxy/menu":
-			backendURL = "/api/menu";
-			break;
-		case "/api/proxy/menu/item":
-			backendURL = "/api/menu/item";
-			break;
-		case "/api/proxy/restock-report":
-			backendURL = "/api/inventory?restock-report";
-			break;
-		case "/api/proxy/sales-report":
-			backendURL = "/api/orders/items/sales-report";
-			break;
-		case "/api/proxy/add-order":
-			backendURL = "/api/orders/order";
-			break;
-		case "/api/proxy/orders":
-			backendURL = "/api/orders";
-			break;
-		case "/api/proxy/inventory":
-			backendURL = "/api/inventory";
-			break;
-		case "/api/proxy/hello":
-			backendURL = "/api/hello";
-			break;
-	}
-	return backendURL;
-}
 
 export default (req: NextApiRequest, res: NextApiResponse) => {
 	return new Promise(async (resolve, reject) => {
@@ -72,10 +25,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
 			reject();
 		}
 
-		const arr = req.url!.split("?");
-		// console.log(arr[0])
-		arr[0] = replaceURL(arr[0]);
-		req.url = arr.join("?");
+		req.url = req.url!.replace("/proxy", "");
 		// console.log(req.url)
 
 		req.headers.cookie = "";

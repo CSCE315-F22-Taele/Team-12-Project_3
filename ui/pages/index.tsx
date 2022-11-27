@@ -1,19 +1,8 @@
-import { useRouter } from "next/router";
-import { useGlobalUser } from "../components/utils";
-import { routerPush } from "../components/utils";
-import { useSession } from "next-auth/react";
-import {
-	Button,
-	createTheme,
-	Grid,
-	Box,
-	CssBaseline,
-	Paper,
-} from "@mui/material";
-import { StyledDiv, StyledTheme } from "../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { useTheme } from "@emotion/react";
-// import img from "../public/Reveille.jpg"
+import { Button } from "@mui/material";
+import Image from "next/dist/client/image";
+import { routerPush, useGlobalUser } from "../components/utils";
+import Reveille from "../public/ReveillePic.jpg";
+import { StyledDiv } from "../styles/mystyles";
 
 const justMainPageStyleDiv = {
 	marginTop: "20%",
@@ -22,18 +11,18 @@ const justMainPageStyleButtons = {
 	size: "large",
 };
 
-type thisProps = {
-	toggleContrast: () => void;
-};
-
-export default function Home({ toggleContrast }: thisProps) {
+export default function Home() {
 	const [userType, setUserType] = useGlobalUser();
 	// const theme = useTheme()
 
 	return (
 		<StyledDiv sx={justMainPageStyleDiv}>
-			{/* <Image src={img} alt="Reveille"/> */}
-			<Button onClick={toggleContrast}>Toggle Contrast</Button>
+			<Image
+				style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1}}
+				src={Reveille}
+				alt="Reveille"
+			/>
+
 			<Button
 				onClick={() => routerPush("server", setUserType)}
 				sx={justMainPageStyleButtons}>

@@ -1,6 +1,8 @@
+import { Button, FormControl } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { ChangeEvent, useState } from "react";
+import { useRef, useState } from "react";
 import {
 	addOrderProxyAPI,
 	flaskAPI,
@@ -8,25 +10,11 @@ import {
 	getMenuProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
-import {
-	Typography,
-	Table,
-	TableBody,
-	TableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
-	TextField,
-	MenuItem,
-	InputLabel,
-} from "@mui/material";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import useSWR from "swr";
 
 interface menuItem {
 	itemId: string;
@@ -36,7 +24,7 @@ interface menuItem {
 
 interface thisProp {
 	serverId: string;
-	menuItems: any;
+	menu: any;
 }
 
 interface OrderItem {
@@ -51,23 +39,27 @@ interface expandString {
 	show: boolean;
 }
 
-export default function Cart({ serverId, menuItems }: thisProp) {
+export default function Cart({ serverId, menu }: thisProp) {
 	const router = useRouter();
-	const menu: menuItem[] = menuItems["items"];
+	const { data: menuData } = useSWR(getMenuProxyAPI, {
+		fallbackData: menu,
+	});
+	const menuItems: menuItem[] = menuData.items;
 
-	const [customerName, setCustomerName] = useState("");
-	const [selectedItem, setSelectedItem] = useState(menu[0].itemName);
-	const [itemQuantity, setItemQuantity] = useState(0);
-	const [itemPrice, setItemPrice] = useState(menu[0].price);
+	const [selectedItem, setSelectedItem] = useState("");
+	const quantityRef = useRef<any>();
+	const quantity = quantityRef.current;
+	const customerNameRef = useRef<any>();
+	const customerName = customerNameRef.current;
+	const [itemPrice, setItemPrice] = useState(0);
 	const [orderList, setOrderList] = useState<OrderItem[]>([]);
 	const [expandedStringList, setExpandedString] = useState<expandString[]>(
 		[]
 	);
-	const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>(
-		[]
-	);
+	const [selectedDeleteList, setSelectedDeleteList] = useState<Number[]>([]);
 	const [itemQuantityFirstPass, setItemQuantityFirstPass] = useState(true);
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
+	const [rowNum, setRowNum] = useState(0);
 
 	const tableColumns: GridColDef[] = [
 		{
@@ -86,57 +78,66 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	];
 
 	const addToCart = () => {
-		if (itemQuantity <= 0) return;
+		if ((quantity && quantity.value <= 0) || selectedItem === "") {
+			return;
+		}
 
+		if (orderList.some((order) => order.itemName === selectedItem)) {
+			return;
+		}
+
+		let numRow = rowNum;
+		numRow++;
 		setOrderList([
 			...orderList,
 			{
-				rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
+				rowId: numRow,
 				itemName: selectedItem,
-				quantity: itemQuantity,
-				price: itemQuantity * itemPrice,
+				quantity: Number(quantity.value),
+				price: Number(quantity.value) * itemPrice,
 			},
 		]);
+		setRowNum(numRow);
 
-		var res: number = itemQuantity * itemPrice;
 		setExpandedString([
 			...expandedStringList,
 			{
 				displayString:
 					"Price: " +
-					itemQuantity * itemPrice +
+					Number(quantity.value) * itemPrice +
 					" Quantity: " +
-					itemQuantity,
+					quantity.value,
 				show: false,
 			},
 		]);
-
-		setSelectedItem("");
-		setItemQuantity(0);
-		setItemQuantityFirstPass(true);
 	};
 
 	const deleteAllInCart = () => {
 		setOrderList([]);
-		setSelectedItem(menu[0].itemName);
-		setItemPrice(menu[0].price);
-		setItemQuantity(0);
 	};
 	const deleteSelectedInCart = () => {
-		setOrderList(selectedDeleteList);
-		setSelectedItem(menu[0].itemName);
-		setItemPrice(menu[0].price);
-		setItemQuantity(0);
+		setOrderList((orderList) =>
+			orderList.filter(
+				(row) =>
+					!selectedDeleteList.some(
+						(deletedItemId) => deletedItemId === row.rowId
+					)
+			)
+		);
 	};
 
 	const submitOrder = async () => {
-		if (customerName === "") {
+		if (customerNameRef.current.value === "") {
 			setCustomerNameFirstPass(false);
 			return;
 		}
 
+		if (orderList.length === 0) {
+			return;
+		}
+
 		const data = JSON.stringify({
-			customerName: customerName,
+			customerName: customerNameRef.current.value,
 			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
 			items: orderList,
 		});
@@ -157,7 +158,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		router.push("/server");
 	};
 
-	// const setItemStates = (event: ChangeEvent<HTMLSelectElement>) => {
 	const setItemStates = (event: SelectChangeEvent) => {
 		const indexOfSpace = event.target.value.lastIndexOf(" ");
 		const menuObjectName = event.target.value.substring(0, indexOfSpace);
@@ -165,13 +165,6 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		setSelectedItem(menuObjectName);
 		setItemPrice(Number(menuObjectPrice));
 	};
-
-	const addInfo = (index: number) => {
-		expandedStringList[index].show = !expandedStringList[index].show;
-		setExpandedString([...expandedStringList]);
-	};
-
-	// useEffect(() => {}, [expandedStringList]);
 
 	return (
 		<>
@@ -187,47 +180,57 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 			<Typography variant="h1">Cart</Typography>
 
 			<StyledDiv className="MenuItemSelection">
-				<Select
-					onChange={(event: SelectChangeEvent) => {
-						setItemStates(event);
-					}}
-					className="menuItems">
-					{menu.map((menuItem, index) => {
-						return (
-							<MenuItem
-								key={index}
-								value={
-									menuItem.itemName + " " + menuItem.price
-								}>
-								{menuItem.itemName + ": $" + menuItem.price}
-							</MenuItem>
-						);
-					})}
-				</Select>
+				<FormControl sx={{ minWidth: 150 }}>
+					<InputLabel>Item</InputLabel>
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setItemStates(event);
+						}}
+						className="menuItems"
+						label={"Item"}>
+						{menuItems.map((menuItem, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={
+										menuItem.itemName + " " + menuItem.price
+									}>
+									{menuItem.itemName + ": $" + menuItem.price}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
 				<TextField
 					type="text"
 					inputMode="numeric"
 					label="Enter quantity"
 					onChange={(e) => {
-						setItemQuantity(Number(e.target.value));
 						setItemQuantityFirstPass(false);
 					}}
-					error={itemQuantity <= 0 && !itemQuantityFirstPass}
+					error={
+						quantity &&
+						quantity.value <= 0 &&
+						!itemQuantityFirstPass
+					}
 					helperText={
-						itemQuantity <= 0 && !itemQuantityFirstPass
+						quantity &&
+						quantity.value <= 0 &&
+						!itemQuantityFirstPass
 							? "Please enter a positive number"
 							: ""
 					}
+					inputRef={quantityRef}
 					className="Quantity"></TextField>
 				<Button onClick={addToCart}>Add</Button>
 			</StyledDiv>
+
 			<StyledDiv
 				sx={{
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					// backgroundColor: "pink",
-					height: "50vh",
+					height: "371px",
 					margin: "40px",
 				}}>
 				<DataGrid
@@ -240,14 +243,17 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 					sx={{ maxWidth: 700, maxHeight: 700 }}
 					onSelectionModelChange={(newSelection) => {
 						const selectedIDs = new Set(newSelection);
-						const selectedRows = orderList.filter(
-							(row) => !selectedIDs.has(row.rowId)
-						);
+						const selectedRows = orderList
+							.map((row) => {
+								if (selectedIDs.has(row.rowId))
+									return row.rowId;
+								else return -1;
+							})
+							.filter((row) => row !== -1);
 						setSelectedDeleteList(selectedRows);
 					}}
 				/>
 			</StyledDiv>
-			{/* {JSON.stringify(orderList)} */}
 
 			<StyledDiv className="AddOrdersSection">
 				<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
@@ -256,16 +262,21 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 					type="text"
 					label="Enter your name"
 					onChange={(e) => {
-						setCustomerName(e.target.value);
 						setCustomerNameFirstPass(false);
 					}}
-					error={customerName === "" && !customerNameFirstPass}
+					error={
+						customerName &&
+						customerName.value === "" &&
+						!customerNameFirstPass
+					}
 					helperText={
-						customerName === "" && !customerNameFirstPass
+						customerName &&
+						customerName.value === "" &&
+						!customerNameFirstPass
 							? "Enter a name here"
 							: ""
 					}
-					value={customerName}
+					inputRef={customerNameRef}
 					className="CustomerName"></TextField>
 				<Button onClick={submitOrder}>Submit Order</Button>
 			</StyledDiv>
@@ -280,7 +291,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	return {
 		props: {
-			menuItems: data,
+			menu: data,
 		},
 	};
 }

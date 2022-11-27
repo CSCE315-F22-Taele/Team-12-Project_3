@@ -1,33 +1,31 @@
 import {
-	flaskAPI,
-	getInventoryAPI,
-	getInventoryProxyAPI,
-	serverSideInstance,
-	setRestockAllProxyAPI,
-	setRestockProxyAPI,
-	setThresholdProxyAPI,
-} from "../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { GetServerSidePropsContext } from "next";
-import { StyledTheme, StyledDiv } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import { Button, createTheme, Grid, Box } from "@mui/material";
-import {
-	Typography,
+	Box,
+	Button,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
 	TextField,
-	MenuItem,
-	InputLabel,
-	FormControl,
+	Typography,
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import {
+	flaskAPI,
+	getInventoryAPI,
+	serverSideInstance,
+	setRestockAllProxyAPI,
+	updateInventoryProxyAPI,
+} from "../../components/utils";
+import { StyledDiv } from "../../styles/mystyles";
 
 interface thisProp {
 	ingredients: any;
@@ -69,8 +67,8 @@ export default function Inventory({ ingredients }: thisProp) {
 		});
 
 		const response = await flaskAPI({
-			method: "PUT",
-			url: setRestockProxyAPI,
+			method: "PATCH",
+			url: updateInventoryProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -95,8 +93,8 @@ export default function Inventory({ ingredients }: thisProp) {
 		});
 
 		const response = await flaskAPI({
-			method: "PUT",
-			url: setThresholdProxyAPI,
+			method: "PATCH",
+			url: updateInventoryProxyAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -139,21 +137,25 @@ export default function Inventory({ ingredients }: thisProp) {
 				<Typography variant="h1">Inventory</Typography>
 			</StyledDiv>
 			<StyledDiv>
-				<Select
-					onChange={(event: SelectChangeEvent) => {
-						setSelectedIngredient(event.target.value as string);
-					}}
-					className="ingredients">
-					{ingredientList.map((ingredient, index) => {
-						return (
-							<MenuItem
-								key={index}
-								value={ingredient.ingredientName}>
-								{ingredient.ingredientName}
-							</MenuItem>
-						);
-					})}
-				</Select>
+				<FormControl sx={{ minWidth: 150 }}>
+					<InputLabel>Item</InputLabel>
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setSelectedIngredient(event.target.value as string);
+						}}
+						className="ingredients"
+						label={"Item"}>
+						{ingredientList.map((ingredient, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={ingredient.ingredientName}>
+									{ingredient.ingredientName}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
 				<TextField
 					type="text"
 					inputMode="numeric"

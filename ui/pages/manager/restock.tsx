@@ -1,30 +1,27 @@
 import {
+	Box,
+	Button,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Typography,
+} from "@mui/material";
+import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+import {
 	getRestockReportAPI,
+	getRestockReportProxyAPI,
 	serverSideInstance,
 } from "../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { GetServerSidePropsContext } from "next";
-import { getToken } from "next-auth/jwt";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
-import {
-	Typography,
-	Button,
-	createTheme,
-	Grid,
-	Box,
-	Table,
-	TableContainer,
-	TableCell,
-	TableHead,
-	Paper,
-	TableRow,
-	TableBody,
-} from "@mui/material";
+import { StyledDiv } from "../../styles/mystyles";
 
 interface thisProp {
-	restockItems: any;
+	restockData: any;
 }
 
 interface Restock {
@@ -34,10 +31,13 @@ interface Restock {
 	threshold: number;
 }
 
-export default function Excess({ restockItems }: thisProp) {
+export default function Excess({ restockData }: thisProp) {
 	const router = useRouter();
 
-	const [itemsToRestock, setRestockItems] = useState<Restock[]>(restockItems);
+	const { data } = useSWR(getRestockReportProxyAPI, {
+		fallbackData: restockData,
+	});
+	const restockItems: Restock[] = data.ingredients;
 
 	return (
 		<>
@@ -79,7 +79,7 @@ export default function Excess({ restockItems }: thisProp) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{itemsToRestock.map((eachItem) => (
+								{restockItems.map((eachItem) => (
 									<TableRow
 										key={eachItem.ingredientName}
 										sx={{
@@ -113,7 +113,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	return {
 		props: {
-			restockItems: data["ingredients"],
+			restockData: data,
 		},
 	};
 }

@@ -1,27 +1,23 @@
-import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import { StyledDiv, StyledTheme } from "../../styles/mystyles";
-import { ThemeProvider } from "@mui/material/styles";
 import {
-	Button,
-	createTheme,
-	Grid,
 	Box,
-	TextField,
-	Typography,
+	Button,
+	Paper,
 	Table,
 	TableBody,
 	TableCell,
 	TableContainer,
 	TableHead,
 	TableRow,
-	Paper,
+	TextField,
+	Typography,
 } from "@mui/material";
-import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
+import { StyledDiv } from "../../styles/mystyles";
 
 interface Excess {
 	itemName: string;
@@ -48,9 +44,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 				startDate,
 			},
 		});
-		const data = response.data;
+		const data = response.data.items;
 
-		setExcess(data["items"]);
+		setExcess(data);
 	};
 
 	return (
@@ -121,9 +117,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 										<TableCell align="right">
 											Sales
 										</TableCell>
-										<TableCell align="right">
+										{/* <TableCell align="right">
 											Current Stock
-										</TableCell>
+										</TableCell> */}
 									</TableRow>
 								</TableHead>
 								<TableBody>
@@ -142,9 +138,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 											<TableCell align="right">
 												{eachItem.sales}
 											</TableCell>
-											<TableCell align="right">
+											{/* <TableCell align="right">
 												{eachItem.currentStock}
-											</TableCell>
+											</TableCell> */}
 										</TableRow>
 									))}
 								</TableBody>

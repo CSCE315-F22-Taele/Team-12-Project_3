@@ -1,13 +1,14 @@
 import NextAuth from "next-auth/next";
+import Auth0Provider from "next-auth/providers/auth0";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export default NextAuth({
 	providers: [
-		/* Auth0Provider({
-			clientId: process.env.AUTH0_CLIENT_ID,
-			clientSecret: process.env.AUTH0_CLIENT_SECRET,
-			domain: process.env.AUTH0_DOMAIN,
-		}), */
+		Auth0Provider({
+			clientId: process.env.AUTH0_CLIENT_ID || "",
+			clientSecret: process.env.AUTH0_CLIENT_SECRET || "",
+			issuer: process.env.AUTH0_ISSUER,
+		}),
 		CredentialsProvider({
 			name: "credentials",
 			credentials: {
@@ -21,7 +22,7 @@ export default NextAuth({
 					type: "password",
 				},
 			},
-			authorize: (credentials) => {
+			authorize: async (credentials) => {
 				// database look up
 				if (
 					credentials &&
@@ -41,7 +42,7 @@ export default NextAuth({
 			},
 		}),
 	],
-	
+
 	session: {
 		strategy: "jwt",
 	},
