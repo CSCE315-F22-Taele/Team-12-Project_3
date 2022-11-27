@@ -154,7 +154,7 @@ export default function Menu({ menuData }: thisProp) {
 					<TableContainer
 						component={Paper}
 						sx={{ maxWidth: 700, maxHeight: 400 }}>
-						<Table aria-label="simple table">
+						<Table stickyHeader aria-label="simple table">
 							<TableHead>
 								<TableRow>
 									<TableCell>Menu Item</TableCell>
