@@ -14,6 +14,7 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import {
+	flaskAPI,
 	getRestockReportAPI,
 	getRestockReportProxyAPI,
 	serverSideInstance,
@@ -34,10 +35,10 @@ interface Restock {
 export default function Excess({ restockData }: thisProp) {
 	const router = useRouter();
 
-	const { data } = useSWR(getRestockReportProxyAPI, {
+	const { data: restockItems } = useSWR(getRestockReportProxyAPI, {
 		fallbackData: restockData,
+		fetcher: (url) => flaskAPI(url).then((r) => r.data.ingredients),
 	});
-	const restockItems: Restock[] = data.ingredients;
 
 	return (
 		<>
@@ -79,7 +80,7 @@ export default function Excess({ restockData }: thisProp) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{restockItems.map((eachItem) => (
+								{restockItems.map((eachItem: Restock) => (
 									<TableRow
 										key={eachItem.ingredientName}
 										sx={{
@@ -109,7 +110,7 @@ export default function Excess({ restockData }: thisProp) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const instance = serverSideInstance(context);
 	const response = await instance.get(getRestockReportAPI);
-	const data = response.data;
+	const data = response.data.ingredients;
 
 	return {
 		props: {

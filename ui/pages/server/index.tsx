@@ -135,7 +135,6 @@ export default function Server({ orders, serverId }: thisProp) {
 										flaskAPI(url).then(
 											(r) => r.data.orders
 										),
-									refreshInterval: 2000,
 								}}>
 								<Orders setSelectedOrders={setSelectedOrders} />
 							</SWRConfig>

@@ -16,6 +16,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 
@@ -29,24 +30,27 @@ export default function Excess({ serverId }: { serverId: string }) {
 	const router = useRouter();
 
 	const [startDate, setStartDate] = useState("");
-	const [excess, setExcess] = useState<Excess[]>([]);
 	const currentDate = new Date().toLocaleDateString("en-us", {
 		year: "numeric",
 		month: "short",
 		day: "numeric",
 	});
 
-	const getReport = async () => {
-		const response = await flaskAPI({
-			method: "get",
-			url: getExcessReportProxyAPI,
-			params: {
-				startDate,
-			},
-		});
-		const data = response.data.items;
+	const [shouldFetch, setShouldFetch] = useState(false);
+	const { data: excess } = useSWR(
+		shouldFetch ? getExcessReportProxyAPI : null,
+		(url) =>
+			flaskAPI({
+				method: "get",
+				url,
+				params: {
+					startDate,
+				},
+			}).then((r) => r.data.items)
+	);
 
-		setExcess(data);
+	const getReport = async () => {
+		setShouldFetch(true);
 	};
 
 	return (
@@ -69,11 +73,8 @@ export default function Excess({ serverId }: { serverId: string }) {
 						label="Start Date"
 						value={startDate}
 						onChange={(newValue) => {
-							//should be 2022-11-17
-							console.log(newValue);
 							var fullDateWithOtherInfo =
 								newValue.$d.toLocaleString();
-							console.log(newValue.$d.getMonth());
 							var date = fullDateWithOtherInfo
 								.substring(
 									0,
@@ -84,8 +85,6 @@ export default function Excess({ serverId }: { serverId: string }) {
 							var day = date[1];
 							var year = date[2];
 							var parsedDate = year + "-" + month + "-" + day;
-							// console.log("parsed", parsedDate);
-							// console.log("asd", newValue.$d.toLocaleString());
 							setStartDate(parsedDate);
 						}}
 						renderInput={(params) => <TextField {...params} />}
@@ -123,7 +122,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{excess.map((eachItem) => (
+									{excess?.map((eachItem: Excess) => (
 										<TableRow
 											key={eachItem.itemName}
 											sx={{

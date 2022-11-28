@@ -11,9 +11,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import {
 	flaskAPI,
+	getInventoryAPI,
+	getInventoryProxyAPI,
 	menuItemProxyAPI,
 	serverSideInstance,
 } from "../../../components/utils";
@@ -38,27 +40,26 @@ interface ItemIngredient {
 export default function NewMenuItem({ ingredients }: thisProp) {
 	const router = useRouter();
 
-	const { mutate } = useSWRConfig();
 	const { data: ingredientList } = useSWR(
-		"api/proxy/inventory",
+		getInventoryProxyAPI,
 		(url) => flaskAPI(url).then((r) => r.data.ingredients),
 		{
 			fallbackData: ingredients,
 		}
 	);
 
-	const newMenuItemNameRef = useRef<any>();
-	const newMenuItem = newMenuItemNameRef.current;
-	const priceRef = useRef<any>();
-	const itemPrice = priceRef.current;
+	const newMenuItemNameRef = useRef<HTMLInputElement | null>(null);
+	const newMenuItemNameElem = newMenuItemNameRef.current;
+	const newPriceRef = useRef<HTMLInputElement | null>(null);
+	const newPriceElem = newPriceRef.current;
 
 	const [newIngredients, setNewIngredients] = useState<string[]>(["", ""]);
 	const [itemIngredients, setItemIngredients] = useState<ItemIngredient[]>(
 		[]
 	);
-	const [selectedIngredients, setSelectedIngredients] = useState<
-		ItemIngredient[]
-	>([]);
+	const [selectedIngredients, setSelectedIngredients] = useState<Number[]>(
+		[]
+	);
 	const [priceFirstPass, setPriceFirstPass] = useState(true);
 	const [rowNum, setRowNum] = useState(0);
 
@@ -107,17 +108,19 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 			ingredientList.filter(
 				(row) =>
 					!selectedIngredients.some(
-						(deletedItem) => deletedItem.rowId === row.rowId
+						(deletedItemId) => deletedItemId === row.rowId
 					)
 			)
 		);
 	};
 
 	const submitOrder = async () => {
+		if (!newMenuItemNameElem || !newPriceElem) return;
+
 		const data = JSON.stringify({
-			itemName: newMenuItem.value,
+			itemName: newMenuItemNameElem.value,
 			description: "Temp",
-			price: Number(itemPrice.value),
+			price: Number(newPriceElem.value),
 			linkedInventory: itemIngredients.map(
 				(ingredient) => ingredient.ingredientName
 			),
@@ -167,13 +170,21 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 							setPriceFirstPass(false);
 						}
 					}}
-					error={itemPrice && itemPrice.value <= 0 && !priceFirstPass}
+					error={
+						!priceFirstPass &&
+						newPriceElem &&
+						Number(newPriceElem.value) <= 0
+							? true
+							: false
+					}
 					helperText={
-						itemPrice && itemPrice.value <= 0 && !priceFirstPass
+						newPriceElem &&
+						Number(newPriceElem.value) <= 0 &&
+						!priceFirstPass
 							? "Please enter a positive number"
 							: ""
 					}
-					inputRef={priceRef}
+					inputRef={newPriceRef}
 					className="Quantity"></TextField>
 			</StyledDiv>
 
@@ -237,9 +248,13 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 					sx={{ maxWidth: 700, maxHeight: 700 }}
 					onSelectionModelChange={(newSelection) => {
 						const selectedIDs = new Set(newSelection);
-						const selectedRows = itemIngredients.filter((row) =>
-							selectedIDs.has(row.rowId)
-						);
+						const selectedRows = itemIngredients
+							.map((row) => {
+								if (selectedIDs.has(row.rowId))
+									return row.rowId;
+								else return -1;
+							})
+							.filter((rowId) => rowId !== -1);
 						setSelectedIngredients(selectedRows);
 					}}
 				/>
@@ -254,7 +269,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const instance = serverSideInstance(context);
-	const response = await instance.get("api/inventory");
+	const response = await instance.get(getInventoryAPI);
 	const data = response.data.ingredients;
 
 	return {

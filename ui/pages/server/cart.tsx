@@ -47,10 +47,10 @@ export default function Cart({ serverId, menu }: thisProp) {
 	const menuItems: menuItem[] = menuData.items;
 
 	const [selectedItem, setSelectedItem] = useState("");
-	const quantityRef = useRef<any>();
-	const quantity = quantityRef.current;
-	const customerNameRef = useRef<any>();
-	const customerName = customerNameRef.current;
+	const quantityRef = useRef<HTMLInputElement | null>(null);
+	const quantityElem = quantityRef.current;
+	const customerNameRef = useRef<HTMLInputElement | null>(null);
+	const customerNameElem = customerNameRef.current;
 	const [itemPrice, setItemPrice] = useState(0);
 	const [orderList, setOrderList] = useState<OrderItem[]>([]);
 	const [expandedStringList, setExpandedString] = useState<expandString[]>(
@@ -78,7 +78,11 @@ export default function Cart({ serverId, menu }: thisProp) {
 	];
 
 	const addToCart = () => {
-		if ((quantity && quantity.value <= 0) || selectedItem === "") {
+		if (
+			!quantityElem ||
+			Number(quantityElem.value) <= 0 ||
+			selectedItem === ""
+		) {
 			return;
 		}
 
@@ -93,8 +97,8 @@ export default function Cart({ serverId, menu }: thisProp) {
 			{
 				rowId: numRow,
 				itemName: selectedItem,
-				quantity: Number(quantity.value),
-				price: Number(quantity.value) * itemPrice,
+				quantity: Number(quantityElem.value),
+				price: Number(quantityElem.value) * itemPrice,
 			},
 		]);
 		setRowNum(numRow);
@@ -104,9 +108,9 @@ export default function Cart({ serverId, menu }: thisProp) {
 			{
 				displayString:
 					"Price: " +
-					Number(quantity.value) * itemPrice +
+					Number(quantityElem.value) * itemPrice +
 					" Quantity: " +
-					quantity.value,
+					quantityElem.value,
 				show: false,
 			},
 		]);
@@ -127,7 +131,8 @@ export default function Cart({ serverId, menu }: thisProp) {
 	};
 
 	const submitOrder = async () => {
-		if (customerNameRef.current.value === "") {
+		if (!customerNameElem) return;
+		if (customerNameElem.value === "") {
 			setCustomerNameFirstPass(false);
 			return;
 		}
@@ -137,7 +142,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 		}
 
 		const data = JSON.stringify({
-			customerName: customerNameRef.current.value,
+			customerName: customerNameElem.value,
 			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
 			items: orderList,
 		});
@@ -205,17 +210,19 @@ export default function Cart({ serverId, menu }: thisProp) {
 					type="text"
 					inputMode="numeric"
 					label="Enter quantity"
-					onChange={(e) => {
+					onChange={() => {
 						setItemQuantityFirstPass(false);
 					}}
 					error={
-						quantity &&
-						quantity.value <= 0 &&
+						quantityElem &&
+						Number(quantityElem.value) <= 0 &&
 						!itemQuantityFirstPass
+							? true
+							: false
 					}
 					helperText={
-						quantity &&
-						quantity.value <= 0 &&
+						quantityElem &&
+						Number(quantityElem.value) <= 0 &&
 						!itemQuantityFirstPass
 							? "Please enter a positive number"
 							: ""
@@ -265,13 +272,15 @@ export default function Cart({ serverId, menu }: thisProp) {
 						setCustomerNameFirstPass(false);
 					}}
 					error={
-						customerName &&
-						customerName.value === "" &&
+						customerNameElem &&
+						customerNameElem.value === "" &&
 						!customerNameFirstPass
+							? true
+							: false
 					}
 					helperText={
-						customerName &&
-						customerName.value === "" &&
+						customerNameElem &&
+						customerNameElem.value === "" &&
 						!customerNameFirstPass
 							? "Enter a name here"
 							: ""

@@ -50,14 +50,14 @@ export default function Menu({ menuData }: thisProp) {
 	);
 
 	const [itemName, setItemName] = useState("");
-	const priceRef = useRef<any>();
-	const itemPrice = priceRef.current;
+	const priceRef = useRef<HTMLInputElement | null>(null);
+	const priceElem = priceRef.current;
 
 	const updatePrice = async () => {
-		if (itemPrice && (itemName === "" || itemPrice.value == 0)) {
+		if (itemName === "" || !priceElem || Number(priceElem.value) <= 0) {
 			return;
 		}
-		const newPrice = Number(itemPrice.value);
+		const newPrice = Number(priceElem.value);
 
 		mutate(
 			getMenuProxyAPI,

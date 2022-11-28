@@ -25,13 +25,7 @@ export default function App({
 			{!loading ? (
 				<SessionProvider session={session}>
 					<SetTheme>
-						<SWRConfig
-							value={{
-								fetcher: (url) =>
-									flaskAPI(url).then((r) => r.data),
-							}}>
 							<Component {...pageProps} />
-						</SWRConfig>
 					</SetTheme>
 					<ProgressBar />
 				</SessionProvider>

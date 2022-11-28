@@ -27,7 +27,6 @@ interface thisProps {
 }
 
 export default function Orders({ setSelectedOrders }: thisProps) {
-	// const { fallbackData } = useSWRConfig();
 	const { data: orders } = useSWR(getOrdersProxyAPI);
 
 	return (

@@ -16,6 +16,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import useSWR from "swr";
 import { flaskAPI, getSalesReportProxyAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
@@ -31,21 +32,22 @@ export default function Sales({ serverId }: { serverId: string }) {
 
 	const [startDate, setStartDate] = useState<string | null>("");
 	const [endDate, setEndDate] = useState<string | null>("");
-	const [sales, setSales] = useState<Sale[]>([]);
+	const [shouldFetch, setShouldFetch] = useState(false);
+	const { data: sales } = useSWR(
+		shouldFetch ? getSalesReportProxyAPI : null,
+		(url) =>
+			flaskAPI({
+				method: "get",
+				url,
+				params: {
+					startDate,
+					endDate,
+				},
+			}).then((r) => r.data.items)
+	);
 
 	const getReport = async () => {
-		const response = await flaskAPI({
-			method: "get",
-			url: getSalesReportProxyAPI,
-			params: {
-				startDate,
-				endDate,
-			},
-		});
-
-		const data = response.data;
-
-		setSales(data["items"]);
+		setShouldFetch(true);
 	};
 
 	return (
@@ -147,7 +149,7 @@ export default function Sales({ serverId }: { serverId: string }) {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{sales.map((eachItem) => (
+									{sales?.map((eachItem: Sale) => (
 										<TableRow
 											key={eachItem.itemName}
 											sx={{
