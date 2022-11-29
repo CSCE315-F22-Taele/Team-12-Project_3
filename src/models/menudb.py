@@ -6,6 +6,7 @@ class Menu(db.Model):
     itemName = db.Column("item_name", db.String(255), nullable=False, unique=True)
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False, server_default="0")
+    active = db.Column(db.Boolean, server_default="True")
 
     # uselist required so that menuIngredients always considered a list; avoids Nonetype
     menuIngredients = db.relationship(

@@ -47,7 +47,8 @@ CREATE TABLE menu (
 	item_id VARCHAR(36) PRIMARY KEY,
 	item_name VARCHAR(255) NOT NULL UNIQUE,
 	description VARCHAR(1000),
-	price FLOAT NOT NULL DEFAULT 0
+	price FLOAT NOT NULL DEFAULT 0,
+	active BOOLEAN NOT NULL DEFAULT true
 );
 
 CREATE TABLE orders (
@@ -67,7 +68,7 @@ CREATE TABLE orders (
 -- Replaces ingredients
 CREATE TABLE menu_inventory (
 	item_id VARCHAR(36) REFERENCES menu(item_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	ingredient_id VARCHAR(36) REFERENCES inventory(ingredient_id) ON UPDATE CASCADE,
+	ingredient_id VARCHAR(36) REFERENCES inventory(ingredient_id) ON UPDATE CASCADE ON DELETE CASCADE,
 
 	PRIMARY KEY(item_id, ingredient_id)
 );
@@ -75,7 +76,7 @@ CREATE TABLE menu_inventory (
 -- Replaces Items
 CREATE TABLE order_menu (
 	order_id VARCHAR(36) REFERENCES orders(id) ON UPDATE CASCADE ON DELETE CASCADE,
-	item_id VARCHAR(36) REFERENCES menu(item_id) ON UPDATE CASCADE,
+	item_id VARCHAR(36) REFERENCES menu(item_id) ON UPDATE CASCADE ON DELETE CASCADE,
 	quantity INTEGER NOT NULL DEFAULT 0,
 	total_price FLOAT NOT NULL DEFAULT 0,
 
