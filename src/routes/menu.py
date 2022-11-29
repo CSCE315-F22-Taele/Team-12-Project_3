@@ -22,16 +22,11 @@ class MenuResource(MethodResource):
     @marshal_with(ErrorSchema, code=400, description="Query Parameter Not Allowed")
     @doc(description="Retrieves all the items from the menu. Optionally, pass in descriptions parameter to include menu descriptions.")
     def get(self, *args):
-        includeDescripts = ('description' in request.args)
+        includeDescripts = ('descriptions' in request.args)
         if includeDescripts == False and len(request.args) > 0: # invalid query parameter passed
             return make_response(jsonify(error="Invalid Query Parameters!"), 400)
-        menuItems = Menu.query.order_by(Menu.itemName.asc()).all()
+        menuItems = Menu.query.filter_by(active=True).order_by(Menu.itemName.asc()).all()
         return {"items": [itm.to_dict(includeDescripts) for itm in menuItems]}
-
-    @parser.error_handler
-    def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
-        print(1, err.data)
-        abort(make_response(jsonify(error="Invalid Query Parameter! Did you mean '?description'?"), 400))
 
 @doc(tags=["Menu"])
 class ItemResource(MethodResource):
@@ -40,20 +35,19 @@ class ItemResource(MethodResource):
     @marshal_with(ErrorSchema, code=404, description="Item Not Found")
     @doc(description="Get a specific item from the menu")
     def get(self, itemName):
-        menuItem = Menu.query.filter_by(itemName=itemName).first()
+        menuItem = Menu.query.filter_by(itemName=itemName, active=True).first()
         if menuItem is None:
             return make_response(jsonify(error="Item Not Found In Database!"), 404)
         return menuItem # Will return defaults as well
 
     @marshal_with(SuccessSchema, code=202, description="Item Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Item Not Found")
-    @doc(description="Delete an existing item from the menu")
+    @doc(description="Delete an existing item from the menu by making it inactive")
     def delete(self, itemName):
-        item = Menu.query.filter_by(itemName=itemName).first()
-        print(item)
+        item = Menu.query.filter_by(itemName=itemName, active=True).first()
         if item is None:
             return make_response(jsonify(error="Item Not Found In Database!"), 404)
-        Menu.query.filter_by(itemName=itemName).delete()
+        item.active = False # Changing item active status instead of deleting it
         db.session.commit()
         return {"success": True}, 202
 
@@ -63,7 +57,7 @@ class ItemResource(MethodResource):
     @marshal_with(ErrorSchema, code=422, description="Parsing Malfunction")
     @doc(description="Batch updates specified ingredients given the amount and/or threshold. Amount is added while newThreshold is set.")
     def patch(self, itemName, newPrice):
-        menuItem = Menu.query.filter_by(itemName=itemName).first()
+        menuItem = Menu.query.filter_by(itemName=itemName, active=True).first()
         if menuItem is None:
             return make_response(jsonify(error="Item Not Found!"), 404)
         menuItem.price = newPrice
@@ -116,7 +110,10 @@ class ItemResource(MethodResource):
 
     @parser.error_handler
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
-        abort(make_response(jsonify(error=err.messages.get('json')), 422))
+        if type(schema) == DescriptionSchema:
+            abort(make_response(jsonify(error="Invalid Query Parameter! Did you mean '?descriptions'?"), 400))
+        else:
+            abort(make_response(jsonify(error=err.messages.get('json')), 422))
 
 menu_view = MenuResource.as_view("menuresource")
 item_view = ItemResource.as_view("itemresource")

@@ -2,10 +2,11 @@ from marshmallow import Schema, fields, validate, validates, validates_schema, V
 
 # To take check for restock-report parameter
 class DescriptionSchema(Schema):
-    descriptions = fields.Boolean(
-        attribute='description',
+    description = fields.Bool(
+        attribute='descriptions',
+        # data_key='descriptions',
         default=False,
-        description="If specified will return items in menu with descriptions included. Specify with query parameter ?descriptions"
+        description="If specified will return items in menu with descriptions included. Specify with query parameter ?description"
     )
 
 class ItemRequestSchema(Schema):
