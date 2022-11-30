@@ -4,6 +4,7 @@ from marshmallow import Schema, fields, validate
 class UserRequestSchema(Schema):
     userName = fields.Str(required=True, error_messages={"required": "missing data for userName"})
     password = fields.Str(required=True, error_messages={"required": "missing data for password"})
+    email = fields.Email(required=True)
     userType = fields.Int(
         missing=0, 
         validate=validate.Range(min=0, max=1, error="userType must be 0(server) or 1(manager)"), 
@@ -15,3 +16,4 @@ class UserResponseSchema(Schema):
     id = fields.Str()
     username = fields.Str(data_key="userName")
     user_type = fields.Int(data_key="userType")
+    email = fields.Email()

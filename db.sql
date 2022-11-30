@@ -12,7 +12,8 @@ VALUES
 CREATE TABLE users (
 	id VARCHAR(36) PRIMARY KEY,
 	username VARCHAR(50) UNIQUE,
-	user_type INTEGER NOT NULL REFERENCES user_types(id) DEFAULT 0
+	user_type INTEGER NOT NULL REFERENCES user_types(id) DEFAULT 0,
+	email VARCHAR(255) NOT NULL UNIQUE
 );
 
 INSERT INTO users (id, username, user_type)
