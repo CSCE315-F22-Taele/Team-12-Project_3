@@ -38,14 +38,15 @@ class UserResource(MethodResource):
     @marshal_with(ErrorSchema, code=422, description="Request Parsing Failure")
     @marshal_with(ErrorSchema, code=400, description="Duplicate Username")
     @doc(description="Create a new user in the database with associated credentials")
-    def post(self, userName, password, userType):
+    def post(self, userName, password, userType, email):
         userQuery = User.query.filter_by(username=userName).exists()
         userExists = db.session.query(userQuery).scalar() # returns t/f
         if userExists:
             return make_response(jsonify(error="Duplicate Username in Database!"), 400)
 
         user = User(username=userName, 
-                    user_type=userType,)
+                    user_type=userType,
+                    email=email)
         credentials = Credentials(id=user.id,
                                 password=password)
 
