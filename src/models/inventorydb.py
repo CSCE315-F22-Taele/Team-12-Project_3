@@ -22,4 +22,4 @@ class Inventory(db.Model):
         return self.to_dict()
 
     def __repr__(self):
-        return f"{self.ingredient_id} {self.ingredient_name} {self.quantity} {self.threshold}"
+        return f"{self.ingredientId} {self.ingredientName} {self.quantity} {self.threshold}"
