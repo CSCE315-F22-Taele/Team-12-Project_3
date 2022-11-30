@@ -1,10 +1,61 @@
-from flask import Blueprint, request
-from src.models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
+from flask import Blueprint, request, abort, make_response, jsonify
+from flask_restful import Api
+from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
+from marshmallow import fields
+from webargs.flaskparser import parser
 from sqlalchemy import and_, or_, func
 from datetime import datetime
 from uuid import uuid4
 
+from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
+from ..schemas import (
+    SalesRequestSchema, SalesResponseSchema,
+    SuccessSchema, ErrorSchema
+)
+
 bp = Blueprint('orders', __name__, url_prefix='/orders')
+api = Api(bp)
+
+@doc(tags=["Order"])
+class SalesReportResource(MethodResource):
+
+    @use_kwargs(SalesRequestSchema)
+    @marshal_with(SalesResponseSchema, code=200, description="Retrieves sales-report for all items in the menu.")
+    @doc(description="Get sales by item from order history given startDate & endDate. Dates must be in '%Y-%m-%d' format!")
+    def get(self, startDate, endDate):
+        # NOTE: outerjoin is used because if no conditions match it will insert anyway
+        #       but with some values nulled out. This allows you to get menu items that didn't
+        #       appear in the inventory.
+        salesReport = db.session.query(
+                        Menu.itemName, 
+                        func.sum(OrderMenu.quantity), 
+                        func.sum(OrderMenu.total_price)
+                    ).\
+                        outerjoin(OrderMenu, Menu.itemId == OrderMenu.item_id).\
+                        outerjoin(Order, 
+                            and_(
+                                    Order.id == OrderMenu.order_id,
+                                    Order.time_ordered >= startDate,
+                                    Order.time_ordered <= endDate
+                                )
+                            ).\
+                        group_by(Menu.itemId).\
+                        order_by(Menu.itemName).\
+                        all()
+                        
+        return {
+            "items": [
+                {
+                    "itemName": itemName,
+                    "sales": sales or 0,        # Because some items didn't appear in orders, they will be null
+                    "revenue": revenue or 0     # Thus, by doing this it's either a value or defaulted to 0
+                }
+                for itemName, sales, revenue in salesReport
+            ]
+        }
+
+sales_view = SalesReportResource.as_view("salesreportresource")
+bp.add_url_rule('/items/sales-report', view_func=sales_view, methods=['GET'])
 
 # Adding order, will need Order, Item, & Ingredient
 # TODO: Assign a random server
@@ -22,47 +73,6 @@ def getOrders():
     orders = orderQuery.order_by(Order.time_ordered.asc()).all()
     return {"orders": [order.to_dict() for order in orders]}
 
-@bp.get("/items/sales-report")
-def getSalesReport():
-    print(request.args)
-    startDate = request.args.get('startDate')
-    endDate = request.args.get('endDate')
-    assert (startDate and endDate), "startDate or endDate not provided"
-
-    startDateFormatted = datetime.strptime(startDate, '%Y-%m-%d')
-    endDateFormatted = datetime.strptime(endDate, '%Y-%m-%d')
-    assert (endDateFormatted >= startDateFormatted), "endDate lies before startDate"
-
-    # NOTE: outerjoin is used because if no conditions match it will insert anyway
-    #       but with some values nulled out. This allows you to get menu items that didn't
-    #       appear in the inventory.
-    salesReport = db.session.query(
-                    Menu.itemName, 
-                    func.sum(OrderMenu.quantity), 
-                    func.sum(OrderMenu.total_price)
-                ).\
-                    outerjoin(OrderMenu, Menu.itemId == OrderMenu.item_id).\
-                    outerjoin(Order, 
-                        and_(
-                                Order.id == OrderMenu.order_id,
-                                Order.time_ordered >= startDateFormatted,
-                                Order.time_ordered <= endDateFormatted
-                            )
-                        ).\
-                    group_by(Menu.itemId).\
-                    order_by(Menu.itemName).\
-                    all()
-
-    return {
-        "items": [
-            {
-                "itemName": itemName,
-                "sales": sales or 0,        # Because some items didn't appear in orders, they will be null
-                "revenue": revenue or 0     # Thus, by doing this it's either a value or defaulted to 0
-            }
-            for itemName, sales, revenue in salesReport
-        ]
-    }
 
 @bp.get("/items/excess-report")
 def getExcessReport():
