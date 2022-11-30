@@ -56,6 +56,7 @@ export const setRestockAPI = "/api/restock";
 export const setThresholdAPI = "/api/threshold";
 export const setRestockAllAPI = "/api/restock-all";
 export const getMenuAPI = "/api/menu";
+export const getMenuPlusDescriptionsAPI = "/api/menu?descriptions";
 export const getRestockReportAPI = "/api/restock-report";
 export const getSalesReportAPI = "/api/sales-report";
 export const addOrderAPI = "/api/add-order";

@@ -1,17 +1,24 @@
 import {
-	Button,
 	CssBaseline,
 	PaletteMode,
 	ThemeProvider,
 	useMediaQuery,
 	Switch,
-	FormControlLabel
+	FormControlLabel,
+	SpeedDial,
+	Box,
+	SpeedDialAction,
+	SpeedDialIcon
 } from "@mui/material";
+import ContrastIcon from '@mui/icons-material/Contrast';
+import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
+import Script from "next/script";
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { StyledTheme, StyledThemeDark } from "../styles/mystyles";
+import { StyledTheme, StyledThemeDark, StyledThemeHighContrast, StyledThemeDarkHighContrast, StyledDiv } from "../styles/mystyles";
 
 const getTheme = (mode: PaletteMode) =>
 	mode === "dark" ? StyledThemeDark : StyledTheme;
+	// mode === "dark" ? StyledThemeDarkHighContrast : StyledThemeHighContrast;
 
 export default function App(props: PropsWithChildren) {
 	// logic for dark/high contrast mode
@@ -23,6 +30,10 @@ export default function App(props: PropsWithChildren) {
 		}
 	}
 	const [mode, setMode] = useState<PaletteMode>(colorMode);
+	const actions = [
+		{ icon: <ContrastIcon />, name: 'High Contrast'},
+		{ icon: <SettingsBrightnessIcon />, name: 'Light Mode'},
+	]
 
 	useEffect(() => {
 		setMode(colorMode);
@@ -39,10 +50,33 @@ export default function App(props: PropsWithChildren) {
 		console.log(theme);
 	};
 
+	const toggleHighContrast = () => {
+		
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<FormControlLabel control={<Switch onClick={toggleContrast} />} label="Dark Mode"/>
+			{/* <FormControlLabel control={<Switch onClick={toggleContrast} />} label="Light Mode"/>
+			<FormControlLabel control={<Switch onClick={toggleContrast} />} label="High Contrast Mode"/> */}
+			<Box sx={{ height: 80, transform: 'translateZ(0px)', flexGrow: 1 }}>
+				<SpeedDial
+					direction="left"
+					ariaLabel="SpeedDial basic example"
+					sx={{ position: 'absolute', bottom: 16, right: 16 }}
+					icon={<SpeedDialIcon />}
+					
+					>
+					{actions.map((action) => (
+						<SpeedDialAction
+						key={action.name}
+						icon={action.icon}
+						tooltipTitle={action.name}
+						onClick={toggleContrast}
+					/>
+					))}
+				</SpeedDial>
+			</Box>
 			{props.children}
 		</ThemeProvider>
 	);

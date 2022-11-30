@@ -1,76 +1,9 @@
-// import * as React from 'react';
-// import { createTheme, Button, Container, ThemeProvider } from '@mui/material';
-
-// const theme = createTheme({
-//   // components: {
-//   //   MuiButton: {
-//   //     variants: [
-//   //       {
-//   //         props: { variant: 'contained'},
-//   //         style: {
-//   //           border: '5px solid red',
-//   //           color: 'red',
-//   //         }
-//   //       }
-//   //     ]
-//   //   },
-
-//   // },
-
-//   // palette: {
-//   //   neutral: {
-//   //     main: '#d79b4a',
-//   //   }
-//   // }
-// });
-
-// // declare module '@mui/material/styles' {
-// //   interface MuiButton {
-// //     interface: MuiButton[];
-// //   }
-// //   interface Palette {
-// //     neutral: Palette['primary'];
-// //   }
-// //   interface PaletteOptions {
-// //     neutral: PaletteOptions['primary'];
-// //   }
-// // }
-
-// // 2. Update the Button's color prop options
-// declare module "@mui/material/Button" {
-//   interface ButtonPropsVariantOverrides {
-//     dashed: true;
-//   }
-// }
-
-// export default function getNothing() {
-//   return (<></>);
-// }
-
-// export function customStyles() {
-//   // 3. Profit
-//   return (
-//     <ThemeProvider theme={theme}>
-//       <Button variant="dashed" color="error">
-//         dashed
-//       </Button>
-//     </ThemeProvider>
-//   );
-// }
-
-// // // 3. Update the Button's color prop options
-// // declare module '@mui/material/Button' {
-// //   interface ButtonPropsColorOverrides {
-// //     neutral: true;
-
-// //   }
-// // }
-
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import { create } from "@mui/material/styles/createTransitions";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { SxProps } from "@mui/system";
 
 // const StyledFormTheme = createTheme({
 //   components: {
@@ -180,6 +113,7 @@ export const StyledTheme = createTheme({
 						color: "white",
 						fontWeight: "bolder",
 					},
+
 				},
 			},
 		},
@@ -267,6 +201,13 @@ export const StyledThemeDark = createTheme({
 				},
 			},
 		},
+		MuiOutlinedInput: {
+			styleOverrides: {
+				multiline: {
+					width: "40vw",
+				}
+			}
+		},
 		MuiTextField: {
 			styleOverrides: {
 				root: {
@@ -287,170 +228,187 @@ export const StyledThemeDark = createTheme({
 	},
 });
 
-// export const StyledThemeHighContrast = createTheme({
-// 	pallete: {
-// 		contrastThreshold: 4.5,
-// 	},
-// 	components: {
-// 		MuiGrid: {
-// 			styleOverrides: {
-// 				root: {
-// 					color: "grey",
-// 					// border: "2px solid",
-// 					textDecoration: "italic",
-// 					minWidth: 20,
-// 					margin: "auto",
-// 				},
-// 			},
-// 		},
-// 		MuiContainer: {
-// 			styleOverrides: {
-// 				root: {
-// 					maxWidth: 5,
-// 					margin: "auto",
-// 				},
-// 			},
-// 		},
-// 		MuiButton: {
-// 			styleOverrides: {
-// 				root: {
-// 					color: "white",
-// 					alignContent: "center",
-// 					// border: '2px solid blue',
-// 					// backgroundColor: "blue",
-// 					backgroundColor: "rgb(167, 11, 40)",
-// 					borderRadius: 10,
-// 					marginRight: 10,
-// 					marginLeft: 10,
-// 					height: 55,
-// 					textAlignLast: "center",
-// 					size: "large",
-// 					"&:hover": {
-// 						color: "black",
-// 					},
-// 				},
-// 			},
-// 		},
-// 		MuiTypography: {
-// 			styleOverrides: {
-// 				root: {},
-// 				h1: {
-// 					fontSize: 30,
-// 					textAlignLast: "center",
-// 				},
-// 			},
-// 		},
-// 		MuiTableCell: {
-// 			styleOverrides: {
-// 				root: {
-// 					[`&.${tableCellClasses.head}`]: {
-// 						backgroundColor: "rgb(167, 11, 40)",
-// 						color: "white",
-// 						fontWeight: "bolder",
-// 					},
-// 				},
-// 			},
-// 		},
-// 		MuiTextField: {
-// 			styleOverrides: {
-// 				root: {
-// 					height: 50,
-// 					[`& fieldset`]: {
-// 						borderRadius: 10,
-// 					},
-// 				},
-// 			},
-// 		},
-// 		MuiSelect: {
-// 			styleOverrides: {
-// 				root: {
-// 					borderRadius: 10,
-// 				},
-// 			},
-// 		},
-// 	},
-// });
+export const StyledThemeHighContrast = createTheme({
+	pallete: {
+		contrastThreshold: 4.5,
+	},
+	components: {
+		MuiGrid: {
+			styleOverrides: {
+				root: {
+					color: "grey",
+					// border: "2px solid",
+					textDecoration: "italic",
+					minWidth: 20,
+					margin: "auto",
+				},
+			},
+		},
+		MuiContainer: {
+			styleOverrides: {
+				root: {
+					maxWidth: 5,
+					margin: "auto",
+				},
+			},
+		},
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					color: "white",
+					alignContent: "center",
+					// border: '2px solid blue',
+					// backgroundColor: "blue",
+					backgroundColor: "rgb(167, 11, 40)",
+					borderRadius: 10,
+					marginRight: 10,
+					marginLeft: 10,
+					height: 55,
+					textAlignLast: "center",
+					size: "large",
+					"&:hover": {
+						color: "black",
+					},
+				},
+			},
+		},
+		MuiTypography: {
+			styleOverrides: {
+				root: {},
+				h1: {
+					fontSize: 30,
+					textAlignLast: "center",
+				},
+			},
+		},
+		MuiTableCell: {
+			styleOverrides: {
+				root: {
+					[`&.${tableCellClasses.head}`]: {
+						backgroundColor: "rgb(167, 11, 40)",
+						color: "white",
+						fontWeight: "bolder",
+					},
+					border: "10px solid",
 
-// export const StyledThemeDarkHighContrast = createTheme({
-// 	palette: {
-// 		mode: "dark",
-// 	},
-// 	components: {
-// 		MuiGrid: {
-// 			styleOverrides: {
-// 				root: {
-// 					color: "grey",
-// 					// border: "2px solid",
-// 					textDecoration: "italic",
-// 					minWidth: 20,
-// 					margin: "auto",
-// 				},
-// 			},
-// 		},
-// 		MuiContainer: {
-// 			styleOverrides: {
-// 				root: {
-// 					maxWidth: 5,
-// 					margin: "auto",
-// 				},
-// 			},
-// 		},
-// 		MuiButton: {
-// 			styleOverrides: {
-// 				root: {
-// 					color: "white",
-// 					alignContent: "center",
-// 					// border: '2px solid blue',
-// 					// backgroundColor: "blue",
-// 					backgroundColor: "rgb(167, 11, 40)",
-// 					borderRadius: 10,
-// 					marginRight: 10,
-// 					marginLeft: 10,
-// 					height: 55,
-// 					textAlignLast: "center",
-// 					size: "large",
-// 					"&:hover": {
-// 						color: "white",
-// 					},
-// 				},
-// 			},
-// 		},
-// 		MuiTypography: {
-// 			styleOverrides: {
-// 				root: {},
-// 				h1: {
-// 					fontSize: 30,
-// 					textAlignLast: "center",
-// 				},
-// 			},
-// 		},
-// 		MuiTableCell: {
-// 			styleOverrides: {
-// 				root: {
-// 					[`&.${tableCellClasses.head}`]: {
-// 						backgroundColor: "rgb(167, 11, 40)",
-// 						color: "white",
-// 						fontWeight: "bolder",
-// 					},
-// 				},
-// 			},
-// 		},
-// 		MuiTextField: {
-// 			styleOverrides: {
-// 				root: {
-// 					height: 50,
-// 					[`& fieldset`]: {
-// 						borderRadius: 10,
-// 					},
-// 				},
-// 			},
-// 		},
-// 		MuiSelect: {
-// 			styleOverrides: {
-// 				root: {
-// 					borderRadius: 10,
-// 				},
-// 			},
-// 		},
-// 	},
-// });
+				},
+				
+			},
+		},
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					height: 50,
+					[`& fieldset`]: {
+						borderRadius: 10,
+					},
+				},
+			},
+		},
+		MuiSelect: {
+			styleOverrides: {
+				root: {
+					borderRadius: 10,
+				},
+			},
+		},
+	},
+});
+
+export const StyledThemeDarkHighContrast = createTheme({
+	palette: {
+		mode: "dark",
+		error: {
+			main: "#EA8181",
+		},
+	},
+	
+	components: {
+		MuiGrid: {
+			styleOverrides: {
+				root: {
+					color: "grey",
+					border: "2px solid white",
+					textDecoration: "italic",
+					minWidth: 20,
+					margin: "auto",
+				},
+			},
+		},
+		MuiContainer: {
+			styleOverrides: {
+				root: {
+					maxWidth: 5,
+					margin: "auto",
+				},
+			},
+		},
+		MuiButton: {
+			styleOverrides: {
+				root: {
+					color: "white",
+					alignContent: "center",
+					border: '2px solid white',
+					// backgroundColor: "blue",
+					backgroundColor: "rgb(167, 11, 40)",
+					borderRadius: 10,
+					marginRight: 10,
+					marginLeft: 10,
+					height: 55,
+					textAlignLast: "center",
+					size: "large",
+					"&:hover": {
+						color: "white",
+					},
+				},
+			},
+		},
+		MuiTypography: {
+			styleOverrides: {
+				root: {},
+				h1: {
+					fontSize: 30,
+					textAlignLast: "center",
+				},
+			},
+		},
+		MuiTableCell: {
+			styleOverrides: {
+				root: {
+					[`&.${tableCellClasses.head}`]: {
+						backgroundColor: "rgb(167, 11, 40)",
+						color: "white",
+						fontWeight: "bolder",
+					},
+					border: "2px solid white",
+				},
+			},
+		},
+		
+		MuiTextField: {
+			styleOverrides: {
+				root: {
+					height: 50,
+					[`& fieldset`]: {
+						borderRadius: 10,
+						border: "2px solid white",
+					},
+				},
+			},
+		},
+		
+		MuiSelect: {
+			styleOverrides: {
+				root: {
+					[`& fieldset`]: {
+						borderRadius: 10,
+						border: "2px solid white",
+					},
+					
+				},
+			},
+		},
+		
+		
+	},
+});

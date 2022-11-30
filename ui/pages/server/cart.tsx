@@ -34,10 +34,6 @@ interface OrderItem {
 	price?: number;
 }
 
-interface expandString {
-	displayString: string;
-	show: boolean;
-}
 
 export default function Cart({ serverId, menu }: thisProp) {
 	const router = useRouter();
@@ -53,9 +49,6 @@ export default function Cart({ serverId, menu }: thisProp) {
 	const customerNameElem = customerNameRef.current;
 	const [itemPrice, setItemPrice] = useState(0);
 	const [orderList, setOrderList] = useState<OrderItem[]>([]);
-	const [expandedStringList, setExpandedString] = useState<expandString[]>(
-		[]
-	);
 	const [selectedDeleteList, setSelectedDeleteList] = useState<Number[]>([]);
 	const [itemQuantityFirstPass, setItemQuantityFirstPass] = useState(true);
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
@@ -83,6 +76,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 			Number(quantityElem.value) <= 0 ||
 			selectedItem === ""
 		) {
+			setItemQuantityFirstPass(false);
 			return;
 		}
 
@@ -102,18 +96,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 			},
 		]);
 		setRowNum(numRow);
-
-		setExpandedString([
-			...expandedStringList,
-			{
-				displayString:
-					"Price: " +
-					Number(quantityElem.value) * itemPrice +
-					" Quantity: " +
-					quantityElem.value,
-				show: false,
-			},
-		]);
+		setItemQuantityFirstPass(true);
 	};
 
 	const deleteAllInCart = () => {
