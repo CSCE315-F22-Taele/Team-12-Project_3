@@ -4,7 +4,6 @@ from marshmallow import Schema, fields, validate, validates, validates_schema, V
 class DescriptionSchema(Schema):
     description = fields.Bool(
         attribute='descriptions',
-        # data_key='descriptions',
         default=False,
         description="If specified will return items in menu with descriptions included. Specify with query parameter ?description"
     )

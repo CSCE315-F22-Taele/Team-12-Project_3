@@ -10,6 +10,8 @@ from ..schemas import (
     ItemResponseSchema, MenuResponseSchema, PostResponseSchema,
     SuccessSchema, ErrorSchema
 )
+from sqlalchemy.exc import IntegrityError
+from psycopg2.errors import UniqueViolation
 
 bp = Blueprint('menu', __name__, url_prefix='/menu')
 api = Api(bp)
@@ -30,7 +32,6 @@ class MenuResource(MethodResource):
 
 @doc(tags=["Menu"])
 class ItemResource(MethodResource):
-
     @marshal_with(ItemResponseSchema, code=200, description="Item Successfully Retrieved")
     @marshal_with(ErrorSchema, code=404, description="Item Not Found")
     @doc(description="Get a specific item from the menu")
@@ -76,16 +77,28 @@ class ItemResource(MethodResource):
         price: float
         linkedInventory: list(str)
         '''
-        inventory = Inventory.query.all() # NOTE: EXTREMELY INEFFICIENT, CHANGE LATER
+        inventory = Inventory.query.all()
         inventoryMapping = {inv.ingredientName: inv for inv in inventory}
 
         newIngredients = []
-        menuItem = Menu(
-            itemId=str(uuid4()),
-            itemName=itemName, 
-            description=description, 
-            price=price
-        )
+        menuItemExists = Menu.query.filter_by(itemName=itemName).first()
+        if menuItemExists is not None:
+            if menuItemExists.active:
+                return make_response(jsonify(error="Duplicate Item!"), 404)
+            else: # Updating the item should it be inactive
+                menuItem = menuItemExists
+                menuItem.active = True
+                menuItem.description = description
+                menuItem.price = price
+                menuItem.menuIngredients = []
+        else:
+            menuItem = Menu(
+                itemId=str(uuid4()),
+                itemName=itemName, 
+                description=description, 
+                price=price
+            )
+
         for ingredientName in linkedInventory:
             if ingredientName not in inventoryMapping:
                 ingredient = Inventory(
