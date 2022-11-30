@@ -41,17 +41,15 @@ class ExcessResponseSchemaChild(Schema):
 class ExcessResponseSchema(Schema):
     items = fields.Nested(ExcessResponseSchemaChild(many=True))
 
-# To take check for restock-report parameter
-class ReportSchema(Schema):
-    restock_report = fields.Boolean(
-        attribute="restock-report", 
+class OrderGetRequestSchema(Schema):
+    not_served = fields.Boolean(
+        attribute='not-served',
         default=False,
-        description="If specified will return inventory ingredients where quantity < threshold. Specify with query parameter ?restock-report"
+        description="Pass in not-served to get orders that haven't been served yet. Pass as ?not-served"
     )
-
-# To marshal output of patch and put, marshal NEEDS a schema
-class CountResponseSchema(Schema):
-    countUpdated = fields.Int()
+    serverId = fields.Str(
+        description="Pass in serverId to get orders assigned to some server. Pass as ?serverId=..."
+    )
 
 class IngredientRequestSchema(Schema):
     ingredientName = fields.Str(required=True) # deserialize this key -> ingredient_name
