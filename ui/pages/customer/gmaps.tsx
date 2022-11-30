@@ -74,13 +74,13 @@ export interface GBounds {
 interface thisProps<T extends Place> {
 	libraries: Libraries;
 	placesData: T[];
-	toggleDarkTheme: () => void;
+	toggleDarkMode: () => void;
 }
 
 export default function GMaps<T extends Place>({
 	libraries,
 	placesData,
-	toggleDarkTheme,
+	toggleDarkMode,
 }: thisProps<T>) {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "", // NEXT_PUBLIC_
@@ -154,7 +154,7 @@ export default function GMaps<T extends Place>({
 			<Header
 				onLoad={onLoad}
 				onPlaceChanged={onPlaceChanged}
-				toggleDarkTheme={toggleDarkTheme}
+				toggleDarkMode={toggleDarkMode}
 			/>
 			<Grid container style={{ width: "100%" }}>
 				<Grid item xs={12} md={4}>

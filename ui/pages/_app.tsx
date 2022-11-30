@@ -17,7 +17,7 @@ export default function App({
 }: AppProps) {
 	// block until loaded
 	const [loading, setLoading] = useState(true);
-	const { theme, toggleDarkTheme } = useDarkMode();
+	const { theme, toggleDarkMode, toggleContrast} = useDarkMode();
 
 	useEffect(() => setLoading(false), []);
 
@@ -29,7 +29,8 @@ export default function App({
 						<CssBaseline />
 						<Component
 							{...pageProps}
-							toggleDarkTheme={toggleDarkTheme}
+							toggleDarkMode={toggleDarkMode}
+							toggleContrast={toggleContrast}
 						/>
 					</ThemeProvider>
 					<ProgressBar />

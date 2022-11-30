@@ -52,7 +52,6 @@ export const StyledTheme = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          
           borderRadius: 10,
         }
       }

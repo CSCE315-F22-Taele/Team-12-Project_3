@@ -15,6 +15,7 @@ import { StyledDiv } from "../../styles/mystyles";
 import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useSWR from "swr";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
 
 interface menuItem {
 	itemId: string;
@@ -25,6 +26,8 @@ interface menuItem {
 interface thisProp {
 	serverId: string;
 	menu: any;
+	toggleContrast: () => void;
+	toggleDarkMode: () => void;
 }
 
 interface OrderItem {

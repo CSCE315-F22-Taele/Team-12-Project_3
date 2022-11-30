@@ -30,10 +30,7 @@ export default function App(props: PropsWithChildren) {
 		}
 	}
 	const [mode, setMode] = useState<PaletteMode>(colorMode);
-	const actions = [
-		{ icon: <ContrastIcon />, name: 'High Contrast'},
-		{ icon: <SettingsBrightnessIcon />, name: 'Light Mode'},
-	]
+	
 
 	useEffect(() => {
 		setMode(colorMode);
@@ -59,24 +56,7 @@ export default function App(props: PropsWithChildren) {
 			<CssBaseline />
 			{/* <FormControlLabel control={<Switch onClick={toggleContrast} />} label="Light Mode"/>
 			<FormControlLabel control={<Switch onClick={toggleContrast} />} label="High Contrast Mode"/> */}
-			<Box sx={{ height: 80, transform: 'translateZ(0px)', flexGrow: 1 }}>
-				<SpeedDial
-					direction="left"
-					ariaLabel="SpeedDial basic example"
-					sx={{ position: 'absolute', bottom: 16, right: 16 }}
-					icon={<SpeedDialIcon />}
-					
-					>
-					{actions.map((action) => (
-						<SpeedDialAction
-						key={action.name}
-						icon={action.icon}
-						tooltipTitle={action.name}
-						onClick={toggleContrast}
-					/>
-					))}
-				</SpeedDial>
-			</Box>
+			
 			{props.children}
 		</ThemeProvider>
 	);

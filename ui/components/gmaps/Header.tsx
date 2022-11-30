@@ -54,13 +54,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 interface Props {
 	onLoad: (autoC: google.maps.places.Autocomplete) => void;
 	onPlaceChanged: () => void;
-	toggleDarkTheme: () => void;
+	toggleDarkMode: () => void;
 }
 
 export default function Header({
 	onLoad,
 	onPlaceChanged,
-	toggleDarkTheme,
+	toggleDarkMode,
 }: Props) {
 	return (
 		<Box sx={{ flexGrow: 1, top: 0, zIndex: 1 }} position="sticky">
@@ -76,7 +76,7 @@ export default function Header({
 						}}>
 						Fun Finder
 					</Typography>
-					<ToggleDarkMode toggleDarkTheme={toggleDarkTheme} />
+					<ToggleDarkMode toggleDarkMode={toggleDarkMode} />
 					<Autocomplete
 						onLoad={onLoad}
 						onPlaceChanged={onPlaceChanged}>
