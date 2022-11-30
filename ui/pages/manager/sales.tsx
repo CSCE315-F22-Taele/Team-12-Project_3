@@ -152,10 +152,11 @@ export default function Sales({ serverId }: { serverId: string }) {
 									{sales?.map((eachItem: Sale) => (
 										<TableRow
 											key={eachItem.itemName}
-											sx={{
-												"&:last-child td, &:last-child th":
-													{ border: 0 },
-											}}>
+											// sx={{
+											// 	"&:last-child td, &:last-child th":
+											// 		{ border: 0 },
+											// }}
+											>
 											<TableCell
 												component="th"
 												scope="row">

@@ -31,9 +31,10 @@ import Orders, { ServerOrder } from "../../components/Orders";
 interface thisProp {
 	orders: ServerOrder[];
 	serverId: string;
+	toggleDarkTheme: () => void;
 }
 
-export default function Server({ orders, serverId }: thisProp) {
+export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) {
 	const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 	const { mutate } = useSWRConfig();
 

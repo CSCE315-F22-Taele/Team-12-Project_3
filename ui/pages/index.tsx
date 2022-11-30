@@ -5,7 +5,7 @@ import Reveille from "../public/ReveillePic.jpg";
 import { StyledDiv } from "../styles/mystyles";
 
 const justMainPageStyleDiv = {
-	marginTop: "20%",
+	marginTop: "3.5%",
 };
 const justMainPageStyleButtons = {
 	size: "large",
@@ -16,13 +16,15 @@ export default function Home() {
 	// const theme = useTheme()
 
 	return (
+		<>
 		<StyledDiv sx={justMainPageStyleDiv}>
 			<Image
 				style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1}}
 				src={Reveille}
 				alt="Reveille"
 			/>
-
+		</StyledDiv>
+		<StyledDiv>
 			<Button
 				onClick={() => routerPush("server", setUserType)}
 				sx={justMainPageStyleButtons}>
@@ -34,5 +36,6 @@ export default function Home() {
 				Manager
 			</Button>
 		</StyledDiv>
+		</>
 	);
 }

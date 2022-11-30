@@ -5,3 +5,4 @@ pip install -r requirements.txt
 flask run (while in the main directory)
 
 base_url = http://127.0.0.1:5000/api/
+documentation url = http://127.0.0.1:5000/swagger-ui

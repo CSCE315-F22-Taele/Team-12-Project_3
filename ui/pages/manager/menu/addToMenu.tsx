@@ -6,6 +6,7 @@ import {
 	TextField,
 	Typography,
 } from "@mui/material";
+import { TextareaAutosize } from "@mui/base";
 import Select from "@mui/material/Select";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { GetServerSidePropsContext } from "next";
@@ -62,6 +63,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 	);
 	const [priceFirstPass, setPriceFirstPass] = useState(true);
 	const [rowNum, setRowNum] = useState(0);
+	const [newDescription, setDescription] = useState<string>("");
 
 	const tableColumns: GridColDef[] = [
 		{
@@ -119,7 +121,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 		const data = JSON.stringify({
 			itemName: newMenuItemNameElem.value,
-			description: "Temp",
+			description: newDescription,
 			price: Number(newPriceElem.value),
 			linkedInventory: itemIngredients.map(
 				(ingredient) => ingredient.ingredientName
@@ -260,9 +262,23 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 				/>
 			</StyledDiv>
 
+			<StyledDiv>
+				<TextField
+					type="text"
+					label="Enter description"
+					multiline
+					minRows={3}
+					maxRows={3}
+					onChange={(e) => {
+						setDescription((String)(e.target.value));
+					}}
+					sx={{marginBottom: "50px"}}
+					className="item_entry"></TextField>
+			</StyledDiv>
 			<StyledDiv className="SubmitNewMenuItemInfo">
 				<Button onClick={submitOrder}>Submit New Menu Item</Button>
 			</StyledDiv>
+			
 		</>
 	);
 }

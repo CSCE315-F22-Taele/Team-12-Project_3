@@ -167,10 +167,11 @@ export default function Menu({ menuData }: thisProp) {
 								{menuItems.map((eachItem: menuItem) => (
 									<TableRow
 										key={eachItem.itemName}
-										sx={{
-											"&:last-child td, &:last-child th":
-												{ border: 0 },
-										}}>
+										// sx={{
+										// 	"&:last-child td, &:last-child th":
+										// 		{ border: 0 },
+										// }}
+										>
 										<TableCell component="th" scope="row">
 											{eachItem.itemName}
 										</TableCell>

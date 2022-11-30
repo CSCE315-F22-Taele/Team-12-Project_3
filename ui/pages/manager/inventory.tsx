@@ -206,11 +206,12 @@ export default function Inventory({ ingredients }: thisProp) {
 							{ingredientList.map((eachItem) => (
 								<TableRow
 									key={eachItem.ingredientName}
-									sx={{
-										"&:last-child td, &:last-child th": {
-											border: 0,
-										},
-									}}>
+									// sx={{
+									// 	"&:last-child td, &:last-child th": {
+									// 		border: 0,
+									// 	},
+									// }}
+									>
 									<TableCell component="th" scope="row">
 										{eachItem.ingredientName}
 									</TableCell>
