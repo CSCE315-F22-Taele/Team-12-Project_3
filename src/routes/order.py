@@ -11,6 +11,7 @@ from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
 from ..schemas import (
     SalesRequestSchema, SalesResponseSchema,
     ExcessRequestSchema, ExcessResponseSchema,
+    OrderGetRequestSchema, #OrderResponseSchema,
     SuccessSchema, ErrorSchema
 )
 
@@ -20,7 +21,7 @@ api = Api(bp)
 @doc(tags=["Order"])
 class SalesReportResource(MethodResource):
 
-    @use_kwargs(SalesRequestSchema)
+    @use_kwargs(SalesRequestSchema, location='query')
     @marshal_with(SalesResponseSchema, code=200, description="Retrieves sales-report for all items in the menu.")
     @doc(description="Get sales by item from order history given startDate & endDate. Dates must be in '%Y-%m-%d' format!")
     def get(self, startDate, endDate):
@@ -57,8 +58,8 @@ class SalesReportResource(MethodResource):
 
 @doc(tags=["Order"])
 class ExcessReportResource(MethodResource):
-    @use_kwargs(ExcessRequestSchema)
-    @marshal_with(ExcessResponseSchema, code=200, description="Retrieves excess-report according to orders.")
+    @use_kwargs(ExcessRequestSchema, location='query')
+    # @marshal_with(ExcessResponseSchema, code=200, description="Retrieves excess-report according to orders.")
     @doc(description="Get items where respective item's sales < .1*inventory using order history given startDate. Date must be in '%Y-%m-%d' format!")
     def get(self, startDate):
         omAfterTime = db.session.query(
@@ -100,27 +101,36 @@ class ExcessReportResource(MethodResource):
             ]
         }
 
+@doc(tags=["Order"])
+class OrderResource(MethodResource):
+
+    @use_kwargs(OrderGetRequestSchema, location='query')
+    # @marshal_with(OrderResponseSchema, code=200, description="")
+    @marshal_with(ErrorSchema, code=404, description="")
+    @doc(description="Get all the orders. Can optionally pass in ?not-served or ?serverId")
+    def get(self, *args):
+        notServed = ("not-served" in request.args)
+        serverId = request.args.get("serverId")
+        orderQuery = Order.query
+
+        if notServed:
+            orderQuery = orderQuery.filter_by(is_served=False)
+        if serverId:
+            orderQuery = orderQuery.filter_by(server_id=serverId)
+        # TODO: If extra params in arguments THROW ERROR
+
+        orders = orderQuery.order_by(Order.time_ordered.asc()).all()
+        return {"orders": [order.to_dict() for order in orders]}
+
 sales_view = SalesReportResource.as_view("salesreportresource")
 excess_view = ExcessReportResource.as_view("excessreportresource")
+order_view = OrderResource.as_view("orderresource")
 bp.add_url_rule('/items/sales-report', view_func=sales_view, methods=['GET'])
 bp.add_url_rule('/items/excess-report', view_func=excess_view, methods=['GET'])
+bp.add_url_rule('/', view_func=order_view, methods=['GET'])
 
 # Adding order, will need Order, Item, & Ingredient
 # TODO: Assign a random server
-@bp.get('/')
-def getOrders():
-    notServed = ("not-served" in request.args)
-    serverId = request.args.get("serverId")
-    orderQuery = Order.query
-
-    if notServed:
-        orderQuery = orderQuery.filter_by(is_served=False)
-    if serverId:
-        orderQuery = orderQuery.filter_by(server_id=serverId)
-
-    orders = orderQuery.order_by(Order.time_ordered.asc()).all()
-    return {"orders": [order.to_dict() for order in orders]}
-
 @bp.post("/order")
 def createOrder():
     menu = Menu.query.all() # Very inefficient
@@ -198,6 +208,7 @@ def serveOrder():
     ingredientsUsed = [] # list of dicts
     for inventoryObj, amtUsed in orderIngredients:
         inventoryObj.quantity -= amtUsed
+        # TODO: assert quantity >= 0
         ingredientsUsed.append(
                 {
                     "ingredientName": inventoryObj.ingredientName,
