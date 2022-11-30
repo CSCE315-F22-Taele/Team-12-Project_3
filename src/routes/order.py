@@ -10,6 +10,7 @@ from uuid import uuid4
 from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
 from ..schemas import (
     SalesRequestSchema, SalesResponseSchema,
+    ExcessRequestSchema, ExcessResponseSchema,
     SuccessSchema, ErrorSchema
 )
 
@@ -54,8 +55,55 @@ class SalesReportResource(MethodResource):
             ]
         }
 
+@doc(tags=["Order"])
+class ExcessReportResource(MethodResource):
+    @use_kwargs(ExcessRequestSchema)
+    @marshal_with(ExcessResponseSchema, code=200, description="Retrieves excess-report according to orders.")
+    @doc(description="Get items where respective item's sales < .1*inventory using order history given startDate. Date must be in '%Y-%m-%d' format!")
+    def get(self, startDate):
+        omAfterTime = db.session.query(
+                        OrderMenu.quantity,
+                        OrderMenu.item_id
+                    ).\
+                        select_from(Order).\
+                        outerjoin(OrderMenu,
+                            and_ (
+                                    Order.time_ordered >= startDate,
+                                    OrderMenu.order_id == Order.id
+                            )
+                        ).\
+                        subquery()
+        excessReport = db.session.query(
+                        func.distinct(Menu.itemId),
+                        Menu.itemName, 
+                        func.sum(omAfterTime.c.quantity)
+                    ).\
+                        outerjoin(omAfterTime, Menu.itemId == omAfterTime.c.item_id).\
+                        outerjoin(MenuInventory, Menu.itemId == MenuInventory.c.item_id).\
+                        outerjoin(Inventory, MenuInventory.c.ingredient_id == Inventory.ingredientId).\
+                        group_by(Inventory.ingredientId, Menu.itemId).\
+                        having(
+                            or_ (
+                                func.sum(omAfterTime.c.quantity) < Inventory.quantity * 0.1,
+                                func.sum(omAfterTime.c.quantity).is_(None)
+                            )
+                        ).\
+                        order_by(Menu.itemName).\
+                        all()
+        return {
+            "items": [
+                {
+                    "itemId": itemId,
+                    "itemName": itemName,
+                    "sales": sales or 0
+                } for itemId, itemName, sales in excessReport
+            ]
+        }
+
 sales_view = SalesReportResource.as_view("salesreportresource")
+excess_view = ExcessReportResource.as_view("excessreportresource")
 bp.add_url_rule('/items/sales-report', view_func=sales_view, methods=['GET'])
+bp.add_url_rule('/items/excess-report', view_func=excess_view, methods=['GET'])
 
 # Adding order, will need Order, Item, & Ingredient
 # TODO: Assign a random server
@@ -72,55 +120,6 @@ def getOrders():
 
     orders = orderQuery.order_by(Order.time_ordered.asc()).all()
     return {"orders": [order.to_dict() for order in orders]}
-
-
-@bp.get("/items/excess-report")
-def getExcessReport():
-    startDateStr = request.args.get("startDate")    # get provided time as string
-    endDate = datetime.now()                        # get current time (upper bound on interval)
-    assert(startDateStr), "startDate not provided"
-
-    startDate = datetime.strptime(startDateStr, "%Y-%m-%d")
-    assert(endDate >= startDate), "startDate later than current time"
-
-    omAfterTime = db.session.query(
-                    OrderMenu.quantity,
-                    OrderMenu.item_id
-                ).\
-                    select_from(Order).\
-                    outerjoin(OrderMenu,
-                        and_ (
-                                Order.time_ordered >= startDate,
-                                OrderMenu.order_id == Order.id
-                        )
-                    ).\
-                    subquery()
-    excessReport = db.session.query(
-                    func.distinct(Menu.itemId),
-                    Menu.itemName, 
-                    func.sum(omAfterTime.c.quantity)
-                ).\
-                    outerjoin(omAfterTime, Menu.itemId == omAfterTime.c.item_id).\
-                    outerjoin(MenuInventory, Menu.itemId == MenuInventory.c.item_id).\
-                    outerjoin(Inventory, MenuInventory.c.ingredient_id == Inventory.ingredientId).\
-                    group_by(Inventory.ingredientId, Menu.itemId).\
-                    having(
-                        or_ (
-                            func.sum(omAfterTime.c.quantity) < Inventory.quantity * 0.1,
-                            func.sum(omAfterTime.c.quantity).is_(None)
-                        )
-                    ).\
-                    order_by(Menu.itemName).\
-                    all()
-    return {
-        "items": [
-            {
-                "itemId": itemId,
-                "itemName": itemName,
-                "sales": sales or 0
-            } for itemId, itemName, sales in excessReport
-        ]
-    }
 
 @bp.post("/order")
 def createOrder():

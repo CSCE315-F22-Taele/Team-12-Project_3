@@ -1,6 +1,6 @@
-from marshmallow import Schema, fields, validate, validates_schema, ValidationError
+from marshmallow import Schema, fields, validate, validates, validates_schema, ValidationError
+from datetime import date
 
-# To take check for restock body
 class SalesRequestSchema(Schema):
     startDate = fields.Date(required=True, format='%Y-%m-%d')
     endDate = fields.Date(required=True, format='%Y-%m-%d')
@@ -21,6 +21,25 @@ class SalesResponseSchemaChild(Schema):
 
 class SalesResponseSchema(Schema):
     items = fields.Nested(SalesResponseSchemaChild(many=True))
+
+class ExcessRequestSchema(Schema):
+    startDate = fields.Date(required=True, format='%Y-%m-%d')
+
+    @validates('startDate')
+    def validate_start_date(self, date, **kwargs):
+        # Check to see if the end date is farther than start date
+        if date > date.today():
+            raise ValidationError(
+                "Must provide startDate earlier than today!",
+            )
+
+class ExcessResponseSchemaChild(Schema):
+    itemId = fields.Str()
+    itemName = fields.Str()
+    sales = fields.Int()
+
+class ExcessResponseSchema(Schema):
+    items = fields.Nested(ExcessResponseSchemaChild(many=True))
 
 # To take check for restock-report parameter
 class ReportSchema(Schema):
