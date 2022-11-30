@@ -171,6 +171,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 				<FormControl sx={{ minWidth: 150 }}>
 					<InputLabel>Item</InputLabel>
 					<Select
+						sx={{borderRadius: 3}}
 						onChange={(event: SelectChangeEvent) => {
 							setItemStates(event);
 						}}

@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, InputBase } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -196,6 +196,7 @@ export default function Menu({ menuData }: thisProp) {
 								onChange={(event: SelectChangeEvent) => {
 									setItemName(event.target.value as string);
 								}}
+								sx={{borderRadius: 3}}
 								className="menuData"
 								label={"Item"}>
 								{menuItems.map(

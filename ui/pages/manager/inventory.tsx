@@ -143,6 +143,7 @@ export default function Inventory({ ingredients }: thisProp) {
 						onChange={(event: SelectChangeEvent) => {
 							setSelectedIngredient(event.target.value as string);
 						}}
+						sx={{borderRadius: 3}}
 						className="ingredients"
 						label={"Item"}>
 						{ingredientList.map((ingredient, index) => {

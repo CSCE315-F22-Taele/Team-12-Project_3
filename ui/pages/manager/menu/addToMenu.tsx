@@ -194,6 +194,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 				<FormControl sx={{ minWidth: 150 }}>
 					<InputLabel>Ingredient</InputLabel>
 					<Select
+						sx={{borderRadius: 3}}
 						onChange={(e) =>
 							setNewIngredients(() => {
 								newIngredients[0] = e.target.value as string;
