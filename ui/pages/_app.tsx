@@ -1,11 +1,10 @@
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider as RemoveFlicker } from "next-themes";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { SWRConfig } from "swr";
-import SetTheme from "../components/SetTheme";
-import { flaskAPI } from "../components/utils";
+import useDarkMode from "../hooks/useDarkMode";
 import "../styles/globals.css";
 
 const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
@@ -18,15 +17,21 @@ export default function App({
 }: AppProps) {
 	// block until loaded
 	const [loading, setLoading] = useState(true);
+	const { theme, toggleDarkTheme } = useDarkMode();
+
 	useEffect(() => setLoading(false), []);
 
 	return (
 		<RemoveFlicker>
 			{!loading ? (
 				<SessionProvider session={session}>
-					<SetTheme>
-							<Component {...pageProps} />
-					</SetTheme>
+					<ThemeProvider theme={theme}>
+						<CssBaseline />
+						<Component
+							{...pageProps}
+							toggleDarkTheme={toggleDarkTheme}
+						/>
+					</ThemeProvider>
 					<ProgressBar />
 				</SessionProvider>
 			) : (

@@ -48,7 +48,6 @@ export const StyledDiv = styled("div")(({ theme, ...otherProps }) => ({
 }));
 
 export const StyledTheme = createTheme({
-	
 	components: {
 		MuiGrid: {
 			styleOverrides: {
@@ -101,9 +100,9 @@ export const StyledTheme = createTheme({
 		MuiTable: {
 			styleOverrides: {
 				root: {
-					stickyHeader: true
-				}
-			}
+					stickyHeader: true,
+				},
+			},
 		},
 		MuiTableCell: {
 			styleOverrides: {
