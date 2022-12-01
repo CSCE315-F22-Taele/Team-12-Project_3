@@ -28,23 +28,28 @@ class SalesReportResource(MethodResource):
         # NOTE: outerjoin is used because if no conditions match it will insert anyway
         #       but with some values nulled out. This allows you to get menu items that didn't
         #       appear in the inventory.
+        omBetween = db.session.query(
+                        OrderMenu
+                    ).\
+                        select_from(Order).\
+                        outerjoin(OrderMenu, OrderMenu.order_id == Order.id).\
+                        filter(
+                            and_(
+                                Order.time_ordered >= startDate,
+                                Order.time_ordered <= endDate
+                            )
+                        ).\
+                        subquery()
         salesReport = db.session.query(
                         Menu.itemName, 
-                        func.sum(OrderMenu.quantity), 
-                        func.sum(OrderMenu.total_price)
+                        func.sum(omBetween.c.quantity), 
+                        func.sum(omBetween.c.total_price)
                     ).\
-                        outerjoin(OrderMenu, Menu.itemId == OrderMenu.item_id).\
-                        outerjoin(Order, 
-                            and_(
-                                    Order.id == OrderMenu.order_id,
-                                    Order.time_ordered >= startDate,
-                                    Order.time_ordered <= endDate
-                                )
-                            ).\
+                        outerjoin(omBetween, Menu.itemId == omBetween.c.item_id).\
                         group_by(Menu.itemId).\
                         order_by(Menu.itemName).\
                         all()
-                        
+
         return {
             "items": [
                 {
@@ -55,6 +60,10 @@ class SalesReportResource(MethodResource):
                 for itemName, sales, revenue in salesReport
             ]
         }
+
+@parser.error_handler
+def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
+    abort(make_response(jsonify(error=(err.messages.get('json') or err.messages.get('query'))), 422))
 
 @doc(tags=["Order"])
 class ExcessReportResource(MethodResource):

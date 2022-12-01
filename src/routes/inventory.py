@@ -74,7 +74,7 @@ class InventoryResource(MethodResource):
 
     @parser.error_handler
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
-        abort(make_response(jsonify(error=err.messages.get('json')), 422))
+        abort(make_response(jsonify(error=err.messages.get('json') or err.messages.get('query')), 422))
 
 # A second resource because of how rest handles stuff(annoying af)
 @doc(tags=["Inventory"])

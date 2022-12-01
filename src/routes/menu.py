@@ -123,10 +123,7 @@ class ItemResource(MethodResource):
 
     @parser.error_handler
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
-        if type(schema) == DescriptionSchema:
-            abort(make_response(jsonify(error="Invalid Query Parameter! Did you mean '?descriptions'?"), 400))
-        else:
-            abort(make_response(jsonify(error=err.messages.get('json')), 422))
+        abort(make_response(jsonify(error=err.messages.get('json') or err.messages.get('query')), 422))
 
 menu_view = MenuResource.as_view("menuresource")
 item_view = ItemResource.as_view("itemresource")
