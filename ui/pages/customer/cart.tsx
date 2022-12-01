@@ -15,6 +15,7 @@ import { StyledDiv } from "../../styles/mystyles";
 import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { margin } from "@mui/system";
+import SpeedDialAccess from "../../components/SpeedDialAccess"
 
 interface menuItem {
 	description: string;
@@ -26,6 +27,8 @@ interface menuItem {
 interface thisProp {
 	serverId: string;
 	menuItems: any;
+	toggleContrast: () => void;
+	toggleDarkMode: () => void;
 }
 
 interface OrderItem {
@@ -36,7 +39,7 @@ interface OrderItem {
 }
 
 
-export default function Cart({ serverId, menuItems }: thisProp) {
+export default function Cart({ serverId, menuItems, toggleContrast, toggleDarkMode }: thisProp) {
 	const router = useRouter();
 	const menu: menuItem[] = menuItems["items"];
 
@@ -143,6 +146,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 	return (
 		<>
+			<SpeedDialAccess toggleContrast={toggleContrast} toggleDarkMode={toggleDarkMode} />
 			<Typography variant="h1">Cart</Typography>
 
 			<Box 

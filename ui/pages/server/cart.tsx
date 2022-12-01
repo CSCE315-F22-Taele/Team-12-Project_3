@@ -15,6 +15,7 @@ import { StyledDiv } from "../../styles/mystyles";
 import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useSWR from "swr";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
 
 interface menuItem {
 	itemId: string;
@@ -25,6 +26,8 @@ interface menuItem {
 interface thisProp {
 	serverId: string;
 	menu: any;
+	toggleContrast: () => void;
+	toggleDarkMode: () => void;
 }
 
 interface OrderItem {
@@ -171,6 +174,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 				<FormControl sx={{ minWidth: 150 }}>
 					<InputLabel>Item</InputLabel>
 					<Select
+						sx={{borderRadius: 3}}
 						onChange={(event: SelectChangeEvent) => {
 							setItemStates(event);
 						}}

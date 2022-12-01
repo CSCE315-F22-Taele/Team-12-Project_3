@@ -1,32 +1,48 @@
 import { PaletteMode, useMediaQuery } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import { StyledTheme, StyledThemeDark } from "../styles/mystyles";
+import { StyledTheme, StyledThemeDark, StyledThemeHighContrast } from "../styles/mystyles";
 
-const getTheme = (mode: PaletteMode) =>
-	mode === "dark" ? StyledThemeDark : StyledTheme;
+type setMode = "off" | "on" | "dark" | "light";
+
+const getTheme = (mode: setMode) =>
+	mode === "on" ? StyledThemeHighContrast : (mode === "dark" ? StyledThemeDark : StyledTheme);
 
 export default function useDarkMode() {
-	const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-	let colorMode: PaletteMode = prefersDarkMode ? "dark" : "light";
+	const isPrefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+    const prefersDarkMode = isPrefersDarkMode ? "dark" : "light";
+	let colorMode: setMode = isPrefersDarkMode ? "dark" : "light";
+    let isContrast: boolean = false;
 	if (typeof window !== "undefined") {
 		if (localStorage.getItem("theme")) {
-			colorMode = localStorage.getItem("theme") as PaletteMode;
+			colorMode = localStorage.getItem("theme") as setMode;
 		}
+        if (localStorage.getItem("contrast")) {
+            isContrast = (localStorage.getItem("contrast") as string) === "on";
+        }
 	}
-	const [mode, setMode] = useState<PaletteMode>(colorMode);
 
-	useEffect(() => {
-		setMode(colorMode);
-	}, [colorMode]);
+	const [darkMode, setDarkMode] = useState<setMode>(colorMode);
+    const [contrast, setContrast] = useState<setMode>(isContrast ? "on" : "off");
 
-	const theme = useMemo(() => getTheme(mode), [mode]);
-	const toggleDarkTheme = () => {
-		setMode((prevMode) => {
+	const theme = useMemo(() => getTheme(contrast === "on" ? "on" : darkMode), [darkMode, contrast]);
+
+	const toggleDarkMode = () => {
+		setDarkMode((prevMode) => {
 			const newMode = prevMode === "light" ? "dark" : "light";
 			localStorage.setItem("theme", newMode);
 			return newMode;
 		});
+        localStorage.setItem("contrast", "off");
+        setContrast("off");
 	};
 
-	return { theme, toggleDarkTheme };
+    const toggleContrast = () => {
+		setContrast((prevMode) => {
+			const newMode = prevMode === "on" ? "off" : "on";
+			localStorage.setItem("contrast", newMode);
+			return newMode;
+		});
+	};
+
+	return { theme, toggleContrast, toggleDarkMode };
 }

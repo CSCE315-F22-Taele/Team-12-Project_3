@@ -2,6 +2,7 @@ import {
 	CircularProgress,
 	FormControl,
 	Grid,
+	InputBase,
 	InputLabel,
 	MenuItem,
 	Select,
@@ -72,6 +73,7 @@ export default function List<T extends Place>({
 				<Select
 					id="type"
 					value={type}
+					// input={<InputBase />}
 					onChange={(e) => setType(e.target.value)}>
 					<MenuItem value="restaurants">Restaurants</MenuItem>
 					<MenuItem value="hotels">Hotels</MenuItem>
