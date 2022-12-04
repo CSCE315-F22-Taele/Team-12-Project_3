@@ -2,8 +2,10 @@ from flask import Blueprint, abort, make_response, jsonify
 from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
 from webargs.flaskparser import parser
 from flask_restful import Api
+from flask_jwt_extended import jwt_required
 from ..models import db, User, Credentials
 from ..schemas import (
+    VerifyUserRequestSchema,
     UserRequestSchema, UserResponseSchema, 
     SuccessSchema, ErrorSchema
 )
@@ -11,6 +13,30 @@ from ..schemas import (
 bp = Blueprint('user', __name__)
 api = Api(bp) # Honestly unsure why this is needed to work
 
+@doc(tags=["User"])
+class VerifyUserResource(MethodResource):
+    @use_kwargs(VerifyUserRequestSchema)
+    @marshal_with(UserResponseSchema, code=200, description="Login Successful")
+    @marshal_with(ErrorSchema, code=401, description="Login Unsuccessful")
+    @doc(description="Authenticate User Login")
+    def post(self, username, password):
+        try:
+            fullCredentials = db.session.query(
+                                User.username,
+                                Credentials.password
+                            ).\
+                                select_from(User).\
+                                outerjoin(Credentials, User.id == Credentials.id).\
+                                all()
+            user = fullCredentials.query.filter_by(username=username, password=password)
+            if user is None:
+                return make_response(jsonify(error="Wrong Username and/or Password!"), 401)
+            else:
+                return User.query.filter_by(username=username).first()
+        except:
+            return make_response(jsonify(error="An error occurred, maybe with client"), 401)
+
+@jwt_required
 @doc(tags=["User"])
 class UserResource(MethodResource):
     @marshal_with(UserResponseSchema, code=200, description="Entity Successfully Retrieved")
@@ -61,5 +87,7 @@ class UserResource(MethodResource):
         abort(make_response(jsonify(error=err.messages.get('json')), 422))
 
 user_view = UserResource.as_view("userresource")
+verify_user_view = VerifyUserResource.as_view("verifyuserresource")
 bp.add_url_rule('/user/<string:username>', view_func=user_view, methods=['GET', 'DELETE'])
 bp.add_url_rule('/user', view_func=user_view, methods=['POST'])
+bp.add_url_rule('/login', view_func=verify_user_view, methods=['POST'])

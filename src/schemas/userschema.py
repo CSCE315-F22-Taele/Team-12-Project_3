@@ -1,5 +1,9 @@
 from marshmallow import Schema, fields, validate
 
+class VerifyUserRequestSchema(Schema):
+    username = fields.Str(required=True, data_key="username")
+    password = fields.Str(required=True)
+
 # Methods using this schema must have json body follow 
 class UserRequestSchema(Schema):
     userName = fields.Str(required=True, error_messages={"required": "missing data for userName"})
