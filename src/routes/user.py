@@ -21,20 +21,17 @@ class VerifyUserResource(MethodResource):
     @doc(description="Authenticate User Login")
     def post(self, username, password):
         try:
-            fullCredentials = db.session.query(
-                                User.username,
-                                Credentials.password
-                            ).\
-                                select_from(User).\
-                                outerjoin(Credentials, User.id == Credentials.id).\
-                                all()
-            user = fullCredentials.query.filter_by(username=username, password=password).first()
+            user = User.query.\
+                filter_by(username=username).\
+                join(Credentials).\
+                filter_by(password=password).\
+                first()
             if user is None:
                 return make_response(jsonify(error="Wrong Username and/or Password!"), 401)
             else:
                 return User.query.filter_by(username=username).first()
-        except:
-            return make_response(jsonify(error="An error occurred, maybe with client"), 401)
+        except Exception as e:
+            return make_response(jsonify(error="An error occurred, maybe with server"), 401)
 
 @doc(tags=["User"])
 class UserResource(MethodResource):
