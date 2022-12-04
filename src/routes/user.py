@@ -36,12 +36,12 @@ class VerifyUserResource(MethodResource):
         except:
             return make_response(jsonify(error="An error occurred, maybe with client"), 401)
 
-@jwt_required
 @doc(tags=["User"])
 class UserResource(MethodResource):
     @marshal_with(UserResponseSchema, code=200, description="Entity Successfully Retrieved")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Get an existing user from the database")
+    @jwt_required
     def get(self, username):
         user = User.query.filter_by(username=username).first() # Should return just one or None
         if user is None:
