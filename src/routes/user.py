@@ -28,7 +28,7 @@ class VerifyUserResource(MethodResource):
                                 select_from(User).\
                                 outerjoin(Credentials, User.id == Credentials.id).\
                                 all()
-            user = fullCredentials.query.filter_by(username=username, password=password)
+            user = fullCredentials.query.filter_by(username=username, password=password).first()
             if user is None:
                 return make_response(jsonify(error="Wrong Username and/or Password!"), 401)
             else:
