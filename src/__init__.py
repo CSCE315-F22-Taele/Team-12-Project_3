@@ -10,7 +10,7 @@ from apispec.ext.marshmallow import MarshmallowPlugin
 
 # Authorization Imports
 from flask_jwt_extended import (
-    craete_access_token, get_jwt, get_jwt_identity,
+    create_access_token, get_jwt, get_jwt_identity,
     jwt_required, JWTManager, set_access_cookies,
     unset_jwt_cookies
 )
