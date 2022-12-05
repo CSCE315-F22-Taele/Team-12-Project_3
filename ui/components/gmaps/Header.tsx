@@ -4,6 +4,7 @@ import { alpha, styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Autocomplete } from "@react-google-maps/api";
+import { useToggleDarkMode } from "../SetTheme";
 import ToggleDarkMode from "../ToggleDarkMode";
 
 const Search = styled("div")(({ theme }) => ({
@@ -54,13 +55,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 interface Props {
 	onLoad: (autoC: google.maps.places.Autocomplete) => void;
 	onPlaceChanged: () => void;
-	toggleDarkMode: () => void;
 }
 
 export default function Header({
 	onLoad,
 	onPlaceChanged,
-	toggleDarkMode,
 }: Props) {
 	return (
 		<Box sx={{ flexGrow: 1, top: 0, zIndex: 1 }} position="sticky">
@@ -76,7 +75,7 @@ export default function Header({
 						}}>
 						Fun Finder
 					</Typography>
-					<ToggleDarkMode toggleDarkMode={toggleDarkMode} />
+					<ToggleDarkMode />
 					<Autocomplete
 						onLoad={onLoad}
 						onPlaceChanged={onPlaceChanged}>

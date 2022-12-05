@@ -13,13 +13,16 @@ import {
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { LocalizationProvider, MuiPickersAdapterContext } from "@mui/x-date-pickers/LocalizationProvider";
+import {
+	LocalizationProvider,
+	MuiPickersAdapterContext,
+} from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
 import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
-import { SxProps } from "@mui/system"
+import { SxProps } from "@mui/system";
 
 interface Excess {
 	itemName: string;
@@ -66,10 +69,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 		},
 		"& .MuiDayPicker-weekDayLabel": {
 			color: "white",
-		}
+		},
 	};
 
-	
 	return (
 		<>
 			<StyledDiv>
@@ -90,11 +92,13 @@ export default function Excess({ serverId }: { serverId: string }) {
 						label="Start Date"
 						value={startDate}
 						PopperProps={{
-							sx: popperSx
+							sx: popperSx,
 						}}
 						onChange={(newValue) => {
-							var fullDateWithOtherInfo =
-								newValue.$d.toLocaleString();
+							var fullDateWithOtherInfo = new Date(
+								newValue!
+							).toLocaleString("en-US", { timeZone: "UTC" });
+
 							var date = fullDateWithOtherInfo
 								.substring(
 									0,
@@ -149,7 +153,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 											// 	"&:last-child td, &:last-child th":
 											// 		{ border: 0 },
 											// }}
-											>
+										>
 											<TableCell
 												component="th"
 												scope="row">

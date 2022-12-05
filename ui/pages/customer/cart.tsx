@@ -27,8 +27,6 @@ interface menuItem {
 interface thisProp {
 	serverId: string;
 	menuItems: any;
-	toggleContrast: () => void;
-	toggleDarkMode: () => void;
 }
 
 interface OrderItem {
@@ -39,7 +37,7 @@ interface OrderItem {
 }
 
 
-export default function Cart({ serverId, menuItems, toggleContrast, toggleDarkMode }: thisProp) {
+export default function Cart({ serverId, menuItems }: thisProp) {
 	const router = useRouter();
 	const menu: menuItem[] = menuItems["items"];
 
@@ -146,7 +144,7 @@ export default function Cart({ serverId, menuItems, toggleContrast, toggleDarkMo
 
 	return (
 		<>
-			<SpeedDialAccess toggleContrast={toggleContrast} toggleDarkMode={toggleDarkMode} />
+			<SpeedDialAccess />
 			<Typography variant="h1">Cart</Typography>
 
 			<Box 

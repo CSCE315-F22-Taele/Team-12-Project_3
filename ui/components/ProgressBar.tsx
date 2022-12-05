@@ -1,5 +1,4 @@
 import NProgress from "nprogress";
-import "nprogress/nprogress.css";
 import Router from "next/router";
 
 NProgress.configure({
