@@ -1,9 +1,11 @@
+import { ThemeContext } from "@emotion/react";
 import { Button, InputBase } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { styled, makeStyles } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import { create } from "@mui/material/styles/createTransitions";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import { SxProps } from "@mui/system";
+import type {} from '@mui/x-data-grid/themeAugmentation';
 
 // const StyledFormTheme = createTheme({
 //   components: {
@@ -49,6 +51,20 @@ export const StyledDiv = styled("div")(({ theme, ...otherProps }) => ({
 
 export const StyledTheme = createTheme({
   components: {
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: 'rgb(167, 11, 40)',
+            color: "white",
+          },
+          '& .MuiDataGrid-columnHeaderCheckbox': {
+            backgroundColor: 'rgb(167, 11, 40)',
+          },
+          
+        }
+      }
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
@@ -140,6 +156,18 @@ export const StyledThemeDark = createTheme({
     mode: "dark",
   },
   components: {
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: 'rgb(167, 11, 40)',
+          },
+          '& .MuiDataGrid-columnHeaderCheckbox': {
+            backgroundColor: 'rgb(167, 11, 40)',
+          },
+        }
+      }
+    },
     MuiGrid: {
       styleOverrides: {
         root: {
@@ -213,6 +241,7 @@ export const StyledThemeDark = createTheme({
           [`& fieldset`]: {
             borderRadius: 10,
           },
+
         },
       },
     },
@@ -228,11 +257,31 @@ export const StyledThemeHighContrast = createTheme({
   },
 
   components: {
+    
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          border: "2px solid white",
+        }
+      }
+    },
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          border: "1px solid white",
+          '& .MuiDataGrid-columnHeaders': {
+            backgroundColor: 'rgb(167, 11, 40)',
+          },
+          '& .PrivateSwitchBase-root': {
+            color: 'white',
+          }
+        }
+      }
+    },
     MuiGrid: {
       styleOverrides: {
         root: {
           color: "grey",
-          border: "2px solid white",
           textDecoration: "italic",
           minWidth: 20,
           margin: "auto",

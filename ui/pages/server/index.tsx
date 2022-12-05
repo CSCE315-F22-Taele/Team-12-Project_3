@@ -27,6 +27,7 @@ import { StyledDiv } from "../../styles/mystyles";
 import { GridColDef } from "@mui/x-data-grid";
 import { SWRConfig, useSWRConfig } from "swr";
 import Orders, { ServerOrder } from "../../components/Orders";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
 
 interface thisProp {
 	orders: ServerOrder[];
@@ -80,79 +81,81 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 
 	return (
 		<>
-			<StyledDiv>
-				<Button
-					onClick={() => {
-						router.push("/");
-					}}>
-					Back
-				</Button>
+			<SpeedDialAccess>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/");
+						}}>
+						Back
+					</Button>
 
-				<Button
-					onClick={async (e) => {
-						const url = await signOut({
-							redirect: false,
-							callbackUrl: "/",
-						});
-						router.push(url.url);
-					}}>
-					Sign Out
-				</Button>
-			</StyledDiv>
-			<Typography variant="h1">Server</Typography>
+					<Button
+						onClick={async (e) => {
+							const url = await signOut({
+								redirect: false,
+								callbackUrl: "/",
+							});
+							router.push(url.url);
+						}}>
+						Sign Out
+					</Button>
+				</StyledDiv>
+				<Typography variant="h1">Server</Typography>
 
-			<Box
-				sx={{
-					display: "flex",
-					justifyContent: "center",
-					alignContent: "center",
-					p: 1,
-					m: 1,
-					bgcolor: "background.paper",
-					borderRadius: 1,
-				}}>
-				<TableContainer
-					component={Paper}
-					sx={{ maxWidth: 1000, maxHeight: "60vh" }}>
-					<Table stickyHeader aria-label="collapsible table">
-						<TableHead>
-							<TableRow>
-								<TableCell />
-								<TableCell>Select</TableCell>
-								<TableCell>Customer Name</TableCell>
-								<TableCell align="right">
-									Total Price ($)
-								</TableCell>
-								<TableCell align="right">
-									Time Ordered
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							<SWRConfig
-								value={{
-									fallbackData: orders,
-									fetcher: (url) =>
-										flaskAPI(url).then(
-											(r) => r.data.orders
-										),
-								}}>
-								<Orders setSelectedOrders={setSelectedOrders} />
-							</SWRConfig>
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</Box>
-
-			<StyledDiv>
-				<Button onClick={serveOrder}>Serve Order</Button>
-				<Button
-					onClick={() => {
-						router.push("/server/cart");
+				<Box
+					sx={{
+						display: "flex",
+						justifyContent: "center",
+						alignContent: "center",
+						p: 1,
+						m: 1,
+						bgcolor: "background.paper",
+						borderRadius: 1,
 					}}>
-					Add New Order
-				</Button>
-			</StyledDiv>
+					<TableContainer
+						component={Paper}
+						sx={{ maxWidth: 1000, maxHeight: "60vh" }}>
+						<Table stickyHeader aria-label="collapsible table">
+							<TableHead>
+								<TableRow>
+									<TableCell />
+									<TableCell>Select</TableCell>
+									<TableCell>Customer Name</TableCell>
+									<TableCell align="right">
+										Total Price ($)
+									</TableCell>
+									<TableCell align="right">
+										Time Ordered
+									</TableCell>
+								</TableRow>
+							</TableHead>
+							<TableBody>
+								<SWRConfig
+									value={{
+										fallbackData: orders,
+										fetcher: (url) =>
+											flaskAPI(url).then(
+												(r) => r.data.orders
+											),
+									}}>
+									<Orders setSelectedOrders={setSelectedOrders} />
+								</SWRConfig>
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Box>
+
+				<StyledDiv>
+					<Button onClick={serveOrder}>Serve Order</Button>
+					<Button
+						onClick={() => {
+							router.push("/server/cart");
+						}}>
+						Add New Order
+					</Button>
+				</StyledDiv>
+			</SpeedDialAccess>
 		</>
 	);
 }

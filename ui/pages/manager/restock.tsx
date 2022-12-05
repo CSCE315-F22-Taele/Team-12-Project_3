@@ -13,6 +13,7 @@ import {
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
 import {
 	flaskAPI,
 	getRestockReportAPI,
@@ -42,64 +43,66 @@ export default function Excess({ restockData }: thisProp) {
 
 	return (
 		<>
-			<StyledDiv>
-				<Button
-					onClick={() => {
-						router.push("/manager/reports");
-					}}>
-					Back
-				</Button>
-			</StyledDiv>
+			<SpeedDialAccess>
+				<StyledDiv>
+					<Button
+						onClick={() => {
+							router.push("/manager/reports");
+						}}>
+						Back
+					</Button>
+				</StyledDiv>
 
-			<Typography variant="h1">Restock Report</Typography>
+				<Typography variant="h1">Restock Report</Typography>
 
-			<StyledDiv className="excess">
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						alignContent: "center",
-						p: 1,
-						m: 1,
-						bgcolor: "background.paper",
-						borderRadius: 1,
-					}}>
-					<TableContainer
-						component={Paper}
-						sx={{ maxWidth: 700, maxHeight: "75vh" }}>
-						<Table stickyHeader aria-label="simple table">
-							<TableHead>
-								<TableRow>
-									<TableCell>Menu Item</TableCell>
-									<TableCell align="right">
-										Quantity
-									</TableCell>
-									<TableCell align="right">
-										Threshold
-									</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{restockItems.map((eachItem: Restock) => (
-									<TableRow
-										key={eachItem.ingredientName}
-										>
-										<TableCell component="th" scope="row">
-											{eachItem.ingredientName}
+				<StyledDiv className="excess">
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignContent: "center",
+							p: 1,
+							m: 1,
+							bgcolor: "background.paper",
+							borderRadius: 1,
+						}}>
+						<TableContainer
+							component={Paper}
+							sx={{ maxWidth: 700, maxHeight: "75vh" }}>
+							<Table stickyHeader aria-label="simple table">
+								<TableHead>
+									<TableRow>
+										<TableCell>Menu Item</TableCell>
+										<TableCell align="right">
+											Quantity
 										</TableCell>
 										<TableCell align="right">
-											{eachItem.quantity}
-										</TableCell>
-										<TableCell align="right">
-											{eachItem.threshold}
+											Threshold
 										</TableCell>
 									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Box>
-			</StyledDiv>
+								</TableHead>
+								<TableBody>
+									{restockItems.map((eachItem: Restock) => (
+										<TableRow
+											key={eachItem.ingredientName}
+											>
+											<TableCell component="th" scope="row">
+												{eachItem.ingredientName}
+											</TableCell>
+											<TableCell align="right">
+												{eachItem.quantity}
+											</TableCell>
+											<TableCell align="right">
+												{eachItem.threshold}
+											</TableCell>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Box>
+				</StyledDiv>
+			</SpeedDialAccess>
 		</>
 	);
 }

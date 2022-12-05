@@ -1,8 +1,8 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, FormControl, Grid } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, FormControl, FormHelperText, Grid } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	addOrderAPI,
 	flaskAPI,
@@ -16,6 +16,8 @@ import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { margin } from "@mui/system";
 import SpeedDialAccess from "../../components/SpeedDialAccess"
+import Slide from '@mui/material/Slide';
+
 
 interface menuItem {
 	description: string;
@@ -48,24 +50,32 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>(
 		[]
 		);
-	const [itemQuantityFirstPass, setItemQuantityFirstPass] = useState(true);
+	const [itemQuantitiesFirstPass, setItemQuantitiesFirstPass] = useState<Boolean[]>(new Array(menu.length).fill(true));
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
-	const [itemQuantities, setItemQuantities] = useState(Array.from({length: menu.length}, (v, k) => 0));
+	const [itemQuantities, setItemQuantities] = useState(new Array(menu.length).fill(Number.POSITIVE_INFINITY));
 
 	const tableColumns: GridColDef[] = [
 		{
 			field: "itemName",
 			headerName: "Item Name",
+			headerClassName: "header-styling",
 			type: "string",
 			width: 200,
 		},
 		{
 			field: "quantity",
 			headerName: "Quantity",
+			headerClassName: "header-styling",
 			type: "number",
 			width: 100,
 		},
-		{ field: "price", headerName: "Price ($)", type: "number", width: 100 },
+		{ 
+			field: "price", 
+			headerName: "Price ($)", 
+			headerClassName: "header-styling",
+			type: "number", 
+			width: 100 
+		},
 	];
 
 	// const setItemStates = (event: SelectChangeEvent) => {
@@ -84,7 +94,29 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		// if (orderList.some((order) => order.itemName === selectedItem)) {
 		// 	return;
 		// }
-		console.log(itemQuantities);
+		
+		var newBools = itemQuantitiesFirstPass;
+		var num = Number(itemQuantities[index]);
+		console.log(num, Number.NEGATIVE_INFINITY)
+		if(isNaN(num) || num <= 0 || num === Number.POSITIVE_INFINITY)
+			newBools[index] = false;
+		else
+			if(!newBools[index])
+				newBools[index] = true;
+		// console.log("Index: ", index, " newBools",newBools);
+		// console.log("before:",newBools[index], " num:", num);
+		
+		setItemQuantitiesFirstPass(newBools);
+
+		// console.log("Test", itemQuantitiesFirstPass[index], newBools[index]);
+
+		// console.log(itemQuantitiesFirstPass);
+		// console.log(itemQuantities);
+
+		if(!newBools[index] || orderList.some((order) => order.itemName === selectedItem))
+			return;
+		// console.log("re");
+
 		setOrderList([
 			...orderList,
 			{
@@ -94,6 +126,9 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 				price: (Number)(itemQuantities[index]) * (Number)(itemPrice),
 			},
 		]);
+
+		setItemQuantities(new Array(menu.length).fill(Number.POSITIVE_INFINITY));
+		setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
 	};
 
 	const deleteAllInCart = () => {
@@ -111,14 +146,14 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 	};
 
 	const submitOrder = async () => {
-		// if (customerName === "") {
-		// 	setCustomerNameFirstPass(false);
-		// 	return;
-		// }
+		if (!customerName || customerName === "") {
+			setCustomerNameFirstPass(false);
+			return;
+		}
 
-		// if (orderList.length === 0) {
-		// 	return;
-		// }
+		if (orderList.length === 0) {
+			return;
+		}
 
 		const data = JSON.stringify({
 			customerName: customerName,
@@ -138,191 +173,194 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 		const response = await flaskAPI(config);
 
 		setOrderList([]);
+		router.push("/customer/thanks");
 	};
 
-	// useEffect(() => {}, [expandedStringList]);
+	useEffect(() => {}, [itemQuantitiesFirstPass]);
 
 	return (
 		<>
-			<SpeedDialAccess />
-			<Typography variant="h1">Cart</Typography>
+			<SpeedDialAccess>
+				<Typography variant="h1">Cart</Typography>
 
-			<Box 
-			sx={{ width: "auto" }}
-			>
-				<Grid container spacing={2}>
-					<Grid item xs={8}>
-						<StyledDiv className="MenuItemSelection">
-							<FormControl sx={{ minWidth: 150 }}>
-								{/* <InputLabel>Item</InputLabel> */}
-								{/* <Select
-									onChange={(event: SelectChangeEvent) => {
-										setItemStates(event);
+				<Box 
+				sx={{ width: "auto"  }}
+				>
+					<Grid container spacing={2}>
+						<Grid item xs={8}>
+							<StyledDiv className="MenuItemSelection">
+								<Container maxWidth='md'>
+									<Grid container spacing={4}>
+										{menu.map((card, index) => (
+											<Grid item key={card.itemName} xs={12} sm={6} md={4}>
+												<Slide direction="up" in={true}>
+													<Card>
+													{/* <Card className={classes.card}> */}
+														<CardMedia 
+															// className={classes.CardMedia} 
+															image='https://source.unsplash.com/random' 
+															title="Image title"
+														/>
+
+														<CardContent sx={{minHeight: 200}}>
+														{/* <CardContent className={classes.cardContent}> */}
+															<Typography variant='h6' gutterBottom>
+																{card.itemName}
+															</Typography>
+															<Typography>
+																{card.description}    
+															</Typography>         
+															<Typography>
+																{"Price: " + card.price}	
+															</Typography>                           
+														</CardContent>
+														<CardActions>
+															<TextField
+															type="text"
+															inputMode="numeric"
+															label="Enter quantity"
+															key={card.itemName}
+															sx={{marginTop: "-5px"}}
+															onChange={(e) => {
+																// setItemQuantityFirstPass(false);
+																var newQuants = itemQuantities;
+																newQuants[index] = (Number)(e.target.value);
+																setItemQuantities(newQuants);
+															}}
+															error={
+																!itemQuantitiesFirstPass[index]
+																	? true
+																	: false
+															}
+															helperText={
+																!itemQuantitiesFirstPass[index]
+																	? "Enter a positive number"
+																	: ""
+															}
+															// error={
+															// 	quantity &&
+															// 	quantity.value <= 0 &&
+															// 	!itemQuantityFirstPass
+															// }
+															// helperText={
+															// 	quantity &&
+															// 	quantity.value <= 0 &&
+															// 	!itemQuantityFirstPass
+															// 		? "Please enter a positive number"
+															// 		: ""
+															// }
+															// inputRef={quantityRef}
+															className="Quantity"></TextField>
+															<Button onClick={() => {
+																
+																addToCart(card.itemName, index, card.price);
+															}}>Add</Button>
+															
+														</CardActions>
+													</Card>
+												</Slide>
+											</Grid>
+										))}
+									</Grid>
+
+								</Container>
+								{/* <TextField
+									type="text"
+									inputMode="numeric"
+									label="Enter quantity"
+									onChange={(e) => {
+										setItemQuantity(Number(e.target.value));
+										setItemQuantityFirstPass(false);
 									}}
-									className="menuItems"
-									label={"Item"}>
-									{menu.map((menuItem, index) => {
-										return (
-											<MenuItem
-												key={index}
-												value={
-													menuItem.itemName + " " + menuItem.price
-												}>
-												{menuItem.itemName + ": $" + menuItem.price}
-											</MenuItem>
-										);
-									})}
-								</Select> */}
-							</FormControl>
-							<Container maxWidth='md'>
-								<Grid container spacing={4}>
-									{menu.map((card, index) => (
-										<Grid item key={card.itemName} xs={12} sm={6} md={4}>
-											<Card>
-											{/* <Card className={classes.card}> */}
-												<CardMedia 
-													// className={classes.CardMedia} 
-													image='https://source.unsplash.com/random' 
-													title="Image title"
-												/>
+									error={itemQuantity <= 0 && !itemQuantityFirstPass}
+									helperText={
+										itemQuantity <= 0 && !itemQuantityFirstPass
+											? "Please enter a positive number"
+											: ""
+									}
+									className="Quantity"></TextField> */}
+								{/* <Button onClick={addToCart}>Add</Button> */}
+							</StyledDiv>
+							
+						</Grid>
 
-												<CardContent sx={{minHeight: 200}}>
-												{/* <CardContent className={classes.cardContent}> */}
-													<Typography variant='h6' gutterBottom>
-														{card.itemName}
-													</Typography>
-													<Typography>
-														{card.description}    
-													</Typography>         
-													<Typography>
-														{"Price: " + card.price}	
-													</Typography>                           
-												</CardContent>
-												<CardActions>
-													<TextField
-													type="text"
-													inputMode="numeric"
-													label="Enter quantity"
-													key={card.itemName}
-													onChange={(e) => {
-														// setItemQuantityFirstPass(false);
-														var newQuants = itemQuantities;
-														newQuants[index] = (Number)(e.target.value);
-														setItemQuantities(newQuants);
-													}}
-													// error={
-													// 	quantity &&
-													// 	quantity.value <= 0 &&
-													// 	!itemQuantityFirstPass
-													// }
-													// helperText={
-													// 	quantity &&
-													// 	quantity.value <= 0 &&
-													// 	!itemQuantityFirstPass
-													// 		? "Please enter a positive number"
-													// 		: ""
-													// }
-													// inputRef={quantityRef}
-													className="Quantity"></TextField>
-													<Button size='small' onClick={() => {
-														
-														addToCart(card.itemName, index, card.price);
-													}}>Add</Button>
-												</CardActions>
-											</Card>
+
+						{/* right section of customer side */}
+						<Slide direction="up" in={true}>
+
+						<Grid item xs={4} sx={{marginTop: "40px", position: "sticky", top: 0}}>
+							<StyledDiv
+								sx={{
+									display: "flex",
+									height: "371px",
+									margin: "10px",
+								}}>
+									<DataGrid
+										getRowId={(r) => r.rowId}
+										rows={orderList}
+										columns={tableColumns}
+										pageSize={5}
+										rowsPerPageOptions={[5]}
+										checkboxSelection
+										sx={{ maxWidth: 455, maxHeight: 700 }}
+										onSelectionModelChange={(newSelection) => {
+											const selectedIDs = new Set(newSelection);
+											const selectedRows = orderList.filter((row) =>
+												selectedIDs.has(row.rowId)
+											);
+											setSelectedDeleteList(selectedRows);
+										}}
+									/>
+								</StyledDiv>
+								<StyledDiv>
+									<FormHelperText>
+										Note: Same item cannot be added multiple times. At least one Item
+										must be added to the order to submit
+									</FormHelperText>
+								</StyledDiv>
+
+								<StyledDiv className="AddOrdersSection">
+									<Grid container spacing={2}>
+										<Grid item xs={6}>
+											<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
 										</Grid>
-									))}
-								</Grid>
-
-							</Container>
-							{/* <TextField
-								type="text"
-								inputMode="numeric"
-								label="Enter quantity"
-								onChange={(e) => {
-									setItemQuantity(Number(e.target.value));
-									setItemQuantityFirstPass(false);
-								}}
-								error={itemQuantity <= 0 && !itemQuantityFirstPass}
-								helperText={
-									itemQuantity <= 0 && !itemQuantityFirstPass
-										? "Please enter a positive number"
-										: ""
-								}
-								className="Quantity"></TextField> */}
-							{/* <Button onClick={addToCart}>Add</Button> */}
-						</StyledDiv>
-						
-					</Grid>
-
-
-					{/* right section of customer side */}
-					<Grid item xs={4} sx={{marginTop: "70px", position: "sticky", top: 0}}>
-						<StyledDiv
-							sx={{
-								display: "flex",
-								// alignItems: "center",
-								// justifyContent: "center",
-								height: "371px",
-								margin: "10px",
-								// position: "sticky",
-								// top: 0,
-								// marginTop: "0px",
-							}}>
-								<DataGrid
-									getRowId={(r) => r.rowId}
-									rows={orderList}
-									columns={tableColumns}
-									pageSize={5}
-									rowsPerPageOptions={[5]}
-									checkboxSelection
-									sx={{ maxWidth: 700, maxHeight: 700 }}
-									onSelectionModelChange={(newSelection) => {
-										const selectedIDs = new Set(newSelection);
-										const selectedRows = orderList.filter((row) =>
-											selectedIDs.has(row.rowId)
-										);
-										setSelectedDeleteList(selectedRows);
-									}}
-								/>
-							</StyledDiv>
-
-							<StyledDiv className="AddOrdersSection">
-								<Grid container spacing={2}>
-									<Grid item xs={6}>
-										<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
+										<Grid item xs={6}>
+											<Button onClick={deleteAllInCart}>Delete All</Button>
+										</Grid>
+										<Grid item xs={6}>
+											<TextField
+												type="text"
+												label="Enter your name"
+												onChange={(e) => {
+													setCustomerName(e.target.value);
+												}}
+												error={
+													!customerNameFirstPass
+														? true
+														: false
+												}
+												helperText={
+													!customerNameFirstPass
+														? "Enter a name here"
+														: ""
+												}
+												value={customerName}
+												className="CustomerName"></TextField>
+										</Grid>
+										<Grid item xs={6}>
+											<Button onClick={submitOrder}>Submit Order</Button>
+										</Grid>
 									</Grid>
-									<Grid item xs={6}>
-										<Button onClick={deleteAllInCart}>Delete All</Button>
-									</Grid>
-									<Grid item xs={6}>
-										<TextField
-											type="text"
-											label="Enter your name"
-											onChange={(e) => {
-												setCustomerName(e.target.value);
-												setCustomerNameFirstPass(false);
-											}}
-											error={customerName === "" && !customerNameFirstPass}
-											helperText={
-												customerName === "" && !customerNameFirstPass
-													? "Enter a name here"
-													: ""
-											}
-											value={customerName}
-											className="CustomerName"></TextField>
-									</Grid>
-									<Grid item xs={6}>
-										<Button onClick={submitOrder}>Submit Order</Button>
-									</Grid>
-								</Grid>
-							</StyledDiv>
+								</StyledDiv>
+
+							
+						</Grid>
+						</Slide>
 
 						
 					</Grid>
-					
-				</Grid>
-			</Box>
+				</Box>
+			</SpeedDialAccess>
 			
 			
 		</>
