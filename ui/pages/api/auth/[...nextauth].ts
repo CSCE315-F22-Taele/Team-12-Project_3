@@ -54,11 +54,11 @@ export default NextAuth({
 
 			return token;
 		},
-		session: ({ session, token }) => {
-			session.user.id = token.id;
+		// session: ({ session, token }) => {
+		// 	session.user.id = token.id;
 
-			return session;
-		},
+		// 	return session;
+		// },
 	},
 	// custom auth pages
 	pages: {

@@ -19,7 +19,7 @@ export default function HomePage({}) {
             <StyledDiv sx={justMainPageStyleDiv}>
                 <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
                     <StyledDiv>
-                        <Typography variant="h1">Welcome to Rev's American Grill!</Typography>
+                        <Typography variant="h1">Welcome to Rev&#93;s American Grill!</Typography>
                         <Grid>
                             <Image
                                 style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1}}

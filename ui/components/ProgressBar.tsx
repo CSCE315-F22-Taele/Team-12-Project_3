@@ -12,6 +12,6 @@ Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-export default function () {
-	return null;
+export default function app () {
+	return <></>;
 }
