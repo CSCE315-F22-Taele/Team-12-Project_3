@@ -26,8 +26,6 @@ interface menuItem {
 interface thisProp {
 	serverId: string;
 	menu: any;
-	toggleContrast: () => void;
-	toggleDarkMode: () => void;
 }
 
 interface OrderItem {

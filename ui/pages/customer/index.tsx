@@ -12,26 +12,33 @@ const justMainPageStyleButtons = {
 };
 
 export default function HomePage({}) {
-    const router = useRouter();
-    return (
-        <>
-            <Typography variant="h1">Welcome to Rev's American Grill!</Typography>
-            <StyledDiv sx={justMainPageStyleDiv}>
-                <Image
-                    style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1}}
-                    src={Reveille}
-                    alt="Reveille"
-                />
-            </StyledDiv>
-            <StyledDiv>
-                <Button
-                    sx={justMainPageStyleButtons}
+	const router = useRouter();
+	return (
+		<>
+			<Typography variant="h1">
+				Welcome to Rev's American Grill!
+			</Typography>
+			<StyledDiv sx={justMainPageStyleDiv}>
+				<Image
+					style={{
+						width: "auto",
+						height: "50vh",
+						position: "relative",
+						zIndex: 1,
+					}}
+					src={Reveille}
+					alt="Reveille"
+				/>
+			</StyledDiv>
+			<StyledDiv>
+				<Button
+					sx={justMainPageStyleButtons}
 					onClick={() => {
 						router.push("/customer/cart");
 					}}>
 					Click to Get Started!
 				</Button>
-            </StyledDiv>
-        </>
-    );
+			</StyledDiv>
+		</>
+	);
 }

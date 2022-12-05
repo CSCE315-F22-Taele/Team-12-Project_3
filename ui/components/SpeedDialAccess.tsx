@@ -4,13 +4,12 @@ import {
 	Box, SpeedDial, SpeedDialAction,
 	SpeedDialIcon
 } from "@mui/material";
+import { useToggleContrast, useToggleDarkMode } from "./SetTheme";
 
-interface Props {
-	toggleContrast: () => void;
-	toggleDarkMode: () => void;
-}
+export default function App() {
+	const toggleContrast = useToggleContrast()
+	const toggleDarkMode = useToggleDarkMode()
 
-export default function App({toggleContrast, toggleDarkMode}: Props) {
 	const actions = [
 		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast},
 		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode},

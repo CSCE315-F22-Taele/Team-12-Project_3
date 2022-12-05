@@ -9,7 +9,6 @@ const getTheme = (mode: setMode) =>
 
 export default function useDarkMode() {
 	const isPrefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-    const prefersDarkMode = isPrefersDarkMode ? "dark" : "light";
 	let colorMode: setMode = isPrefersDarkMode ? "dark" : "light";
     let isContrast: boolean = false;
 	if (typeof window !== "undefined") {

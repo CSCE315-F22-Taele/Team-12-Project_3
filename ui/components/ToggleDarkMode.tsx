@@ -1,11 +1,10 @@
 import { FormControlLabel, Switch } from "@mui/material";
 import useDarkMode from "../hooks/useDarkMode";
+import { useToggleContrast, useToggleDarkMode } from "./SetTheme";
 
-interface Props {
-	toggleDarkMode: () => void;
-}
+export default function App() {
+	const toggleDarkMode = useToggleDarkMode();
 
-export default function App({toggleDarkMode}: Props) {
 	return (
 		<FormControlLabel
 			control={<Switch onClick={toggleDarkMode} />}
