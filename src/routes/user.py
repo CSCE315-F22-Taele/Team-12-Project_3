@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, make_response, jsonify
+from flask import Blueprint, abort, make_response, jsonify, request
 from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
 from webargs.flaskparser import parser
 from flask_restful import Api
@@ -35,10 +35,10 @@ class VerifyUserResource(MethodResource):
 
 @doc(tags=["User"])
 class UserResource(MethodResource):
+    @jwt_required()
     @marshal_with(UserResponseSchema, code=200, description="Entity Successfully Retrieved")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Get an existing user from the database")
-    @jwt_required
     def get(self, username):
         user = User.query.filter_by(username=username).first() # Should return just one or None
         if user is None:
