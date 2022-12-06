@@ -24,8 +24,6 @@ import { StyledDiv } from "../../styles/mystyles";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useSWR from "swr";
 import { setConstantValue } from "typescript";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
-// import SpeedDialAccess from "../../components/SpeedDialAccess";
 
 interface menuItem {
 	itemId: string;
@@ -177,7 +175,6 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -326,7 +323,6 @@ export default function Cart({ serverId, menu }: thisProp) {
 						className="CustomerName"></TextField>
 					<Button onClick={submitOrder}>Submit Order</Button>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }

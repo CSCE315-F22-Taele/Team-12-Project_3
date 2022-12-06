@@ -28,7 +28,6 @@ import {
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useSWR, { useSWRConfig } from "swr";
-import SpeedDialAccess from "../../../components/SpeedDialAccess";
 
 interface thisProp {
 	menuData: menuItem[];
@@ -130,7 +129,6 @@ export default function Menu({ menuData }: thisProp) {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -263,7 +261,6 @@ export default function Menu({ menuData }: thisProp) {
 						<Button onClick={deleteItem}>Delete Item</Button>
 					</StyledDiv>
 				</Box>
-			</SpeedDialAccess>
 		</>
 	);
 }

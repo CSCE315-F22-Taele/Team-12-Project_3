@@ -22,7 +22,6 @@ import {
 	serverSideInstance,
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
-import SpeedDialAccess from "../../../components/SpeedDialAccess";
 
 interface ingredientItem {
 	ingredientId: string;
@@ -173,7 +172,6 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -347,7 +345,6 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 				<StyledDiv className="SubmitNewMenuItemInfo">
 					<Button onClick={submitOrder}>Submit New Menu Item</Button>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }
