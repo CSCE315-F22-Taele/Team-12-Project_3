@@ -56,6 +56,7 @@ class UserResource(MethodResource):
         db.session.commit()
         return {"success": True}, 202
 
+    # jwt_required()
     @use_kwargs(UserRequestSchema) # request body must follow this format
     @marshal_with(UserResponseSchema, code=201, description="Entity Successfully Created")
     @marshal_with(ErrorSchema, code=422, description="Request Parsing Failure")
