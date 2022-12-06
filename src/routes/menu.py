@@ -1,6 +1,7 @@
 from flask import request, Blueprint, abort, make_response, jsonify
 from flask_restful import Api
 from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
+from flask_jwt_extended import jwt_required
 from webargs.flaskparser import parser
 from marshmallow import fields
 from ..models import db, Menu, MenuInventory, Inventory
@@ -41,6 +42,7 @@ class ItemResource(MethodResource):
             return make_response(jsonify(error="Item Not Found In Database!"), 404)
         return menuItem # Will return defaults as well
 
+    # @jwt_required() 
     @marshal_with(SuccessSchema, code=202, description="Item Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Item Not Found")
     @doc(description="Delete an existing item from the menu by making it inactive")
@@ -52,6 +54,7 @@ class ItemResource(MethodResource):
         db.session.commit()
         return {"success": True}, 202
 
+    # @jwt_required()
     @use_kwargs(NewPriceRequestSchema) # defaults to looking at the json
     @marshal_with(SuccessSchema, code=202, description="Successfully Updated Item Price")
     @marshal_with(ErrorSchema, code=404, description="Invalid Request Body")
@@ -65,6 +68,7 @@ class ItemResource(MethodResource):
         db.session.commit()
         return {"success": True}, 202
 
+    # @jwt_required()
     @use_kwargs(ItemRequestSchema) # defaults to looking at the json
     @marshal_with(PostResponseSchema, code=201, description="Successfully Created Item")
     @marshal_with(ErrorSchema, code=404, description="Invalid Request Body")

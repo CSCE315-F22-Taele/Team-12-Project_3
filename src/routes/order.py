@@ -1,6 +1,7 @@
 from flask import Blueprint, request, abort, make_response, jsonify
 from flask_restful import Api
 from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
+from flask_jwt_extended import jwt_required
 from marshmallow import fields
 from webargs.flaskparser import parser
 from sqlalchemy import and_, or_, func
@@ -21,6 +22,7 @@ api = Api(bp)
 @doc(tags=["Order"])
 class SalesReportResource(MethodResource):
 
+    # @jwt_required()
     @use_kwargs(SalesRequestSchema, location='query')
     @marshal_with(SalesResponseSchema, code=200, description="Retrieves sales-report for all items in the menu.")
     @doc(description="Get sales by item from order history given startDate & endDate. Dates must be in '%Y-%m-%d' format!")
@@ -67,6 +69,7 @@ def handle_request_parsing_error(err, req, schema, error_status_code, error_head
 
 @doc(tags=["Order"])
 class ExcessReportResource(MethodResource):
+    # @jwt_required()
     @use_kwargs(ExcessRequestSchema, location='query')
     # @marshal_with(ExcessResponseSchema, code=200, description="Retrieves excess-report according to orders.")
     @doc(description="Get items where respective item's sales < .1*inventory using order history given startDate. Date must be in '%Y-%m-%d' format!")
@@ -113,6 +116,7 @@ class ExcessReportResource(MethodResource):
 @doc(tags=["Order"])
 class OrderResource(MethodResource):
 
+    # @jwt_required()
     @use_kwargs(OrderGetRequestSchema, location='query')
     # @marshal_with(OrderResponseSchema, code=200, description="")
     @marshal_with(ErrorSchema, code=404, description="")
@@ -139,6 +143,7 @@ bp.add_url_rule('/items/excess-report', view_func=excess_view, methods=['GET'])
 bp.add_url_rule('/', view_func=order_view, methods=['GET'])
 
 # Adding order, will need Order, Item, & Ingredient
+# @jwt_required()
 @bp.post("/order")
 def createOrder():
     menu = Menu.query.all() # Very inefficient
@@ -196,7 +201,7 @@ def createOrder():
         ]
     }
         
-
+# @jwt_required()
 @bp.put('/order/serve')
 def serveOrder():
     orderId = request.json.get("orderId")

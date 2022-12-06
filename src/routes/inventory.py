@@ -1,6 +1,7 @@
 from flask import Blueprint, request, abort, make_response, jsonify
 from flask_restful import Api
 from flask_apispec import use_kwargs, marshal_with, MethodResource, doc
+from flask_jwt_extended import jwt_required
 from marshmallow import fields
 from webargs.flaskparser import parser
 from ..models import db, Inventory
@@ -16,7 +17,7 @@ api = Api(bp)
 # MethodResource inherits from both Methodview(Flask) & Resource(Flask-Restful)
 @doc(tags=["Inventory"])
 class InventoryResource(MethodResource):
-
+    # @jwt_required()
     @use_kwargs(ReportSchema, location='query') # Solely just so swagger is documented; Don't need to understand
     @marshal_with(InventoryResponseSchema, code=200, description="Successfully retrieved ingredients from inventory")
     @marshal_with(ErrorSchema, code=400, description="Query Paramater Not Allowed")
@@ -31,6 +32,7 @@ class InventoryResource(MethodResource):
         inventoryIngredients = inventoryQuery.order_by(Inventory.ingredientName.asc()).all()
         return {"ingredients": inventoryIngredients}
 
+    # @jwt_required()
     @use_kwargs(RestockSchema) # defaults to looking at the json
     @marshal_with(CountResponseSchema, code=202, description="Successfully restocked all ingredients")
     @marshal_with(ErrorSchema, code=400, description="Invalid Request Body")
@@ -46,6 +48,7 @@ class InventoryResource(MethodResource):
         db.session.commit()
         return {"countRestocked": len(ingredients)}
 
+    # @jwt_required()
     @use_kwargs(InventoryRequestSchema) # defaults to looking at the json
     @marshal_with(CountResponseSchema, code=202, description="Successfully updated provided ingredients in the inventory")
     @marshal_with(ErrorSchema, code=400, description="Invalid Request Body")
@@ -80,6 +83,7 @@ class InventoryResource(MethodResource):
 @doc(tags=["Inventory"])
 class IngredientResource(MethodResource):
 
+    # @jwt_required()
     @marshal_with(IngredientResponseSchema, code=200, description="Ingredient Successfully Retrieved")
     @marshal_with(ErrorSchema, code=404, description="Ingredient Not Found")
     @doc(description="Get a specific ingredient from the inventory")
@@ -89,6 +93,7 @@ class IngredientResource(MethodResource):
             return make_response(jsonify(error="Ingredient Not Found In Database!"), 404)
         return ingredient
 
+    # @jwt_required()
     @marshal_with(SuccessSchema, code=202, description="Ingredient Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Ingredient Not Found")
     @doc(description="Delete an existing ingredient from database")

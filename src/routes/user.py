@@ -35,7 +35,7 @@ class VerifyUserResource(MethodResource):
 
 @doc(tags=["User"])
 class UserResource(MethodResource):
-    @jwt_required()
+    # @jwt_required()
     @marshal_with(UserResponseSchema, code=200, description="Entity Successfully Retrieved")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Get an existing user from the database")
@@ -56,6 +56,7 @@ class UserResource(MethodResource):
         db.session.commit()
         return {"success": True}, 202
 
+    # @jwt_required()
     @use_kwargs(UserRequestSchema) # request body must follow this format
     @marshal_with(UserResponseSchema, code=201, description="Entity Successfully Created")
     @marshal_with(ErrorSchema, code=422, description="Request Parsing Failure")
