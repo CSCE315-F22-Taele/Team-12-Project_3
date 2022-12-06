@@ -204,13 +204,12 @@ export default function Cart(
 
 	return (
 		<>
-			<TranslatedText>
 				<Typography variant="h1">Cart</Typography>
 
 				<Slide direction="up" in={true}>
 					<Box sx={{ width: "auto", marginRight: "20px" }}>
 						<Grid container spacing={2}>
-							<Grid item xs={12} md={8}>
+							<Grid item xs={12} md={8} sx={{marginLeft: "-30px"}}>
 								<StyledDiv className="MenuItemSelection">
 									<Grid container spacing={4}>
 										{menu.map((card, index) => (
@@ -312,6 +311,7 @@ export default function Cart(
 										display: "flex",
 										height: "371px",
 										margin: "10px",
+                    justifyContent: "center"
 									}}>
 									<DataGrid
 										getRowId={(r) => r.rowId}
@@ -389,7 +389,6 @@ export default function Cart(
 						</Grid>
 					</Box>
 				</Slide>
-			</TranslatedText>
 		</>
 	);
 }
