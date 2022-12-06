@@ -7,7 +7,7 @@ from sqlalchemy import and_, or_, func
 from datetime import datetime
 from uuid import uuid4
 
-from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory
+from ..models import db, Order, OrderMenu, Menu, MenuInventory, Inventory, User
 from ..schemas import (
     SalesRequestSchema, SalesResponseSchema,
     ExcessRequestSchema, ExcessResponseSchema,
@@ -139,7 +139,6 @@ bp.add_url_rule('/items/excess-report', view_func=excess_view, methods=['GET'])
 bp.add_url_rule('/', view_func=order_view, methods=['GET'])
 
 # Adding order, will need Order, Item, & Ingredient
-# TODO: Assign a random server
 @bp.post("/order")
 def createOrder():
     menu = Menu.query.all() # Very inefficient
@@ -157,6 +156,7 @@ def createOrder():
         customer_name=customerName,
         time_ordered=timeOrdered,
     )
+    db.session.add(newOrder)
 
     totalPrice = 0
     prices = []
@@ -173,10 +173,10 @@ def createOrder():
         ))
 
     if serverId is None:
-        pass # Implement random serverId here
+        user = User.query.filter_by(user_type=0).order_by(func.random()).first()
+        serverId = user.id
     newOrder.server_id = serverId or "1"  
     newOrder.price = totalPrice
-    db.session.add(newOrder)
     db.session.commit()
     
     return {
