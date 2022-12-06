@@ -1,387 +1,358 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, FormControl, FormHelperText, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Container,
+  FormControl,
+  FormHelperText,
+  Grid,
+} from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
-	addOrderAPI,
-	flaskAPI,
-	getMenuAPI,
-	getMenuPlusDescriptionsAPI,
-	serverSideInstance,
+  addOrderAPI,
+  flaskAPI,
+  getMenuAPI,
+  getMenuPlusDescriptionsAPI,
+  serverSideInstance,
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { margin } from "@mui/system";
-import SpeedDialAccess from "../../components/SpeedDialAccess"
-import Slide from '@mui/material/Slide';
-import TranslatedText from '../../components/Translate';
+import SpeedDialAccess from "../../components/SpeedDialAccess";
+import Slide from "@mui/material/Slide";
+import TranslatedText from "../../components/Translate";
 import { PropsWithChildren } from "react";
 
-
-
 interface menuItem {
-	description: string;
-	itemId: string;
-	itemName: string;
-	price: number;
+  description: string;
+  itemId: string;
+  itemName: string;
+  price: number;
 }
 
 interface thisProp {
-	serverId: string;
-	menuItems: any;
+  serverId: string;
+  menuItems: any;
 }
 
 interface OrderItem {
-	rowId: number;
-	itemName: string;
-	quantity: number;
-	price?: number;
+  rowId: number;
+  itemName: string;
+  quantity: number;
+  price?: number;
 }
 
+export default function Cart(
+  { serverId, menuItems }: thisProp,
+  { children }: PropsWithChildren
+) {
+  const router = useRouter();
+  const menu: menuItem[] = menuItems["items"];
 
-export default function Cart({ serverId, menuItems }: thisProp, {children}: PropsWithChildren) {
-	const router = useRouter();
-	const menu: menuItem[] = menuItems["items"];
+  const [customerName, setCustomerName] = useState("");
+  const [selectedItem, setSelectedItem] = useState("");
+  const [itemPrice, setItemPrice] = useState(0);
+  const [orderList, setOrderList] = useState<OrderItem[]>([]);
+  const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>([]);
+  const [itemQuantitiesFirstPass, setItemQuantitiesFirstPass] = useState<
+    Boolean[]
+  >(new Array(menu.length).fill(true));
+  const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
+  const [itemQuantities, setItemQuantities] = useState(
+    new Array(menu.length).fill(Number.POSITIVE_INFINITY)
+  );
 
-	const [customerName, setCustomerName] = useState("");
-	const [selectedItem, setSelectedItem] = useState("");
-	const [itemPrice, setItemPrice] = useState(0);
-	const [orderList, setOrderList] = useState<OrderItem[]>([]);
-	const [selectedDeleteList, setSelectedDeleteList] = useState<OrderItem[]>(
-		[]
-		);
-	const [itemQuantitiesFirstPass, setItemQuantitiesFirstPass] = useState<Boolean[]>(new Array(menu.length).fill(true));
-	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
-	const [itemQuantities, setItemQuantities] = useState(new Array(menu.length).fill(Number.POSITIVE_INFINITY));
+  const tableColumns: GridColDef[] = [
+    {
+      field: "itemName",
+      headerName: "Item Name",
+      headerClassName: "header-styling",
+      type: "string",
+      width: 200,
+    },
+    {
+      field: "quantity",
+      headerName: "Quantity",
+      headerClassName: "header-styling",
+      type: "number",
+      width: 100,
+    },
+    {
+      field: "price",
+      headerName: "Price ($)",
+      headerClassName: "header-styling",
+      type: "number",
+      width: 100,
+    },
+  ];
 
-	const tableColumns: GridColDef[] = [
-		{
-			field: "itemName",
-			headerName: "Item Name",
-			headerClassName: "header-styling",
-			type: "string",
-			width: 200,
-		},
-		{
-			field: "quantity",
-			headerName: "Quantity",
-			headerClassName: "header-styling",
-			type: "number",
-			width: 100,
-		},
-		{ 
-			field: "price", 
-			headerName: "Price ($)", 
-			headerClassName: "header-styling",
-			type: "number", 
-			width: 100 
-		},
-	];
+  // const setItemStates = (event: SelectChangeEvent) => {
+  // 	const indexOfSpace = event.target.value.lastIndexOf(" ");
+  // 	const menuObjectName = event.target.value.substring(0, indexOfSpace);
+  // 	const menuObjectPrice = event.target.value.substring(indexOfSpace + 1);
+  // 	setSelectedItem(menuObjectName);
+  // 	setItemPrice(Number(menuObjectPrice));
+  // };
 
-	// const setItemStates = (event: SelectChangeEvent) => {
-	// 	const indexOfSpace = event.target.value.lastIndexOf(" ");
-	// 	const menuObjectName = event.target.value.substring(0, indexOfSpace);
-	// 	const menuObjectPrice = event.target.value.substring(indexOfSpace + 1);
-	// 	setSelectedItem(menuObjectName);
-	// 	setItemPrice(Number(menuObjectPrice));
-	// };
+  const addToCart = (
+    selectedItem: string,
+    index: number,
+    itemPrice: Number
+  ) => {
+    // if (itemQuantity <= 0 || selectedItem === "") {
+    // 	return;
+    // }
 
-	const addToCart = (selectedItem: string, index: number, itemPrice: Number) => {
-		// if (itemQuantity <= 0 || selectedItem === "") {
-		// 	return;
-		// }
+    // if (orderList.some((order) => order.itemName === selectedItem)) {
+    // 	return;
+    // }
 
-		// if (orderList.some((order) => order.itemName === selectedItem)) {
-		// 	return;
-		// }
-		
-		var newBools = itemQuantitiesFirstPass;
-		var num = Number(itemQuantities[index]);
-		console.log(num, Number.NEGATIVE_INFINITY)
-		if(isNaN(num) || num <= 0 || num === Number.POSITIVE_INFINITY)
-			newBools[index] = false;
-		else
-			if(!newBools[index])
-				newBools[index] = true;
-		// console.log("Index: ", index, " newBools",newBools);
-		// console.log("before:",newBools[index], " num:", num);
-		
-		setItemQuantitiesFirstPass(newBools);
+    var newBools = itemQuantitiesFirstPass;
+    var num = Number(itemQuantities[index]);
+    console.log(num, Number.NEGATIVE_INFINITY);
+    if (isNaN(num) || num <= 0 || num === Number.POSITIVE_INFINITY)
+      newBools[index] = false;
+    else if (!newBools[index]) newBools[index] = true;
+    // console.log("Index: ", index, " newBools",newBools);
+    // console.log("before:",newBools[index], " num:", num);
 
-		// console.log("Test", itemQuantitiesFirstPass[index], newBools[index]);
+    setItemQuantitiesFirstPass(newBools);
 
-		// console.log(itemQuantitiesFirstPass);
-		// console.log(itemQuantities);
+    // console.log("Test", itemQuantitiesFirstPass[index], newBools[index]);
 
-		if(!newBools[index] || orderList.some((order) => order.itemName === selectedItem))
-			return;
-		// console.log("re");
+    // console.log(itemQuantitiesFirstPass);
+    // console.log(itemQuantities);
 
-		setOrderList([
-			...orderList,
-			{
-				rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
-				itemName: selectedItem,
-				quantity: itemQuantities[index],
-				price: (Number)(itemQuantities[index]) * (Number)(itemPrice),
-			},
-		]);
+    if (
+      !newBools[index] ||
+      orderList.some((order) => order.itemName === selectedItem)
+    )
+      return;
+    // console.log("re");
 
-		setItemQuantities(new Array(menu.length).fill(Number.POSITIVE_INFINITY));
-		setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
-	};
+    setOrderList([
+      ...orderList,
+      {
+        rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
+        itemName: selectedItem,
+        quantity: itemQuantities[index],
+        price: Number(itemQuantities[index]) * Number(itemPrice),
+      },
+    ]);
 
-	const deleteAllInCart = () => {
-		setOrderList([]);
-	};
-	const deleteSelectedInCart = () => {
-		setOrderList((orderList) =>
-			orderList.filter(
-				(row) =>
-					!selectedDeleteList.some(
-						(deletedItem) => deletedItem.rowId === row.rowId
-					)
-			)
-		);
-	};
+    setItemQuantities(new Array(menu.length).fill(Number.POSITIVE_INFINITY));
+    setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
+  };
 
-	const submitOrder = async () => {
-		if (!customerName || customerName === "") {
-			setCustomerNameFirstPass(false);
-			return;
-		}
+  const deleteAllInCart = () => {
+    setOrderList([]);
+  };
+  const deleteSelectedInCart = () => {
+    setOrderList((orderList) =>
+      orderList.filter(
+        (row) =>
+          !selectedDeleteList.some(
+            (deletedItem) => deletedItem.rowId === row.rowId
+          )
+      )
+    );
+  };
 
-		if (orderList.length === 0) {
-			return;
-		}
+  const submitOrder = async () => {
+    if (!customerName || customerName === "") {
+      setCustomerNameFirstPass(false);
+      return;
+    }
 
-		const data = JSON.stringify({
-			customerName: customerName,
-			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
-			items: orderList,
-		});
+    if (orderList.length === 0) {
+      return;
+    }
 
-		const config = {
-			method: "POST",
-			url: addOrderAPI,
-			headers: {
-				"Content-Type": "application/json",
-			},
-			data: data,
-		};
+    const data = JSON.stringify({
+      customerName: customerName,
+      serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+      items: orderList,
+    });
 
-		const response = await flaskAPI(config);
+    const config = {
+      method: "POST",
+      url: addOrderAPI,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
 
-		setOrderList([]);
-		router.push("/customer/thanks");
-	};
+    const response = await flaskAPI(config);
 
-	useEffect(() => {}, [itemQuantitiesFirstPass]);
+    setOrderList([]);
+    router.push("/customer/thanks");
+  };
 
-	
+  useEffect(() => {}, [itemQuantitiesFirstPass]);
 
-	return (
-		<>
-			<TranslatedText>
-			<SpeedDialAccess>
-				<Typography variant="h1">Cart</Typography>
+  return (
+    <>
+      <TranslatedText>
+        <SpeedDialAccess>
+          <Typography variant="h1">Cart</Typography>
 
+          <Slide direction="up" in={true}>
+            <Box sx={{ width: "auto", marginRight: "20px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={8}>
+                  <StyledDiv className="MenuItemSelection">
+                    <Container maxWidth="md">
+                      <Grid container spacing={4}>
+                        {menu.map((card, index) => (
+                          <Grid item key={card.itemName} xs={12} sm={6} md={4}>
+                            <Card>
+                              {/* <Card className={classes.card}> */}
+                              <CardContent sx={{ minHeight: 200 }}>
+                                {/* <CardContent className={classes.cardContent}> */}
+                                <Typography variant="h6" gutterBottom>
+                                  {card.itemName}
+                                </Typography>
+                                <Typography>{card.description}</Typography>
+                                <Typography>
+                                  {"Price: " + card.price}
+                                </Typography>
+                              </CardContent>
+                              <CardActions>
+                                <TextField
+                                  type="text"
+                                  inputMode="numeric"
+                                  label="Enter quantity"
+                                  key={card.itemName}
+                                  sx={{ marginTop: "-5px" }}
+                                  onChange={(e) => {
+                                    // setItemQuantityFirstPass(false);
+                                    var newQuants = itemQuantities;
+                                    newQuants[index] = Number(e.target.value);
+                                    setItemQuantities(newQuants);
+                                  }}
+                                  error={
+                                    !itemQuantitiesFirstPass[index]
+                                      ? true
+                                      : false
+                                  }
+                                  helperText={
+                                    !itemQuantitiesFirstPass[index]
+                                      ? "Enter a positive number"
+                                      : ""
+                                  }
+                                  className="Quantity"
+                                ></TextField>
+                                <Button
+                                  onClick={() => {
+                                    addToCart(card.itemName, index, card.price);
+                                  }}
+                                >
+                                  Add
+                                </Button>
+                              </CardActions>
+                            </Card>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Container>
+                  </StyledDiv>
+                </Grid>
 
-				<Box 
-				sx={{ width: "auto", marginRight: "20px"  }}
-				>
-					<Grid container spacing={2}>
-						<Grid item xs={8}>
-							<StyledDiv className="MenuItemSelection">
-								<Container maxWidth='md'>
-									<Grid container spacing={4}>
-										{menu.map((card, index) => (
-											<Grid item key={card.itemName} xs={12} sm={6} md={4}>
-												<Slide direction="up" in={true}>
-													<Card>
-													{/* <Card className={classes.card}> */}
-														<CardMedia 
-															// className={classes.CardMedia} 
-															image='https://source.unsplash.com/random' 
-															title="Image title"
-														/>
+                {/* right section of customer side */}
 
-														<CardContent sx={{minHeight: 200}}>
-														{/* <CardContent className={classes.cardContent}> */}
-															<Typography variant='h6' gutterBottom>
-																{card.itemName}
-															</Typography>
-															<Typography>
-																{card.description}    
-															</Typography>         
-															<Typography>
-																{"Price: " + card.price}	
-															</Typography>                           
-														</CardContent>
-														<CardActions>
-															<TextField
-															type="text"
-															inputMode="numeric"
-															label="Enter quantity"
-															key={card.itemName}
-															sx={{marginTop: "-5px"}}
-															onChange={(e) => {
-																// setItemQuantityFirstPass(false);
-																var newQuants = itemQuantities;
-																newQuants[index] = (Number)(e.target.value);
-																setItemQuantities(newQuants);
-															}}
-															error={
-																!itemQuantitiesFirstPass[index]
-																	? true
-																	: false
-															}
-															helperText={
-																!itemQuantitiesFirstPass[index]
-																	? "Enter a positive number"
-																	: ""
-															}
-															// error={
-															// 	quantity &&
-															// 	quantity.value <= 0 &&
-															// 	!itemQuantityFirstPass
-															// }
-															// helperText={
-															// 	quantity &&
-															// 	quantity.value <= 0 &&
-															// 	!itemQuantityFirstPass
-															// 		? "Please enter a positive number"
-															// 		: ""
-															// }
-															// inputRef={quantityRef}
-															className="Quantity"></TextField>
-															<Button onClick={() => {
-																
-																addToCart(card.itemName, index, card.price);
-															}}>Add</Button>
-															
-														</CardActions>
-													</Card>
-												</Slide>
-											</Grid>
-										))}
-									</Grid>
+                <Grid
+                  item
+                  xs={4}
+                  sx={{ marginTop: "40px", position: "sticky", top: 0 }}
+                >
+                  <StyledDiv
+                    sx={{
+                      display: "flex",
+                      height: "371px",
+                      margin: "10px",
+                    }}
+                  >
+                    <DataGrid
+                      getRowId={(r) => r.rowId}
+                      rows={orderList}
+                      columns={tableColumns}
+                      pageSize={5}
+                      rowsPerPageOptions={[5]}
+                      checkboxSelection
+                      sx={{ maxWidth: 455, maxHeight: 700 }}
+                      onSelectionModelChange={(newSelection) => {
+                        const selectedIDs = new Set(newSelection);
+                        const selectedRows = orderList.filter((row) =>
+                          selectedIDs.has(row.rowId)
+                        );
+                        setSelectedDeleteList(selectedRows);
+                      }}
+                    />
+                  </StyledDiv>
+                  <StyledDiv>
+                    <FormHelperText>
+                      Note: Same item cannot be added multiple times. At least
+                      one Item must be added to the order to submit
+                    </FormHelperText>
+                  </StyledDiv>
 
-								</Container>
-								{/* <TextField
-									type="text"
-									inputMode="numeric"
-									label="Enter quantity"
-									onChange={(e) => {
-										setItemQuantity(Number(e.target.value));
-										setItemQuantityFirstPass(false);
-									}}
-									error={itemQuantity <= 0 && !itemQuantityFirstPass}
-									helperText={
-										itemQuantity <= 0 && !itemQuantityFirstPass
-											? "Please enter a positive number"
-											: ""
-									}
-									className="Quantity"></TextField> */}
-								{/* <Button onClick={addToCart}>Add</Button> */}
-							</StyledDiv>
-							
-						</Grid>
-
-
-						{/* right section of customer side */}
-						<Slide direction="up" in={true}>
-
-						<Grid item xs={4} sx={{marginTop: "40px", position: "sticky", top: 0}}>
-							<StyledDiv
-								sx={{
-									display: "flex",
-									height: "371px",
-									margin: "10px",
-								}}>
-									<DataGrid
-										getRowId={(r) => r.rowId}
-										rows={orderList}
-										columns={tableColumns}
-										pageSize={5}
-										rowsPerPageOptions={[5]}
-										checkboxSelection
-										sx={{ maxWidth: 455, maxHeight: 700 }}
-										onSelectionModelChange={(newSelection) => {
-											const selectedIDs = new Set(newSelection);
-											const selectedRows = orderList.filter((row) =>
-												selectedIDs.has(row.rowId)
-											);
-											setSelectedDeleteList(selectedRows);
-										}}
-									/>
-								</StyledDiv>
-								<StyledDiv>
-									<FormHelperText>
-										Note: Same item cannot be added multiple times. At least one Item
-										must be added to the order to submit
-									</FormHelperText>
-								</StyledDiv>
-
-								<StyledDiv className="AddOrdersSection">
-									<Grid container spacing={2}>
-										<Grid item xs={6}>
-											<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
-										</Grid>
-										<Grid item xs={6}>
-											<Button onClick={deleteAllInCart}>Delete All</Button>
-										</Grid>
-										<Grid item xs={6}>
-											<TextField
-												type="text"
-												label="Enter your name"
-												onChange={(e) => {
-													setCustomerName(e.target.value);
-												}}
-												error={
-													!customerNameFirstPass
-														? true
-														: false
-												}
-												helperText={
-													!customerNameFirstPass
-														? "Enter a name here"
-														: ""
-												}
-												value={customerName}
-												className="CustomerName"></TextField>
-										</Grid>
-										<Grid item xs={6}>
-											<Button onClick={submitOrder}>Submit Order</Button>
-										</Grid>
-									</Grid>
-								</StyledDiv>
-
-							
-						</Grid>
-						</Slide>
-
-						
-					</Grid>
-				</Box>
-			</SpeedDialAccess>
-			
-			</TranslatedText>
-		</>
-	);
+                  <StyledDiv className="AddOrdersSection">
+                    <Grid container spacing={2}>
+                      <Grid item xs={6}>
+                        <Button onClick={deleteSelectedInCart}>
+                          Delete Selected
+                        </Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button onClick={deleteAllInCart}>Delete All</Button>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          type="text"
+                          label="Enter your name"
+                          onChange={(e) => {
+                            setCustomerName(e.target.value);
+                          }}
+                          error={!customerNameFirstPass ? true : false}
+                          helperText={
+                            !customerNameFirstPass ? "Enter a name here" : ""
+                          }
+                          value={customerName}
+                          className="CustomerName"
+                        ></TextField>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Button onClick={submitOrder}>Submit Order</Button>
+                      </Grid>
+                    </Grid>
+                  </StyledDiv>
+                </Grid>
+              </Grid>
+            </Box>
+          </Slide>
+        </SpeedDialAccess>
+      </TranslatedText>
+    </>
+  );
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const instance = serverSideInstance(context);
-	const response = await instance.get(getMenuPlusDescriptionsAPI);
-	const data = response.data;
+  const instance = serverSideInstance(context);
+  const response = await instance.get(getMenuPlusDescriptionsAPI);
+  const data = response.data;
 
-	return {
-		props: {
-			menuItems: data,
-		},
-	};
+  return {
+    props: {
+      menuItems: data,
+    },
+  };
 }
