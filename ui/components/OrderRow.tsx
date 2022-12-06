@@ -26,7 +26,8 @@ export default function OrderRow({ order, setSelectedOrders }: rowProps) {
 	return (
 		<>
 			<TableRow
-				sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+				// sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+				>
 				<TableCell>
 					<IconButton
 						aria-label="expand row"
@@ -88,10 +89,11 @@ export default function OrderRow({ order, setSelectedOrders }: rowProps) {
 									{order.items.map((orderItem) => (
 										<TableRow
 											key={orderItem.itemName}
-											sx={{
-												"&:last-child td, &:last-child th":
-													{ border: 0 },
-											}}>
+											// sx={{
+											// 	"&:last-child td, &:last-child th":
+											// 		{ border: 0 },
+											// }}
+											>
 											<TableCell
 												component="th"
 												scope="row">
