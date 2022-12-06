@@ -1,7 +1,6 @@
 import { Button, Typography } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 import { StyledDiv } from "../../styles/mystyles";
 
 export default function Manager() {
@@ -9,7 +8,6 @@ export default function Manager() {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -50,7 +48,6 @@ export default function Manager() {
 						Inventory
 					</Button>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }

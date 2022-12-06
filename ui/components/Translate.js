@@ -50,8 +50,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
 import React, { useContext, useEffect } from 'react'
+import {Button, styled} from "@mui/material"
 
 export default function TranslatedText({children}) {
+
+    const thisDiv = styled("div")(({ theme, ...otherProps }) => ({
+        // margin: "2000px",
+        // textAlignLast: "center",
+    }));
 
     var duplicateCounter = 0;
 
@@ -78,15 +84,15 @@ export default function TranslatedText({children}) {
 
     
     return (
-        <div 
+        <thisDiv 
         // id="google_translate_element"
         // className={styles.container}
         >
             
-            <div id="google_translate_element"></div>
+            <Button id="google_translate_element"></Button>
 
             {children}
         
-        </div>
+        </thisDiv>
     )
 }

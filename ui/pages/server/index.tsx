@@ -27,7 +27,6 @@ import { StyledDiv } from "../../styles/mystyles";
 import { GridColDef } from "@mui/x-data-grid";
 import { SWRConfig, useSWRConfig } from "swr";
 import Orders, { ServerOrder } from "../../components/Orders";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 
 interface thisProp {
 	orders: ServerOrder[];
@@ -81,7 +80,6 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -155,7 +153,6 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 						Add New Order
 					</Button>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }

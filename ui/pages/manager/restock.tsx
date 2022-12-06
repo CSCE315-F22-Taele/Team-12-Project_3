@@ -13,7 +13,6 @@ import {
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 import {
 	flaskAPI,
 	getRestockReportAPI,
@@ -43,7 +42,6 @@ export default function Excess({ restockData }: thisProp) {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -102,7 +100,6 @@ export default function Excess({ restockData }: thisProp) {
 						</TableContainer>
 					</Box>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }

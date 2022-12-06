@@ -32,7 +32,7 @@ export default function App({children}: PropsWithChildren) {
 	const handleClose = () => setOpen(false);
 
 	return (
-        <Box sx={{ height: "90vh", position: "sticky", top: 0, transform: 'translateZ(1px)', flexGrow: 1}}>
+		<>
 			<SpeedDial
 				direction="up"
 				ariaLabel="SpeedDial"
@@ -59,7 +59,7 @@ export default function App({children}: PropsWithChildren) {
 					/>
 				))}
 			</SpeedDial>
-			{children}
-		</Box>
+			
+		</>
 	);
 }

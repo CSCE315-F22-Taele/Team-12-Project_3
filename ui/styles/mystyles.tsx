@@ -180,7 +180,7 @@ export const StyledThemeDark = createTheme({
           // border: "2px solid",
           textDecoration: "italic",
           minWidth: 20,
-          margin: "auto",
+          // margin: "auto",
         },
       },
     },

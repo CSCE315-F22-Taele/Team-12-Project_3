@@ -21,7 +21,6 @@ import {
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 import {
 	flaskAPI,
 	getInventoryAPI,
@@ -172,7 +171,6 @@ export default function Inventory({ ingredients }: thisProp) {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -342,7 +340,6 @@ export default function Inventory({ ingredients }: thisProp) {
 						className="restock_amount"></TextField>
 					<Button onClick={restockAll}>Restock All</Button>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }

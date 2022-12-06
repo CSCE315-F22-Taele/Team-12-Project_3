@@ -47,18 +47,21 @@ export default NextAuth({
 		strategy: "jwt",
 	},
 	callbacks: {
-		jwt: ({ token, user }) => {
+		jwt: ({ token, user, account }) => {
 			if (user) {
 				token.id = user.id;
+			}
+			if (account) {
+				token.accessToken = account.access_token;
 			}
 
 			return token;
 		},
-		// session: ({ session, token }) => {
-		// 	session.user.id = token.id;
-
-		// 	return session;
-		// },
+		session: ({ session, token }) => {
+			session.user.id = token.id;
+			session.accessToken = token.accessToken as string;
+			return session;
+		},
 	},
 	// custom auth pages
 	pages: {

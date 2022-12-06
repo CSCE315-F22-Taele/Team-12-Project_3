@@ -10,6 +10,7 @@ import {
 	TableRow,
 	TextField,
 	Typography,
+	useTheme,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -18,12 +19,11 @@ import {
 	MuiPickersAdapterContext,
 } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
 import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 import { SxProps } from "@mui/system";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 import { useEffect } from "react";
 
 interface Excess {
@@ -57,11 +57,10 @@ export default function Excess({ serverId }: { serverId: string }) {
 	);
 
 	const getReport = async () => {
-
 		const start = new Date(String(startDate));
 		const end = new Date(currentDate);
 
-		if(!startDate || start > end) {
+		if (!startDate || start > end) {
 			setStartDateFirstPass(false);
 			return;
 		}
@@ -70,141 +69,143 @@ export default function Excess({ serverId }: { serverId: string }) {
 		setStartDateFirstPass(true);
 	};
 
-	
+	const theme = useTheme();
 
-	var popperSx: SxProps = {};
-
-	if((localStorage.getItem("contrast") as string) === "on") {
-		popperSx = {
-			"& .MuiPaper-root": {
-				border: "5px solid white",
-				padding: 2,
-				marginTop: 1,
-			},
-			"& .MuiPickersDay-dayWithMargin": {
-				border: "2px solid white",
-			},
-			"& .MuiDayPicker-weekDayLabel": {
-				color: "white",
-			},
-		};
-	}
 	// useEffect(() => {}, [itemQuantitiesFirstPass]);
 
-	useEffect(() => {}, [popperSx]);
-	
+	const popperSx = useMemo(() => {
+		var popperSx: SxProps = {};
+
+		if ((localStorage.getItem("contrast") as string) === "on") {
+			popperSx = {
+				"& .MuiPaper-root": {
+					border: "5px solid white",
+					padding: 2,
+					marginTop: 1,
+				},
+				"& .MuiPickersDay-dayWithMargin": {
+					border: "2px solid white",
+				},
+				"& .MuiDayPicker-weekDayLabel": {
+					color: "white",
+				},
+			};
+		} else {
+			popperSx = {};
+		}
+		return popperSx;
+	}, [theme]);
 
 	return (
 		<>
-			<SpeedDialAccess>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/reports");
-						}}>
-						Back
-					</Button>
-				</StyledDiv>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager/reports");
+					}}>
+					Back
+				</Button>
+			</StyledDiv>
 
-				<Typography variant="h1">Excess Report</Typography>
+			<Typography variant="h1">Excess Report</Typography>
 
-				<StyledDiv className="time-values">
-					<LocalizationProvider dateAdapter={AdapterDayjs}>
-						<DatePicker
-							inputFormat="MM/DD/YYYY"
-							label="Start Date"
-							value={startDate}
-							PopperProps={{
-								sx: popperSx,
-							}}
-							onChange={(newValue) => {
-								var fullDateWithOtherInfo = new Date(newValue!).toLocaleString('en-US', {timeZone: 'UTC'});
-								var date = fullDateWithOtherInfo
-									.substring(
-										0,
-										fullDateWithOtherInfo.indexOf(",")
-									)
-									.split("/");
-								var month = date[0];
-								var day = date[1];
-								var year = date[2];
-								var parsedDate = year + "-" + month + "-" + day;
-								setStartDate(parsedDate);
-							}}
-							renderInput={(params) => <TextField {...params} 
-								error={
-									!startDateFirstPass
-										? true
-										: false
-								}
+			<StyledDiv className="time-values">
+				<LocalizationProvider dateAdapter={AdapterDayjs}>
+					<DatePicker
+						inputFormat="MM/DD/YYYY"
+						label="Start Date"
+						value={startDate}
+						PopperProps={{
+							sx: popperSx,
+						}}
+						onChange={(newValue) => {
+							var fullDateWithOtherInfo = new Date(
+								newValue!
+							).toLocaleString("en-US", { timeZone: "UTC" });
+							var date = fullDateWithOtherInfo
+								.substring(
+									0,
+									fullDateWithOtherInfo.indexOf(",")
+								)
+								.split("/");
+							var month = date[0];
+							var day = date[1];
+							var year = date[2];
+							var parsedDate = year + "-" + month + "-" + day;
+							setStartDate(parsedDate);
+						}}
+						renderInput={(params) => (
+							<TextField
+								{...params}
+								error={!startDateFirstPass ? true : false}
 								helperText={
 									!startDateFirstPass
 										? "Start date not valid"
 										: ""
 								}
-								/>}
-						/>
-					</LocalizationProvider>
-					<label> Current date: </label>
-					<TextField label={currentDate} disabled />
-					<Button onClick={getReport}>Get Report</Button>
+							/>
+						)}
+					/>
+				</LocalizationProvider>
+				<label> Current date: </label>
+				<TextField label={currentDate} disabled />
+				<Button onClick={getReport}>Get Report</Button>
 
-					{/* <StyledDiv className="excess">{JSON.stringify(excess)}</StyledDiv> */}
-					<StyledDiv className="excess">
-						<Box
-							sx={{
-								display: "flex",
-								justifyContent: "center",
-								alignContent: "center",
-								p: 1,
-								m: 1,
-								bgcolor: "background.paper",
-								borderRadius: 1,
-							}}>
-							<TableContainer
-								component={Paper}
-								sx={{ maxWidth: 700, maxHeight: 400 }}>
-								<Table stickyHeader aria-label="simple table">
-									<TableHead>
-										<TableRow>
-											<TableCell>Menu Item</TableCell>
-											<TableCell align="right">
-												Sales
-											</TableCell>
-											{/* <TableCell align="right">
+				{/* <StyledDiv className="excess">{JSON.stringify(excess)}</StyledDiv> */}
+				<StyledDiv className="excess">
+					<Box
+						sx={{
+							display: "flex",
+							justifyContent: "center",
+							alignContent: "center",
+							p: 1,
+							m: 1,
+							bgcolor: "background.paper",
+							borderRadius: 1,
+						}}>
+						<TableContainer
+							component={Paper}
+							sx={{ maxWidth: 700, maxHeight: 400 }}>
+							<Table stickyHeader aria-label="simple table">
+								<TableHead>
+									<TableRow>
+										<TableCell>Menu Item</TableCell>
+										<TableCell align="right">
+											Sales
+										</TableCell>
+										{/* <TableCell align="right">
 												Current Stock
 											</TableCell> */}
-										</TableRow>
-									</TableHead>
-									<TableBody>
-										{excess?.map((eachItem: Excess) => (
-											<TableRow
-												key={eachItem.itemName}
-												// sx={{
-												// 	"&:last-child td, &:last-child th":
-												// 		{ border: 0 },
-												// }}
-											>
-												<TableCell
-													component="th"
-													scope="row">
-													{eachItem.itemName}
-												</TableCell>
-												<TableCell align="right">
-													{eachItem.sales}
-												</TableCell>
-												{/* <TableCell align="right">
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{excess?.map((eachItem: Excess) => (
+										<TableRow
+											key={eachItem.itemName}
+											// sx={{
+											// 	"&:last-child td, &:last-child th":
+											// 		{ border: 0 },
+											// }}
+										>
+											<TableCell
+												component="th"
+												scope="row">
+												{eachItem.itemName}
+											</TableCell>
+											<TableCell align="right">
+												{eachItem.sales}
+											</TableCell>
+											{/* <TableCell align="right">
 													{eachItem.currentStock}
 												</TableCell> */}
-											</TableRow>
-										))}
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Box>
-					</StyledDiv>
+										</TableRow>
+									))}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Box>
 				</StyledDiv>
-			</SpeedDialAccess>
+			</StyledDiv>
 		</>
 	);
 }
