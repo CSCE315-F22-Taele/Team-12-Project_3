@@ -50,6 +50,11 @@ export const StyledDiv = styled("div")(({ theme, ...otherProps }) => ({
 }));
 
 export const StyledTheme = createTheme({
+  // palette: {
+  //   background: {
+  //     default: "rgb(75, 64, 39)",
+  //   }
+  // },
   components: {
     MuiDataGrid: {
       styleOverrides: {

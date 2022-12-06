@@ -17,6 +17,9 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { margin } from "@mui/system";
 import SpeedDialAccess from "../../components/SpeedDialAccess"
 import Slide from '@mui/material/Slide';
+import TranslatedText from '../../components/Translate';
+import { PropsWithChildren } from "react";
+
 
 
 interface menuItem {
@@ -39,7 +42,7 @@ interface OrderItem {
 }
 
 
-export default function Cart({ serverId, menuItems }: thisProp) {
+export default function Cart({ serverId, menuItems }: thisProp, {children}: PropsWithChildren) {
 	const router = useRouter();
 	const menu: menuItem[] = menuItems["items"];
 
@@ -178,13 +181,17 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 
 	useEffect(() => {}, [itemQuantitiesFirstPass]);
 
+	
+
 	return (
 		<>
+			<TranslatedText>
 			<SpeedDialAccess>
 				<Typography variant="h1">Cart</Typography>
 
+
 				<Box 
-				sx={{ width: "auto"  }}
+				sx={{ width: "auto", marginRight: "20px"  }}
 				>
 					<Grid container spacing={2}>
 						<Grid item xs={8}>
@@ -362,7 +369,7 @@ export default function Cart({ serverId, menuItems }: thisProp) {
 				</Box>
 			</SpeedDialAccess>
 			
-			
+			</TranslatedText>
 		</>
 	);
 }

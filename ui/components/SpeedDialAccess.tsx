@@ -25,7 +25,6 @@ export default function App({children}: PropsWithChildren) {
 		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast},
 		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode},
 		{ icon: <LocationOnIcon />, name: 'Google Maps', button: () => {router.push("../customer/gmaps")}},
-		{ icon: <GTranslateIcon />, name: 'Google Translate'},
 
 	];
 	const [open, setOpen] = useState(false);
@@ -33,12 +32,19 @@ export default function App({children}: PropsWithChildren) {
 	const handleClose = () => setOpen(false);
 
 	return (
-        <Box sx={{ height: "100vh", transform: 'translateZ(0px)', flexGrow: 1 }}>
-			<Backdrop open={open} />
+        <Box sx={{ height: "90vh", position: "sticky", top: 0, transform: 'translateZ(1px)', flexGrow: 1}}>
 			<SpeedDial
 				direction="up"
 				ariaLabel="SpeedDial"
-				sx={{ position: 'absolute', bottom: 50, right: "95%" }}
+				sx={
+					{ 
+						flexGrow: 1,
+						position: 'absolute',
+						top: 0, 
+						bottom: 50, 
+						right: "95%"
+					}
+				}
 				icon={<SpeedDialIcon />}
 				onClose={handleClose}
 				onOpen={handleOpen}
