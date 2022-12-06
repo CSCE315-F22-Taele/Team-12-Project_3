@@ -29,6 +29,10 @@ import { margin } from "@mui/system";
 import Slide from "@mui/material/Slide";
 import TranslatedText from "../../components/Translate";
 import { PropsWithChildren } from "react";
+import { StaticImageData } from "next/image";
+import Image from "next/dist/client/image";
+import StrawberryShake from "../../public/images/StrawberryShake.jpg";
+import { images } from "./imageimport";
 
 interface menuItem {
 	description: string;
@@ -225,13 +229,17 @@ export default function Cart(
 															minHeight: 200,
 														}}>
 														{/* <CardContent className={classes.cardContent}> */}
+														<Image
+															style={{ width: "50vw", height: "50vh", position: "relative", zIndex: 1}}
+															src={images[index]}
+															alt="Reveille"
+														/>
 														<Typography
 															variant="h6"
 															gutterBottom>
 															{card.itemName}
 														</Typography>
-														<Typography>
-															{card.description}
+														<Typography>															{card.description}
 														</Typography>
 														<Typography>
 															{"Price: " +
