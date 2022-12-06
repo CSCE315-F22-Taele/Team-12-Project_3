@@ -19,7 +19,7 @@ export default function HomePage({}) {
             <StyledDiv sx={justMainPageStyleDiv}>
                 <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
                     <StyledDiv>
-                        <Typography variant="h1">Welcome to Rev&#93;s American Grill!</Typography>
+                        <Typography variant="h1">Welcome to Rev&#39;s American Grill!</Typography>
                         <Grid>
                             <Image
                                 style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1}}
@@ -44,7 +44,7 @@ export default function HomePage({}) {
                                     onClick={() => {
                                         router.push("/customer/cart");
                                     }}>
-                                    Click to Get Started!
+                                    Click to Start Ordering!
                                 </Button>
                             </StyledDiv>
                         </Grid>
