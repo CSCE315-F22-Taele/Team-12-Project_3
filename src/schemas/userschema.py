@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate
 
 class VerifyUserRequestSchema(Schema):
-    username = fields.Str(required=True)
+    email = fields.Str(required=True)
     password = fields.Str(required=True)
 
 # Methods using this schema must have json body follow 

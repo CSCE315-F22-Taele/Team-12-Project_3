@@ -19,17 +19,17 @@ class VerifyUserResource(MethodResource):
     @marshal_with(UserResponseSchema, code=200, description="Login Successful")
     @marshal_with(ErrorSchema, code=401, description="Login Unsuccessful")
     @doc(description="Authenticate User Login")
-    def post(self, username, password):
+    def post(self, email, password):
         try:
             user = User.query.\
-                filter_by(username=username).\
+                filter_by(email=email).\
                 join(Credentials).\
                 filter_by(password=password).\
                 first()
             if user is None:
                 return make_response(jsonify(error="Wrong Username and/or Password!"), 401)
             else:
-                return User.query.filter_by(username=username).first()
+                return User.query.filter_by(email=email).first()
         except Exception as e:
             return make_response(jsonify(error="An error occurred, maybe with server"), 401)
 
