@@ -19,17 +19,15 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
 
-    print("prior", os.getenv("SQLALCHEMY_DB_URI"))
     if test_config is None:
-        print("not that there's anything wrong with that")
         app.config.from_mapping(
             SECRET_KEY = os.getenv("SECRET_KEY"),
-            SQLALCHEMY_DATABASE_URI=os.getenv("SQLALCHEMY_DB_URI"),
+#             SQLALCHEMY_DATABASE_URI=os.getenv("SQLALCHEMY_DB_URI"),
+            SQLALCHEMY_DATABASE_URI="postgresql://csce315_912_cherian:830002546@csce-315-db.engr.tamu.edu/csce315_912_12"
         )
-        print(os.getenv("SQLALCHEMY_DB_URI"))
     else:
         app.config.from_mapping(test_config)
-    print("past", os.getenv("SQLALCHEMY_DB_URI"))
+    print("past", SQLALCHEMY_DATABASE_URI)
 
     # For Swagger Documentation
     app.config.update({
