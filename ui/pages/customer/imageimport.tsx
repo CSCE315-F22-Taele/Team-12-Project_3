@@ -28,12 +28,43 @@ import Tissues from "../../public/images/Tissues.png";
 import VanillaIceCreamCup from "../../public/images/VanillaIceCreamCup.jpg";
 import VanillaAggieShake from "../../public/images/VanillaShake.jpg";
 
-export const images: StaticImageData[] = [
-    BaconBurger, BBQSauce, BlackBeanBurger, CaesarSalad, ChickenSandwich, ChickenTenders, 
-    ChocolateAggieShake, ChocolateIceCreamCup, ClassicBurger, CookieSandwich, Cups, DietPepsi, Forks,
-    FrenchFries, GigEmPattyMelt, GigEmSauce, HoneyMustard, Knives, Pepsi, Plates, RanchSauce, 
-    SpicyRanchSauce, Spoons, StrawberryAggieShake, StrawberryIceCreamCup, Tissues, VanillaAggieShake, VanillaIceCreamCup
-]
+// export const images: StaticImageData[] = [
+//     BaconBurger, BBQSauce, BlackBeanBurger, CaesarSalad, ChickenSandwich, ChickenTenders, 
+//     ChocolateAggieShake, ChocolateIceCreamCup, ClassicBurger, CookieSandwich, Cups, DietPepsi, Forks,
+//     FrenchFries, GigEmPattyMelt, GigEmSauce, HoneyMustard, Knives, Pepsi, Plates, RanchSauce, 
+//     SpicyRanchSauce, Spoons, StrawberryAggieShake, StrawberryIceCreamCup, Tissues, VanillaAggieShake, VanillaIceCreamCup
+// ]
+
+export const images: { [itemName: string]: StaticImageData } = {
+    "Bacon Burger": BaconBurger,
+    "BBQ Sauce": BBQSauce,
+    "Black Bean Hamburger": BlackBeanBurger,
+    "Caesar Salad": CaesarSalad,
+    "Chicken Sandwich": ChickenSandwich,
+    "Chicken Tenders": ChickenTenders,
+    "Chocolate Aggie Shake": ChocolateAggieShake,
+    "Chocolate Ice Cream Cup": ChocolateIceCreamCup,
+    "Classic Hamburger": ClassicBurger,
+    "Cookie Sandwich": CookieSandwich,
+    "Cups": Cups,
+    "Diet Pepsi": DietPepsi,
+    "Forks": Forks,
+    "French Fries": FrenchFries,
+    "Gig Em Patty Melt": GigEmPattyMelt,
+    "Gig Em Sauce": GigEmSauce,
+    "Honey Mustard Sauce": HoneyMustard,
+    "Knives": Knives,
+    "Pepsi": Pepsi,
+    "Plates": Plates,
+    "Ranch Sauce": RanchSauce,
+    "Spicy Ranch Sauce": SpicyRanchSauce,
+    "Spoons": Spoons,
+    "Strawberry Aggie Shake": StrawberryAggieShake,
+    "Strawberry Ice Cream Cup": StrawberryIceCreamCup,
+    "Tissues": Tissues,
+    "Vanilla Aggie Shake": VanillaAggieShake,
+    "Vanilla Ice Cream Cup": VanillaIceCreamCup
+}
 
 // export default {
 //     images
