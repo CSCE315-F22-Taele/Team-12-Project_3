@@ -207,16 +207,16 @@ export default function Cart(
 
 	useEffect(() => {}, [itemQuantitiesFirstPass]);
 
-  const theme = () => useTheme();
+//   const theme = () => useTheme();
 
-  const styles = {
-    "@media (zoom: 0.75)": {
-      // Change the number of columns to 2 when the zoom level is 0.75
-      "& .MuiGrid-grid-xs-12": {
-        width: "50%",
-      },
-    },
-  };
+//   const styles = {
+//     "@media (zoom: 0.75)": {
+//       // Change the number of columns to 2 when the zoom level is 0.75
+//       "& .MuiGrid-grid-xs-12": {
+//         width: "50%",
+//       },
+//     },
+//   };
 
   
 
