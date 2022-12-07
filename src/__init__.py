@@ -85,7 +85,8 @@ def create_app(test_config=None):
 
     @app.get("/")
     def index():
-        return "Hello World " + os.getenv("SQLALCHEMY_DB_URI")
+        print(os.getenv("SQLALCHEMY_DB_URI"))
+        return "Hello World"
 
     return app
 
