@@ -14,7 +14,7 @@ import DietPepsi from "../../public/images/DietPepsi.jpg";
 import Forks from "../../public/images/Forks.png";
 import FrenchFries from "../../public/images/FrenchFries.jpg";
 import GigEmPattyMelt from "../../public/images/GigEmPattyMelt.jpg";
-import GleEmSauce from "../../public/images/GleEmSauce.png";
+import GigEmSauce from "../../public/images/GigEmSauce.png";
 import HoneyMustard from "../../public/images/HoneyMustard.png";
 import Knives from "../../public/images/Knives.jpg";
 import Pepsi from "../../public/images/Pepsi.jpg";
@@ -31,7 +31,7 @@ import VanillaAggieShake from "../../public/images/VanillaShake.jpg";
 export const images: StaticImageData[] = [
     BaconBurger, BBQSauce, BlackBeanBurger, CaesarSalad, ChickenSandwich, ChickenTenders, 
     ChocolateAggieShake, ChocolateIceCreamCup, ClassicBurger, CookieSandwich, Cups, DietPepsi, Forks,
-    FrenchFries, GigEmPattyMelt, GleEmSauce, HoneyMustard, Knives, Pepsi, Plates, RanchSauce, 
+    FrenchFries, GigEmPattyMelt, GigEmSauce, HoneyMustard, Knives, Pepsi, Plates, RanchSauce, 
     SpicyRanchSauce, Spoons, StrawberryAggieShake, StrawberryIceCreamCup, Tissues, VanillaAggieShake, VanillaIceCreamCup
 ]
 
