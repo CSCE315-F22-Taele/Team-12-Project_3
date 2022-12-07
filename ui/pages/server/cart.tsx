@@ -3,23 +3,23 @@ import {
 	FormControl,
 	FormHelperText,
 	InputLabel,
-	MenuItem, Select,
-	SelectChangeEvent, TextField,
-	Typography
+	MenuItem,
+	Select,
+	SelectChangeEvent,
+	TextField,
+	Typography,
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import {
-	addOrderAPI,
-	flaskAPI,
-	getMenuAPI
-} from "../../components/utils";
+import { addOrderAPI, getMenuAPI, getOrdersAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { serverSideInstance } from "../../components/serverSideUtils";
+import axios from "axios";
+import { ServerOrder } from "../../components/Orders";
 
 interface menuItem {
 	itemId: string;
@@ -39,9 +39,9 @@ interface OrderItem {
 	price?: number;
 }
 
-
 export default function Cart({ serverId, menu }: thisProp) {
 	const router = useRouter();
+	const { mutate } = useSWRConfig();
 	const { data: menuData } = useSWR(getMenuAPI, {
 		fallbackData: menu,
 	});
@@ -55,8 +55,8 @@ export default function Cart({ serverId, menu }: thisProp) {
 	const [orderList, setOrderList] = useState<OrderItem[]>([]);
 	const [selectedDeleteList, setSelectedDeleteList] = useState<Number[]>([]);
 	const [rowNum, setRowNum] = useState(0);
-	
-	// for error handling front-end 
+
+	// for error handling front-end
 	const [itemSelectedFirstPass, setItemSelectedFirstPass] = useState(true);
 	const [itemQuantityFirstPass, setItemQuantityFirstPass] = useState(true);
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
@@ -80,16 +80,19 @@ export default function Cart({ serverId, menu }: thisProp) {
 	const addToCart = () => {
 		// console.log(quantityElem.value);
 		const checkItem = !selectedItem || selectedItem === "";
-		const checkItemQuantity = (!itemQuantity ||
-									isNaN(Number(itemQuantity)) ||
-									Number(itemQuantity) <= 0); 
+		const checkItemQuantity =
+			!itemQuantity ||
+			isNaN(Number(itemQuantity)) ||
+			Number(itemQuantity) <= 0;
 
-		if(checkItem)
-			setItemSelectedFirstPass(false);
-		if(checkItemQuantity)
-			setItemQuantityFirstPass(false);
+		if (checkItem) setItemSelectedFirstPass(false);
+		if (checkItemQuantity) setItemQuantityFirstPass(false);
 
-		if (checkItem || checkItemQuantity || orderList.some((order) => order.itemName === selectedItem)) {
+		if (
+			checkItem ||
+			checkItemQuantity ||
+			orderList.some((order) => order.itemName === selectedItem)
+		) {
 			// setValidGridFirstPass(false);
 			return;
 		}
@@ -126,18 +129,16 @@ export default function Cart({ serverId, menu }: thisProp) {
 	};
 
 	const submitOrder = async () => {
-		const checkName = !customerNameElem || customerNameElem.value === ""; 
+		const checkName = !customerNameElem || customerNameElem.value === "";
 		const checkList = orderList.length === 0;
-		if (checkName)
-			setCustomerNameFirstPass(false);
+		if (checkName) setCustomerNameFirstPass(false);
 
 		if (checkList) {
 			setItemSelectedFirstPass(false);
 			setItemQuantityFirstPass(false);
 		}
-		
-		if(checkName || checkList)
-			return;
+
+		if (checkName || checkList) return;
 
 		const data = JSON.stringify({
 			customerName: customerNameElem.value,
@@ -154,7 +155,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 			data: data,
 		};
 
-		const response = await flaskAPI(config);
+		const response = await axios(config);
 
 		setOrderList([]);
 
@@ -171,154 +172,153 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 	return (
 		<>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/server");
-						}}>
-						Back
-					</Button>
-				</StyledDiv>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/server");
+					}}>
+					Back
+				</Button>
+			</StyledDiv>
 
-				<Typography variant="h1">Cart</Typography>
+			<Typography variant="h1">Cart</Typography>
 
-				<StyledDiv className="MenuItemSelection">
-					<FormControl 
-						sx={{ minWidth: 150 }}
+			<StyledDiv className="MenuItemSelection">
+				<FormControl
+					sx={{ minWidth: 150 }}
+					error={
+						!itemSelectedFirstPass
+							? // &&
+							  // !selectedItem
+							  true
+							: false
+					}>
+					<InputLabel>Item</InputLabel>
+					<Select
+						sx={{ borderRadius: 3 }}
+						onChange={(event: SelectChangeEvent) => {
+							setItemStates(event);
+						}}
+						className="menuItems"
+						label={"Item"}>
+						{menuItems.map((menuItem, index) => {
+							return (
+								<MenuItem
+									key={index}
+									value={
+										menuItem.itemName + " " + menuItem.price
+									}>
+									{menuItem.itemName + ": $" + menuItem.price}
+								</MenuItem>
+							);
+						})}
+					</Select>
+					<FormHelperText
 						error={
-							!itemSelectedFirstPass 
-							// &&
-							// !selectedItem
-								? true
+							!itemSelectedFirstPass
+								? // &&
+								  // !selectedItem
+								  true
 								: false
 						}>
-						<InputLabel>Item</InputLabel>
-						<Select
-							sx={{borderRadius: 3}}
-							onChange={(event: SelectChangeEvent) => {
-								setItemStates(event);
-							}}
-							className="menuItems"
-							label={"Item"}>
-							{menuItems.map((menuItem, index) => {
-								return (
-									<MenuItem
-										key={index}
-										value={
-											menuItem.itemName + " " + menuItem.price
-										}>
-										{menuItem.itemName + ": $" + menuItem.price}
-									</MenuItem>
-								);
-							})}
-						</Select>
-						<FormHelperText 
-						error={
-							!itemSelectedFirstPass 
-							// && 
-							// !selectedItem
-								? true
-								: false
-						}
-						>
-								Pick an item</FormHelperText>
-					</FormControl>
-					<TextField
-						type="text"
-						inputMode="numeric"
-						label="Enter quantity"
-						onChange={(e) => {
-							setItemQuantity(Number(e.target.value))
-						}}
-						error={
-							!itemQuantityFirstPass 
-							// &&
-							// (!quantityElem ||
-							// isNaN(Number(quantityElem.value)) ||
-							// Number(quantityElem.value) <= 0)
-								? true
-								: false
-						}
-						helperText={
-							!itemQuantityFirstPass 
-							// &&
-							// (!quantityElem ||
-							// isNaN(Number(quantityElem.value)) ||
-							// Number(quantityElem.value) <= 0)
-								? "Please enter a positive number"
-								: ""
-						}
-						className="Quantity"></TextField>
-					<Button onClick={addToCart}>Add</Button>
-				</StyledDiv>
-
-				
-				<StyledDiv
-					sx={{
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						height: "371px",
-						margin: "40px",
-					}}>
-					{/* <FormControl sx={{ maxWidth: 700, maxHeight: 700 }}> */}
-						<DataGrid
-							getRowId={(r) => r.rowId}
-							rows={orderList}
-							columns={tableColumns}
-							pageSize={5}
-							rowsPerPageOptions={[5]}
-							checkboxSelection
-							sx={{ maxWidth: 700, maxHeight: 700 }}
-							onSelectionModelChange={(newSelection) => {
-								const selectedIDs = new Set(newSelection);
-								const selectedRows = orderList
-									.map((row) => {
-										if (selectedIDs.has(row.rowId))
-											return row.rowId;
-										else return -1;
-									})
-									.filter((row) => row !== -1);
-								setSelectedDeleteList(selectedRows);
-							}}
-						/>
-					{/* </FormControl> */}
-				</StyledDiv>
-						
-				<StyledDiv sx={{marginTop: "-30px"}}>
-					<FormHelperText>
-						Note: Same item cannot be added multiple times. At least one Item
-						must be added to the order to submit
+						Pick an item
 					</FormHelperText>
-				</StyledDiv>
+				</FormControl>
+				<TextField
+					type="text"
+					inputMode="numeric"
+					label="Enter quantity"
+					onChange={(e) => {
+						setItemQuantity(Number(e.target.value));
+					}}
+					error={
+						!itemQuantityFirstPass
+							? // &&
+							  // (!quantityElem ||
+							  // isNaN(Number(quantityElem.value)) ||
+							  // Number(quantityElem.value) <= 0)
+							  true
+							: false
+					}
+					helperText={
+						!itemQuantityFirstPass
+							? // &&
+							  // (!quantityElem ||
+							  // isNaN(Number(quantityElem.value)) ||
+							  // Number(quantityElem.value) <= 0)
+							  "Please enter a positive number"
+							: ""
+					}
+					className="Quantity"></TextField>
+				<Button onClick={addToCart}>Add</Button>
+			</StyledDiv>
 
-				<StyledDiv className="AddOrdersSection">
-					<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
-					<Button onClick={deleteAllInCart}>Delete All</Button>
-					<TextField
-						type="text"
-						label="Enter your name"
-						onChange={(e) => {
-							setCustomerNameFirstPass(false);
-						}}
-						error={
-							customerNameElem &&
-							customerNameElem.value === "" &&
-							!customerNameFirstPass
-								? true
-								: false
-						}
-						helperText={
-							customerNameElem &&
-							customerNameElem.value === "" &&
-							!customerNameFirstPass
-								? "Missing name/items"
-								: ""
-						}
-						inputRef={customerNameRef}
-						className="CustomerName"></TextField>
-					<Button onClick={submitOrder}>Submit Order</Button>
-				</StyledDiv>
+			<StyledDiv
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					height: "371px",
+					margin: "40px",
+				}}>
+				{/* <FormControl sx={{ maxWidth: 700, maxHeight: 700 }}> */}
+				<DataGrid
+					getRowId={(r) => r.rowId}
+					rows={orderList}
+					columns={tableColumns}
+					pageSize={5}
+					rowsPerPageOptions={[5]}
+					checkboxSelection
+					sx={{ maxWidth: 700, maxHeight: 700 }}
+					onSelectionModelChange={(newSelection) => {
+						const selectedIDs = new Set(newSelection);
+						const selectedRows = orderList
+							.map((row) => {
+								if (selectedIDs.has(row.rowId))
+									return row.rowId;
+								else return -1;
+							})
+							.filter((row) => row !== -1);
+						setSelectedDeleteList(selectedRows);
+					}}
+				/>
+				{/* </FormControl> */}
+			</StyledDiv>
+
+			<StyledDiv sx={{ marginTop: "-30px" }}>
+				<FormHelperText>
+					Note: Same item cannot be added multiple times. At least one
+					Item must be added to the order to submit
+				</FormHelperText>
+			</StyledDiv>
+
+			<StyledDiv className="AddOrdersSection">
+				<Button onClick={deleteSelectedInCart}>Delete Selected</Button>
+				<Button onClick={deleteAllInCart}>Delete All</Button>
+				<TextField
+					type="text"
+					label="Enter your name"
+					onChange={(e) => {
+						setCustomerNameFirstPass(false);
+					}}
+					error={
+						customerNameElem &&
+						customerNameElem.value === "" &&
+						!customerNameFirstPass
+							? true
+							: false
+					}
+					helperText={
+						customerNameElem &&
+						customerNameElem.value === "" &&
+						!customerNameFirstPass
+							? "Missing name/items"
+							: ""
+					}
+					inputRef={customerNameRef}
+					className="CustomerName"></TextField>
+				<Button onClick={submitOrder}>Submit Order</Button>
+			</StyledDiv>
 		</>
 	);
 }
