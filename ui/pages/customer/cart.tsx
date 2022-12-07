@@ -250,32 +250,41 @@ export default function Cart(
                             height="194"
                             src={"BaconBurger.webp"}
                             alt={card.itemName}
-                          /> */}
+                          /> */}					
 													<CardContent
 														sx={{
-															minHeight: 200,
+															minHeight: 500,
+															// minWidth: 5,
 														}}>
 														{/* <CardContent className={classes.cardContent}> */}
+														
 														<Image
-															style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1, objectFit: "contain"}}
+															style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1, objectFit: "fill"}}
 															src={images[index]}
 															alt="Reveille"
-                              
+							
 														/>
 														<Typography
 															variant="h6"
 															gutterBottom>
 															{card.itemName}
 														</Typography>
-														<Typography>															
+														<Typography variant="body2">															
                               								{card.description}
 														</Typography>
-														<Typography>
+														
+														
+													</CardContent>
+
+													<CardContent>
+														<Typography variant="body2">
 															{"Price: " +
 																card.price}
 														</Typography>
 													</CardContent>
+													
 													<CardActions>
+														
 														<TextField
 															type="text"
 															inputMode="numeric"

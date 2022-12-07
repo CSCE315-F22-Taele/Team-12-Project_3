@@ -45,8 +45,8 @@ export default function App({children}: PropsWithChildren) {
 				ariaLabel="SpeedDial"
 				sx={
 					{ 
-						flexGrow: 1,
-						position: 'absolute',
+						// flexGrow: 1,
+						position: 'fixed',
 						top: 0, 
 						bottom: 50, 
 						right: "95%"
