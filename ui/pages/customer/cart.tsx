@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import {
 	addOrderAPI,
 	flaskAPI, getMenuPlusDescriptionsAPI
