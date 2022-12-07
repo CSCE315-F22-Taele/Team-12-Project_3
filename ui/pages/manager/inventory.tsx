@@ -29,6 +29,7 @@ import {
 	updateInventoryAPI
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
+import Head from "next/head";
 
 interface thisProp {
 	ingredients: any;
@@ -171,6 +172,9 @@ export default function Inventory({ ingredients }: thisProp) {
 
 	return (
 		<>
+			<Head>
+				<title>Inventory</title>
+			</Head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

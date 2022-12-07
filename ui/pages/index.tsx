@@ -3,6 +3,7 @@ import Image from "next/dist/client/image";
 import { routerPush, useGlobalUser } from "../components/utils";
 import Reveille from "../public/ReveillePic.jpg";
 import { StyledDiv } from "../styles/mystyles";
+import Head from "next/head";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -17,6 +18,9 @@ export default function Home() {
 
 	return (
 		<>
+			<Head>
+				<title>Rev's American Grill</title>
+			</Head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Image
 					style={{

@@ -2,12 +2,16 @@ import { Button, Typography } from "@mui/material";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { StyledDiv } from "../../styles/mystyles";
+import Head from "next/head";
 
 export default function Manager() {
 	const router = useRouter();
 
 	return (
 		<>
+			<Head>
+				<title>Manager Home</title>
+			</Head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

@@ -8,6 +8,7 @@ import {
   FormControlLabel,
   Button,
 } from '@mui/material';
+import Head from "next/head";
 
 const LoginPage = () => {
   const { register, handleSubmit, formState: { errors }} = useForm<{
@@ -22,6 +23,9 @@ const LoginPage = () => {
 
   return (
     <Container>
+      <Head>
+				<title>Login</title>
+		  </Head>
       <Typography variant="h4" align="center" gutterBottom>
         Login
       </Typography>

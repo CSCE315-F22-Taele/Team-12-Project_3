@@ -4,7 +4,7 @@ import Reveille from "../../public/ReveillePic.jpg";
 import { StyledDiv } from "../../styles/mystyles";
 import Image from "next/dist/client/image";
 import Grow from '@mui/material/Grow';
-
+import Head from "next/head";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -21,7 +21,9 @@ export default function HomePage({}) {
 
     return (
         <>
-            
+            <Head>
+				<title>Thanks!</title>
+			</Head>
             <StyledDiv sx={justMainPageStyleDiv}>
                 <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
                     <StyledDiv>

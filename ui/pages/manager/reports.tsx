@@ -1,12 +1,16 @@
 import { Button, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { StyledDiv } from "../../styles/mystyles";
+import Head from "next/head";
 
 export default function Manager() {
 	const router = useRouter();
 
 	return (
 		<>
+			<Head>
+				<title>Reports</title>
+			</Head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

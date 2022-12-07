@@ -7,6 +7,7 @@ import {
 	menuItemAPI
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
+import Head from "next/head";
 
 import {
 	FormControl,
@@ -128,6 +129,9 @@ export default function Menu({ menuData }: thisProp) {
 
 	return (
 		<>
+			<Head>
+				<title>Menu</title>
+			</Head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

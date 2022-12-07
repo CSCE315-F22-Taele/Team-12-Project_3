@@ -24,6 +24,7 @@ import { StyledDiv } from "../../styles/mystyles";
 import { useSession } from "next-auth/react";
 import { SxProps } from "@mui/system";
 import axios from "axios";
+import Head from "next/head";
 
 interface Sale {
 	itemName: string;
@@ -92,6 +93,9 @@ export default function Sales({ serverId }: { serverId: string }) {
 
 	return (
 		<>
+			<Head>
+				<title>Sales Report</title>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

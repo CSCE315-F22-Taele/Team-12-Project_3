@@ -32,6 +32,7 @@ import { serverSideInstance } from "../../components/serverSideUtils";
 import SpeedDialAccess from "../../components/SpeedDialAccess";
 import { images } from "./imageimport";
 import axios from "axios";
+import Head from "next/head";
 
 interface menuItem {
 	description: string;
@@ -221,6 +222,9 @@ export default function Cart(
 
 	return (
 		<>
+			<Head>
+				<title>Cart</title>
+			</Head>
 			<SpeedDialAccess />
 			<Typography variant="h1">Cart</Typography>
 

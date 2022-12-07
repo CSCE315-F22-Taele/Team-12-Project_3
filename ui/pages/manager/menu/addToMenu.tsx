@@ -20,6 +20,7 @@ import {
 	menuItemAPI
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
+import Head from "next/head";
 
 interface ingredientItem {
 	ingredientId: string;
@@ -170,6 +171,9 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	return (
 		<>
+			<Head>
+				<title>Add to Menu</title>
+			</Head>
 				<StyledDiv>
 					<Button
 						onClick={() => {
