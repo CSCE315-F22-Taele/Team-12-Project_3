@@ -1,12 +1,10 @@
 import { Grid } from "@mui/material";
-import Map from "../../components/gmaps/Map";
-import Header from "../../components/gmaps/Header";
-import List from "../../components/gmaps/List";
-import { GetServerSidePropsContext } from "next";
 import { useLoadScript } from "@react-google-maps/api";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { serverSideInstance } from "../../components/serverSideUtils";
+import Header from "../../components/gmaps/Header";
+import List from "../../components/gmaps/List";
+import Map from "../../components/gmaps/Map";
 import { placesData } from "../../components/gmaps/placesData";
 
 const getPlacesData = async (

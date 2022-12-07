@@ -10,17 +10,20 @@ import {
 	TableRow,
 	TextField,
 	Typography,
+	useTheme,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import useSWR from "swr";
 import { flaskAPI, getSalesReportAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useSession } from "next-auth/react";
+import { SxProps } from "@mui/system";
+
 
 interface Sale {
 	itemName: string;
@@ -60,6 +63,34 @@ export default function Sales({ serverId }: { serverId: string }) {
 		setEnteringDatesFirstPass(true);
 	};
 
+	const theme = useTheme();
+
+	// useEffect(() => {}, [itemQuantitiesFirstPass]);
+
+	const popperSx = useMemo(() => {
+		var popperSx: SxProps = {};
+
+		if ((localStorage.getItem("contrast") as string) === "on") {
+			popperSx = {
+				"& .MuiPaper-root": {
+					border: "5px solid white",
+					padding: 2,
+					marginTop: 1,
+				},
+				"& .MuiPickersDay-dayWithMargin": {
+					border: "2px solid white",
+				},
+				"& .MuiDayPicker-weekDayLabel": {
+					color: "white",
+				},
+			};
+		} else {
+			popperSx = {};
+		}
+		return popperSx;
+	}, [theme]);
+
+
 	return (
 		<>
 			<StyledDiv>
@@ -79,6 +110,9 @@ export default function Sales({ serverId }: { serverId: string }) {
 						inputFormat="MM/DD/YYYY"
 						label="Start Date"
 						value={startDate}
+						PopperProps={{
+							sx: popperSx,
+						}}
 						onChange={(newValue) => {
 							//should be 2022-11-17
 							// console.log(newValue);
@@ -117,6 +151,9 @@ export default function Sales({ serverId }: { serverId: string }) {
 						inputFormat="MM/DD/YYYY"
 						label="End Date"
 						value={endDate}
+						PopperProps={{
+							sx: popperSx,
+						}}
 						onChange={(newValue) => {
 							//should be 2022-11-17
 							// console.log(newValue);

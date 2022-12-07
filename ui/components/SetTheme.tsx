@@ -1,6 +1,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createContext, PropsWithChildren, useContext } from "react";
 import useDarkMode from "../hooks/useDarkMode";
+import SpeedDialAccess from "./SpeedDialAccess";
 import TranslatedText from "./Translate";
 
 
@@ -15,6 +16,8 @@ export function useToggleContrast() {
 	return useContext(ContrastContext);
 }
 
+
+
 export function SetTheme({ children }: PropsWithChildren) {
 	const { theme, toggleContrast, toggleDarkMode } = useDarkMode();
 
@@ -24,7 +27,9 @@ export function SetTheme({ children }: PropsWithChildren) {
 			<ContrastContext.Provider value={toggleContrast}>
 				<DarkModeContext.Provider value={toggleDarkMode}>
 					<TranslatedText>
-						{children}
+						<SpeedDialAccess/>
+							{children}
+						{/* </SpeedDialAccess> */}
 					</TranslatedText>
 				</DarkModeContext.Provider>
 			</ContrastContext.Provider>

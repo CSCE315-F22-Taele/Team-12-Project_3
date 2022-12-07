@@ -6,7 +6,7 @@ import CaesarSalad from "../../public/images/CaesarSalad.jpg";
 import ChickenSandwich from "../../public/images/ChickenSandwich.png";
 import ChickenTenders from "../../public/images/ChickenTenders.jpeg";
 import ChocolateIceCreamCup from "../../public/images/ChocolateIceCreamCup.jpg";
-import ChocolateShake from "../../public/images/ChocolateShake.jpg";
+import ChocolateAggieShake from "../../public/images/ChocolateShake.jpg";
 import ClassicBurger from "../../public/images/ClassicBurger.jpg";
 import CookieSandwich from "../../public/images/CookieSandwich.webp";
 import Cups from "../../public/images/Cups.png";
@@ -23,18 +23,22 @@ import RanchSauce from "../../public/images/RanchSauce.webp";
 import SpicyRanchSauce from "../../public/images/SpicyRanchSauce.jpg";
 import Spoons from "../../public/images/Spoons.png";
 import StrawberryIceCreamCup from "../../public/images/StrawberryIceCreamCup.jpg";
-import StrawberryShake from "../../public/images/StrawberryShake.jpg";
+import StrawberryAggieShake from "../../public/images/StrawberryShake.jpg";
 import Tissues from "../../public/images/Tissues.png";
 import VanillaIceCreamCup from "../../public/images/VanillaIceCreamCup.jpg";
-import VanillaShake from "../../public/images/VanillaShake.jpg";
+import VanillaAggieShake from "../../public/images/VanillaShake.jpg";
 
 export const images: StaticImageData[] = [
     BaconBurger, BBQSauce, BlackBeanBurger, CaesarSalad, ChickenSandwich, ChickenTenders, 
-    ChocolateIceCreamCup, ChocolateShake, ClassicBurger, CookieSandwich, Cups, DietPepsi, Forks,
+    ChocolateAggieShake, ChocolateIceCreamCup, ClassicBurger, CookieSandwich, Cups, DietPepsi, Forks,
     FrenchFries, GigEmPattyMelt, GleEmSauce, HoneyMustard, Knives, Pepsi, Plates, RanchSauce, 
-    SpicyRanchSauce, Spoons, StrawberryIceCreamCup, StrawberryShake, Tissues, VanillaIceCreamCup, VanillaShake
+    SpicyRanchSauce, Spoons, StrawberryAggieShake, StrawberryIceCreamCup, Tissues, VanillaAggieShake, VanillaIceCreamCup
 ]
 
-export default {
-    images
+// export default {
+//     images
+// }
+
+export default function app () {
+    return <></>;
 }

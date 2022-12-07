@@ -1,11 +1,11 @@
-import { Box, Button, InputBase } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
 	flaskAPI,
 	getMenuAPI,
-	menuItemAPI,
+	menuItemAPI
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
 
@@ -22,7 +22,7 @@ import {
 	TableHead,
 	TableRow,
 	TextField,
-	Typography,
+	Typography
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useSWR, { useSWRConfig } from "swr";

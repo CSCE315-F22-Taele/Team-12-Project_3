@@ -50,7 +50,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
 import React, { useContext, useEffect } from 'react'
-import {Button, styled} from "@mui/material"
+import {styled} from "@mui/material"
+import { StyledDiv } from '../styles/mystyles';
+
 
 export default function TranslatedText({children}) {
 
@@ -91,7 +93,9 @@ export default function TranslatedText({children}) {
         // className={styles.container}
         >
             
-            <Button id="google_translate_element"></Button>
+            <div id="google_translate_element"></div>
+
+            
 
             {children}
         
