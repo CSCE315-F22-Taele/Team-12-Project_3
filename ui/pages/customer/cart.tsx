@@ -222,9 +222,9 @@ export default function Cart(
 
 	return (
 		<>
-			<Head>
+			<head>
 				<title>Cart</title>
-			</Head>
+			</head>
 			<SpeedDialAccess />
 			<Typography variant="h1">Cart</Typography>
 

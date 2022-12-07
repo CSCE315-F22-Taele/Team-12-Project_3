@@ -18,9 +18,9 @@ export default function Home() {
 
 	return (
 		<>
-			<Head>
+			<head>
 				<title>Rev&#39;s American Grill</title>
-			</Head>
+			</head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Image
 					style={{

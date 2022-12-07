@@ -17,7 +17,6 @@ import useSWR from "swr";
 import { serverSideInstance } from "../../components/serverSideUtils";
 import { getRestockReportAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
-import Head from "next/head";
 
 interface thisProp {
 	restockData: any;
@@ -40,9 +39,9 @@ export default function Excess({ restockData }: thisProp) {
 
 	return (
 		<>
-			<Head>
+			<head>
 				<title>Restock Report</title>
-			</Head>
+			</head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

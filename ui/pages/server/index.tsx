@@ -23,7 +23,6 @@ import useSWR, { SWRConfig, useSWRConfig } from "swr";
 import Orders, { ServerOrder } from "../../components/Orders";
 import { serverSideInstance } from "../../components/serverSideUtils";
 import axios from "axios";
-import Head from "next/head";
 
 interface thisProp {
 	ordersData: ServerOrder[];
@@ -96,9 +95,9 @@ export default function Server({
 
 	return (
 		<>
-			<Head>
+			<head>
 				<title>Server Orders</title>
-			</Head>
+			</head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

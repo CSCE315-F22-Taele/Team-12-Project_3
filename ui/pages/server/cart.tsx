@@ -20,7 +20,6 @@ import useSWR, { useSWRConfig } from "swr";
 import { serverSideInstance } from "../../components/serverSideUtils";
 import axios from "axios";
 import { ServerOrder } from "../../components/Orders";
-import Head from "next/head";
 
 interface menuItem {
 	itemId: string;
@@ -173,9 +172,9 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 	return (
 		<>
-			<Head>
+			<head>
 				<title>Cart</title>
-			</Head>
+			</head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

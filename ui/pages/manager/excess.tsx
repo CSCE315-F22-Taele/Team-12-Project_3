@@ -22,7 +22,6 @@ import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { getExcessReportAPI } from "../../components/utils";
 import { StyledDiv, StyledThemeHighContrast } from "../../styles/mystyles";
-import Head from "next/head";
 
 interface Excess {
 	itemName: string;
@@ -96,9 +95,9 @@ export default function Excess({ serverId }: { serverId: string }) {
 
 	return (
 		<>
-			<Head>
+			<head>
 				<title>Excess Report</title>
-			</Head>
+			</head>
 			<StyledDiv>
 				<Button
 					onClick={() => {
