@@ -14,6 +14,9 @@ class UserRequestSchema(Schema):
         validate=validate.Range(min=0, max=1, error="userType must be 0(server) or 1(manager)"), 
     )
 
+class UserEmailRequestSchema(Schema):
+    email = fields.Str(required=True, error_messages={"required": "missing data for email"})
+
 class UserResponseSchema(Schema):
     # datakey makes it so that response uses that instead of variable name
     # variables named because 1-1 mapping to db model

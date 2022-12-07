@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required
 from ..models import db, User, Credentials
 from ..schemas import (
     VerifyUserRequestSchema,
-    UserRequestSchema, UserResponseSchema, 
+    UserRequestSchema, UserResponseSchema, UserEmailRequestSchema,
     SuccessSchema, ErrorSchema
 )
 
@@ -84,8 +84,22 @@ class UserResource(MethodResource):
     def handle_request_parsing_error(err, req, schema, error_status_code, error_headers):
         abort(make_response(jsonify(error=err.messages.get('json')), 422))
 
+@doc(tags=["User"])
+class EmailResource(MethodResource):
+    @use_kwargs(UserEmailRequestSchema, location='query')
+    @marshal_with(UserResponseSchema, code=200, description="Entity Successfully Retrieved")
+    @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
+    @doc(description="Get an existing user from the database using email")
+    def get(self, email):
+        user = User.query.filter_by(email=email).first() # Should return just one or None
+        if user is None:
+            return make_response(jsonify(error="Username Not Found!"), 404)
+        return user
+
 user_view = UserResource.as_view("userresource")
+email_view = EmailResource.as_view("emailresource")
 verify_user_view = VerifyUserResource.as_view("verifyuserresource")
 bp.add_url_rule('/user/<string:username>', view_func=user_view, methods=['GET', 'DELETE'])
 bp.add_url_rule('/user', view_func=user_view, methods=['POST'])
 bp.add_url_rule('/login', view_func=verify_user_view, methods=['POST'])
+bp.add_url_rule('/user', view_func=email_view, methods=['GET'])
