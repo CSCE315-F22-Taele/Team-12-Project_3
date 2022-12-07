@@ -10,18 +10,17 @@ import {
 	TableRow,
 	TextField,
 	Typography,
-	useTheme
+	useTheme,
 } from "@mui/material";
 import { SxProps } from "@mui/system";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import {
-	LocalizationProvider
-} from "@mui/x-date-pickers/LocalizationProvider";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import axios from "axios";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import { flaskAPI, getExcessReportAPI } from "../../components/utils";
+import { getExcessReportAPI } from "../../components/utils";
 import { StyledDiv, StyledThemeHighContrast } from "../../styles/mystyles";
 
 interface Excess {
@@ -42,11 +41,10 @@ export default function Excess({ serverId }: { serverId: string }) {
 	});
 
 	const [shouldFetch, setShouldFetch] = useState(false);
-	const { data: excess } = useSWR(
+	const { data: excess, mutate } = useSWR(
 		shouldFetch ? getExcessReportAPI : null,
-		(url) =>
-			flaskAPI({
-				method: "get",
+		async (url) =>
+			axios({
 				url,
 				params: {
 					startDate,
@@ -64,6 +62,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 		}
 
 		setShouldFetch(true);
+		mutate();
 		setStartDateFirstPass(true);
 	};
 

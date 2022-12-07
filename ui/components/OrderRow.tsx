@@ -56,7 +56,7 @@ export default function OrderRow({ order, setSelectedOrders }: rowProps) {
 					{order.customerName}
 				</TableCell>
 				<TableCell align="right">
-					{Math.round(order.price * 100) / 100}
+					{Math.round(order.price! * 100) / 100}
 				</TableCell>
 				<TableCell align="right">{order.timeOrdered}</TableCell>
 			</TableRow>
@@ -86,7 +86,7 @@ export default function OrderRow({ order, setSelectedOrders }: rowProps) {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{order.items.map((orderItem) => (
+									{order.items!.map((orderItem) => (
 										<TableRow
 											key={orderItem.itemName}
 											// sx={{

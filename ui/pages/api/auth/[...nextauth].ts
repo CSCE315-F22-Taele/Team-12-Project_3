@@ -70,16 +70,18 @@ export const authOptions: NextAuthOptions = {
 			if (account) {
 				token.accessToken = account.access_token;
 			}
+			// token.type = profile?.app_metadata?.roles[0] ?? "aaaaaaaaa";
 			// console.log(JSON.stringify(user));
 			// console.log(JSON.stringify(account));
 			// console.log(JSON.stringify(profile));
 
 			return token;
 		},
-		session: ({ session, token }) => {
+		session: ({ session, token, user }) => {
 			if (token) {
 				session.user = token.user;
 				session.accessToken = token.accessToken as string;
+				// session.type = token.type;
 			}
 
 			return session;
