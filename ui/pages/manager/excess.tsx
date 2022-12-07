@@ -21,8 +21,8 @@ import {
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
-import { flaskAPI, getExcessReportProxyAPI } from "../../components/utils";
-import { StyledDiv } from "../../styles/mystyles";
+import { flaskAPI, getExcessReportAPI } from "../../components/utils";
+import { StyledDiv, StyledThemeHighContrast } from "../../styles/mystyles";
 import { SxProps } from "@mui/system";
 import { useEffect } from "react";
 
@@ -45,7 +45,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 
 	const [shouldFetch, setShouldFetch] = useState(false);
 	const { data: excess } = useSWR(
-		shouldFetch ? getExcessReportProxyAPI : null,
+		shouldFetch ? getExcessReportAPI : null,
 		(url) =>
 			flaskAPI({
 				method: "get",
@@ -76,7 +76,7 @@ export default function Excess({ serverId }: { serverId: string }) {
 	const popperSx = useMemo(() => {
 		var popperSx: SxProps = {};
 
-		if ((localStorage.getItem("contrast") as string) === "on") {
+		if (JSON.stringify(theme) === JSON.stringify(StyledThemeHighContrast)) {
 			popperSx = {
 				"& .MuiPaper-root": {
 					border: "5px solid white",

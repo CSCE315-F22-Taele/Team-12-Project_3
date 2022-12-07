@@ -5,9 +5,7 @@ import { useRef, useState } from "react";
 import {
 	flaskAPI,
 	getMenuAPI,
-	getMenuProxyAPI,
-	menuItemProxyAPI,
-	serverSideInstance,
+	menuItemAPI,
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
 
@@ -28,6 +26,7 @@ import {
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useSWR, { useSWRConfig } from "swr";
+import { serverSideInstance } from "../../../components/serverSideUtils";
 
 interface thisProp {
 	menuData: menuItem[];
@@ -43,8 +42,8 @@ export default function Menu({ menuData }: thisProp) {
 	const router = useRouter();
 	const { mutate } = useSWRConfig();
 	const { data: menuItems } = useSWR(
-		getMenuProxyAPI,
-		(url) => flaskAPI(url).then((r) => r.data.items),
+		getMenuAPI,
+		(url) => flaskAPI({url}).then((r) => r.data.items),
 		{
 			fallbackData: menuData,
 		}
@@ -69,7 +68,7 @@ export default function Menu({ menuData }: thisProp) {
 
 
 		mutate(
-			getMenuProxyAPI,
+			getMenuAPI,
 			(menu: any) => {
 				return menu.map((item: menuItem) => {
 					if (item.itemName !== itemName) return item;
@@ -86,7 +85,7 @@ export default function Menu({ menuData }: thisProp) {
 
 		const config = {
 			method: "PATCH",
-			url: menuItemProxyAPI,
+			url: menuItemAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -104,7 +103,7 @@ export default function Menu({ menuData }: thisProp) {
 		}
 
 		mutate(
-			getMenuProxyAPI,
+			getMenuAPI,
 			(menu: any) => {
 				return [
 					...menu.filter(
@@ -117,7 +116,7 @@ export default function Menu({ menuData }: thisProp) {
 
 		const config = {
 			method: "DELETE",
-			url: menuItemProxyAPI + "/" + itemName,
+			url: menuItemAPI + "/" + itemName,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -266,7 +265,7 @@ export default function Menu({ menuData }: thisProp) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance.get(getMenuAPI);
 	const data = response.data.items;
 

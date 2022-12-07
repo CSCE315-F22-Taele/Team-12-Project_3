@@ -13,17 +13,16 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import {
-	addOrderProxyAPI,
+	addOrderAPI,
 	flaskAPI,
 	getMenuAPI,
-	getMenuProxyAPI,
-	serverSideInstance,
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useSWR from "swr";
 import { setConstantValue } from "typescript";
+import { serverSideInstance } from "../../components/serverSideUtils";
 
 interface menuItem {
 	itemId: string;
@@ -46,7 +45,7 @@ interface OrderItem {
 
 export default function Cart({ serverId, menu }: thisProp) {
 	const router = useRouter();
-	const { data: menuData } = useSWR(getMenuProxyAPI, {
+	const { data: menuData } = useSWR(getMenuAPI, {
 		fallbackData: menu,
 	});
 	const menuItems: menuItem[] = menuData.items;
@@ -151,7 +150,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 		const config = {
 			method: "POST",
-			url: addOrderProxyAPI,
+			url: addOrderAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -328,7 +327,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance.get(getMenuAPI);
 	const data = response.data;
 

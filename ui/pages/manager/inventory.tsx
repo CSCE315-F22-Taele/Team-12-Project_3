@@ -21,12 +21,12 @@ import {
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { serverSideInstance } from "../../components/serverSideUtils";
 import {
 	flaskAPI,
 	getInventoryAPI,
-	serverSideInstance,
-	setRestockAllProxyAPI,
-	updateInventoryProxyAPI,
+	setRestockAllAPI,
+	updateInventoryAPI,
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 
@@ -90,7 +90,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const response = await flaskAPI({
 			method: "PATCH",
-			url: updateInventoryProxyAPI,
+			url: updateInventoryAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -129,7 +129,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const response = await flaskAPI({
 			method: "PATCH",
-			url: updateInventoryProxyAPI,
+			url: updateInventoryAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -157,7 +157,7 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		const config = {
 			method: "PUT",
-			url: setRestockAllProxyAPI,
+			url: setRestockAllAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -350,7 +350,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		url: getInventoryAPI,
 	};
 
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance(config);
 	const ingredients = response.data;
 

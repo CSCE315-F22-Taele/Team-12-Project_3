@@ -1,15 +1,27 @@
+import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import Auth0Provider from "next-auth/providers/auth0";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
 	providers: [
 		Auth0Provider({
 			clientId: process.env.AUTH0_CLIENT_ID || "",
 			clientSecret: process.env.AUTH0_CLIENT_SECRET || "",
 			issuer: process.env.AUTH0_ISSUER,
+			/* authorization: {
+				params: {
+					audience: encodeURI(process.env.AUTH0_AUDIENCE ?? ""),
+				},
+			},
+			token: {
+				params: {
+					audience: process.env.AUTH0_AUDIENCE,
+				},
+			}, */
+			idToken: true,
 		}),
-		CredentialsProvider({
+		/* CredentialsProvider({
 			name: "credentials",
 			credentials: {
 				username: {
@@ -40,12 +52,12 @@ export default NextAuth({
 				// login failed
 				return null;
 			},
-		}),
+		}), */
 	],
 
-	session: {
+	/* session: {
 		strategy: "jwt",
-	},
+	}, */
 	callbacks: {
 		jwt: ({ token, user, account }) => {
 			if (user) {
@@ -58,8 +70,11 @@ export default NextAuth({
 			return token;
 		},
 		session: ({ session, token }) => {
-			session.user.id = token.id;
-			session.accessToken = token.accessToken as string;
+			if (token) {
+				session.user.id = token.id;
+				session.accessToken = token.accessToken as string;
+			}
+
 			return session;
 		},
 	},
@@ -67,4 +82,7 @@ export default NextAuth({
 	pages: {
 		// signIn: ""
 	},
-});
+};
+
+export default NextAuth(authOptions);
+

@@ -5,9 +5,7 @@ import { useState } from "react";
 import {
 	flaskAPI,
 	getOrdersAPI,
-	getOrdersProxyAPI,
-	serveOrderProxyAPI,
-	serverSideInstance,
+	serveOrderAPI,
 } from "../../components/utils";
 // import { ThemeProvider } from "@emotion/react";
 import {
@@ -27,6 +25,7 @@ import { StyledDiv } from "../../styles/mystyles";
 import { GridColDef } from "@mui/x-data-grid";
 import { SWRConfig, useSWRConfig } from "swr";
 import Orders, { ServerOrder } from "../../components/Orders";
+import { serverSideInstance } from "../../components/serverSideUtils";
 
 interface thisProp {
 	orders: ServerOrder[];
@@ -46,7 +45,7 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 
 			const config = {
 				method: "PUT",
-				url: serveOrderProxyAPI,
+				url: serveOrderAPI,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -54,7 +53,7 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 			};
 
 			mutate(
-				getOrdersProxyAPI,
+				getOrdersAPI,
 				(orders: ServerOrder[]) => {
 					return [
 						...orders.filter((order) => order.orderId !== orderId),
@@ -133,7 +132,7 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 									value={{
 										fallbackData: orders,
 										fetcher: (url) =>
-											flaskAPI(url).then(
+											flaskAPI({url}).then(
 												(r) => r.data.orders
 											),
 									}}>
@@ -163,7 +162,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		serverId: serverId,
 	});
 
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance({
 		method: "get",
 		url: getOrdersAPI,

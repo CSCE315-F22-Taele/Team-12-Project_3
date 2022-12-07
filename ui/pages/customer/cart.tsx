@@ -19,7 +19,6 @@ import {
 	flaskAPI,
 	getMenuAPI,
 	getMenuPlusDescriptionsAPI,
-	serverSideInstance,
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
@@ -33,6 +32,8 @@ import { StaticImageData } from "next/image";
 import Image from "next/dist/client/image";
 import StrawberryShake from "../../public/images/StrawberryShake.jpg";
 import { images } from "./imageimport";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
+import { serverSideInstance } from "../../components/serverSideUtils";
 
 interface menuItem {
 	description: string;
@@ -208,6 +209,7 @@ export default function Cart(
 
 	return (
 		<>
+        <SpeedDialAccess/>
 				<Typography variant="h1">Cart</Typography>
 
 				<Slide direction="up" in={true}>
@@ -224,22 +226,31 @@ export default function Cart(
 												md={4}>
 												<Card>
 													{/* <Card className={classes.card}> */}
+                          {/* <CardMedia
+
+                            component="img"
+                            height="194"
+                            src={"BaconBurger.webp"}
+                            alt={card.itemName}
+                          /> */}
 													<CardContent
 														sx={{
 															minHeight: 200,
 														}}>
 														{/* <CardContent className={classes.cardContent}> */}
 														<Image
-															style={{ width: "50vw", height: "50vh", position: "relative", zIndex: 1}}
+															style={{ width: "auto", height: "50vh", position: "relative", zIndex: 1, objectFit: "contain"}}
 															src={images[index]}
 															alt="Reveille"
+                              
 														/>
 														<Typography
 															variant="h6"
 															gutterBottom>
 															{card.itemName}
 														</Typography>
-														<Typography>															{card.description}
+														<Typography>															
+                              								{card.description}
 														</Typography>
 														<Typography>
 															{"Price: " +
@@ -402,7 +413,7 @@ export default function Cart(
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance.get(getMenuPlusDescriptionsAPI);
 	const data = response.data;
 

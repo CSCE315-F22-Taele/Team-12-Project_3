@@ -1,8 +1,8 @@
-import axios from "axios";
-import { GetServerSidePropsContext } from "next";
+import axios, { AxiosRequestConfig } from "axios";
 import router from "next/router";
 import { createGlobalState } from "react-use";
 import { IHookStateSetAction } from "react-use/lib/misc/hookState";
+import { getSession } from "next-auth/react";
 
 export const useGlobalUser = createGlobalState<string>("");
 
@@ -14,55 +14,31 @@ export const routerPush = (
 	setUserType(() => userType);
 };
 
-const extractAuthToken = (
-	context: GetServerSidePropsContext
-): { [key: string]: string } | undefined => {
-	const authToken = context.req.cookies["next-auth.session-token"];
-	if (!authToken) {
-		return undefined;
-	}
-	return {
-		Authorization: authToken,
-	};
-};
+export const flaskAPI = async (config: AxiosRequestConfig) => {
+	const session = await getSession();
+	// console.log(session?.accessToken)
 
-export const serverSideInstance = (context: GetServerSidePropsContext) => {
-	return axios.create({
-		baseURL: process.env.BASE_URL,
+	return axios({
+		baseURL: process.env.NEXT_PUBLIC_FLASK_URL,
 		headers: {
-			...extractAuthToken(context),
+			Authorization: session?.accessToken,
 		},
+		...config,
 	});
 };
 
-export const flaskAPI = axios.create({
-	baseURL: process.env.BASE_URL,
-});
-
-export const getExcessReportProxyAPI = "/api/proxy/orders/items/excess-report";
-export const updateInventoryProxyAPI = "/api/proxy/inventory/update";
-export const setRestockAllProxyAPI = "/api/proxy/inventory/restock-all";
-export const getMenuProxyAPI = "/api/proxy/menu";
-export const getSalesReportProxyAPI = "/api/proxy/orders/items/sales-report";
-export const addOrderProxyAPI = "/api/proxy/orders/order";
-export const getOrdersProxyAPI = "/api/proxy/orders?not-served";
-export const getInventoryProxyAPI = "/api/proxy/inventory";
-export const menuItemProxyAPI = "/api/proxy/menu/item";
-export const serveOrderProxyAPI = "/api/proxy/orders/order/serve";
-export const getRestockReportProxyAPI = "/api/proxy/inventory?restock-report";
-
-export const getExcessReportAPI = "/api/excess-report";
-export const setRestockAPI = "/api/restock";
-export const setThresholdAPI = "/api/threshold";
-export const setRestockAllAPI = "/api/restock-all";
+export const getExcessReportAPI = "/api/orders/items/excess-report";
+export const updateInventoryAPI = "/api/inventory/update";
+export const setRestockAllAPI = "/api/inventory/restock-all";
 export const getMenuAPI = "/api/menu";
 export const getMenuPlusDescriptionsAPI = "/api/menu?descriptions";
-export const getRestockReportAPI = "/api/restock-report";
-export const getSalesReportAPI = "/api/sales-report";
-export const addOrderAPI = "/api/add-order";
-export const getOrdersAPI = "/api/orders";
+export const getRestockReportAPI = "/api/inventory?restock-report";
+export const getSalesReportAPI = "/api/orders/items/sales-report";
+export const addOrderAPI = "/api/orders/order";
+export const getOrdersAPI = "/api/orders?not-served";
 export const getInventoryAPI = "/api/inventory";
-
+export const menuItemAPI = "/api/menu/item";
+export const serveOrderAPI = "/api/orders/order/serve";
 
 /* {setRestockAPI,
 setThresholdAPI,
