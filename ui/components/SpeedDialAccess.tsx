@@ -6,28 +6,31 @@ import CropFreeIcon from '@mui/icons-material/CropFree';
 import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
 import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 import {
-	Box, 
+	Box,
 	Backdrop,
-	SpeedDial, 
+	SpeedDial,
 	SpeedDialAction,
 	SpeedDialIcon
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef, useState, ReactNode, PropsWithChildren } from "react";
-import { useToggleDarkMode, useToggleContrast } from './SetTheme';
+import { useIncrement, useToggleDarkMode, useToggleContrast, useFontValue } from './SetTheme';
 
 
 
 
-export default function App({children}: PropsWithChildren) {
+export default function App({ children }: PropsWithChildren) {
 	const router = useRouter();
 	const toggleContrast = useToggleContrast();
 	const toggleDarkMode = useToggleDarkMode();
+	const fontVal = useFontValue();
+	const incrementFontSize = useIncrement();
 
 	const actions = [
-		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast},
-		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode},
-		{ icon: <LocationOnIcon />, name: 'Google Maps', button: () => {router.push("../customer/gmaps")}},
+		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast },
+		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode },
+		{ icon: <LocationOnIcon />, name: 'Google Maps', button: () => { router.push("../customer/gmaps") } },
+		{ icon: <LocationOnIcon />, name: 'Increase Font Size', button: incrementFontSize },
 		// { icon: <CropFreeIcon />, name: 'Default View'},
 		// { icon: <CenterFocusWeakIcon />, name: 'Larger View'},
 		// { icon: <CenterFocusStrongIcon />, name: 'Enlarged View'},
@@ -40,15 +43,20 @@ export default function App({children}: PropsWithChildren) {
 
 	return (
 		<>
+			<style jsx global>{`
+				* {
+					font-size: ${1 + fontVal}rem;
+				}
+			`}</style>
 			<SpeedDial
 				direction="up"
 				ariaLabel="SpeedDial"
 				sx={
-					{ 
+					{
 						// flexGrow: 1,
 						position: 'fixed',
-						top: 0, 
-						bottom: 50, 
+						top: 0,
+						bottom: 50,
 						right: "95%"
 					}
 				}
@@ -56,7 +64,7 @@ export default function App({children}: PropsWithChildren) {
 				onClose={handleClose}
 				onOpen={handleOpen}
 				open={open}
-				>
+			>
 				{actions.map((action) => (
 					<SpeedDialAction
 						key={action.name}
@@ -66,7 +74,7 @@ export default function App({children}: PropsWithChildren) {
 					/>
 				))}
 			</SpeedDial>
-			
+
 		</>
 	);
 }

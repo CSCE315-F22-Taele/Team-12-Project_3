@@ -50,13 +50,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 // import styles from '../styles/Home.module.css'
 import React, { useContext, useEffect } from 'react'
-import {styled} from "@mui/material"
+import { styled } from "@mui/material"
 import { StyledDiv } from '../styles/mystyles';
 
 
-export default function TranslatedText({children}) {
+export default function TranslatedText({ children }) {
 
-    const thisDiv = styled("div")(({ theme, ...otherProps }) => ({
+    const ThisDiv = styled("div")(({ theme, ...otherProps }) => ({
         // margin: "2000px",
         // textAlignLast: "center",
     }));
@@ -71,14 +71,14 @@ export default function TranslatedText({children}) {
     }, [])
 
     const googleTranslateElementInit = () => {
-        
-        if(duplicateCounter == 0) {
+
+        if (duplicateCounter == 0) {
             new window.google.translate.TranslateElement({
                 pageLanguage: 'en',
                 // includedLanguages : "en,ms,ta,zh-CN", // include this for selected languages
                 layout: google.translate.TranslateElement.InlineLayout.SIMPLE
             },
-            'google_translate_element');
+                'google_translate_element');
         }
         duplicateCounter++;
 
@@ -86,19 +86,19 @@ export default function TranslatedText({children}) {
     document.body.style.zoom = "100%";
 
 
-    
+
     return (
-        <thisDiv 
+        <ThisDiv
         // id="google_translate_element"
         // className={styles.container}
         >
-            
+
             <div id="google_translate_element"></div>
 
-            
+
 
             {children}
-        
-        </thisDiv>
+
+        </ThisDiv>
     )
 }
