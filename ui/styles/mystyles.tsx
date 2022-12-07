@@ -55,6 +55,11 @@ export const StyledTheme = createTheme({
   //     default: "rgb(75, 64, 39)",
   //   }
   // },
+  typography: {
+    allVariants: {
+      fontFamily: "Montserrat",
+    }
+  },
   components: {
     MuiDataGrid: {
       styleOverrides: {
@@ -66,8 +71,8 @@ export const StyledTheme = createTheme({
           '& .MuiDataGrid-columnHeaderCheckbox': {
             backgroundColor: 'rgb(167, 11, 40)',
           },
-          
-        }
+        },
+        
       }
     },
     MuiInputBase: {
@@ -166,10 +171,19 @@ export const StyledThemeDark = createTheme({
         root: {
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: 'rgb(167, 11, 40)',
+            color: "white",
           },
           '& .MuiDataGrid-columnHeaderCheckbox': {
             backgroundColor: 'rgb(167, 11, 40)',
           },
+          
+        }
+      }
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
         }
       }
     },
@@ -180,7 +194,7 @@ export const StyledThemeDark = createTheme({
           // border: "2px solid",
           textDecoration: "italic",
           minWidth: 20,
-          // margin: "auto",
+          margin: "auto",
         },
       },
     },
@@ -207,7 +221,7 @@ export const StyledThemeDark = createTheme({
           textAlignLast: "center",
           size: "large",
           "&:hover": {
-            color: "white",
+            color: "black",
           },
         },
       },
@@ -218,6 +232,13 @@ export const StyledThemeDark = createTheme({
         h1: {
           fontSize: 30,
           textAlignLast: "center",
+        },
+      },
+    },
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          stickyHeader: true,
         },
       },
     },
@@ -232,13 +253,6 @@ export const StyledThemeDark = createTheme({
         },
       },
     },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        multiline: {
-          width: "40vw",
-        },
-      },
-    },
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -246,7 +260,6 @@ export const StyledThemeDark = createTheme({
           [`& fieldset`]: {
             borderRadius: 10,
           },
-
         },
       },
     },

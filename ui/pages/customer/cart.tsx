@@ -9,6 +9,9 @@ import {
 	FormControl,
 	FormHelperText,
 	Grid,
+  useMediaQuery,
+  makeStyles,
+  useTheme
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
@@ -33,6 +36,8 @@ import Image from "next/dist/client/image";
 import StrawberryShake from "../../public/images/StrawberryShake.jpg";
 import { images } from "./imageimport";
 import SpeedDialAccess from "../../components/SpeedDialAccess";
+import Reveille from "../../public/ReveillePic.jpg";
+
 import { serverSideInstance } from "../../components/serverSideUtils";
 
 interface menuItem {
@@ -75,6 +80,9 @@ export default function Cart(
 	const [itemQuantities, setItemQuantities] = useState(
 		new Array(menu.length).fill(Number.POSITIVE_INFINITY)
 	);
+
+  for(var i = 0; i < (menu.length - images.length + 1); i++)
+    images.push(Reveille);
 
 	const tableColumns: GridColDef[] = [
 		{
@@ -207,6 +215,19 @@ export default function Cart(
 
 	useEffect(() => {}, [itemQuantitiesFirstPass]);
 
+  const theme = () => useTheme();
+
+  const styles = {
+    "@media (zoom: 0.75)": {
+      // Change the number of columns to 2 when the zoom level is 0.75
+      "& .MuiGrid-grid-xs-12": {
+        width: "50%",
+      },
+    },
+  };
+
+  
+
 	return (
 		<>
         <SpeedDialAccess/>
@@ -214,6 +235,11 @@ export default function Cart(
 
 				<Slide direction="up" in={true}>
 					<Box sx={{ width: "auto", marginRight: "20px" }}>
+
+            {/* <span>{`(min-width:600px) matches: ${useMediaQuery('(min-width:1536px)')}`}</span>
+            <span>{`(min-width:600px) matches: ${window.innerWidth}`}</span>  */}
+            {/* {window.resizeTo(750,750)}  */}
+            {/* {/* <span>{`(min-width:600px) matches: ${useMediaQuery(theme.breakpoints.down('xs'))}`}</span> */}
 						<Grid container spacing={2}>
 							<Grid item xs={12} md={8} sx={{marginLeft: "-30px"}}>
 								<StyledDiv className="MenuItemSelection">
@@ -361,6 +387,8 @@ export default function Cart(
 										to the order to submit
 									</FormHelperText>
 								</StyledDiv>
+								
+								
 
 								<StyledDiv className="AddOrdersSection">
 									<Grid container spacing={2}>

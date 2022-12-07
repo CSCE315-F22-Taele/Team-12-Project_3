@@ -28,9 +28,9 @@ export default function App({children}: PropsWithChildren) {
 		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast},
 		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode},
 		{ icon: <LocationOnIcon />, name: 'Google Maps', button: () => {router.push("../customer/gmaps")}},
-		{ icon: <CropFreeIcon />, name: 'Default View'},
-		{ icon: <CenterFocusWeakIcon />, name: 'Larger View'},
-		{ icon: <CenterFocusStrongIcon />, name: 'Enlarged View'},
+		// { icon: <CropFreeIcon />, name: 'Default View'},
+		// { icon: <CenterFocusWeakIcon />, name: 'Larger View'},
+		// { icon: <CenterFocusStrongIcon />, name: 'Enlarged View'},
 
 
 	];
