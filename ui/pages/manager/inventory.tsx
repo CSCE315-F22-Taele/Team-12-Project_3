@@ -15,7 +15,7 @@ import {
 	TableHead,
 	TableRow,
 	TextField,
-	Typography,
+	Typography
 } from "@mui/material";
 // import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
@@ -26,7 +26,7 @@ import {
 	flaskAPI,
 	getInventoryAPI,
 	setRestockAllAPI,
-	updateInventoryAPI,
+	updateInventoryAPI
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 

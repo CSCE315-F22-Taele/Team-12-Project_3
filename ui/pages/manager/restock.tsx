@@ -8,7 +8,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
-	Typography,
+	Typography
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -16,7 +16,7 @@ import useSWR from "swr";
 import { serverSideInstance } from "../../components/serverSideUtils";
 import {
 	flaskAPI,
-	getRestockReportAPI,
+	getRestockReportAPI
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 

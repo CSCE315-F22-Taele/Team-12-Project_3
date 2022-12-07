@@ -5,22 +5,21 @@ import {
 	InputLabel,
 	MenuItem as ItemIngredient,
 	TextField,
-	Typography,
+	Typography
 } from "@mui/material";
-import { TextareaAutosize } from "@mui/base";
 import Select from "@mui/material/Select";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
+import { serverSideInstance } from "../../../components/serverSideUtils";
 import {
 	flaskAPI,
 	getInventoryAPI,
-	menuItemAPI,
+	menuItemAPI
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
-import { serverSideInstance } from "../../../components/serverSideUtils";
 
 interface ingredientItem {
 	ingredientId: string;

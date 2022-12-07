@@ -13,32 +13,24 @@ import {
   makeStyles,
   useTheme
 } from "@mui/material";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
 	addOrderAPI,
-	flaskAPI,
-	getMenuAPI,
-	getMenuPlusDescriptionsAPI,
+	flaskAPI, getMenuPlusDescriptionsAPI
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
-import { InputLabel, MenuItem, TextField, Typography } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { margin } from "@mui/system";
+import { TextField, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
-import TranslatedText from "../../components/Translate";
-import { PropsWithChildren } from "react";
-import { StaticImageData } from "next/image";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Image from "next/dist/client/image";
 import StrawberryShake from "../../public/images/StrawberryShake.jpg";
-import { images } from "./imageimport";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 import Reveille from "../../public/ReveillePic.jpg";
-
 import { serverSideInstance } from "../../components/serverSideUtils";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
+import { images } from "./imageimport";
 
 interface menuItem {
 	description: string;

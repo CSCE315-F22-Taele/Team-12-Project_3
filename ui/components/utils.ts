@@ -1,8 +1,8 @@
 import axios, { AxiosRequestConfig } from "axios";
+import { getSession } from "next-auth/react";
 import router from "next/router";
 import { createGlobalState } from "react-use";
 import { IHookStateSetAction } from "react-use/lib/misc/hookState";
-import { getSession } from "next-auth/react";
 
 export const useGlobalUser = createGlobalState<string>("");
 
@@ -16,7 +16,7 @@ export const routerPush = (
 
 export const flaskAPI = async (config: AxiosRequestConfig) => {
 	const session = await getSession();
-	// console.log(session?.accessToken)
+	console.log(JSON.stringify(session))
 
 	return axios({
 		baseURL: process.env.NEXT_PUBLIC_FLASK_URL,

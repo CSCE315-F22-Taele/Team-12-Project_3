@@ -1,13 +1,11 @@
-import { 
+import {
 	Button,
 	FormControl,
 	FormHelperText,
-	InputLabel, 
-	MenuItem, 
-	TextField, 
-	Typography, 
-	Select,
-	SelectChangeEvent,
+	InputLabel,
+	MenuItem, Select,
+	SelectChangeEvent, TextField,
+	Typography
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -15,13 +13,12 @@ import { useRef, useState } from "react";
 import {
 	addOrderAPI,
 	flaskAPI,
-	getMenuAPI,
+	getMenuAPI
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useSWR from "swr";
-import { setConstantValue } from "typescript";
 import { serverSideInstance } from "../../components/serverSideUtils";
 
 interface menuItem {

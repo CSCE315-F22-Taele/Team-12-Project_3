@@ -1,12 +1,10 @@
 import {
 	CircularProgress,
 	FormControl,
-	Grid,
-	InputBase,
-	InputLabel,
+	Grid, InputLabel,
 	MenuItem,
 	Select,
-	Typography,
+	Typography
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -15,7 +13,7 @@ import {
 	RefObject,
 	SetStateAction,
 	useEffect,
-	useState,
+	useState
 } from "react";
 import { Place } from "../../pages/customer/gmaps";
 import PlaceDetails from "./PlaceDetails";
