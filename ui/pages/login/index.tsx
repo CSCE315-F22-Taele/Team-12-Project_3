@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 
 const LoginPage = () => {
-  const { register, handleSubmit, errors } = useForm<{
+  const { register, handleSubmit, formState: { errors }} = useForm<{
     email: string;
     password: string;
     isSignUp: boolean;
@@ -29,10 +29,9 @@ const LoginPage = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           label="Email"
-          name="email"
           fullWidth
           margin="normal"
-          inputRef={<input {...register('test', { required: true, pattern: /^\S+@\S+$/i })} />}
+          {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
           error={Boolean(errors.email)}
           helperText={errors.email && 'Email is required and must be a valid email address.'}
         />
@@ -40,16 +39,15 @@ const LoginPage = () => {
         <TextField
           label="Password"
           type="password"
-          name="password"
           fullWidth
           margin="normal"
-          inputRef={...register('test', { required: true })}
+          {...register('password', { required: true })}
           error={Boolean(errors.password)}
           helperText={errors.password && 'Password is required.'}
         />
 
         <FormControlLabel
-          control={<Checkbox name="isSignUp" inputRef={register} />}
+          control={<Checkbox {...register('isSignUp')} />}
           label="Sign up"
         />
 
