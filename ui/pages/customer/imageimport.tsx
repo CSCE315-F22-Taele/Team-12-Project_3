@@ -35,6 +35,10 @@ export const images: StaticImageData[] = [
     SpicyRanchSauce, Spoons, StrawberryIceCreamCup, StrawberryShake, Tissues, VanillaIceCreamCup, VanillaShake
 ]
 
-export default {
-    images
+// export default {
+//     images
+// };
+
+export default function app () {
+    return <></>
 }
