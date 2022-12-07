@@ -52,7 +52,7 @@ export const StyledTheme = createTheme({
   // },
   typography: {
     allVariants: {
-      fontFamily: "Montserrat",
+      fontFamily: "sans-serif",
     }
   },
   components: {
@@ -268,7 +268,11 @@ export const StyledThemeHighContrast = createTheme({
       main: "#EA8181",
     },
   },
-
+  typography: {
+    allVariants: {
+      fontFamily: "sans-serif",
+    }
+  },
   components: {
     
     MuiCard: {
