@@ -1,7 +1,7 @@
+import axios from "axios";
+import { GetServerSidePropsContext } from "next";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../pages/api/auth/[...nextauth]";
-import { GetServerSidePropsContext } from "next";
-import axios from "axios";
 
 const extractAuthToken = async (context: GetServerSidePropsContext) => {
 	const session = await unstable_getServerSession(

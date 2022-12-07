@@ -1,7 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import Auth0Provider from "next-auth/providers/auth0";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -20,6 +19,10 @@ export const authOptions: NextAuthOptions = {
 				},
 			}, */
 			idToken: true,
+			client: {
+				authorization_signed_response_alg: "HS256",
+				id_token_signed_response_alg: "HS256",
+			},
 		}),
 		/* CredentialsProvider({
 			name: "credentials",
@@ -55,23 +58,26 @@ export const authOptions: NextAuthOptions = {
 		}), */
 	],
 
-	/* session: {
+	session: {
 		strategy: "jwt",
-	}, */
+	},
 	callbacks: {
-		jwt: ({ token, user, account }) => {
+		jwt: ({ token, user, account, profile }) => {
 			if (user) {
-				token.id = user.id;
+				token.user = user;
 			}
 			if (account) {
 				token.accessToken = account.access_token;
 			}
+			// console.log(JSON.stringify(user));
+			// console.log(JSON.stringify(account));
+			// console.log(JSON.stringify(profile));
 
 			return token;
 		},
 		session: ({ session, token }) => {
 			if (token) {
-				session.user.id = token.id;
+				session.user = token.user;
 				session.accessToken = token.accessToken as string;
 			}
 
@@ -85,4 +91,3 @@ export const authOptions: NextAuthOptions = {
 };
 
 export default NextAuth(authOptions);
-

@@ -15,6 +15,8 @@ export function useToggleContrast() {
 	return useContext(ContrastContext);
 }
 
+
+
 export function SetTheme({ children }: PropsWithChildren) {
 	const { theme, toggleContrast, toggleDarkMode } = useDarkMode();
 
