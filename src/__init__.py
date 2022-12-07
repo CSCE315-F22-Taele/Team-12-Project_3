@@ -27,7 +27,6 @@ def create_app(test_config=None):
         )
     else:
         app.config.from_mapping(test_config)
-    print("past", SQLALCHEMY_DATABASE_URI)
 
     # For Swagger Documentation
     app.config.update({
