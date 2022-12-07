@@ -1,5 +1,6 @@
 import { Typography, Button, Grid, Grow } from "@mui/material";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import Reveille from "../../public/ReveillePic.jpg";
 import { StyledDiv } from "../../styles/mystyles";
 import Image from "next/dist/client/image";
@@ -37,17 +38,18 @@ export default function HomePage({}) {
             <StyledDiv>
                 <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
                     <StyledDiv>
-                        <Grid container spacing={1} sx={{justifyContent: "center"}}>
-                            <StyledDiv>
-                                <Button
-                                    sx={justMainPageStyleButtons}
-                                    onClick={() => {
-                                        router.push("/customer/cart");
-                                    }}>
-                                    Click to Start Ordering!
-                                </Button>
-                            </StyledDiv>
-                        </Grid>
+                        <StyledDiv>
+                            <Button
+                                sx={justMainPageStyleButtons}
+                                onClick={() => {
+                                    router.push("/customer/cart");
+                                }}>
+                                Click to Start
+                            </Button>
+                        </StyledDiv>
+                        <StyledDiv>
+                            <Link href="/login">Not A Customer?</Link>
+                        </StyledDiv>
                     </StyledDiv>
                 </Grow>
             </StyledDiv>
