@@ -19,6 +19,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
 
+    print("prior", os.getenv("SQLALCHEMY_DB_URI"))
     if test_config is None:
         app.config.from_mapping(
             SECRET_KEY = os.getenv("SECRET_KEY"),
@@ -26,6 +27,7 @@ def create_app(test_config=None):
         )
     else:
         app.config.from_mapping(test_config)
+    print("past", os.getenv("SQLALCHEMY_DB_URI"))
 
     # For Swagger Documentation
     app.config.update({
@@ -85,7 +87,6 @@ def create_app(test_config=None):
 
     @app.get("/")
     def index():
-        print(os.getenv("SQLALCHEMY_DB_URI"))
         return "Hello World"
 
     return app
