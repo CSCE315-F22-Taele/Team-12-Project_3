@@ -18,12 +18,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useState, useMemo } from "react";
 import useSWR from "swr";
-import { flaskAPI, getSalesReportAPI } from "../../components/utils";
+import { getSalesReportAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { useSession } from "next-auth/react";
 import { SxProps } from "@mui/system";
-
+import axios from "axios";
 
 interface Sale {
 	itemName: string;
@@ -37,11 +37,10 @@ export default function Sales({ serverId }: { serverId: string }) {
 	const [endDate, setEndDate] = useState<string | null>("");
 	const [shouldFetch, setShouldFetch] = useState(false);
 	const [enteringDatesFirstPass, setEnteringDatesFirstPass] = useState(true);
-	const { data: sales } = useSWR(
+	const { data: sales, mutate } = useSWR(
 		shouldFetch ? getSalesReportAPI : null,
 		(url) =>
-			flaskAPI({
-				method: "get",
+			axios({
 				url,
 				params: {
 					startDate,
@@ -60,6 +59,7 @@ export default function Sales({ serverId }: { serverId: string }) {
 		}
 
 		setShouldFetch(true);
+		mutate();
 		setEnteringDatesFirstPass(true);
 	};
 
@@ -89,7 +89,6 @@ export default function Sales({ serverId }: { serverId: string }) {
 		}
 		return popperSx;
 	}, [theme]);
-
 
 	return (
 		<>

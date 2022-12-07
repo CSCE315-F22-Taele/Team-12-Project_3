@@ -39,3 +39,52 @@ function login(email, password, callback) {
 			}
 		});
 }
+
+async function loginAsync(email, password, callback) {
+	const axios = require("axios");
+
+	let response;
+
+	try {
+		response = await axios.post(
+			//store API url in connection settings to better support SDLC environments
+			configuration.baseAPIUrl + "/login",
+			//user credentials passed as request body
+			{
+				email: email,
+				password: password,
+			},
+			{
+				timeout: 10000, //end call gracefully if request times out so script can do necessary callback
+			}
+		);
+	} catch (e) {
+		if (e.response.status === 401) {
+			//assuming api returns 404 when email/username/password invalid
+			return callback(
+				new WrongUsernameOrPasswordError(
+					email,
+					"Invalid credentials provided."
+				)
+			);
+		}
+		//callback for any other error type
+		return callback(new Error(e.message));
+	}
+
+	try {
+		let user = response.data;
+
+		//if using multiple custom db connections in your tenant prefix the
+		//user_id with a connection specific key ex: "connName|" + user.user_id
+		//this ensures unique user ids across all db connections
+		return callback(null, {
+			id: user.id,
+			email: user.email,
+			username: user.userName,
+			type: user.userType,
+		});
+	} catch (e) {
+		return callback(new Error(e.message));
+	}
+}

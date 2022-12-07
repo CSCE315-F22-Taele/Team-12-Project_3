@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import "../styles/globals.css";
 import "nprogress/nprogress.css";
 import { SetTheme } from "../components/SetTheme";
+import { SWRConfig } from "swr";
 
 const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
 	ssr: false,
@@ -24,7 +25,7 @@ export default function App({
 			{!loading ? (
 				<SessionProvider session={session}>
 					<SetTheme>
-						<Component {...pageProps} />
+							<Component {...pageProps} />
 					</SetTheme>
 					<ProgressBar />
 				</SessionProvider>

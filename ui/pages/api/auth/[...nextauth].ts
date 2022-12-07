@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
 import Auth0Provider from "next-auth/providers/auth0";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -24,7 +25,7 @@ export const authOptions: NextAuthOptions = {
 				id_token_signed_response_alg: "HS256",
 			},
 		}),
-		/* CredentialsProvider({
+		CredentialsProvider({
 			name: "credentials",
 			credentials: {
 				username: {
@@ -55,7 +56,7 @@ export const authOptions: NextAuthOptions = {
 				// login failed
 				return null;
 			},
-		}), */
+		}),
 	],
 
 	session: {
@@ -69,16 +70,18 @@ export const authOptions: NextAuthOptions = {
 			if (account) {
 				token.accessToken = account.access_token;
 			}
+			// token.type = profile?.app_metadata?.roles[0] ?? "aaaaaaaaa";
 			// console.log(JSON.stringify(user));
 			// console.log(JSON.stringify(account));
 			// console.log(JSON.stringify(profile));
 
 			return token;
 		},
-		session: ({ session, token }) => {
+		session: ({ session, token, user }) => {
 			if (token) {
 				session.user = token.user;
 				session.accessToken = token.accessToken as string;
+				// session.type = token.type;
 			}
 
 			return session;

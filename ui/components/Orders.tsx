@@ -1,16 +1,17 @@
+import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import OrderRow from "./OrderRow";
 import { getOrdersAPI } from "./utils";
 
 export interface ServerOrder {
-	orderId: string;
-	customerName: string;
-	serverId: string;
-	timeOrdered: string;
-	isServed: boolean;
-	price: number;
-	items: OrderItem[];
+	orderId?: string;
+	customerName?: string;
+	serverId?: string;
+	timeOrdered?: string;
+	isServed?: boolean;
+	price?: number;
+	items?: OrderItem[];
 	show?: boolean;
 }
 
@@ -23,12 +24,11 @@ export interface OrderItem {
 }
 
 interface thisProps {
+	orders: ServerOrder[]
 	setSelectedOrders: Dispatch<SetStateAction<string[]>>;
 }
 
-export default function Orders({ setSelectedOrders }: thisProps) {
-	const { data: orders } = useSWR(getOrdersAPI);
-
+export default function Orders({orders, setSelectedOrders }: thisProps) {
 	return (
 		<>
 			{orders.map((row: ServerOrder) => (

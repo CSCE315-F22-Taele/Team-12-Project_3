@@ -3,7 +3,6 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import {
-	flaskAPI,
 	getMenuAPI,
 	menuItemAPI
 } from "../../../components/utils";
@@ -27,6 +26,7 @@ import {
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import useSWR, { useSWRConfig } from "swr";
 import { serverSideInstance } from "../../../components/serverSideUtils";
+import axios from "axios";
 
 interface thisProp {
 	menuData: menuItem[];
@@ -43,7 +43,7 @@ export default function Menu({ menuData }: thisProp) {
 	const { mutate } = useSWRConfig();
 	const { data: menuItems } = useSWR(
 		getMenuAPI,
-		(url) => flaskAPI({url}).then((r) => r.data.items),
+		(url) => axios(url).then((r) => r.data.items),
 		{
 			fallbackData: menuData,
 		}
@@ -92,7 +92,7 @@ export default function Menu({ menuData }: thisProp) {
 			data: data,
 		};
 
-		const response = await flaskAPI(config);
+		const response = await axios(config);
 		setUpdatePriceFirstPass(true);
 		setItemSelectedFirstPass(true);
 	};
@@ -122,7 +122,7 @@ export default function Menu({ menuData }: thisProp) {
 			},
 		};
 
-		const response = await flaskAPI(config);
+		const response = await axios(config);
 		setItemSelectedFirstPass(true);
 	};
 

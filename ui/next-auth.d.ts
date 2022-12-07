@@ -9,5 +9,12 @@ declare module "next-auth" {
 			id: string;
 		} & DefaultSession["user"];
 		accessToken: string;
+		type?: any;
+	}
+
+	interface Profile {
+		app_metadata?: {
+			roles: Array;
+		};
 	}
 }
