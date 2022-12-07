@@ -17,10 +17,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
 import { flaskAPI, getSalesReportProxyAPI } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { useSession } from "next-auth/react";
 
 interface Sale {
 	itemName: string;
@@ -30,7 +30,8 @@ interface Sale {
 
 export default function Sales({ serverId }: { serverId: string }) {
 	const router = useRouter();
-
+	const { data: session } = useSession();
+	console.log(session?.accessToken ?? "blah")
 	const [startDate, setStartDate] = useState<string | null>("");
 	const [endDate, setEndDate] = useState<string | null>("");
 	const [shouldFetch, setShouldFetch] = useState(false);
@@ -49,11 +50,10 @@ export default function Sales({ serverId }: { serverId: string }) {
 	);
 
 	const getReport = async () => {
-
 		const start = new Date(String(startDate));
 		const end = new Date(String(endDate));
 
-		if(!startDate || !endDate || start > end) {
+		if (!startDate || !endDate || start > end) {
 			setEnteringDatesFirstPass(false);
 			return;
 		}
@@ -64,7 +64,6 @@ export default function Sales({ serverId }: { serverId: string }) {
 
 	return (
 		<>
-			<SpeedDialAccess>
 				<StyledDiv>
 					<Button
 						onClick={() => {
@@ -85,7 +84,9 @@ export default function Sales({ serverId }: { serverId: string }) {
 							onChange={(newValue) => {
 								//should be 2022-11-17
 								// console.log(newValue);
-								var fullDateWithOtherInfo = new Date(newValue!).toLocaleString('en-US', {timeZone: 'UTC'});
+								var fullDateWithOtherInfo = new Date(
+									newValue!
+								).toLocaleString("en-US", { timeZone: "UTC" });
 								var date = fullDateWithOtherInfo
 									.substring(
 										0,
@@ -100,19 +101,19 @@ export default function Sales({ serverId }: { serverId: string }) {
 								// console.log("asd", newValue.$d.toLocaleString());
 								setStartDate(parsedDate);
 							}}
-							renderInput={(params) => <TextField 
-								{...params} 
-								error={
-									!enteringDatesFirstPass
-										? true
-										: false
-								}
-								helperText={
-									!enteringDatesFirstPass
-										? "Date Range not valid"
-										: ""
-								}
-								/>}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									error={
+										!enteringDatesFirstPass ? true : false
+									}
+									helperText={
+										!enteringDatesFirstPass
+											? "Date Range not valid"
+											: ""
+									}
+								/>
+							)}
 						/>
 					</LocalizationProvider>
 					<LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -123,7 +124,9 @@ export default function Sales({ serverId }: { serverId: string }) {
 							onChange={(newValue) => {
 								//should be 2022-11-17
 								// console.log(newValue);
-								var fullDateWithOtherInfo = new Date(newValue!).toLocaleString('en-US', {timeZone: 'UTC'});
+								var fullDateWithOtherInfo = new Date(
+									newValue!
+								).toLocaleString("en-US", { timeZone: "UTC" });
 								var date = fullDateWithOtherInfo
 									.substring(
 										0,
@@ -138,18 +141,19 @@ export default function Sales({ serverId }: { serverId: string }) {
 								// console.log("asd", newValue.$d.toLocaleString());
 								setEndDate(parsedDate);
 							}}
-							renderInput={(params) => <TextField 
-								{...params} 
-								error={
-									!enteringDatesFirstPass
-										? true
-										: false
-								}
-								helperText={
-									!enteringDatesFirstPass
-										? "Date Range not valid"
-										: ""
-								} />}
+							renderInput={(params) => (
+								<TextField
+									{...params}
+									error={
+										!enteringDatesFirstPass ? true : false
+									}
+									helperText={
+										!enteringDatesFirstPass
+											? "Date Range not valid"
+											: ""
+									}
+								/>
+							)}
 						/>
 					</LocalizationProvider>
 					<Button onClick={getReport}>Get Report</Button>
@@ -190,7 +194,7 @@ export default function Sales({ serverId }: { serverId: string }) {
 												// 	"&:last-child td, &:last-child th":
 												// 		{ border: 0 },
 												// }}
-												>
+											>
 												<TableCell
 													component="th"
 													scope="row">
@@ -212,7 +216,6 @@ export default function Sales({ serverId }: { serverId: string }) {
 						</Box>
 					</StyledDiv>
 				</StyledDiv>
-			</SpeedDialAccess>
 		</>
 	);
 }
