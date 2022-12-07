@@ -79,7 +79,7 @@ export default function Header({
 						}}>
 						Fun Finder
 					</Typography>
-					<ToggleDarkMode />
+					{/* <ToggleDarkMode /> */}
 					<Button onClick={() => {
 							router.back();
 						}}>Back</Button>
