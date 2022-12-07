@@ -44,7 +44,7 @@ def create_app(test_config=None):
     # app.config["JWT_ALGORITHM"] = "RS256"
     # app.config["JWT_DECODE_ALGORITHMS"] = "RS256"
     # app.config["JWT_PUBLIC_KEY"] = "RS256"
-    app.config["JWT_SECRET_KEY"] = "1ApzytlcDsIrDbIzpX7BH1P55DbCK29rkkrfJj4-Q7_xN2ydbI9swnULHNmcJinF"  # Change this in your code!
+    app.config["JWT_SECRET_KEY"] = os.environ.get("ENCRYPTION_SECRET_KEY")
 
     # IMPORTS NEED TO BE HERE INSTEAD OF AT THE TOP
     from .models import (
