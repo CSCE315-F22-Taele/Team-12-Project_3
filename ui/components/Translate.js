@@ -81,6 +81,8 @@ export default function TranslatedText({children}) {
         duplicateCounter++;
 
     }
+    document.body.style.zoom = "100%";
+
 
     
     return (
