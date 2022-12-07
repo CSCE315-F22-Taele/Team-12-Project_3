@@ -35,7 +35,7 @@ class VerifyUserResource(MethodResource):
 
 @doc(tags=["User"])
 class UserResource(MethodResource):
-    # @jwt_required()
+    @jwt_required()
     @marshal_with(UserResponseSchema, code=200, description="Entity Successfully Retrieved")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Get an existing user from the database")
