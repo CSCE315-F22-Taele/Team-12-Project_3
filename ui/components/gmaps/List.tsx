@@ -48,7 +48,7 @@ export default function List<T extends Place>({
 				.fill(0)
 				.map((_, i) => elRefs[i] || createRef<HTMLElement>())
 		);
-	}, []);
+	}, [places]);
 
 	return (
 		<div

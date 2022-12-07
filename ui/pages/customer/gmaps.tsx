@@ -6,7 +6,7 @@ import { GetServerSidePropsContext } from "next";
 import { useLoadScript } from "@react-google-maps/api";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { serverSideInstance } from "../../components/utils";
+import { serverSideInstance } from "../../components/serverSideUtils";
 import { placesData } from "../../components/gmaps/placesData";
 
 const getPlacesData = async (
@@ -141,7 +141,7 @@ export default function GMaps<T extends Place>({
 		);
 
 		setFilteredPlaces(filtered);
-	}, [rating]);
+	}, [rating, places]);
 
 	if (!isLoaded) {
 		return "Loading...";

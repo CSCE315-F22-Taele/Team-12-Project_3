@@ -1,36 +1,36 @@
 function create(user, callback) {
-	//this example uses the "pg" library
-	//more info here: https://github.com/brianc/node-postgres
-
-	const bcrypt = require("bcrypt");
-	const postgres = require("pg");
-
-	// call signup API
 	// given user.email, user.username, user.password
 
-	/* 
-	const conString =
-		"postgresql://csce315_912_cherian:830002546@csce-315-db.engr.tamu.edu/csce315_912_12";
-	postgres.connect(conString, function (err, client, done) {
-		if (err) return callback(err);
+	const axios = require("axios");
+	const data = JSON.stringify({
+		email: user.email,
+		password: user.password,
+		userName: user.username,
+		userType: 0,
+	});
 
-		bcrypt.hash(user.password, 10, function (err, hashedPassword) {
-			if (err) return callback(err);
+	axios({
+		method: "POST",
+		url: "http://127.0.0.1/api/user",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		data: data,
+	}).catch((err) => {
+		if (err.response) {
+			// The request was made and the server responded with a status code
+			// that falls out of the range of 2xx
 
-			const query =
-				"INSERT INTO users(email, username) VALUES ($1, $2, $3)";
-			client.query(
-				query,
-				[user.email, user.username, hashedPassword],
-				function (err, result) {
-					// NOTE: always call `done()` here to close
-					// the connection to the database
-					done();
+			return callback(err.response.status);
+		} else if (err.request) {
+			// The request was made but no response was received
+			// `err.request` is an instance of XMLHttpRequest in the browser and an instance of
+			// http.ClientRequest in node.js
 
-					return callback(err);
-				}
-			);
-		});
-	}); 
-	*/
+			return callback(err.request);
+		} else {
+			// Something happened in setting up the request that triggered an err
+			return callback(err.message);
+		}
+	});
 }

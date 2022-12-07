@@ -17,11 +17,10 @@ import useSWR from "swr";
 import {
 	flaskAPI,
 	getInventoryAPI,
-	getInventoryProxyAPI,
-	menuItemProxyAPI,
-	serverSideInstance,
+	menuItemAPI,
 } from "../../../components/utils";
 import { StyledDiv } from "../../../styles/mystyles";
+import { serverSideInstance } from "../../../components/serverSideUtils";
 
 interface ingredientItem {
 	ingredientId: string;
@@ -43,8 +42,8 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 	const router = useRouter();
 
 	const { data: ingredientList } = useSWR(
-		getInventoryProxyAPI,
-		(url) => flaskAPI(url).then((r) => r.data.ingredients),
+		getInventoryAPI,
+		(url) => flaskAPI({url}).then((r) => r.data.ingredients),
 		{
 			fallbackData: ingredients,
 		}
@@ -156,7 +155,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 		const config = {
 			method: "POST",
-			url: menuItemProxyAPI,
+			url: menuItemAPI,
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -350,7 +349,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance.get(getInventoryAPI);
 	const data = response.data.ingredients;
 

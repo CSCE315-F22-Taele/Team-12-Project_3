@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import OrderRow from "./OrderRow";
-import { getOrdersProxyAPI } from "./utils";
+import { getOrdersAPI } from "./utils";
 
 export interface ServerOrder {
 	orderId: string;
@@ -27,7 +27,7 @@ interface thisProps {
 }
 
 export default function Orders({ setSelectedOrders }: thisProps) {
-	const { data: orders } = useSWR(getOrdersProxyAPI);
+	const { data: orders } = useSWR(getOrdersAPI);
 
 	return (
 		<>

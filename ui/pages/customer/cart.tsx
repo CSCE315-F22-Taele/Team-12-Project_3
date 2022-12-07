@@ -19,7 +19,6 @@ import {
 	flaskAPI,
 	getMenuAPI,
 	getMenuPlusDescriptionsAPI,
-	serverSideInstance,
 } from "../../components/utils";
 import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
@@ -34,6 +33,7 @@ import Image from "next/dist/client/image";
 import StrawberryShake from "../../public/images/StrawberryShake.jpg";
 import { images } from "./imageimport";
 import SpeedDialAccess from "../../components/SpeedDialAccess";
+import { serverSideInstance } from "../../components/serverSideUtils";
 
 interface menuItem {
 	description: string;
@@ -413,7 +413,7 @@ export default function Cart(
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const instance = serverSideInstance(context);
+	const instance = await serverSideInstance(context);
 	const response = await instance.get(getMenuPlusDescriptionsAPI);
 	const data = response.data;
 
