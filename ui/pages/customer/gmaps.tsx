@@ -147,6 +147,9 @@ export default function GMaps<T extends Place>({
 
 	return (
 		<>
+			<head>
+				<title>Maps</title>
+			</head>
 			<Header
 				onLoad={onLoad}
 				onPlaceChanged={onPlaceChanged}

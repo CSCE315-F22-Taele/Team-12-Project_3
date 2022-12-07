@@ -22,6 +22,9 @@ const LoginPage = () => {
 
   return (
     <Container>
+      <head>
+				<title>Login</title>
+		  </head>
       <Typography variant="h4" align="center" gutterBottom>
         Login
       </Typography>

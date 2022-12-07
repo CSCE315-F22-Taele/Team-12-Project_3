@@ -2,11 +2,7 @@ import { GetServerSidePropsContext } from "next";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import {
-	flaskAPI,
-	getOrdersAPI,
-	serveOrderAPI,
-} from "../../components/utils";
+import { getOrdersAPI, serveOrderAPI } from "../../components/utils";
 // import { ThemeProvider } from "@emotion/react";
 import {
 	Box,
@@ -23,21 +19,45 @@ import {
 import { StyledDiv } from "../../styles/mystyles";
 // import Paper from '@mui/material/Paper';
 import { GridColDef } from "@mui/x-data-grid";
-import { SWRConfig, useSWRConfig } from "swr";
+import useSWR, { SWRConfig, useSWRConfig } from "swr";
 import Orders, { ServerOrder } from "../../components/Orders";
 import { serverSideInstance } from "../../components/serverSideUtils";
+import axios from "axios";
 
 interface thisProp {
-	orders: ServerOrder[];
+	ordersData: ServerOrder[];
 	serverId: string;
 	toggleDarkTheme: () => void;
 }
 
-export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) {
+export default function Server({
+	ordersData,
+	serverId,
+	toggleDarkTheme,
+}: thisProp) {
 	const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
-	const { mutate } = useSWRConfig();
+	const [shouldServe, setShouldServe] = useState(false);
+	const { data: orders, mutate: ordersMutate } = useSWR(
+		getOrdersAPI,
+		(url) => axios(url).then((r) => r.data.orders),
+		{
+			fallbackData: ordersData,
+		}
+	);
 
-	const serveOrder = () => {
+	useSWR(shouldServe ? serveOrderAPI : null, (url) => {
+		selectedOrders.forEach((orderId) => {
+			ordersMutate(
+				(thisOrders: ServerOrder[]) => {
+					return [
+						...thisOrders.filter(
+							(order) => order.orderId !== orderId
+						),
+					];
+				},
+				{ revalidate: false }
+			);
+		});
 		selectedOrders.forEach(async (orderId) => {
 			const data = JSON.stringify({
 				orderId,
@@ -45,27 +65,23 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 
 			const config = {
 				method: "PUT",
-				url: serveOrderAPI,
+				url,
 				headers: {
 					"Content-Type": "application/json",
 				},
 				data: data,
 			};
 
-			mutate(
-				getOrdersAPI,
-				(orders: ServerOrder[]) => {
-					return [
-						...orders.filter((order) => order.orderId !== orderId),
-					];
-				},
-				{ revalidate: false }
-			);
-			await flaskAPI(config);
+			await axios(config);
 
 			// TODO: show "Served!" popup
 		});
+		setShouldServe(false);
 		setSelectedOrders([]);
+	});
+
+	const serveOrder = () => {
+		setShouldServe(true);
 	};
 
 	const router = useRouter();
@@ -79,79 +95,76 @@ export default function Server({ orders, serverId, toggleDarkTheme }: thisProp) 
 
 	return (
 		<>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/");
-						}}>
-						Back
-					</Button>
-
-					<Button
-						onClick={async (e) => {
-							const url = await signOut({
-								redirect: false,
-								callbackUrl: "/",
-							});
-							router.push(url.url);
-						}}>
-						Sign Out
-					</Button>
-				</StyledDiv>
-				<Typography variant="h1">Server</Typography>
-
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						alignContent: "center",
-						p: 1,
-						m: 1,
-						bgcolor: "background.paper",
-						borderRadius: 1,
+			<head>
+				<title>Server Orders</title>
+			</head>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/");
 					}}>
-					<TableContainer
-						component={Paper}
-						sx={{ maxWidth: 1000, maxHeight: "60vh" }}>
-						<Table stickyHeader aria-label="collapsible table">
-							<TableHead>
-								<TableRow>
-									<TableCell />
-									<TableCell>Select</TableCell>
-									<TableCell>Customer Name</TableCell>
-									<TableCell align="right">
-										Total Price ($)
-									</TableCell>
-									<TableCell align="right">
-										Time Ordered
-									</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<SWRConfig
-									value={{
-										fallbackData: orders,
-										fetcher: (url) =>
-											flaskAPI({url}).then(
-												(r) => r.data.orders
-											),
-									}}>
-									<Orders setSelectedOrders={setSelectedOrders} />
-								</SWRConfig>
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Box>
+					Back
+				</Button>
 
-				<StyledDiv>
-					<Button onClick={serveOrder}>Serve Order</Button>
-					<Button
-						onClick={() => {
-							router.push("/server/cart");
-						}}>
-						Add New Order
-					</Button>
-				</StyledDiv>
+				<Button
+					onClick={async (e) => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
+					}}>
+					Sign Out
+				</Button>
+			</StyledDiv>
+			<Typography variant="h1">Server</Typography>
+
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignContent: "center",
+					p: 1,
+					m: 1,
+					bgcolor: "background.paper",
+					borderRadius: 1,
+				}}>
+				<TableContainer
+					component={Paper}
+					sx={{ maxWidth: 1000, maxHeight: "60vh" }}>
+					<Table stickyHeader aria-label="collapsible table">
+						<TableHead>
+							<TableRow>
+								<TableCell />
+								<TableCell>Select</TableCell>
+								<TableCell>Customer Name</TableCell>
+								<TableCell align="right">
+									Total Price ($)
+								</TableCell>
+								<TableCell align="right">
+									Time Ordered
+								</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							<Orders
+								orders={orders}
+								setSelectedOrders={setSelectedOrders}
+							/>
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Box>
+
+			<StyledDiv>
+				<Button onClick={serveOrder}>Serve Order</Button>
+				<Button
+					onClick={() => {
+						router.push("/server/cart");
+					}}>
+					Add New Order
+				</Button>
+			</StyledDiv>
 		</>
 	);
 }
@@ -164,18 +177,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	const instance = await serverSideInstance(context);
 	const response = await instance({
-		method: "get",
 		url: getOrdersAPI,
 		headers: {
 			"Content-Type": "application/json",
 		},
+		params: {
+			"not-served": "",
+		},
 		data: data,
 	});
-	const orders = response.data.orders;
+	const ordersData = response.data.orders;
 
 	return {
 		props: {
-			orders: orders,
+			ordersData: ordersData,
 			serverId: serverId,
 		},
 	};

@@ -17,13 +17,13 @@ import {
 	TextField,
 	Typography
 } from "@mui/material";
+import axios from "axios";
 // import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { serverSideInstance } from "../../components/serverSideUtils";
 import {
-	flaskAPI,
 	getInventoryAPI,
 	setRestockAllAPI,
 	updateInventoryAPI
@@ -88,7 +88,7 @@ export default function Inventory({ ingredients }: thisProp) {
 			],
 		});
 
-		const response = await flaskAPI({
+		const response = await axios({
 			method: "PATCH",
 			url: updateInventoryAPI,
 			headers: {
@@ -127,7 +127,7 @@ export default function Inventory({ ingredients }: thisProp) {
 			],
 		});
 
-		const response = await flaskAPI({
+		const response = await axios({
 			method: "PATCH",
 			url: updateInventoryAPI,
 			headers: {
@@ -164,13 +164,16 @@ export default function Inventory({ ingredients }: thisProp) {
 			data: data,
 		};
 
-		const response = await flaskAPI(config);
+		const response = await axios(config);
 
 		setRestockAllFirstPass(true);
 	};
 
 	return (
 		<>
+			<head>
+				<title>Inventory</title>
+			</head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

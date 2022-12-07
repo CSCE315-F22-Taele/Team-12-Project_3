@@ -16,7 +16,9 @@ export default function HomePage({}) {
     const router = useRouter();
     return (
         <>
-
+            <head>
+				<title>Welcome!</title>
+			</head>
             <StyledDiv sx={justMainPageStyleDiv}>
                 <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
                     <StyledDiv>

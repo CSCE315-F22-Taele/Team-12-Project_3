@@ -7,6 +7,9 @@ export default function Manager() {
 
 	return (
 		<>
+			<head>
+				<title>Reports</title>
+			</head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

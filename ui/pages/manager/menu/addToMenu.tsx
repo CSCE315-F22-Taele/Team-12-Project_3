@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import Select from "@mui/material/Select";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import axios from "axios";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
 import { serverSideInstance } from "../../../components/serverSideUtils";
 import {
-	flaskAPI,
 	getInventoryAPI,
 	menuItemAPI
 } from "../../../components/utils";
@@ -42,7 +42,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	const { data: ingredientList } = useSWR(
 		getInventoryAPI,
-		(url) => flaskAPI({url}).then((r) => r.data.ingredients),
+		(url) => axios(url).then((r) => r.data.ingredients),
 		{
 			fallbackData: ingredients,
 		}
@@ -161,7 +161,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 			data: data,
 		};
 
-		const response = await flaskAPI(config);
+		const response = await axios(config);
 
 		setItemIngredients([]);
 
@@ -170,6 +170,9 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	return (
 		<>
+			<head>
+				<title>Add to Menu</title>
+			</head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

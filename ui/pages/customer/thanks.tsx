@@ -5,7 +5,6 @@ import { StyledDiv } from "../../styles/mystyles";
 import Image from "next/dist/client/image";
 import Grow from '@mui/material/Grow';
 
-
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
 };
@@ -21,7 +20,9 @@ export default function HomePage({}) {
 
     return (
         <>
-            
+            <head>
+				<title>Thanks!</title>
+			</head>
             <StyledDiv sx={justMainPageStyleDiv}>
                 <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
                     <StyledDiv>
