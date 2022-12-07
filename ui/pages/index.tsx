@@ -19,7 +19,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Rev's American Grill</title>
+				<title>Rev&#39;s American Grill</title>
 			</Head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Image
