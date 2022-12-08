@@ -42,6 +42,7 @@ import type { } from '@mui/x-data-grid/themeAugmentation';
 export const StyledDiv = styled("div")(({ theme, ...otherProps }) => ({
   margin: "20px",
   textAlignLast: "center",
+  // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
 }));
 
 export const StyledTheme = createTheme({
@@ -153,17 +154,36 @@ export const StyledTheme = createTheme({
         },
       },
     },
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {
+          // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+        }
+      }
+    }
   },
 });
 
 export const StyledThemeDark = createTheme({
   palette: {
     mode: "dark",
+    
   },
   components: {
-    MuiDataGrid: {
+    MuiCard: {
       styleOverrides: {
         root: {
+          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+        }
+      }
+    },
+    MuiDataGrid: {
+      
+      styleOverrides: {
+        
+        root: {
+          // borderRadius: "55px",
+          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: 'rgb(167, 11, 40)',
             color: "white",
@@ -171,7 +191,6 @@ export const StyledThemeDark = createTheme({
           '& .MuiDataGrid-columnHeaderCheckbox': {
             backgroundColor: 'rgb(167, 11, 40)',
           },
-          
         }
       }
     },
@@ -186,6 +205,8 @@ export const StyledThemeDark = createTheme({
       styleOverrides: {
         root: {
           color: "grey",
+          // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+          
           // border: "2px solid",
           textDecoration: "italic",
           minWidth: 20,
@@ -206,6 +227,7 @@ export const StyledThemeDark = createTheme({
         root: {
           color: "white",
           alignContent: "center",
+          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
           // border: '2px solid blue',
           // backgroundColor: "blue",
           backgroundColor: "rgb(167, 11, 40)",
@@ -258,6 +280,13 @@ export const StyledThemeDark = createTheme({
         },
       },
     },
+    MuiTableContainer: {
+      styleOverrides: {
+        root: {
+          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+        }
+      }
+    }
   },
 });
 

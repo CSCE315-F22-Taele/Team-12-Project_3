@@ -30,7 +30,7 @@ export default function App({ children }: PropsWithChildren) {
 		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast },
 		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode },
 		{ icon: <LocationOnIcon />, name: 'Google Maps', button: () => { router.push("../customer/gmaps") } },
-		{ icon: <LocationOnIcon />, name: 'Increase Font Size', button: incrementFontSize },
+		{ icon: <CenterFocusStrongIcon />, name: 'Enlarge Text', button: incrementFontSize },
 		// { icon: <CropFreeIcon />, name: 'Default View'},
 		// { icon: <CenterFocusWeakIcon />, name: 'Larger View'},
 		// { icon: <CenterFocusStrongIcon />, name: 'Enlarged View'},
@@ -38,8 +38,8 @@ export default function App({ children }: PropsWithChildren) {
 
 	];
 	const [open, setOpen] = useState(false);
-	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
+	const handleClick = () => setOpen(!open);
 
 	return (
 		<>
@@ -57,12 +57,13 @@ export default function App({ children }: PropsWithChildren) {
 						position: 'fixed',
 						top: 0,
 						bottom: 50,
-						right: "95%"
+						right: "95%",
+						// boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
 					}
 				}
 				icon={<SpeedDialIcon />}
 				onClose={handleClose}
-				onOpen={handleOpen}
+				onClick={handleClick}
 				open={open}
 			>
 				{actions.map((action) => (
