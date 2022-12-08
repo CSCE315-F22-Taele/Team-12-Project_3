@@ -5,7 +5,7 @@ NProgress.configure({
 	minimum: 0.3,
 	easing: "ease",
 	speed: 800,
-	showSpinner: false,
+	template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><img src="../../rev-gif.gif" width=50vw height=50vh/></div>'
 });
 
 // Router.events.on('routeChangeStart', () => {
