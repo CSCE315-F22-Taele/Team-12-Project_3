@@ -12,7 +12,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import useSWR from "swr";
 import { serverSideInstance } from "@/c/serverSideUtils";
 import {
@@ -47,7 +47,11 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 			fallbackData: ingredients,
 		}
 	);	
-	const [newMenuItemName, setNewMenuItemName] = useState("");
+	// const [newMenuItemName, setNewMenuItemName] = useState("");
+
+	const newMenuItemNameRef = useRef<HTMLInputElement | null>(null);
+	const newMenuItemName = newMenuItemNameRef.current;
+
 	const [newMenuItemPrice, setNewMenuItemPrice] = useState(0);
 	const [newIngredients, setNewIngredients] = useState<string[]>(["", ""]);
 	const [itemIngredients, setItemIngredients] = useState<ItemIngredient[]>(
@@ -57,8 +61,10 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 		[]
 	);
 	const [rowNum, setRowNum] = useState(0);
-	const [newDescription, setDescription] = useState<string>("");
-	
+	// const [newDescription, setDescription] = useState<string>("");
+	const descriptionRef = useRef<HTMLInputElement | null>(null);
+	const newDescription = descriptionRef.current;
+
 	//for error checking on the front-end and to display error
 	const [newItemNameFirstPass, setItemNameFirstPass] = useState(true);
 	const [newPriceFirstPass, setNewPriceFirstPass] = useState(true);
@@ -129,10 +135,10 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 	};
 
 	const submitOrder = async () => {
-		const checkItemName = !newMenuItemName || newMenuItemName === "";
+		const checkItemName = !newMenuItemName;
 		const checkPrice = !newMenuItemPrice || isNaN(Number(newMenuItemPrice)) || Number(newMenuItemPrice) <= 0;
 		const checkList = !itemIngredients || itemIngredients.length === 0;
-		const checkDescription = !newDescription || newDescription === "";
+		const checkDescription = !newDescription;
 
 		if(checkItemName)
 			setItemNameFirstPass(false);
@@ -188,9 +194,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 					<TextField
 						type="text"
 						label="New Menu Item Name"
-						onChange={(e) => {
-							setNewMenuItemName(e.target.value);
-						}}
+						inputRef={newMenuItemNameRef}
 						error={
 							!newItemNameFirstPass
 								? true
@@ -337,10 +341,11 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 								? "Enter the description"
 								: ""
 						}
-						onChange={(e) => {
-							setDescription((String)(e.target.value));
+						inputRef={descriptionRef}
+						sx={{
+							marginBottom: "50px",
+							width: 600,
 						}}
-						sx={{marginBottom: "50px"}}
 						className="item_entry"></TextField>
 				</StyledDiv>
 				<StyledDiv className="SubmitNewMenuItemInfo">

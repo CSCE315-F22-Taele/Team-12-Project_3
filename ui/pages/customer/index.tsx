@@ -19,19 +19,20 @@ import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import {
 	addOrderAPI,
 	getMenuPlusDescriptionsAPI,
-} from "@/c/utils";
-import { StyledDiv } from "@/s/mystyles";
+} from "../../components/utils";
+import { StyledDiv } from "../../styles/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import { TextField, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Image from "next/dist/client/image";
-import StrawberryShake from "@/p/images/StrawberryShake.jpg";
-import Reveille from "@/p/ReveillePic.jpg";
-import { serverSideInstance } from "@/c/serverSideUtils";
-import SpeedDialAccess from "@/c/SpeedDialAccess";
-import { images } from "@/c/imageImport";
+import StrawberryShake from "../../public/images/StrawberryShake.jpg";
+import Reveille from "../../public/ReveillePic.jpg";
+import { serverSideInstance } from "../../components/serverSideUtils";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
+import { images } from "../../components/imageImport";
 import axios from "axios";
+import { useSetState } from "react-use";
 import Head from "next/head";
 
 interface menuItem {
@@ -92,6 +93,24 @@ export default function Cart(
 			headerClassName: "header-styling",
 			type: "number",
 			width: 100,
+			// renderCell: (params) => {
+			// 	return <TextField 
+			// 		sx={{height: "auto"}}
+			// 		// onChange={(e) => {
+			// 		// 	var newQuants = itemQuantities;
+			// 		// 	newQuants[index] =
+			// 		// 		Number(
+			// 		// 			e.target
+			// 		// 				.value
+			// 		// 		);
+			// 		// 	setItemQuantities(
+			// 		// 		newQuants
+			// 		// 	);
+			// 		// }}
+			// 	>
+					
+			// 	</TextField>
+			// }
 		},
 		{
 			field: "price",
@@ -126,9 +145,13 @@ export default function Cart(
 		var newBools = itemQuantitiesFirstPass;
 		var num = Number(itemQuantities[index]);
 		console.log(num, Number.NEGATIVE_INFINITY);
-		if (isNaN(num) || num <= 0 || num === Number.POSITIVE_INFINITY)
+		if (isNaN(num) || num === Number.POSITIVE_INFINITY
+		// 	|| num <= 0
+		)
 			newBools[index] = false;
-		else if (!newBools[index]) newBools[index] = true;
+		else if (!newBools[index]) 
+			newBools[index] = true;
+
 		// console.log("Index: ", index, " newBools",newBools);
 		// console.log("before:",newBools[index], " num:", num);
 
@@ -140,30 +163,74 @@ export default function Cart(
 		// console.log(itemQuantities);
 
 		if (
-			!newBools[index] ||
-			orderList.some((order) => order.itemName === selectedItem)
+			!newBools[index] 
 		)
 			return;
 		// console.log("re");
 
-		setOrderList([
-			...orderList,
-			{
-				rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
-				itemName: selectedItem,
-				quantity: itemQuantities[index],
-				price: Number(itemQuantities[index]) * Number(itemPrice),
-			},
-		]);
+		// if(orderList.some((order) => order.itemName === selectedItem)) {
+			
+		// }
 
-		setItemQuantities(
-			new Array(menu.length).fill(Number.POSITIVE_INFINITY)
-		);
+		var getOut = false;
+		console.log(itemQuantities[index]);
+		for(var i = 0; i < itemQuantitiesFirstPass.length; i++) {
+			
+			for(var j = 0; j < orderList.length; j++) {
+
+				if(orderList[j].itemName === selectedItem) {
+					console.log(orderList[j].quantity, itemQuantities[index]);
+
+					if(orderList[j].quantity + itemQuantities[index] > 0) {
+						orderList[j].quantity += itemQuantities[index];
+						orderList[j].price = Number(orderList[j].quantity) * Number(itemPrice);
+					}
+					else {
+						console.log(index, j);
+						// orderList.filter((val, filterIndex) => (filterIndex !== j))
+						setOrderList(list => [...list.slice(0, j), ...list.slice(j + 1)])
+						
+						// updateList = updateList.push(orderList.splice(j+1, 0)); 
+						console.log(orderList);
+					}
+					getOut = true;
+						// console.log(orderList[j].price);
+				}
+			}
+			if(getOut) {
+				break;
+			}
+			
+		}
+
+
+
+		// console.log(orderList);
+
+		if(!getOut) {
+			setOrderList([
+				...orderList,
+				{
+					rowId: Math.floor(Math.random() * (1000000 - 0 + 1) + 0),
+					itemName: selectedItem,
+					quantity: itemQuantities[index],
+					price: Number(itemQuantities[index]) * Number(itemPrice),
+				},
+			]);
+		}
+
+		// setItemQuantities(
+		// 	new Array(menu.length).fill(Number.POSITIVE_INFINITY)
+		// );
 		setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
 	};
 
 	const deleteAllInCart = () => {
 		setOrderList([]);
+		setItemQuantities(
+			new Array(menu.length).fill(Number.POSITIVE_INFINITY)
+		);
+		setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
 	};
 	const deleteSelectedInCart = () => {
 		setOrderList((orderList) =>
@@ -174,6 +241,10 @@ export default function Cart(
 					)
 			)
 		);
+		setItemQuantities(
+			new Array(menu.length).fill(Number.POSITIVE_INFINITY)
+		);
+		setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
 	};
 
 	const submitOrder = async () => {
@@ -208,6 +279,7 @@ export default function Cart(
 	};
 
 	useEffect(() => {}, [itemQuantitiesFirstPass]);
+	useEffect(() => {}, [itemQuantities]);
 
 	//   const theme = () => useTheme();
 
@@ -245,13 +317,6 @@ export default function Cart(
 											xs={6}
 											md={4}>
 											<Card>
-												{/* <Card className={classes.card}> */}
-												{/* <CardMedia
-                            component="img"
-                            height="194"
-                            src={"BaconBurger.webp"}
-                            alt={card.itemName}
-                          /> */}
 												<CardContent
 													sx={{
 														minHeight: 500,
@@ -268,16 +333,7 @@ export default function Cart(
 															zIndex: 1,
 															objectFit: "fill",
 														}}
-														src={
-															card.itemName in
-															images
-																? images[
-																		card
-																			.itemName
-																  ]
-																: images["None"]
-														}
-														// src={images[card.itemName]}
+														src={(images[card.itemName] !== undefined) ? images[card.itemName] : Reveille}
 														alt="Reveille"
 													/>
 													<Typography

@@ -56,7 +56,7 @@ import { StyledDiv } from '../styles/mystyles';
 
 export default function TranslatedText({ children }) {
 
-    const ThisDiv = styled("div")(({ theme, ...otherProps }) => ({
+    const customDiv = styled("div")(({ theme, ...otherProps }) => ({
         // margin: "2000px",
         // textAlignLast: "center",
     }));
@@ -88,7 +88,7 @@ export default function TranslatedText({ children }) {
 
 
     return (
-        <ThisDiv
+        <customDiv
         // id="google_translate_element"
         // className={styles.container}
         >
@@ -99,6 +99,6 @@ export default function TranslatedText({ children }) {
 
             {children}
 
-        </ThisDiv>
+        </customDiv>
     )
 }
