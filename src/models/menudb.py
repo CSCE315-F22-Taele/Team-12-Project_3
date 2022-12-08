@@ -23,7 +23,8 @@ class Menu(db.Model):
         ret = {
             "itemId": self.itemId,
             "itemName": self.itemName,
-            "price": self.price
+            "price": self.price,
+            "menuType": self.menuType
         }
         if includeDescripts: ret["description"] = self.description
         return ret

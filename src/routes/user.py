@@ -45,6 +45,7 @@ class UserResource(MethodResource):
             return make_response(jsonify(error="Username Not Found!"), 404)
         return user
 
+    # jwt_required()
     @marshal_with(SuccessSchema, code=202, description="Entity Successfully Deleted")
     @marshal_with(ErrorSchema, code=404, description="Entity Not Found")
     @doc(description="Delete an existing user from the database")

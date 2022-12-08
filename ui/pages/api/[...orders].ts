@@ -5,16 +5,17 @@ import { getSession } from "next-auth/react";
 import {
 	getMenuPlusDescriptionsAPI,
 	getOrdersAPI,
-	getRestockReportAPI,
+	// getRestockReportAPI,
 } from "../../components/utils";
 import { authOptions } from "./auth/[...nextauth]";
+import jwtDecode from "jwt-decode";
 
 function getParams(url: string | undefined) {
 	switch (url) {
 		case getMenuPlusDescriptionsAPI:
 			return { descriptions: "" };
-		case getRestockReportAPI:
-			return { "restock-report": "" };
+		// case getRestockReportAPI:
+		// 	return { "restock-report": "" };
 		case getOrdersAPI:
 			return { "not-served": "" };
 		default:
@@ -39,7 +40,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			headers: req.headers,
 		};
 	}
-	// console.log(JSON.stringify(session));
 
 	const response = await axios({
 		baseURL: process.env.FLASK_URL,

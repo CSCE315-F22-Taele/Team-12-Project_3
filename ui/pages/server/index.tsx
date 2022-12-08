@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from "next";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { getOrdersAPI, serveOrderAPI } from "../../components/utils";
+import { getOrdersAPI, serveOrderAPI } from "@/c/utils";
 // import { ThemeProvider } from "@emotion/react";
 import {
 	Box,
@@ -20,8 +20,8 @@ import { StyledDiv } from "../../styles/mystyles";
 // import Paper from '@mui/material/Paper';
 import { GridColDef } from "@mui/x-data-grid";
 import useSWR, { SWRConfig, useSWRConfig } from "swr";
-import Orders, { ServerOrder } from "../../components/Orders";
-import { serverSideInstance } from "../../components/serverSideUtils";
+import Orders, { ServerOrder } from "@/c/Orders";
+import { serverSideInstance } from "@/c/serverSideUtils";
 import axios from "axios";
 
 interface thisProp {
@@ -30,7 +30,7 @@ interface thisProp {
 	toggleDarkTheme: () => void;
 }
 
-export default function Server({
+export default function ServerView({
 	ordersData,
 	serverId,
 	toggleDarkTheme,

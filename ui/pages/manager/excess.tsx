@@ -20,8 +20,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
-import { getExcessReportAPI } from "../../components/utils";
-import { StyledDiv, StyledThemeHighContrast } from "../../styles/mystyles";
+import { getExcessReportAPI } from "@/c/utils";
+import { StyledDiv, StyledThemeHighContrast } from "@/s/mystyles";
 
 interface Excess {
 	itemName: string;

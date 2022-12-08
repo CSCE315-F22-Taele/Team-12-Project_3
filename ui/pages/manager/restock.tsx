@@ -14,9 +14,9 @@ import axios from "axios";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import { serverSideInstance } from "../../components/serverSideUtils";
-import { getRestockReportAPI } from "../../components/utils";
-import { StyledDiv } from "../../styles/mystyles";
+import { serverSideInstance } from "@/c/serverSideUtils";
+import { getRestockReportAPI } from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 
 interface thisProp {
 	restockData: any;
@@ -106,9 +106,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const instance = await serverSideInstance(context);
 	const response = await instance({
 		url: getRestockReportAPI,
-		params: {
-			"restock-report": "",
-		},
+		// params: {
+		// 	"restock-report": "",
+		// },
 	});
 	const data = response.data.ingredients;
 

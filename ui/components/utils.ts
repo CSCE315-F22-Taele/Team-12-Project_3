@@ -6,11 +6,10 @@ import { IHookStateSetAction } from "react-use/lib/misc/hookState";
 
 export const useGlobalUser = createGlobalState<string>("");
 
-export const routerPush = (
+export const setUser = (
 	userType: string,
 	setUserType: (state: IHookStateSetAction<string>) => void
 ) => {
-	router.push("/" + userType);
 	setUserType(() => userType);
 };
 
@@ -32,7 +31,7 @@ export const updateInventoryAPI = "/api/inventory/update";
 export const setRestockAllAPI = "/api/inventory/restock-all";
 export const getMenuAPI = "/api/menu";
 export const getMenuPlusDescriptionsAPI = "/api/menu";
-export const getRestockReportAPI = "/api/inventory";
+export const getRestockReportAPI = "/api/inventory/restock-report";
 export const getSalesReportAPI = "/api/orders/items/sales-report";
 export const addOrderAPI = "/api/orders/order";
 export const getOrdersAPI = "/api/orders";
