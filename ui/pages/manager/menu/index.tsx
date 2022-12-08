@@ -5,8 +5,8 @@ import { useState } from "react";
 import {
 	getMenuAPI,
 	menuItemAPI
-} from "../../../components/utils";
-import { StyledDiv } from "../../../styles/mystyles";
+} from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 
 import {
 	FormControl,

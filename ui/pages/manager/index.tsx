@@ -1,56 +1,57 @@
-import { Button, Typography } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { Button } from "@mui/material";
+import Image from "next/dist/client/image";
+import { useGlobalUser } from "@/c/utils";
 import { useRouter } from "next/router";
-import { StyledDiv } from "../../styles/mystyles";
+import Reveille from "@/p/ReveillePic.jpg";
+import { StyledDiv } from "@/s/mystyles";
+
+const justMainPageStyleDiv = {
+	marginTop: "3.5%",
+};
+const justMainPageStyleButtons = {
+	size: "large",
+};
 
 export default function Manager() {
+	const [userType, setUserType] = useGlobalUser();
+	// const theme = useTheme()
 	const router = useRouter();
 
 	return (
 		<>
-			<head>
-				<title>Manager Home</title>
-			</head>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/");
-						}}>
-						Back
-					</Button>
-					<Button
-						onClick={async (e) => {
-							const url = await signOut({
-								redirect: false,
-								callbackUrl: "/",
-							});
-							router.push(url.url);
-						}}>
-						Sign Out
-					</Button>
-				</StyledDiv>
-				<Typography variant="h1">Manager</Typography>
-
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/reports");
-						}}>
-						Reports
-					</Button>
-					<Button
-						onClick={() => {
-							router.push("/manager/menu");
-						}}>
-						Menu
-					</Button>
-					<Button
-						onClick={() => {
-							router.push("/manager/inventory");
-						}}>
-						Inventory
-					</Button>
-				</StyledDiv>
+			<StyledDiv sx={justMainPageStyleDiv}>
+				<Image
+					style={{
+						width: "auto",
+						height: "50vh",
+						position: "relative",
+						zIndex: 1,
+					}}
+					src={Reveille}
+					alt="Reveille"
+				/>
+			</StyledDiv>
+			<StyledDiv>
+				<Button
+					onClick={() => router.push("/server")}
+					sx={justMainPageStyleButtons}>
+					Server
+				</Button>
+				<Button
+					onClick={() => router.push("/manager/main-view")}
+					sx={justMainPageStyleButtons}>
+					Manager
+				</Button>
+			</StyledDiv>
 		</>
 	);
+}
+
+export async function getServerSideProps() {
+	require("dotenv-vault-core").config();
+	// console.log(process.env);
+
+	return {
+		props: {},
+	};
 }

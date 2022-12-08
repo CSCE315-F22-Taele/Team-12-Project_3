@@ -16,8 +16,18 @@
 		"jsx": "preserve",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
-		"strictNullChecks": true
+		"strictNullChecks": true,
+		"paths": {
+			"@/p/*": ["./public/*"],
+			"@/c/*": ["./components/*"],
+			"@/s/*": ["./styles/*"]
+		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/translate.ts"],
-	"exclude": ["node_modules"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"components/translate.ts"
+	],
+	"exclude": ["node_modules"]
 }

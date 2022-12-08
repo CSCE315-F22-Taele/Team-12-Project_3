@@ -3,12 +3,12 @@ import { ThemeProvider as RemoveFlicker } from "next-themes";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import "../styles/globals.css";
+import "@/s/globals.css";
 import "nprogress/nprogress.css";
-import { SetTheme } from "../components/SetTheme";
+import { SetTheme } from "@/c/SetTheme";
 import { SWRConfig } from "swr";
 
-const ProgressBar = dynamic(() => import("../components/ProgressBar"), {
+const ProgressBar = dynamic(() => import("@/c/ProgressBar"), {
 	ssr: false,
 });
 
@@ -25,7 +25,7 @@ export default function App({
 			{!loading ? (
 				<SessionProvider session={session}>
 					<SetTheme>
-							<Component {...pageProps} />
+						<Component {...pageProps} />
 					</SetTheme>
 					<ProgressBar />
 				</SessionProvider>

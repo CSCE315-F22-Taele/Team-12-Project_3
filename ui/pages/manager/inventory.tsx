@@ -22,13 +22,13 @@ import axios from "axios";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { serverSideInstance } from "../../components/serverSideUtils";
+import { serverSideInstance } from "@/c/serverSideUtils";
 import {
 	getInventoryAPI,
 	setRestockAllAPI,
 	updateInventoryAPI
-} from "../../components/utils";
-import { StyledDiv } from "../../styles/mystyles";
+} from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 
 interface thisProp {
 	ingredients: any;
@@ -177,7 +177,7 @@ export default function Inventory({ ingredients }: thisProp) {
 				<StyledDiv>
 					<Button
 						onClick={() => {
-							router.push("/manager");
+							router.push("/manager/main-view");
 						}}>
 						Back
 					</Button>
