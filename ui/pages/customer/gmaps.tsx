@@ -2,10 +2,10 @@ import { Grid } from "@mui/material";
 import { useLoadScript } from "@react-google-maps/api";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Header from "../../components/gmaps/Header";
-import List from "../../components/gmaps/List";
-import Map from "../../components/gmaps/Map";
-import { placesData } from "../../components/gmaps/placesData";
+import Header from "@/c/gmaps/Header";
+import List from "@/c/gmaps/List";
+import Map from "@/c/gmaps/Map";
+import { placesData } from "@/c/gmaps/placesData";
 
 const getPlacesData = async (
 	type: string,
