@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import Reveille from "../../public/ReveillePic.jpg";
 import BaconBurger from "../../public/images/BaconBurger.webp";
 import BBQSauce from "../../public/images/BBQSauce.png";
 import BlackBeanBurger from "../../public/images/BlackBeanBurger.jpg";
@@ -63,7 +64,8 @@ export const images: { [itemName: string]: StaticImageData } = {
     "Strawberry Ice Cream Cup": StrawberryIceCreamCup,
     "Tissues": Tissues,
     "Vanilla Aggie Shake": VanillaAggieShake,
-    "Vanilla Ice Cream Cup": VanillaIceCreamCup
+    "Vanilla Ice Cream Cup": VanillaIceCreamCup,
+    "None": Reveille
 }
 
 // export default {
