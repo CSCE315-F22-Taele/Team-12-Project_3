@@ -1,5 +1,7 @@
 from marshmallow import Schema, fields, validate, validates, validates_schema, ValidationError
 
+menuTypes = set(["Entrees", "Sides", "Drinks", "Misc", "Desserts"])
+
 # To take check for restock-report parameter
 class DescriptionSchema(Schema):
     description = fields.Bool(
@@ -9,10 +11,11 @@ class DescriptionSchema(Schema):
     )
 
 class ItemRequestSchema(Schema):
-    itemName = fields.Str()
-    description = fields.Str()
-    price = fields.Float(validate=validate.Range(min=0, error="Price must be >= 0"))
+    itemName = fields.Str(required=True)
+    description = fields.Str(required=True)
+    price = fields.Float(required=True, validate=validate.Range(min=0, error="Price must be >= 0"))
     linkedInventory = fields.List(fields.Str, required=True)
+    menuType = fields.Str(validate=validate.OneOf(choices=menuTypes))
     # linkedInventory = fields.Str(required=True, many=True)
 
     @validates('linkedInventory')
@@ -31,11 +34,15 @@ class ItemResponseSchema(Schema):
     itemName = fields.Str()
     description = fields.Str()
     price = fields.Float()
+    menuType = fields.Str()
 
 class MenuResponseSchema(Schema):
     # Acts as a parent class for ingredients
     # Allows the list of ingredients to be mapped to "inventory" key
     items = fields.Nested(ItemResponseSchema(many=True))
+
+class MenuTypesResponseSchema(Schema):
+    types = fields.List(fields.Str)
 
 class PostResponseSchema(Schema):
     itemCreated = fields.Str()

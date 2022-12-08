@@ -7,6 +7,7 @@ class Menu(db.Model):
     description = db.Column(db.String(1000))
     price = db.Column(db.Float, nullable=False, server_default="0")
     active = db.Column(db.Boolean, server_default="True")
+    menuType = db.Column("types", db.String(255), server_default="Entrees")
 
     # uselist required so that menuIngredients always considered a list; avoids Nonetype
     menuIngredients = db.relationship(
@@ -22,7 +23,8 @@ class Menu(db.Model):
         ret = {
             "itemId": self.itemId,
             "itemName": self.itemName,
-            "price": self.price
+            "price": self.price,
+            "menuType": self.menuType
         }
         if includeDescripts: ret["description"] = self.description
         return ret
