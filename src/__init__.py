@@ -77,6 +77,7 @@ def create_app(test_config=None):
     docs.register(inventory.InventoryResource, blueprint='inventory')
     docs.register(inventory.IngredientResource, blueprint='inventory')
     docs.register(menu.MenuResource, blueprint='menu')
+    docs.register(menu.MenuTypesResource, blueprint='menu')
     docs.register(menu.ItemResource, blueprint='menu')
     docs.register(order.SalesReportResource, blueprint='orders')
     docs.register(order.ExcessReportResource, blueprint='orders')

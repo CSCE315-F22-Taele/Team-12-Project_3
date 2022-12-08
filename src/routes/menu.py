@@ -9,6 +9,7 @@ from uuid import uuid4
 from ..schemas import (
     DescriptionSchema, NewPriceRequestSchema, ItemRequestSchema,
     ItemResponseSchema, MenuResponseSchema, PostResponseSchema,
+    MenuTypesResponseSchema,
     SuccessSchema, ErrorSchema
 )
 from sqlalchemy.exc import IntegrityError
@@ -30,6 +31,14 @@ class MenuResource(MethodResource):
             return make_response(jsonify(error="Invalid Query Parameters!"), 400)
         menuItems = Menu.query.filter_by(active=True).order_by(Menu.itemName.asc()).all()
         return {"items": [itm.to_dict(includeDescripts) for itm in menuItems]}
+
+@doc(tags=["Menu"])
+class MenuTypesResource(MethodResource):
+    @marshal_with(MenuTypesResponseSchema, code=200, description="Successfully retrieved Menu Types")
+    @doc(description="Retrieves all the unique Menu Types from the menu.")
+    def get(self):
+        menuTypes = db.session.query(Menu.menuType).distinct().all()
+        return {"types": [i.menuType for i in menuTypes]}
 
 @doc(tags=["Menu"])
 class ItemResource(MethodResource):
@@ -74,12 +83,13 @@ class ItemResource(MethodResource):
     @marshal_with(ErrorSchema, code=404, description="Invalid Request Body")
     @marshal_with(ErrorSchema, code=422, description="Parsing Malfunction")
     @doc(description="Adds a new item and its associated ingredients to the database. Creates new ingredients if non-existent")
-    def post(self, itemName, description, price, linkedInventory):
+    def post(self, itemName, description, price, linkedInventory, menuType=None):
         '''
         itemName: str
         description: str
         price: float
         linkedInventory: list(str)
+        menuType: str
         '''
         inventory = Inventory.query.all()
         inventoryMapping = {inv.ingredientName: inv for inv in inventory}
@@ -95,12 +105,14 @@ class ItemResource(MethodResource):
                 menuItem.description = description
                 menuItem.price = price
                 menuItem.menuIngredients = []
+                menuItem.menuType = menuType
         else:
             menuItem = Menu(
                 itemId=str(uuid4()),
                 itemName=itemName, 
                 description=description, 
-                price=price
+                price=price,
+                menuType=menuType
             )
 
         for ingredientName in linkedInventory:
@@ -130,7 +142,9 @@ class ItemResource(MethodResource):
         abort(make_response(jsonify(error=err.messages.get('json') or err.messages.get('query')), 422))
 
 menu_view = MenuResource.as_view("menuresource")
+menu_types_view = MenuTypesResource.as_view("menutypesresource")
 item_view = ItemResource.as_view("itemresource")
 bp.add_url_rule("/", view_func=menu_view, methods=["GET"])
+bp.add_url_rule("/types", view_func=menu_types_view, methods=["GET"])
 bp.add_url_rule("/item", view_func=item_view, methods=["POST", "PATCH"])
 bp.add_url_rule("/item/<string:itemName>", view_func=item_view, methods=["GET", "DELETE"])
