@@ -168,6 +168,7 @@ export const StyledThemeDark = createTheme({
   palette: {
     mode: "dark",
     
+    
   },
   components: {
     MuiCard: {
@@ -177,19 +178,8 @@ export const StyledThemeDark = createTheme({
         }
       }
     },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
-        }
-      }
-    },
     MuiDataGrid: {
-      
-      
       styleOverrides: {
-        
-        
         root: {
           // borderRadius: "55px",
           boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
