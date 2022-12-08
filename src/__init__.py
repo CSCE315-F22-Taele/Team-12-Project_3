@@ -73,6 +73,7 @@ def create_app(test_config=None):
     docs.register(user.UserResource, blueprint='user')
     docs.register(user.EmailResource, blueprint='user')
     docs.register(user.VerifyUserResource, blueprint='user')
+    docs.register(inventory.RestockReportResource, blueprint='inventory')
     docs.register(inventory.InventoryResource, blueprint='inventory')
     docs.register(inventory.IngredientResource, blueprint='inventory')
     docs.register(menu.MenuResource, blueprint='menu')

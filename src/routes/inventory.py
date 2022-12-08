@@ -14,22 +14,23 @@ from ..schemas import (
 bp = Blueprint('inventory', __name__, url_prefix='/inventory')
 api = Api(bp)
 
+@doc(tags=["Inventory"])
+class RestockReportResource(MethodResource):
+    # @jwt_required()
+    @marshal_with(InventoryResponseSchema, code=200, description="Successfully retrieved restock-report")
+    @doc(description="Retrieves all ingredients with quantity lower than threshold.")
+    def get(self):
+        inventoryIngredients = Inventory.query.filter(Inventory.quantity < Inventory.threshold).order_by(Inventory.ingredientName.asc()).all()
+        return {"ingredients": inventoryIngredients}
+
 # MethodResource inherits from both Methodview(Flask) & Resource(Flask-Restful)
 @doc(tags=["Inventory"])
 class InventoryResource(MethodResource):
     # @jwt_required()
-    @use_kwargs(ReportSchema, location='query') # Solely just so swagger is documented; Don't need to understand
     @marshal_with(InventoryResponseSchema, code=200, description="Successfully retrieved ingredients from inventory")
-    @marshal_with(ErrorSchema, code=400, description="Query Paramater Not Allowed")
-    @doc(description="Retrieves all the ingredients from the inventory. Optionally, retrives all ingredients with quantity lower than threshold.")
-    def get(self, *args):
-        understockCond = ('restock-report' in request.args)
-        inventoryQuery = Inventory.query
-        if understockCond:
-            inventoryQuery = inventoryQuery.filter(Inventory.quantity < Inventory.threshold)
-        elif len(request.args) > 0: # invalid query parameter passed
-            return make_response(jsonify(error="Invalid Query Parameters!"), 400)
-        inventoryIngredients = inventoryQuery.order_by(Inventory.ingredientName.asc()).all()
+    @doc(description="Retrieves all the ingredients from the inventory.")
+    def get(self):
+        inventoryIngredients = Inventory.query.order_by(Inventory.ingredientName.asc()).all()
         return {"ingredients": inventoryIngredients}
 
     # @jwt_required()
@@ -105,9 +106,11 @@ class IngredientResource(MethodResource):
         db.session.commit()
         return {"success": True}, 202
 
+restock_view = RestockReportResource.as_view("restockreportresource")
 inventory_view = InventoryResource.as_view("inventoryresource")
 ingredient_view = IngredientResource.as_view("ingredientresource")
 bp.add_url_rule('/', view_func=inventory_view, methods=['GET'])
 bp.add_url_rule('/restock-all', view_func=inventory_view, methods=['PUT'])
 bp.add_url_rule('/update', view_func=inventory_view, methods=['PATCH'])
 bp.add_url_rule('/ingredient/<string:ingredientName>', view_func=ingredient_view, methods=["GET", "DELETE"])
+bp.add_url_rule('/restock-report', view_func=restock_view, methods=['GET'])
