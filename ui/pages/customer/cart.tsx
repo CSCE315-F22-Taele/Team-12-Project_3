@@ -75,8 +75,8 @@ export default function Cart(
 	>(new Array(menu.length).fill(true));
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
 
-	// for (var i = 0; i < menu.length - images.length + 1; i++)
-	// 	images.push(Reveille);
+	// for (var i = 0; i < menu.length - images.keys.length + 1; i++)
+	// 	images.push("Reveille": Reveille);
 
 	const tableColumns: GridColDef[] = [
 		{
