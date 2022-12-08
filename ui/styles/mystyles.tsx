@@ -186,7 +186,9 @@ export const StyledThemeDark = createTheme({
     },
     MuiDataGrid: {
       
+      
       styleOverrides: {
+        
         
         root: {
           // borderRadius: "55px",

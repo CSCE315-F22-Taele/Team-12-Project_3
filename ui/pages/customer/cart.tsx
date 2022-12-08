@@ -333,7 +333,7 @@ export default function Cart(
 															zIndex: 1,
 															objectFit: "fill",
 														}}
-														src={images[index]}
+														src={(images[card.itemName] !== undefined) ? images[card.itemName] : Reveille}
 														alt="Reveille"
 													/>
 													<Typography

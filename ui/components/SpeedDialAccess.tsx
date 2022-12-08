@@ -38,7 +38,7 @@ export default function App({ children }: PropsWithChildren) {
 
 	];
 	const [open, setOpen] = useState(false);
-	const handleClose = () => setOpen(false);
+	// const handleClose = () => setOpen(false);
 	const handleClick = () => setOpen(!open);
 
 	return (
@@ -62,7 +62,7 @@ export default function App({ children }: PropsWithChildren) {
 					}
 				}
 				icon={<SpeedDialIcon />}
-				onClose={handleClose}
+				// onClose={handleClose}
 				onClick={handleClick}
 				open={open}
 			>
