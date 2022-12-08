@@ -12,14 +12,14 @@ import {
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { addOrderAPI, getMenuAPI, getOrdersAPI } from "../../components/utils";
-import { StyledDiv } from "../../styles/mystyles";
+import { addOrderAPI, getMenuAPI, getOrdersAPI } from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import useSWR, { useSWRConfig } from "swr";
-import { serverSideInstance } from "../../components/serverSideUtils";
+import { serverSideInstance } from "@/c/serverSideUtils";
 import axios from "axios";
-import { ServerOrder } from "../../components/Orders";
+import { ServerOrder } from "@/c/Orders";
 
 interface menuItem {
 	itemId: string;

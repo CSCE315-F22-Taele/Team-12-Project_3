@@ -30,7 +30,7 @@ import StrawberryShake from "../../public/images/StrawberryShake.jpg";
 import Reveille from "../../public/ReveillePic.jpg";
 import { serverSideInstance } from "../../components/serverSideUtils";
 import SpeedDialAccess from "../../components/SpeedDialAccess";
-import { images } from "./imageimport";
+import { images } from "../../components/imageImport";
 import axios from "axios";
 import { useSetState } from "react-use";
 import Head from "next/head";

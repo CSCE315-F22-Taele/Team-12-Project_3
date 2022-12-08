@@ -1,7 +1,7 @@
 import { Typography, Button, Grid } from "@mui/material";
 import { useRouter } from "next/router";
-import Reveille from "../../public/ReveillePic.jpg";
-import { StyledDiv } from "../../styles/mystyles";
+import Reveille from "@/p/ReveillePic.jpg";
+import { StyledDiv } from "@/s/mystyles";
 import Image from "next/dist/client/image";
 import Grow from '@mui/material/Grow';
 
@@ -16,7 +16,7 @@ const justMainPageStyleButtons = {
 export default function HomePage({}) {
     const router = useRouter();
 
-    setTimeout(() => {router.push("/customer")}, 5000);
+    setTimeout(() => {router.push("/")}, 5000);
 
     return (
         <>

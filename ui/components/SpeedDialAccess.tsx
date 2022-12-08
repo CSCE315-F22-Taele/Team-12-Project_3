@@ -38,7 +38,6 @@ export default function App({ children }: PropsWithChildren) {
 
 	];
 	const [open, setOpen] = useState(false);
-	// const handleClose = () => setOpen(false);
 	const handleClick = () => setOpen(!open);
 
 	return (
@@ -62,9 +61,9 @@ export default function App({ children }: PropsWithChildren) {
 					}
 				}
 				icon={<SpeedDialIcon />}
-				// onClose={handleClose}
 				onClick={handleClick}
 				open={open}
+				
 			>
 				{actions.map((action) => (
 					<SpeedDialAction
@@ -72,6 +71,7 @@ export default function App({ children }: PropsWithChildren) {
 						icon={action.icon}
 						tooltipTitle={action.name}
 						onClick={action.button}
+						// open={true}
 					/>
 				))}
 			</SpeedDial>

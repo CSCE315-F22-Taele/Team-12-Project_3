@@ -14,12 +14,12 @@ import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import useSWR from "swr";
-import { serverSideInstance } from "../../../components/serverSideUtils";
+import { serverSideInstance } from "@/c/serverSideUtils";
 import {
 	getInventoryAPI,
 	menuItemAPI
-} from "../../../components/utils";
-import { StyledDiv } from "../../../styles/mystyles";
+} from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 
 interface ingredientItem {
 	ingredientId: string;

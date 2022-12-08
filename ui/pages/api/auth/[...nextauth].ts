@@ -1,7 +1,9 @@
 import { NextAuthOptions } from "next-auth";
 import NextAuth from "next-auth/next";
+import { getSession } from "next-auth/react";
 import Auth0Provider from "next-auth/providers/auth0";
 import CredentialsProvider from "next-auth/providers/credentials";
+import jwtDecode from "jwt-decode";
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -59,9 +61,6 @@ export const authOptions: NextAuthOptions = {
 		}),
 	],
 
-	session: {
-		strategy: "jwt",
-	},
 	callbacks: {
 		jwt: ({ token, user, account, profile }) => {
 			if (user) {
@@ -69,24 +68,25 @@ export const authOptions: NextAuthOptions = {
 			}
 			if (account) {
 				token.accessToken = account.access_token;
+				const idToken: { "https://stockDB.com/user_type": string } =
+					jwtDecode(account.id_token!);
+				const userType = idToken["https://stockDB.com/user_type"];
+				token.userType = userType;
 			}
-			// token.type = profile?.app_metadata?.roles[0] ?? "aaaaaaaaa";
-			// console.log(JSON.stringify(user));
-			// console.log(JSON.stringify(account));
-			// console.log(JSON.stringify(profile));
 
 			return token;
 		},
-		session: ({ session, token, user }) => {
+		session: ({ session, token }) => {
 			if (token) {
 				session.user = token.user;
 				session.accessToken = token.accessToken as string;
-				// session.type = token.type;
+				session.userType = token.userType as string;
 			}
 
 			return session;
 		},
 	},
+
 	// custom auth pages
 	pages: {
 		// signIn: ""

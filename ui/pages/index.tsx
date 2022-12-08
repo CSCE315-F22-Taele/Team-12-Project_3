@@ -1,9 +1,11 @@
-import { Button } from "@mui/material";
-import Image from "next/dist/client/image";
-import { routerPush, useGlobalUser } from "../components/utils";
-import Reveille from "../public/ReveillePic.jpg";
-import { StyledDiv } from "../styles/mystyles";
+import { Typography, Button, Grid, Grow } from "@mui/material";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Reveille from "@/p/ReveillePic.jpg";
+import { StyledDiv } from "@/s/mystyles";
 import Head from "next/head";
+import Image from "next/dist/client/image";
+import { signIn } from "next-auth/react";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -12,38 +14,51 @@ const justMainPageStyleButtons = {
 	size: "large",
 };
 
-export default function Home() {
-	const [userType, setUserType] = useGlobalUser();
-	// const theme = useTheme()
-
+export default function HomePage({}) {
+	const router = useRouter();
 	return (
 		<>
-			<head>
-				<title>Rev&#39;s American Grill</title>
-			</head>
 			<StyledDiv sx={justMainPageStyleDiv}>
-				<Image
-					style={{
-						width: "auto",
-						height: "50vh",
-						position: "relative",
-						zIndex: 1,
-					}}
-					src={Reveille}
-					alt="Reveille"
-				/>
+				<Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+					<StyledDiv>
+						<Typography variant="h1">
+							Welcome to Rev&#39;s American Grill!
+						</Typography>
+						<Grid>
+							<Image
+								style={{
+									width: "auto",
+									height: "50vh",
+									position: "relative",
+									zIndex: 1,
+								}}
+								src={Reveille}
+								alt="Reveille"
+							/>
+						</Grid>
+					</StyledDiv>
+				</Grow>
 			</StyledDiv>
+			<StyledDiv></StyledDiv>
+
 			<StyledDiv>
-				<Button
-					onClick={() => routerPush("server", setUserType)}
-					sx={justMainPageStyleButtons}>
-					Server
-				</Button>
-				<Button
-					onClick={() => routerPush("manager", setUserType)}
-					sx={justMainPageStyleButtons}>
-					Manager
-				</Button>
+				<Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+					<StyledDiv>
+						<StyledDiv>
+							<Button
+								sx={justMainPageStyleButtons}
+								onClick={() => {
+									router.push("/customer");
+								}}>
+								Click to Start
+							</Button>
+						</StyledDiv>
+						<StyledDiv>
+							{/* <Link href="/login">Not A Customer?</Link> */}
+							<Link href="api/auth/signin">Not A Customer?</Link>
+						</StyledDiv>
+					</StyledDiv>
+				</Grow>
 			</StyledDiv>
 		</>
 	);
