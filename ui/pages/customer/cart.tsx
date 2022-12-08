@@ -32,6 +32,7 @@ import { serverSideInstance } from "../../components/serverSideUtils";
 import SpeedDialAccess from "../../components/SpeedDialAccess";
 import { images } from "./imageimport";
 import axios from "axios";
+import { useSetState } from "react-use";
 import Head from "next/head";
 
 interface menuItem {
@@ -332,7 +333,7 @@ export default function Cart(
 															zIndex: 1,
 															objectFit: "fill",
 														}}
-														src={images[card.itemName] !== undefined ? images[card.itemName] : Reveille}
+														src={images[index]}
 														alt="Reveille"
 													/>
 													<Typography
