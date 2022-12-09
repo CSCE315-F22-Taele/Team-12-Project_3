@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { StyledDiv } from "@/s/mystyles";
 import useGlobalUser from "@/h/useGlobalUser";
 import NoAccess from "@/c/NoAccess";
+import Head from "next/head";
 
 export default function Manager() {
 	const router = useRouter();
@@ -14,9 +15,9 @@ export default function Manager() {
 
 	return (
 		<>
-			<head>
-				<title>Manager Main View</title>
-			</head>
+			<Head>
+				<title>Manager Dashboard</title>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

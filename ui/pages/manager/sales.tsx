@@ -26,6 +26,7 @@ import { SxProps } from "@mui/system";
 import axios from "axios";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Head from "next/head";
 
 interface Sale {
 	itemName: string;
@@ -100,9 +101,9 @@ export default function Sales() {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Sales Report</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

@@ -6,6 +6,7 @@ import Header from "@/c/gmaps/Header";
 import List from "@/c/gmaps/List";
 import Map from "@/c/gmaps/Map";
 import { placesData } from "@/c/gmaps/placesData";
+import Head from "next/head";
 
 const getPlacesData = async (
 	type: string,
@@ -147,9 +148,9 @@ export default function GMaps<T extends Place>({
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Maps</title>
-			</head>
+			</Head>
 			<Header
 				onLoad={onLoad}
 				onPlaceChanged={onPlaceChanged}

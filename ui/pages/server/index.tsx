@@ -27,6 +27,7 @@ import useGlobalUser from "@/h/useGlobalUser";
 import NoAccess from "@/c/NoAccess";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]";
+import Head from "next/head";
 
 interface thisProp {
 	ordersData: ServerOrder[];
@@ -104,9 +105,9 @@ export default function ServerView({
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Server Orders</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

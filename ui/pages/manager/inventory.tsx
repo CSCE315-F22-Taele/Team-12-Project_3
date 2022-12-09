@@ -30,6 +30,7 @@ import {
 import { StyledDiv } from "@/s/mystyles";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Head from "next/head";
 
 interface thisProp {
 	ingredients: any;
@@ -177,9 +178,9 @@ export default function Inventory({ ingredients }: thisProp) {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Inventory</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

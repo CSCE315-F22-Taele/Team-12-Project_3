@@ -21,6 +21,7 @@ import useGlobalUser from "@/h/useGlobalUser";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import useSWR, { useSWRConfig } from "swr";
+import Head from "next/head";
 
 interface menuItem {
 	itemId: string;
@@ -179,9 +180,9 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Cart</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

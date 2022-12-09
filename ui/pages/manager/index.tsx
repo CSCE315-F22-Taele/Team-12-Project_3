@@ -5,6 +5,7 @@ import Reveille from "@/p/ReveillePic.jpg";
 import { StyledDiv } from "@/s/mystyles";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Head from "next/head";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -22,9 +23,9 @@ export default function Manager() {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Server or Manager</title>
-			</head>
+			</Head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Image
 					style={{

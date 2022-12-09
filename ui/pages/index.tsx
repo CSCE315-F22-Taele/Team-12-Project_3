@@ -32,9 +32,9 @@ export default function HomePage({}) {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Welcome</title>
-			</head>
+			</Head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Grow in={true} {...(true ? { timeout: 1000 } : {})}>
 					<StyledDiv>

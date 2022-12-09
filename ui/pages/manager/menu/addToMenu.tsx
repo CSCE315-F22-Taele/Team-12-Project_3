@@ -19,6 +19,7 @@ import { getInventoryAPI, menuItemAPI } from "@/c/utils";
 import { StyledDiv } from "@/s/mystyles";
 import useGlobalUser from "@/h/useGlobalUser";
 import NoAccess from "@/c/NoAccess";
+import Head from "next/head";
 
 interface ingredientItem {
 	ingredientId: string;
@@ -182,9 +183,9 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	return (
 		<>
-				<head>
+				<Head>
 					<title>Add to Menu</title>
-				</head>
+				</Head>
 				<StyledDiv>
 					<Button
 						onClick={() => {

@@ -308,7 +308,7 @@ export default function Cart(
 
 		const data = JSON.stringify({
 			customerName: customerNameElem.value,
-			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4", // TODO: random server id
+			// serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4", // TODO: random server id
 			items: orderList,
 		});
 
@@ -361,9 +361,9 @@ export default function Cart(
 				}}>
 				Back
 			</Button>
-			<head>
+			<Head>
 				<title>Cart</title>
-			</head>
+			</Head>
 			<SpeedDialAccess />
 			<Typography variant="h1">Cart</Typography>
 

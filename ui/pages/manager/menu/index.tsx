@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { getMenuAPI, menuItemAPI } from "@/c/utils";
 import { StyledDiv } from "@/s/mystyles";
+import Head from "next/head";
 
 import {
 	FormControl,
@@ -131,9 +132,9 @@ export default function Menu({ menuData }: thisProp) {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Menu</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

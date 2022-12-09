@@ -24,6 +24,7 @@ import { getExcessReportAPI } from "@/c/utils";
 import { StyledDiv, StyledThemeHighContrast } from "@/s/mystyles";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Head from "next/head";
 
 interface Excess {
 	itemName: string;
@@ -102,9 +103,9 @@ export default function Excess() {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Excess Report</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

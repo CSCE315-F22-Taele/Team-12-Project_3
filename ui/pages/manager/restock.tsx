@@ -19,6 +19,7 @@ import { getRestockReportAPI } from "@/c/utils";
 import { StyledDiv } from "@/s/mystyles";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Head from "next/head";
 
 interface thisProp {
 	restockData: any;
@@ -46,9 +47,9 @@ export default function Excess({ restockData }: thisProp) {
 
 	return (
 		<>
-			<head>
+			<Head>
 				<title>Restock Report</title>
-			</head>
+			</Head>
 			<StyledDiv>
 				<Button
 					onClick={() => {
