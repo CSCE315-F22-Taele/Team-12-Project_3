@@ -7,6 +7,7 @@ import "@/s/globals.css";
 import "nprogress/nprogress.css";
 import { SetTheme } from "@/c/SetTheme";
 import { SWRConfig } from "swr";
+import Head from 'next/head';
 
 const ProgressBar = dynamic(() => import("@/c/ProgressBar"), {
 	ssr: false,
@@ -21,17 +22,22 @@ export default function App({
 	useEffect(() => setLoading(false), []);
 
 	return (
-		<RemoveFlicker>
-			{!loading ? (
-				<SessionProvider session={session}>
-					<SetTheme>
-						<Component {...pageProps} />
-					</SetTheme>
-					<ProgressBar />
-				</SessionProvider>
-			) : (
-				""
-			)}
-		</RemoveFlicker>
+		<>
+			<Head>
+				<title>Rev POS System</title>
+			</Head>
+			<RemoveFlicker>
+				{!loading ? (
+					<SessionProvider session={session}>
+						<SetTheme>
+							<Component {...pageProps} />
+						</SetTheme>
+						<ProgressBar />
+					</SessionProvider>
+				) : (
+					""
+					)}
+			</RemoveFlicker>
+		</>
 	);
 }
