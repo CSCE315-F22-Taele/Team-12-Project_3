@@ -151,10 +151,7 @@ export default function GMaps<T extends Place>({
 			<Head>
 				<title>Maps</title>
 			</Head>
-			<Header
-				onLoad={onLoad}
-				onPlaceChanged={onPlaceChanged}
-			/>
+			<Header onLoad={onLoad} onPlaceChanged={onPlaceChanged} />
 			<Grid container style={{ width: "100%" }}>
 				<Grid item xs={12} md={4}>
 					<List

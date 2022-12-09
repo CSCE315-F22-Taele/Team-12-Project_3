@@ -9,7 +9,7 @@ import {
 	Select,
 	SelectChangeEvent,
 	TextField,
-	Typography
+	Typography,
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -146,7 +146,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 		const data = JSON.stringify({
 			customerName: customerNameElem.value,
-			serverId: session?.user.id,
+			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4", // TODO: session?.user.id
 			items: orderList,
 		});
 

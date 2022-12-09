@@ -183,17 +183,17 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	return (
 		<>
-				<Head>
-					<title>Add to Menu</title>
-				</Head>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/menu");
-						}}>
-						Back
-					</Button>
-				</StyledDiv>
+			<Head>
+				<title>Add to Menu</title>
+			</Head>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager/menu");
+					}}>
+					Back
+				</Button>
+			</StyledDiv>
 
 			<Typography variant="h1">New Menu Item Addition</Typography>
 

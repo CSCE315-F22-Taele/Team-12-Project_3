@@ -4,8 +4,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { getMenuAPI, menuItemAPI } from "@/c/utils";
 import { StyledDiv } from "@/s/mystyles";
-import Head from "next/head";
-
 import {
 	FormControl,
 	FormHelperText,
@@ -27,6 +25,7 @@ import { serverSideInstance } from "../../../components/serverSideUtils";
 import axios from "axios";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Head from "next/head";
 
 interface thisProp {
 	menuData: menuItem[];

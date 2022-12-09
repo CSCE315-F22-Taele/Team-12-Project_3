@@ -16,7 +16,7 @@ export default function Manager() {
 	return (
 		<>
 			<Head>
-				<title>Manager Dashboard</title>
+				<title>Manager Main View</title>
 			</Head>
 			<StyledDiv>
 				<Button
