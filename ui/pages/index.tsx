@@ -5,7 +5,8 @@ import Reveille from "@/p/ReveillePic.jpg";
 import { StyledDiv } from "@/s/mystyles";
 import Head from "next/head";
 import Image from "next/dist/client/image";
-import { signIn } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useCallback, useEffect } from "react";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -16,6 +17,18 @@ const justMainPageStyleButtons = {
 
 export default function HomePage({}) {
 	const router = useRouter();
+	const { data: session } = useSession();
+
+	const login = async () => {
+		if (session) {
+			router.push("/login/redirect");
+		} else {
+			await signIn("auth0", {
+				callbackUrl: "/login/redirect",
+			});
+		}
+	};
+
 	return (
 		<>
 			<StyledDiv sx={justMainPageStyleDiv}>
@@ -55,7 +68,9 @@ export default function HomePage({}) {
 						</StyledDiv>
 						<StyledDiv>
 							{/* <Link href="/login">Not A Customer?</Link> */}
-							<Link href="api/auth/signin">Not A Customer?</Link>
+							<Button onClick={() => login()}>
+								Not a customer?
+							</Button>
 						</StyledDiv>
 					</StyledDiv>
 				</Grow>

@@ -22,6 +22,8 @@ import { useEffect, useMemo, useState } from "react";
 import useSWR from "swr";
 import { getExcessReportAPI } from "@/c/utils";
 import { StyledDiv, StyledThemeHighContrast } from "@/s/mystyles";
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
 
 interface Excess {
 	itemName: string;
@@ -29,7 +31,7 @@ interface Excess {
 	currentStock: number;
 }
 
-export default function Excess({ serverId }: { serverId: string }) {
+export default function Excess() {
 	const router = useRouter();
 
 	const [startDate, setStartDate] = useState("");
@@ -92,6 +94,11 @@ export default function Excess({ serverId }: { serverId: string }) {
 		}
 		return popperSx;
 	}, [theme]);
+
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>

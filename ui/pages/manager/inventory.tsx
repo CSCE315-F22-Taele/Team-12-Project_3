@@ -15,10 +15,9 @@ import {
 	TableHead,
 	TableRow,
 	TextField,
-	Typography
+	Typography,
 } from "@mui/material";
 import axios from "axios";
-// import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -26,9 +25,11 @@ import { serverSideInstance } from "@/c/serverSideUtils";
 import {
 	getInventoryAPI,
 	setRestockAllAPI,
-	updateInventoryAPI
+	updateInventoryAPI,
 } from "@/c/utils";
 import { StyledDiv } from "@/s/mystyles";
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
 
 interface thisProp {
 	ingredients: any;
@@ -60,18 +61,18 @@ export default function Inventory({ ingredients }: thisProp) {
 	// const [quantityFirstPass, setQuantityFirstPass] = useState(true);
 	// const [quantityFirstPass, setQuantityFirstPass] = useState(true);
 
+	const addQuantity = async () => {
+		const checkIngredient =
+			!selectedIngredient || selectedIngredient === "";
+		const checkIngredientAmount =
+			!ingredientAmount ||
+			isNaN(Number(ingredientAmount)) ||
+			Number(ingredientAmount) <= 0;
 
-	const addQuantity = async () => {	
-		const checkIngredient = !selectedIngredient || selectedIngredient === "";
-		const checkIngredientAmount = !ingredientAmount || isNaN(Number(ingredientAmount)) || Number(ingredientAmount) <= 0; 
-		
-		if(checkIngredient) 
-			setItemSelectedFirstPass(false);
-		if(checkIngredientAmount) 
-			setQuantityFirstPass(false);
-		
-		if(checkIngredient || checkIngredientAmount)
-			return;
+		if (checkIngredient) setItemSelectedFirstPass(false);
+		if (checkIngredientAmount) setQuantityFirstPass(false);
+
+		if (checkIngredient || checkIngredientAmount) return;
 
 		ingredientList.map((ingredient) => {
 			if (ingredient.ingredientName !== selectedIngredient) return;
@@ -101,16 +102,17 @@ export default function Inventory({ ingredients }: thisProp) {
 	};
 
 	const setThreshold = async () => {
-		const checkIngredient = !selectedIngredient || selectedIngredient === "";
-		const checkIngredientAmount = !ingredientAmount || isNaN(Number(ingredientAmount)) || Number(ingredientAmount) <= 0; 
-		
-		if(checkIngredient) 
-			setItemSelectedFirstPass(false);
-		if(checkIngredientAmount) 
-			setQuantityFirstPass(false);
-		
-		if(checkIngredient || checkIngredientAmount)
-			return;
+		const checkIngredient =
+			!selectedIngredient || selectedIngredient === "";
+		const checkIngredientAmount =
+			!ingredientAmount ||
+			isNaN(Number(ingredientAmount)) ||
+			Number(ingredientAmount) <= 0;
+
+		if (checkIngredient) setItemSelectedFirstPass(false);
+		if (checkIngredientAmount) setQuantityFirstPass(false);
+
+		if (checkIngredient || checkIngredientAmount) return;
 
 		ingredientList.map((ingredient) => {
 			if (ingredient.ingredientName !== selectedIngredient) return;
@@ -140,11 +142,10 @@ export default function Inventory({ ingredients }: thisProp) {
 	};
 
 	const restockAll = async () => {
-		if(!restockAmount || isNaN(restockAmount) || restockAmount <= 0) {
+		if (!restockAmount || isNaN(restockAmount) || restockAmount <= 0) {
 			setRestockAllFirstPass(false);
 			return;
 		}
-
 
 		ingredientList.map((ingredient, index) => {
 			ingredientList[index].quantity += restockAmount;
@@ -169,180 +170,173 @@ export default function Inventory({ ingredients }: thisProp) {
 		setRestockAllFirstPass(true);
 	};
 
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
+
 	return (
 		<>
 			<head>
 				<title>Inventory</title>
 			</head>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/main-view");
-						}}>
-						Back
-					</Button>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager/dashboard");
+					}}>
+					Back
+				</Button>
 
-					<Typography variant="h1">Inventory</Typography>
-				</StyledDiv>
-				<StyledDiv>
-					<FormControl 
-						sx={{ minWidth: 150 }} 
-						error={
-							!itemSelectedFirstPass 
-							// && 
-							// !selectedIngredient
-								? true
-								: false
-						}
-						>
-						<InputLabel>Item</InputLabel>
-						<Select
-							onChange={(event: SelectChangeEvent) => {
-								setSelectedIngredient(event.target.value as string);
-							}}
-							sx={{borderRadius: 3}}
-							className="ingredients"
-							label={"Item"}>
-							{ingredientList.map((ingredient, index) => {
-								return (
-									<MenuItem
-										key={index}
-										value={ingredient.ingredientName}>
-										{ingredient.ingredientName}
-									</MenuItem>
-								);
-							})}
-						</Select>
-						<FormHelperText 
-						error={
-							!itemSelectedFirstPass 
-							// && 
-							// !selectedIngredient
-								? true
-								: false
-						}
-						>
-								Pick an item</FormHelperText>
-					</FormControl>
-					<TextField
-						type="text"
-						inputMode="numeric"
-						label="Enter amount"
-						error={
-							!quantityFirstPass 
-							// &&
-							// (!ingredientAmount || 
-							// isNaN(Number(ingredientAmount)) ||
-							// Number(ingredientAmount) <= 0) 
-								? true
-								: false
-						}
-						helperText={
-							!quantityFirstPass 
-							// &&
-							// (!ingredientAmount || 
-							// isNaN(Number(ingredientAmount)) ||
-							// Number(ingredientAmount) <= 0) 
-								? "Enter a positive number"
-								: ""
-						}
-						onChange={(e) => {
-							setIngredientAmount(Number(e.target.value));
+				<Typography variant="h1">Inventory</Typography>
+			</StyledDiv>
+			<StyledDiv>
+				<FormControl
+					sx={{ minWidth: 150 }}
+					error={
+						!itemSelectedFirstPass
+							? // &&
+							  // !selectedIngredient
+							  true
+							: false
+					}>
+					<InputLabel>Item</InputLabel>
+					<Select
+						onChange={(event: SelectChangeEvent) => {
+							setSelectedIngredient(event.target.value as string);
 						}}
-						className="ingredient_amount"></TextField>
-				</StyledDiv>
-
-				<StyledDiv>
-					<Button onClick={addQuantity}>Quantity +</Button>
-					<Button onClick={setThreshold}>Threshold set</Button>
-				</StyledDiv>
-
-				{/* <StyledDiv className="ingredientsList">
+						sx={{ borderRadius: 3 }}
+						className="ingredients"
+						label={"Item"}>
 						{ingredientList.map((ingredient, index) => {
 							return (
-								<StyledDiv key={index}>
-									{ingredient.ingredientName} {ingredient.quantity}{" "}
-									{ingredient.threshold}
-								</StyledDiv>
+								<MenuItem
+									key={index}
+									value={ingredient.ingredientName}>
+									{ingredient.ingredientName}
+								</MenuItem>
 							);
 						})}
-					</StyledDiv> */}
-				<Box
-					sx={{
-						display: "flex",
-						justifyContent: "center",
-						alignContent: "center",
-						p: 1,
-						m: 1,
-						bgcolor: "background.paper",
-						borderRadius: 1,
-					}}>
-					<TableContainer
-						component={Paper}
-						sx={{ maxWidth: 700, maxHeight: 400 }}>
-						<Table stickyHeader aria-label="simple table">
-							<TableHead>
-								<TableRow>
-									<TableCell>Ingredient Name</TableCell>
-									<TableCell align="right">Quantity</TableCell>
-									<TableCell align="right">Threshold</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								{ingredientList.map((eachItem) => (
-									<TableRow
-										key={eachItem.ingredientName}
-										// sx={{
-										// 	"&:last-child td, &:last-child th": {
-										// 		border: 0,
-										// 	},
-										// }}
-										>
-										<TableCell component="th" scope="row">
-											{eachItem.ingredientName}
-										</TableCell>
-										<TableCell align="right">
-											{eachItem.quantity}
-										</TableCell>
-										<TableCell align="right">
-											{eachItem.threshold}
-										</TableCell>
-									</TableRow>
-								))}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Box>
-
-				<StyledDiv>
-					<TextField
-						type="text"
-						inputMode="numeric"
-						label="Restock amount"
-						onChange={(e) => {
-							setRestockAmount(Number(e.target.value));
-						}}
+					</Select>
+					<FormHelperText
 						error={
-							!restockAllFirstPass 
-							// &&
-							// (!restockAmount || 
-							// isNaN(Number(restockAmount)) ||
-							// Number(restockAmount) <= 0) 
-								? true
+							!itemSelectedFirstPass
+								? // &&
+								  // !selectedIngredient
+								  true
 								: false
-						}
-						helperText={
-							!restockAllFirstPass 
-							// &&
-							// (!restockAmount || 
-							// isNaN(Number(restockAmount)) ||
-							// Number(restockAmount) <= 0)
-								? "Enter a positive number"
-								: ""
-						}
-						className="restock_amount"></TextField>
-					<Button onClick={restockAll}>Restock All</Button>
-				</StyledDiv>
+						}>
+						Pick an item
+					</FormHelperText>
+				</FormControl>
+				<TextField
+					type="text"
+					inputMode="numeric"
+					label="Enter amount"
+					error={
+						!quantityFirstPass
+							? // &&
+							  // (!ingredientAmount ||
+							  // isNaN(Number(ingredientAmount)) ||
+							  // Number(ingredientAmount) <= 0)
+							  true
+							: false
+					}
+					helperText={
+						!quantityFirstPass
+							? // &&
+							  // (!ingredientAmount ||
+							  // isNaN(Number(ingredientAmount)) ||
+							  // Number(ingredientAmount) <= 0)
+							  "Enter a positive number"
+							: ""
+					}
+					onChange={(e) => {
+						setIngredientAmount(Number(e.target.value));
+					}}
+					className="ingredient_amount"></TextField>
+			</StyledDiv>
+
+			<StyledDiv>
+				<Button onClick={addQuantity}>Quantity +</Button>
+				<Button onClick={setThreshold}>Threshold set</Button>
+			</StyledDiv>
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "center",
+					alignContent: "center",
+					p: 1,
+					m: 1,
+					bgcolor: "background.paper",
+					borderRadius: 1,
+				}}>
+				<TableContainer
+					component={Paper}
+					sx={{ maxWidth: 700, maxHeight: 400 }}>
+					<Table stickyHeader aria-label="simple table">
+						<TableHead>
+							<TableRow>
+								<TableCell>Ingredient Name</TableCell>
+								<TableCell align="right">Quantity</TableCell>
+								<TableCell align="right">Threshold</TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{ingredientList.map((eachItem) => (
+								<TableRow
+									key={eachItem.ingredientName}
+									// sx={{
+									// 	"&:last-child td, &:last-child th": {
+									// 		border: 0,
+									// 	},
+									// }}
+								>
+									<TableCell component="th" scope="row">
+										{eachItem.ingredientName}
+									</TableCell>
+									<TableCell align="right">
+										{eachItem.quantity}
+									</TableCell>
+									<TableCell align="right">
+										{eachItem.threshold}
+									</TableCell>
+								</TableRow>
+							))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+			</Box>
+
+			<StyledDiv>
+				<TextField
+					type="text"
+					inputMode="numeric"
+					label="Restock amount"
+					onChange={(e) => {
+						setRestockAmount(Number(e.target.value));
+					}}
+					error={
+						!restockAllFirstPass
+							? // &&
+							  // (!restockAmount ||
+							  // isNaN(Number(restockAmount)) ||
+							  // Number(restockAmount) <= 0)
+							  true
+							: false
+					}
+					helperText={
+						!restockAllFirstPass
+							? // &&
+							  // (!restockAmount ||
+							  // isNaN(Number(restockAmount)) ||
+							  // Number(restockAmount) <= 0)
+							  "Enter a positive number"
+							: ""
+					}
+					className="restock_amount"></TextField>
+				<Button onClick={restockAll}>Restock All</Button>
+			</StyledDiv>
 		</>
 	);
 }

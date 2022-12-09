@@ -9,18 +9,26 @@ import {
 } from "../../components/utils";
 import { authOptions } from "./auth/[...nextauth]";
 import jwtDecode from "jwt-decode";
+import { Session } from "next-auth";
 
 function getParams(url: string | undefined) {
 	switch (url) {
 		case getMenuPlusDescriptionsAPI:
 			return { descriptions: "" };
-		// case getRestockReportAPI:
-		// 	return { "restock-report": "" };
 		case getOrdersAPI:
 			return { "not-served": "" };
 		default:
 			return {};
 	}
+}
+
+function getHeaders(session: Session | null) {
+	if (session) {
+		return {
+			Authorization: session.accessToken,
+		};
+	}
+	return {};
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -44,7 +52,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const response = await axios({
 		baseURL: process.env.FLASK_URL,
 		headers: {
-			Authorization: session?.accessToken,
+			...getHeaders(session),
 		},
 		url: req.url,
 		params: { ...getParams(req.url) },

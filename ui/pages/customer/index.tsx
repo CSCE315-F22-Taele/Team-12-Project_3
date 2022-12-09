@@ -94,7 +94,7 @@ export default function Cart(
 			type: "number",
 			width: 100,
 			// renderCell: (params) => {
-			// 	return <TextField 
+			// 	return <TextField
 			// 		sx={{height: "auto"}}
 			// 		// onChange={(e) => {
 			// 		// 	var newQuants = itemQuantities;
@@ -108,7 +108,7 @@ export default function Cart(
 			// 		// 	);
 			// 		// }}
 			// 	>
-					
+
 			// 	</TextField>
 			// }
 		},
@@ -145,12 +145,13 @@ export default function Cart(
 		var newBools = itemQuantitiesFirstPass;
 		var num = Number(itemQuantities[index]);
 		console.log(num, Number.NEGATIVE_INFINITY);
-		if (isNaN(num) || num === Number.POSITIVE_INFINITY
-		// 	|| num <= 0
+		if (
+			isNaN(num) ||
+			num === Number.POSITIVE_INFINITY
+			// 	|| num <= 0
 		)
 			newBools[index] = false;
-		else if (!newBools[index]) 
-			newBools[index] = true;
+		else if (!newBools[index]) newBools[index] = true;
 
 		// console.log("Index: ", index, " newBools",newBools);
 		// console.log("before:",newBools[index], " num:", num);
@@ -162,52 +163,47 @@ export default function Cart(
 		// console.log(itemQuantitiesFirstPass);
 		// console.log(itemQuantities);
 
-		if (
-			!newBools[index] 
-		)
-			return;
+		if (!newBools[index]) return;
 		// console.log("re");
 
 		// if(orderList.some((order) => order.itemName === selectedItem)) {
-			
+
 		// }
 
 		var getOut = false;
 		console.log(itemQuantities[index]);
-		for(var i = 0; i < itemQuantitiesFirstPass.length; i++) {
-			
-			for(var j = 0; j < orderList.length; j++) {
-
-				if(orderList[j].itemName === selectedItem) {
+		for (var i = 0; i < itemQuantitiesFirstPass.length; i++) {
+			for (var j = 0; j < orderList.length; j++) {
+				if (orderList[j].itemName === selectedItem) {
 					console.log(orderList[j].quantity, itemQuantities[index]);
 
-					if(orderList[j].quantity + itemQuantities[index] > 0) {
+					if (orderList[j].quantity + itemQuantities[index] > 0) {
 						orderList[j].quantity += itemQuantities[index];
-						orderList[j].price = Number(orderList[j].quantity) * Number(itemPrice);
-					}
-					else {
+						orderList[j].price =
+							Number(orderList[j].quantity) * Number(itemPrice);
+					} else {
 						console.log(index, j);
 						// orderList.filter((val, filterIndex) => (filterIndex !== j))
-						setOrderList(list => [...list.slice(0, j), ...list.slice(j + 1)])
-						
-						// updateList = updateList.push(orderList.splice(j+1, 0)); 
+						setOrderList((list) => [
+							...list.slice(0, j),
+							...list.slice(j + 1),
+						]);
+
+						// updateList = updateList.push(orderList.splice(j+1, 0));
 						console.log(orderList);
 					}
 					getOut = true;
-						// console.log(orderList[j].price);
+					// console.log(orderList[j].price);
 				}
 			}
-			if(getOut) {
+			if (getOut) {
 				break;
 			}
-			
 		}
-
-
 
 		// console.log(orderList);
 
-		if(!getOut) {
+		if (!getOut) {
 			setOrderList([
 				...orderList,
 				{
@@ -256,7 +252,7 @@ export default function Cart(
 
 		const data = JSON.stringify({
 			customerName: customerNameElem.value,
-			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4", // TODO: random server id
 			items: orderList,
 		});
 
@@ -333,7 +329,16 @@ export default function Cart(
 															zIndex: 1,
 															objectFit: "fill",
 														}}
-														src={(images[card.itemName] !== undefined) ? images[card.itemName] : Reveille}
+														src={
+															images[
+																card.itemName
+															] !== undefined
+																? images[
+																		card
+																			.itemName
+																  ]
+																: Reveille
+														}
 														alt="Reveille"
 													/>
 													<Typography
@@ -509,7 +514,12 @@ export default function Cart(
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const instance = await serverSideInstance(context);
-	const response = await instance.get(getMenuPlusDescriptionsAPI);
+	const response = await instance({
+		url: getMenuPlusDescriptionsAPI,
+		params: {
+			customer: "",
+		},
+	});
 	const data = response.data;
 
 	return {

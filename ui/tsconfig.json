@@ -20,7 +20,8 @@
 		"paths": {
 			"@/p/*": ["./public/*"],
 			"@/c/*": ["./components/*"],
-			"@/s/*": ["./styles/*"]
+			"@/s/*": ["./styles/*"],
+			"@/h/*": ["./hooks/*"]
 		}
 	},
 	"include": [

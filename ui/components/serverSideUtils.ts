@@ -13,10 +13,10 @@ const extractAuthToken = async (context: GetServerSidePropsContext) => {
 	// console.log(authToken);
 
 	if (!authToken) {
-		return undefined;
+		return;
 	}
 	return {
-		Authorization: authToken,
+		Authorization: "Bearer " + authToken,
 	};
 };
 
@@ -25,8 +25,6 @@ export const serverSideInstance = async (
 ) => {
 	return axios.create({
 		baseURL: process.env.FLASK_URL,
-		headers: {
-			...(await extractAuthToken(context)),
-		},
+		headers: await extractAuthToken(context),
 	});
 };

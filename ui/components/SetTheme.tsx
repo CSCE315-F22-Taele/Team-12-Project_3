@@ -5,10 +5,10 @@ import useFontSize from "../hooks/useFontSize";
 import SpeedDialAccess from "./SpeedDialAccess";
 import TranslatedText from "./Translate";
 
-const IncrementContext = createContext(() => { }); // Initialize to an empty function
+const IncrementContext = createContext(() => {}); // Initialize to an empty function
 const FontSizeContext = createContext(0); // Initialize to state
-const DarkModeContext = createContext(() => { });
-const ContrastContext = createContext(() => { });
+const DarkModeContext = createContext(() => {});
+const ContrastContext = createContext(() => {});
 
 export function useToggleDarkMode() {
 	return useContext(DarkModeContext);
@@ -29,7 +29,7 @@ export function useIncrement() {
 export function SetTheme({ children }: PropsWithChildren) {
 	const { theme, toggleContrast, toggleDarkMode } = useDarkMode();
 	const { fontSize, increment } = useFontSize();
-	useEffect(() => console.log(fontSize), [fontSize]);
+	// useEffect(() => console.log(fontSize), [fontSize]);
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -41,7 +41,6 @@ export function SetTheme({ children }: PropsWithChildren) {
 							<TranslatedText>
 								<SpeedDialAccess />
 								{children}
-								{/* </SpeedDialAccess> */}
 							</TranslatedText>
 						</DarkModeContext.Provider>
 					</ContrastContext.Provider>

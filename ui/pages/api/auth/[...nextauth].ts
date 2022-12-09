@@ -4,63 +4,38 @@ import { getSession } from "next-auth/react";
 import Auth0Provider from "next-auth/providers/auth0";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwtDecode from "jwt-decode";
+import { redirect } from "next/dist/server/api-utils";
 
 export const authOptions: NextAuthOptions = {
 	providers: [
 		Auth0Provider({
-			clientId: process.env.AUTH0_CLIENT_ID || "",
-			clientSecret: process.env.AUTH0_CLIENT_SECRET || "",
-			issuer: process.env.AUTH0_ISSUER,
-			/* authorization: {
-				params: {
-					audience: encodeURI(process.env.AUTH0_AUDIENCE ?? ""),
-				},
-			},
-			token: {
-				params: {
-					audience: process.env.AUTH0_AUDIENCE,
-				},
-			}, */
+			clientId:
+				process.env.AUTH0_CLIENT_ID ||
+				process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID ||
+				"",
+			clientSecret:
+				process.env.AUTH0_CLIENT_SECRET ||
+				process.env.NEXT_PUBLIC_AUTH0_CLIENT_SECRET ||
+				"",
+			issuer:
+				process.env.AUTH0_ISSUER ||
+				process.env.NEXT_PUBLIC_AUTH0_ISSUER ||
+				"",
 			idToken: true,
 			client: {
 				authorization_signed_response_alg: "HS256",
 				id_token_signed_response_alg: "HS256",
 			},
-		}),
-		CredentialsProvider({
-			name: "credentials",
-			credentials: {
-				username: {
-					label: "Username",
-					type: "text",
-					placeholder: "username",
+			authorization: {
+				params: {
+					prompt: "login",
 				},
-				password: {
-					label: "Password",
-					type: "password",
-				},
-			},
-			authorize: async (credentials) => {
-				// database look up
-				if (
-					credentials &&
-					credentials.username === "john" &&
-					credentials.password === "test"
-				) {
-					// user object with id
-					return {
-						id: "2",
-						username: "John",
-						email: "test@test.com",
-					};
-				}
-
-				// login failed
-				return null;
+				url: `${process.env.AUTH0_ISSUER || process.env.NEXT_PUBLIC_AUTH0_ISSUER}/authorize?response_type=code&prompt=consent`,
 			},
 		}),
 	],
-
+	secret:
+		process.env.NEXTAUTH_SECRET || process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
 	callbacks: {
 		jwt: ({ token, user, account, profile }) => {
 			if (user) {
@@ -80,11 +55,14 @@ export const authOptions: NextAuthOptions = {
 			if (token) {
 				session.user = token.user;
 				session.accessToken = token.accessToken as string;
-				session.userType = token.userType as string;
+				session.userType = (token.userType as string).toString();
 			}
 
 			return session;
 		},
+		// async redirect({ url, baseUrl }) {
+		// 	return url;
+		// },
 	},
 
 	// custom auth pages

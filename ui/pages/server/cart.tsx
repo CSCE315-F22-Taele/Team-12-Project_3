@@ -1,3 +1,5 @@
+import { addOrderAPI, getMenuAPI } from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 import {
 	Button,
 	FormControl,
@@ -7,19 +9,18 @@ import {
 	Select,
 	SelectChangeEvent,
 	TextField,
-	Typography,
+	Typography
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { addOrderAPI, getMenuAPI, getOrdersAPI } from "@/c/utils";
-import { StyledDiv } from "@/s/mystyles";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import useSWR, { useSWRConfig } from "swr";
+import NoAccess from "@/c/NoAccess";
 import { serverSideInstance } from "@/c/serverSideUtils";
+import useGlobalUser from "@/h/useGlobalUser";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
-import { ServerOrder } from "@/c/Orders";
+import useSWR, { useSWRConfig } from "swr";
 
 interface menuItem {
 	itemId: string;
@@ -41,6 +42,8 @@ interface OrderItem {
 
 export default function Cart({ serverId, menu }: thisProp) {
 	const router = useRouter();
+	const { session, isAuthorized } = useGlobalUser();
+
 	const { mutate } = useSWRConfig();
 	const { data: menuData } = useSWR(getMenuAPI, {
 		fallbackData: menu,
@@ -142,7 +145,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 		const data = JSON.stringify({
 			customerName: customerNameElem.value,
-			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4",
+			serverId: session?.user.id,
 			items: orderList,
 		});
 
@@ -169,6 +172,10 @@ export default function Cart({ serverId, menu }: thisProp) {
 		setSelectedItem(menuObjectName);
 		setItemPrice(Number(menuObjectPrice));
 	};
+
+	if (!isAuthorized("server")) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>

@@ -17,6 +17,8 @@ import useSWR from "swr";
 import { serverSideInstance } from "@/c/serverSideUtils";
 import { getRestockReportAPI } from "@/c/utils";
 import { StyledDiv } from "@/s/mystyles";
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
 
 interface thisProp {
 	restockData: any;
@@ -36,6 +38,11 @@ export default function Excess({ restockData }: thisProp) {
 		fallbackData: restockData,
 		fetcher: (url) => axios(url).then((r) => r.data.ingredients),
 	});
+
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>

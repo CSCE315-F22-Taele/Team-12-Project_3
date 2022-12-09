@@ -1,9 +1,10 @@
 import { Button } from "@mui/material";
 import Image from "next/dist/client/image";
-import { useGlobalUser } from "@/c/utils";
 import { useRouter } from "next/router";
 import Reveille from "@/p/ReveillePic.jpg";
 import { StyledDiv } from "@/s/mystyles";
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -13,9 +14,11 @@ const justMainPageStyleButtons = {
 };
 
 export default function Manager() {
-	const [userType, setUserType] = useGlobalUser();
-	// const theme = useTheme()
 	const router = useRouter();
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>
@@ -38,7 +41,7 @@ export default function Manager() {
 					Server
 				</Button>
 				<Button
-					onClick={() => router.push("/manager/main-view")}
+					onClick={() => router.push("/manager/dashboard")}
 					sx={justMainPageStyleButtons}>
 					Manager
 				</Button>

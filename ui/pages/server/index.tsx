@@ -22,7 +22,11 @@ import { GridColDef } from "@mui/x-data-grid";
 import useSWR, { SWRConfig, useSWRConfig } from "swr";
 import Orders, { ServerOrder } from "@/c/Orders";
 import { serverSideInstance } from "@/c/serverSideUtils";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
+import useGlobalUser from "@/h/useGlobalUser";
+import NoAccess from "@/c/NoAccess";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 interface thisProp {
 	ordersData: ServerOrder[];
@@ -35,6 +39,8 @@ export default function ServerView({
 	serverId,
 	toggleDarkTheme,
 }: thisProp) {
+	const router = useRouter();
+
 	const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 	const [shouldServe, setShouldServe] = useState(false);
 	const { data: orders, mutate: ordersMutate } = useSWR(
@@ -84,14 +90,17 @@ export default function ServerView({
 		setShouldServe(true);
 	};
 
-	const router = useRouter();
-
 	const columns: GridColDef[] = [
 		{ field: "id", headerName: "Order ID", width: 130 },
 		{ field: "customerName", headerName: "Customer Name", width: 130 },
 		{ field: "totalPrice", headerName: "Price", width: 130 },
 		{ field: "age", headerName: "Age", type: "number", width: 90 },
 	];
+
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized("server")) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>
@@ -107,7 +116,7 @@ export default function ServerView({
 				</Button>
 
 				<Button
-					onClick={async (e) => {
+					onClick={async () => {
 						const url = await signOut({
 							redirect: false,
 							callbackUrl: "/",
@@ -170,17 +179,25 @@ export default function ServerView({
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const serverId = "74bfa9a8-7c52-4eaf-b7de-107c980751c4";
+	const session = await unstable_getServerSession(
+		context.req,
+		context.res,
+		authOptions
+	);
+	if (!session) return;
+
+	let serverId = "";
+	if (session.userType.localeCompare("server") === 0) {
+		serverId = session.user.id;
+		console.log(serverId);
+	}
 	const data = JSON.stringify({
-		serverId: serverId,
+		serverId,
 	});
 
 	const instance = await serverSideInstance(context);
 	const response = await instance({
 		url: getOrdersAPI,
-		headers: {
-			"Content-Type": "application/json",
-		},
 		params: {
 			"not-served": "",
 		},
@@ -191,7 +208,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	return {
 		props: {
 			ordersData: ordersData,
-			serverId: serverId,
+			serverId,
 		},
 	};
 }

@@ -8,11 +8,6 @@ NProgress.configure({
 	template: '<div class="bar" role="bar"><div class="peg"></div></div><div class="spinner" role="spinner"><img src="../../rev-gif.gif" width=50vw height=50vh/></div>'
 });
 
-// Router.events.on('routeChangeStart', () => {
-// 	NProgress.start({
-// 	  spinner: <img src="../public/rev-gif.gif" alt="Loading..." />
-// 	});
-//   });
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());

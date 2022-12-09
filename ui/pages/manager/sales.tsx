@@ -24,6 +24,8 @@ import { StyledDiv } from "@/s/mystyles";
 import { useSession } from "next-auth/react";
 import { SxProps } from "@mui/system";
 import axios from "axios";
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
 
 interface Sale {
 	itemName: string;
@@ -31,8 +33,9 @@ interface Sale {
 	sales: number;
 }
 
-export default function Sales({ serverId }: { serverId: string }) {
+export default function Sales() {
 	const router = useRouter();
+
 	const [startDate, setStartDate] = useState<string | null>("");
 	const [endDate, setEndDate] = useState<string | null>("");
 	const [shouldFetch, setShouldFetch] = useState(false);
@@ -89,6 +92,11 @@ export default function Sales({ serverId }: { serverId: string }) {
 		}
 		return popperSx;
 	}, [theme]);
+
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>

@@ -1,8 +1,9 @@
 import { Button, Typography } from "@mui/material";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { StyledDiv } from "@/s/mystyles";
-import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import NoAccess from "@/c/NoAccess";
 
 export default function Manager() {
 	const router = useRouter();
@@ -13,37 +14,44 @@ export default function Manager() {
 
 	return (
 		<>
-			<head>
-				<title>Reports</title>
-			</head>
 			<StyledDiv>
 				<Button
 					onClick={() => {
-						router.push("/manager/dashboard");
+						router.push("/manager");
 					}}>
 					Back
 				</Button>
+				<Button
+					onClick={async () => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
+					}}>
+					Sign Out
+				</Button>
 			</StyledDiv>
-			<Typography variant="h1">Reports</Typography>
+			<Typography variant="h1">Manager</Typography>
 
 			<StyledDiv>
 				<Button
 					onClick={() => {
-						router.push("/manager/sales");
+						router.push("/manager/reports");
 					}}>
-					Sales
+					Reports
 				</Button>
 				<Button
 					onClick={() => {
-						router.push("/manager/excess");
+						router.push("/manager/menu");
 					}}>
-					Excess
+					Menu
 				</Button>
 				<Button
 					onClick={() => {
-						router.push("/manager/restock");
+						router.push("/manager/inventory");
 					}}>
-					Restock
+					Inventory
 				</Button>
 			</StyledDiv>
 		</>
