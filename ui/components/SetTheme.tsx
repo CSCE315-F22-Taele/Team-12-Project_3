@@ -4,6 +4,7 @@ import useDarkMode from "../hooks/useDarkMode";
 import useFontSize from "../hooks/useFontSize";
 import SpeedDialAccess from "./SpeedDialAccess";
 import TranslatedText from "./Translate";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const IncrementContext = createContext(() => {}); // Initialize to an empty function
 const FontSizeContext = createContext(0); // Initialize to state

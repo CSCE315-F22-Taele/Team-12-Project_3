@@ -6,12 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-	"install:deploys" : "npm i --prefix=deploys/ui --legacy-peer-deps",
-	"build:deploys" : "npm run build --prefix=deploys/ui",
-	"build:vercel" : "npm run install:deploys && npm run build && npm run build:deploys"
+    "lint": "next lint"
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^2.0.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@google-cloud/translate": "^7.0.4",
@@ -19,7 +17,6 @@
     "@mui/material": "^5.10.13",
     "@mui/x-data-grid": "^5.17.12",
     "@mui/x-date-pickers-pro": "^5.0.8",
-    "@next-auth/typeorm-legacy-adapter": "^2.0.1",
     "@react-google-maps/api": "^2.17.0",
     "@types/google-translate-api": "^2.3.2",
     "@types/node": "18.11.9",
@@ -46,7 +43,6 @@
     "react-swipeable-views": "^0.14.0",
     "react-use": "^17.4.0",
     "swr": "^1.3.0",
-    "typeorm": "^0.3.10",
     "typescript": "4.8.4"
   },
   "devDependencies": {

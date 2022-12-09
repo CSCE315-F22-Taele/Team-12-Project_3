@@ -7,7 +7,8 @@ import { StyledDiv } from "@/s/mystyles";
 import Head from "next/head";
 import Image from "next/dist/client/image";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -19,6 +20,7 @@ const justMainPageStyleButtons = {
 export default function HomePage({}) {
 	const router = useRouter();
 	const { data: session } = useSession();
+	const { user, isLoading } = useUser();
 
 	const login = async () => {
 		if (session) {
@@ -29,6 +31,12 @@ export default function HomePage({}) {
 			});
 		}
 	};
+
+	const userType: string | undefined = useMemo(() => {
+		if (user)
+			return (user["https://stockDB.com/user_type"] as string).toString();
+		return;
+	}, [user]);
 
 	return (
 		<>
@@ -72,9 +80,42 @@ export default function HomePage({}) {
 						</StyledDiv>
 						<StyledDiv>
 							{/* <Link href="/login">Not A Customer?</Link> */}
-							<Button onClick={() => login()}>
+							{/* <Button onClick={() => login()}>
 								Not a customer?
-							</Button>
+							</Button> */}
+
+							{userType ? (
+								userType.localeCompare("server") === 0 ? (
+									<Button
+										onClick={() => router.push("/server")}
+										sx={justMainPageStyleButtons}>
+										Server
+									</Button>
+								) : (
+									<>
+										<Button
+											onClick={() =>
+												router.push("/server")
+											}
+											sx={justMainPageStyleButtons}>
+											Server
+										</Button>
+										<Button
+											onClick={() =>
+												router.push(
+													"/manager/dashboard"
+												)
+											}
+											sx={justMainPageStyleButtons}>
+											Manager
+										</Button>
+									</>
+								)
+							) : (
+								<Link href="/api/auth/login">
+									Not a customer?
+								</Link>
+							)}
 						</StyledDiv>
 					</StyledDiv>
 				</Grow>

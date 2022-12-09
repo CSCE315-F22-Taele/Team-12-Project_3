@@ -7,7 +7,8 @@ import "@/s/globals.css";
 import "nprogress/nprogress.css";
 import { SetTheme } from "@/c/SetTheme";
 import { SWRConfig } from "swr";
-import Head from 'next/head';
+import Head from "next/head";
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const ProgressBar = dynamic(() => import("@/c/ProgressBar"), {
 	ssr: false,
@@ -28,15 +29,17 @@ export default function App({
 			</Head>
 			<RemoveFlicker>
 				{!loading ? (
-					<SessionProvider session={session}>
-						<SetTheme>
-							<Component {...pageProps} />
-						</SetTheme>
-						<ProgressBar />
-					</SessionProvider>
+					<UserProvider>
+						<SessionProvider session={session}>
+							<SetTheme>
+								<Component {...pageProps} />
+							</SetTheme>
+							<ProgressBar />
+						</SessionProvider>
+					</UserProvider>
 				) : (
 					""
-					)}
+				)}
 			</RemoveFlicker>
 		</>
 	);

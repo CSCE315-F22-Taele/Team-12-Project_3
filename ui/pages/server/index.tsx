@@ -26,8 +26,9 @@ import axios, { AxiosRequestConfig } from "axios";
 import useGlobalUser from "@/h/useGlobalUser";
 import NoAccess from "@/c/NoAccess";
 import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/[...nextauth]";
+import { authOptions } from "../api/auth/old";
 import Head from "next/head";
+import Link from "next/link";
 
 interface thisProp {
 	ordersData: ServerOrder[];
@@ -116,16 +117,7 @@ export default function ServerView({
 					Back
 				</Button>
 
-				<Button
-					onClick={async () => {
-						const url = await signOut({
-							redirect: false,
-							callbackUrl: "/",
-						});
-						router.push(url.url);
-					}}>
-					Sign Out
-				</Button>
+				<Link href="/api/auth/logout">Sign out</Link>
 			</StyledDiv>
 			<Typography variant="h1">Server</Typography>
 

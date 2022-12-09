@@ -7,7 +7,7 @@ import {
 	getOrdersAPI,
 	// getRestockReportAPI,
 } from "../../components/utils";
-import { authOptions } from "./auth/[...nextauth]";
+import { authOptions } from "./auth/old";
 import jwtDecode from "jwt-decode";
 import { Session } from "next-auth";
 

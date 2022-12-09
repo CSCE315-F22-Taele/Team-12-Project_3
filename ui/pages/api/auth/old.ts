@@ -30,7 +30,10 @@ export const authOptions: NextAuthOptions = {
 				params: {
 					prompt: "login",
 				},
-				url: `${process.env.AUTH0_ISSUER || process.env.NEXT_PUBLIC_AUTH0_ISSUER}/authorize?response_type=code&prompt=consent`,
+				url: `${
+					process.env.AUTH0_ISSUER ||
+					process.env.NEXT_PUBLIC_AUTH0_ISSUER
+				}/authorize?response_type=code&prompt=consent`,
 			},
 		}),
 	],
@@ -45,7 +48,7 @@ export const authOptions: NextAuthOptions = {
 				token.accessToken = account.access_token;
 				const idToken: { "https://stockDB.com/user_type": string } =
 					jwtDecode(account.id_token!);
-					// console.log(idToken);
+				// console.log(idToken);
 				const userType = idToken["https://stockDB.com/user_type"];
 				token.userType = userType;
 			}

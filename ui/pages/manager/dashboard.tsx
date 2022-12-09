@@ -5,6 +5,7 @@ import { StyledDiv } from "@/s/mystyles";
 import useGlobalUser from "@/h/useGlobalUser";
 import NoAccess from "@/c/NoAccess";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Manager() {
 	const router = useRouter();
@@ -25,16 +26,7 @@ export default function Manager() {
 					}}>
 					Back
 				</Button>
-				<Button
-					onClick={async () => {
-						const url = await signOut({
-							redirect: false,
-							callbackUrl: "/",
-						});
-						router.push(url.url);
-					}}>
-					Sign Out
-				</Button>
+				<Link href="/api/auth/logout">Sign out</Link>
 			</StyledDiv>
 			<Typography variant="h1">Manager</Typography>
 
