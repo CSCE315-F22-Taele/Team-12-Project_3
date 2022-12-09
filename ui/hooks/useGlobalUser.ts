@@ -7,17 +7,16 @@ export default function useGlobalUser() {
 	const { user, isLoading } = useUser();
 
 	const isAuthorized = useCallback(
-		(type?: string) => {
+		(type?: number) => {
 			// console.log(session);
 			if (session) {
-				// if (type) {
-				// 	return (
-				// 		session.userType.localeCompare("server") === 0 ||
-				// 		session.userType.localeCompare("manager") === 0
-				// 	);
-				// }
-				// return session.userType.localeCompare("manager") === 0;
-				return true;
+				if (type) {
+					return (
+						session.userType === 0 ||
+						session.userType === 1
+					);
+				}
+				return session.userType === 0;
 			}
 			return false;
 		},

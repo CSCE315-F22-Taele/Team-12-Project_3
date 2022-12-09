@@ -174,7 +174,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 		setItemPrice(Number(menuObjectPrice));
 	};
 
-	if (!isAuthorized("server")) {
+	if (!isAuthorized(1)) {
 		return <NoAccess />;
 	}
 

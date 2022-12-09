@@ -27,8 +27,9 @@ export default function Manager() {
 					Back
 				</Button>
 
-				<Button>
-					<Link href="/api/auth/signout">Sign out</Link>
+				<Button onClick={() => {signOut();
+				router.push("/")}}>
+					Sign Out
 				</Button>
 			</StyledDiv>
 			<Typography variant="h1">Manager</Typography>

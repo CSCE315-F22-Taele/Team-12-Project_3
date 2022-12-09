@@ -87,6 +87,12 @@ export const authOptions: NextAuthOptions = {
 							name: "John",
 							email: "test@test.com",
 						};
+					} else if (credentials.username === "paul" && credentials.password === "test1") {
+						return {
+							id: "1",
+							name: "Paul",
+							email: "test1@test.com",
+						};
 					}
 
 					// login failed
@@ -115,7 +121,10 @@ export const authOptions: NextAuthOptions = {
 			if (token) {
 				session.user = token.user;
 				session.accessToken = token.accessToken as string;
-				session.userType = 0;
+				if (session.user.name === "Paul") {
+					session.userType = 0;
+
+				} else session.userType = 1
 			}
 
 			return session;

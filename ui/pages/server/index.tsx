@@ -100,7 +100,7 @@ export default function ServerView({
 	];
 
 	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized("server")) {
+	if (!isAuthorized(1)) {
 		return <NoAccess />;
 	}
 
@@ -117,8 +117,9 @@ export default function ServerView({
 					Back
 				</Button>
 
-				<Button>
-					<Link href="/api/auth/signout">Sign out</Link>
+				<Button onClick={() => {signOut();
+				router.push("/")}}>
+					Sign Out
 				</Button>
 			</StyledDiv>
 			<Typography variant="h1">Server</Typography>
