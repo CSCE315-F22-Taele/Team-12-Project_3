@@ -408,7 +408,7 @@ export default function Cart(
 																objectFit: "fill",
 															}}
 															src={(images[card.itemName] !== undefined) ? images[card.itemName] : Reveille}
-															alt="Reveille"
+															alt={ card.itemName }
 														/>
 														<Typography
 															variant="h6"
