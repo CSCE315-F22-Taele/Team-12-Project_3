@@ -39,11 +39,6 @@ interface menuItem {
 
 export default function Menu({ menuData }: thisProp) {
 	const router = useRouter();
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
-
 	const { mutate } = useSWRConfig();
 	const { data: menuItems } = useSWR(
 		getMenuAPI,
@@ -128,6 +123,11 @@ export default function Menu({ menuData }: thisProp) {
 		const response = await axios(config);
 		setItemSelectedFirstPass(true);
 	};
+
+	const { isAuthorized } = useGlobalUser();
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>

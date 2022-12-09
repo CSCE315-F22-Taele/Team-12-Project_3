@@ -39,9 +39,6 @@ interface ItemIngredient {
 export default function NewMenuItem({ ingredients }: thisProp) {
 	const router = useRouter();
 	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	const { data: ingredientList } = useSWR(
 		getInventoryAPI,
@@ -178,6 +175,10 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 		router.push("/manager/menu");
 	};
+
+	if (!isAuthorized()) {
+		return <NoAccess />;
+	}
 
 	return (
 		<>
