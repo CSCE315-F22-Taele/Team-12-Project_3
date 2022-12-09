@@ -185,12 +185,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		context.res,
 		authOptions
 	);
-	if (!session) return;
+	if (!session)
+		return {
+			props: {},
+		};
 
 	let serverId = "";
 	if (session.userType.localeCompare("server") === 0) {
 		serverId = session.user.id;
-		console.log(serverId);
+		// console.log(serverId);
 	}
 	const data = JSON.stringify({
 		serverId,

@@ -188,7 +188,7 @@ export default function Cart(
 
 		var newBools = itemQuantitiesFirstPass;
 		var num = Number(itemQuantities[index]);
-		console.log(num, Number.POSITIVE_INFINITY);
+		// console.log(num, Number.POSITIVE_INFINITY);
 		if (
 			isNaN(num) ||
 			num === Number.POSITIVE_INFINITY
@@ -217,7 +217,7 @@ export default function Cart(
 		// }
 
 		var getOut = false;
-		console.log(itemQuantities[index]);
+		// console.log(itemQuantities[index]);
 		for (var i = 0; i < itemQuantitiesFirstPass.length; i++) {
 			for (var j = 0; j < orderList.length; j++) {
 				if (orderList[j].itemName === selectedItem) {
@@ -235,7 +235,7 @@ export default function Cart(
 						]);
 
 						// updateList = updateList.push(orderList.splice(j+1, 0));
-						console.log(orderList);
+						// console.log(orderList);
 					}
 					getOut = true;
 					// console.log(orderList[j].price);

@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
 				token.accessToken = account.access_token;
 				const idToken: { "https://stockDB.com/user_type": string } =
 					jwtDecode(account.id_token!);
+					// console.log(idToken);
 				const userType = idToken["https://stockDB.com/user_type"];
 				token.userType = userType;
 			}

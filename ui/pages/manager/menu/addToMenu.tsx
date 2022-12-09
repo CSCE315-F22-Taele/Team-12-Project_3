@@ -152,13 +152,18 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 		if (checkItemName || checkPrice || checkList || checkDescription)
 			return;
 
+		if (!(newMenuItemName || newDescription)) return;
+
+		const linkedInventory = JSON.parse(
+			JSON.stringify(
+				itemIngredients.map((ingredient) => ingredient.ingredientName)
+			)
+		);
 		const data = JSON.stringify({
-			itemName: newMenuItemName,
-			description: newDescription,
+			itemName: newMenuItemName.value,
+			description: newDescription.value,
 			price: newMenuItemPrice,
-			linkedInventory: itemIngredients.map(
-				(ingredient) => ingredient.ingredientName
-			),
+			linkedInventory,
 		});
 
 		const config = {
