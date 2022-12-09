@@ -22,6 +22,9 @@ export default function Manager() {
 
 	return (
 		<>
+			<head>
+				<title>Server or Manager</title>
+			</head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Image
 					style={{

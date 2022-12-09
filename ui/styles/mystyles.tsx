@@ -57,9 +57,20 @@ export const StyledTheme = createTheme({
     }
   },
   components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          // background: "#ebb412",
+          boxShadow: "20px 20px 30px #505059,-20px -20px 30px #ffffff;"
+          // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+        }
+      }
+    },
     MuiDataGrid: {
       styleOverrides: {
         root: {
+          // background: "#ebb412",
+          boxShadow: "20px 20px 30px #505059,-20px -20px 30px #ffffff;",
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: 'rgb(167, 11, 40)',
             color: "white",
@@ -75,6 +86,7 @@ export const StyledTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
+          // background: "#ebb412",
         }
       }
     },
@@ -100,6 +112,8 @@ export const StyledTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          // boxShadow: "20px 20px 30px #505059,-20px -20px 30px #ffffff;"
+          // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
           color: "white",
           alignContent: "center",
           // border: '2px solid blue',
@@ -147,6 +161,8 @@ export const StyledTheme = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
+          marginRight: 10,
+          marginLeft: 10,
           height: 50,
           [`& fieldset`]: {
             borderRadius: 10,
@@ -157,6 +173,8 @@ export const StyledTheme = createTheme({
     MuiTableContainer: {
       styleOverrides: {
         root: {
+          // background: "#ebb412",
+          boxShadow: "20px 20px 30px #505059,-20px -20px 30px #ffffff;"
           // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
         }
       }
@@ -168,20 +186,26 @@ export const StyledThemeDark = createTheme({
   palette: {
     mode: "dark",
     
-    
+  },
+  typography: {
+    allVariants: {
+      fontFamily: "sans-serif",
+    }
   },
   components: {
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+          // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+          boxShadow: "20px 20px 30px #505059,-20px -20px 30px #463535;"
+
         }
       }
     },
     MuiDataGrid: {
       styleOverrides: {
         root: {
-          // borderRadius: "55px",
+          // background: "#ebb412",
           boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
           '& .MuiDataGrid-columnHeaders': {
             backgroundColor: 'rgb(167, 11, 40)',
@@ -226,7 +250,7 @@ export const StyledThemeDark = createTheme({
         root: {
           color: "white",
           alignContent: "center",
-          boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+          // boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
           // border: '2px solid blue',
           // backgroundColor: "blue",
           backgroundColor: "rgb(167, 11, 40)",
@@ -272,6 +296,9 @@ export const StyledThemeDark = createTheme({
     MuiTextField: {
       styleOverrides: {
         root: {
+          // margin: "0 10 0 10",
+          marginRight: 10,
+          marginLeft: 10,
           height: 50,
           [`& fieldset`]: {
             borderRadius: 10,
@@ -282,6 +309,7 @@ export const StyledThemeDark = createTheme({
     MuiTableContainer: {
       styleOverrides: {
         root: {
+          // background: "#ebb412",
           boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
         }
       }

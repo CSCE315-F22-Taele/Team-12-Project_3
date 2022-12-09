@@ -14,6 +14,9 @@ export default function Manager() {
 
 	return (
 		<>
+			<head>
+				<title>Manager Main View</title>
+			</head>
 			<StyledDiv>
 				<Button
 					onClick={() => {

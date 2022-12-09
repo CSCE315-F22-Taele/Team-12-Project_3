@@ -61,7 +61,9 @@ export default function App({ children }: PropsWithChildren) {
 					}
 				}
 				icon={<SpeedDialIcon />}
-				onClick={handleClick}
+				onOpen={handleClick}
+				onClose={() => setOpen(false)}
+				onClick={() => setOpen(true)}
 				open={open}
 				
 			>

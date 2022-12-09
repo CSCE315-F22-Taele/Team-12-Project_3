@@ -2,6 +2,7 @@ import { Typography, Button, Grid, Grow } from "@mui/material";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Reveille from "@/p/ReveillePic.jpg";
+import Revs from "../public/images/RevsLogo.png";
 import { StyledDiv } from "@/s/mystyles";
 import Head from "next/head";
 import Image from "next/dist/client/image";
@@ -31,6 +32,9 @@ export default function HomePage({}) {
 
 	return (
 		<>
+			<head>
+				<title>Welcome</title>
+			</head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Grow in={true} {...(true ? { timeout: 1000 } : {})}>
 					<StyledDiv>
@@ -45,7 +49,7 @@ export default function HomePage({}) {
 									position: "relative",
 									zIndex: 1,
 								}}
-								src={Reveille}
+								src={Revs}
 								alt="Reveille"
 							/>
 						</Grid>

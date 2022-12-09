@@ -1,4 +1,7 @@
 import {
+	AppBar,
+	Tab,
+	Tabs,
 	Box,
 	Button,
 	Card,
@@ -34,6 +37,7 @@ import { images } from "../../components/imageImport";
 import axios from "axios";
 import { useSetState } from "react-use";
 import Head from "next/head";
+import React from "react";
 
 interface menuItem {
 	description: string;
@@ -52,6 +56,39 @@ interface OrderItem {
 	itemName: string;
 	quantity: number;
 	price?: number;
+}
+
+interface TabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div
+		role="tabpanel"
+		hidden={value !== index}
+		id={`simple-tabpanel-${index}`}
+		aria-labelledby={`simple-tab-${index}`}
+		{...other}
+		>
+		{value === index && (
+			<Box sx={{ p: 3 }}>
+			<Typography>{children}</Typography>
+			</Box>
+		)}
+		</div>
+	);
+}
+
+function a11yProps(index: number) {
+	return {
+		id: `simple-tab-${index}`,
+		'aria-controls': `simple-tabpanel-${index}`,
+	};
 }
 
 export default function Cart(
@@ -75,6 +112,7 @@ export default function Cart(
 		Boolean[]
 	>(new Array(menu.length).fill(true));
 	const [customerNameFirstPass, setCustomerNameFirstPass] = useState(true);
+	const [totalPrice, setTotalPrice] = useState(0);
 
 	// for (var i = 0; i < menu.length - images.keys.length + 1; i++)
 	// 	images.push("Reveille": Reveille);
@@ -89,7 +127,7 @@ export default function Cart(
 		},
 		{
 			field: "quantity",
-			headerName: "Quantity",
+			headerName: "Qty",
 			headerClassName: "header-styling",
 			type: "number",
 			width: 100,
@@ -114,7 +152,7 @@ export default function Cart(
 		},
 		{
 			field: "price",
-			headerName: "Price ($)",
+			headerName: "$$$",
 			headerClassName: "header-styling",
 			type: "number",
 			width: 100,
@@ -144,11 +182,9 @@ export default function Cart(
 
 		var newBools = itemQuantitiesFirstPass;
 		var num = Number(itemQuantities[index]);
-		console.log(num, Number.NEGATIVE_INFINITY);
-		if (
-			isNaN(num) ||
-			num === Number.POSITIVE_INFINITY
-			// 	|| num <= 0
+		console.log(num, Number.POSITIVE_INFINITY);
+		if (isNaN(num) || num === Number.POSITIVE_INFINITY
+			// || (num <= 0)
 		)
 			newBools[index] = false;
 		else if (!newBools[index]) newBools[index] = true;
@@ -164,6 +200,11 @@ export default function Cart(
 		// console.log(itemQuantities);
 
 		if (!newBools[index]) return;
+		
+		if (
+			!newBools[index] 
+		)
+			return;
 		// console.log("re");
 
 		// if(orderList.some((order) => order.itemName === selectedItem)) {
@@ -172,10 +213,12 @@ export default function Cart(
 
 		var getOut = false;
 		console.log(itemQuantities[index]);
-		for (var i = 0; i < itemQuantitiesFirstPass.length; i++) {
-			for (var j = 0; j < orderList.length; j++) {
-				if (orderList[j].itemName === selectedItem) {
-					console.log(orderList[j].quantity, itemQuantities[index]);
+		for(var i = 0; i < itemQuantitiesFirstPass.length; i++) {
+			
+			for(var j = 0; j < orderList.length; j++) {
+
+				if(orderList[j].itemName === selectedItem) {
+					console.log(orderList[j].quantity, itemQuantities[index], (itemQuantities[index] + orderList[j].quantity));
 
 					if (orderList[j].quantity + itemQuantities[index] > 0) {
 						orderList[j].quantity += itemQuantities[index];
@@ -203,7 +246,7 @@ export default function Cart(
 
 		// console.log(orderList);
 
-		if (!getOut) {
+		if(!getOut && num > 0) {
 			setOrderList([
 				...orderList,
 				{
@@ -213,11 +256,24 @@ export default function Cart(
 					price: Number(itemQuantities[index]) * Number(itemPrice),
 				},
 			]);
+			console.log("finished", orderList.length, orderList[0], selectedItem, itemQuantities[index]);
 		}
 
 		// setItemQuantities(
 		// 	new Array(menu.length).fill(Number.POSITIVE_INFINITY)
 		// );
+		var price = 0;
+		console.log("length: ",orderList.length);
+		orderList.map((value) => {
+			if(!value)
+				price = 0
+			else 
+				if(value.price !== undefined)
+					price += value.price
+		})
+
+		setTotalPrice(price);
+		// console.log(totalPrice);
 		setItemQuantitiesFirstPass(new Array(menu.length).fill(true));
 	};
 
@@ -288,8 +344,23 @@ export default function Cart(
 	//     },
 	//   };
 
+	const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
 	return (
 		<>
+			<Button
+				sx={{
+					marginLeft: 0
+				}}
+				onClick={() => {
+					router.push("/");
+				}}>
+				Back
+			</Button>
 			<head>
 				<title>Cart</title>
 			</head>
@@ -305,7 +376,119 @@ export default function Cart(
 					<Grid container spacing={2}>
 						<Grid item xs={12} md={8} sx={{ marginLeft: "-30px" }}>
 							<StyledDiv className="MenuItemSelection">
-								<Grid container spacing={4}>
+								<Box sx={{ borderBottom: 1, borderColor: 'divider', marginTop: 0 }}>
+									<Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+									<Tab label="Item One" {...a11yProps(0)} />
+									<Tab label="Item Two" {...a11yProps(1)} />
+									<Tab label="Item Three" {...a11yProps(2)} />
+									</Tabs>
+								</Box>
+								<TabPanel value={value} index={0}>
+									<Grid container spacing={4}>
+										{menu.map((card, index) => (
+											<Grid
+												item
+												key={card.itemName}
+												xs={6}
+												md={4}>
+												<Card>
+													<CardContent
+														sx={{
+															minHeight: 500,
+															// minWidth: 5,
+														}}>
+
+														<Image
+															style={{
+																width: "auto",
+																height: "50vh",
+																position:
+																	"relative",
+																zIndex: 1,
+																objectFit: "fill",
+															}}
+															src={(images[card.itemName] !== undefined) ? images[card.itemName] : Reveille}
+															alt="Reveille"
+														/>
+														<Typography
+															variant="h6"
+															gutterBottom>
+															{card.itemName}
+														</Typography>
+														<Typography variant="body2">
+															{card.description}
+														</Typography>
+													</CardContent>
+
+													<CardContent>
+														<Typography variant="body2">
+															{"Price: " + card.price}
+														</Typography>
+													</CardContent>
+
+													<CardActions>
+														<TextField
+															type="text"
+															inputMode="numeric"
+															label="Enter quantity"
+															key={card.itemName}
+															sx={{
+																marginTop: "-5px",
+															}}
+															onChange={(e) => {
+																// setItemQuantityFirstPass(false);
+																var newQuants =
+																	itemQuantities;
+																newQuants[index] =
+																	Number(
+																		e.target
+																			.value
+																	);
+																setItemQuantities(
+																	newQuants
+																);
+															}}
+															error={
+																!itemQuantitiesFirstPass[
+																	index
+																]
+																	? true
+																	: false
+															}
+															helperText={
+																!itemQuantitiesFirstPass[
+																	index
+																]
+																	? "Enter a positive number"
+																	: ""
+															}
+															className="Quantity"></TextField>
+														<Button
+															onClick={() => {
+																addToCart(
+																	card.itemName,
+																	index,
+																	card.price
+																);
+															}}>
+															Add
+														</Button>
+													</CardActions>
+												</Card>
+											</Grid>
+										))}
+									</Grid> 
+								</TabPanel>
+								<TabPanel value={value} index={1}>
+									Item Two
+								</TabPanel>
+								<TabPanel value={value} index={2}>
+									Item Three
+								</TabPanel>
+							
+
+
+								{/* <Grid container spacing={4}>
 									{menu.map((card, index) => (
 										<Grid
 											item
@@ -318,7 +501,6 @@ export default function Cart(
 														minHeight: 500,
 														// minWidth: 5,
 													}}>
-													{/* <CardContent className={classes.cardContent}> */}
 
 													<Image
 														style={{
@@ -408,7 +590,7 @@ export default function Cart(
 											</Card>
 										</Grid>
 									))}
-								</Grid>
+								</Grid> */}
 							</StyledDiv>
 						</Grid>
 
@@ -460,9 +642,14 @@ export default function Cart(
 									the order to submit
 								</FormHelperText>
 							</StyledDiv>
+							<StyledDiv>
+								<FormHelperText sx={{fontSize: "25px"}}>
+									Total Price: ${Math.round(totalPrice*100) / 100}
+								</FormHelperText>
+							</StyledDiv>
 
 							<StyledDiv className="AddOrdersSection">
-								<Grid container spacing={2}>
+								<Grid container spacing={2} sx={{marginTop: -3}}>
 									<Grid item xs={6}>
 										<Button onClick={deleteSelectedInCart}>
 											Delete Selected
