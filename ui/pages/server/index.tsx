@@ -26,7 +26,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import useGlobalUser from "@/h/useGlobalUser";
 import NoAccess from "@/c/NoAccess";
 import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../api/auth/old";
+import { authOptions } from "../api/auth/[...nextauth]";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -117,7 +117,9 @@ export default function ServerView({
 					Back
 				</Button>
 
-				<Link href="/api/auth/logout">Sign out</Link>
+				<Button>
+					<Link href="/api/auth/signout">Sign out</Link>
+				</Button>
 			</StyledDiv>
 			<Typography variant="h1">Server</Typography>
 
@@ -183,7 +185,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 
 	let serverId = "";
-	if (session.userType.localeCompare("server") === 0) {
+	if (session.userType === 0) {
 		serverId = session.user.id;
 		// console.log(serverId);
 	}

@@ -26,7 +26,10 @@ export default function Manager() {
 					}}>
 					Back
 				</Button>
-				<Link href="/api/auth/logout">Sign out</Link>
+
+				<Button>
+					<Link href="/api/auth/signout">Sign out</Link>
+				</Button>
 			</StyledDiv>
 			<Typography variant="h1">Manager</Typography>
 

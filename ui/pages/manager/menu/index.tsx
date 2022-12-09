@@ -182,22 +182,27 @@ export default function Menu({ menuData }: thisProp) {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{menuItems.map((eachItem: menuItem) => (
-									<TableRow
-										key={eachItem.itemName}
-										// sx={{
-										// 	"&:last-child td, &:last-child th":
-										// 		{ border: 0 },
-										// }}
-									>
-										<TableCell component="th" scope="row">
-											{eachItem.itemName}
-										</TableCell>
-										<TableCell align="right">
-											{eachItem.price}
-										</TableCell>
-									</TableRow>
-								))}
+								{menuItems.map((eachItem: menuItem) => {
+									if (eachItem.itemName.length > 1)
+										return (
+											<TableRow
+												key={eachItem.itemName}
+												// sx={{
+												// 	"&:last-child td, &:last-child th":
+												// 		{ border: 0 },
+												// }}
+											>
+												<TableCell
+													component="th"
+													scope="row">
+													{eachItem.itemName}
+												</TableCell>
+												<TableCell align="right">
+													{eachItem.price}
+												</TableCell>
+											</TableRow>
+										);
+								})}
 							</TableBody>
 						</Table>
 					</TableContainer>
@@ -220,13 +225,15 @@ export default function Menu({ menuData }: thisProp) {
 							label={"Item"}>
 							{menuItems.map(
 								(menuItem: menuItem, index: number) => {
-									return (
-										<MenuItem
-											key={index}
-											value={menuItem.itemName}>
-											{menuItem.itemName}
-										</MenuItem>
-									);
+									// console.log(menuItem.itemName);
+									if (menuItem.itemName.length > 1)
+										return (
+											<MenuItem
+												key={index}
+												value={menuItem.itemName}>
+												{menuItem.itemName}
+											</MenuItem>
+										);
 								}
 							)}
 						</Select>

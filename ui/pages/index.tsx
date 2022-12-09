@@ -20,23 +20,16 @@ const justMainPageStyleButtons = {
 export default function HomePage({}) {
 	const router = useRouter();
 	const { data: session } = useSession();
-	const { user, isLoading } = useUser();
 
 	const login = async () => {
 		if (session) {
 			router.push("/login/redirect");
 		} else {
-			await signIn("auth0", {
+			await signIn("credentials", {
 				callbackUrl: "/login/redirect",
 			});
 		}
 	};
-
-	const userType: string | undefined = useMemo(() => {
-		if (user)
-			return (user["https://stockDB.com/user_type"] as string).toString();
-		return;
-	}, [user]);
 
 	return (
 		<>
@@ -83,39 +76,7 @@ export default function HomePage({}) {
 							{/* <Button onClick={() => login()}>
 								Not a customer?
 							</Button> */}
-
-							{userType ? (
-								userType.localeCompare("server") === 0 ? (
-									<Button
-										onClick={() => router.push("/server")}
-										sx={justMainPageStyleButtons}>
-										Server
-									</Button>
-								) : (
-									<>
-										<Button
-											onClick={() =>
-												router.push("/server")
-											}
-											sx={justMainPageStyleButtons}>
-											Server
-										</Button>
-										<Button
-											onClick={() =>
-												router.push(
-													"/manager/dashboard"
-												)
-											}
-											sx={justMainPageStyleButtons}>
-											Manager
-										</Button>
-									</>
-								)
-							) : (
-								<Link href="/api/auth/login">
-									Not a customer?
-								</Link>
-							)}
+							<Button onClick={login}>Not a customer?</Button>
 						</StyledDiv>
 					</StyledDiv>
 				</Grow>

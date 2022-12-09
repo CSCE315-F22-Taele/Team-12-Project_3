@@ -11,6 +11,12 @@ export default initAuth0({
 		process.env.NEXT_PUBLIC_AUTH0_ISSUER_BASE_URL,
 	authorizationParams: {
 		scope: process.env.AUTH0_SCOPE || process.env.NEXT_PUBLIC_AUTH0_SCOPE,
+		prompt: "consent",
 	},
 	secret: process.env.AUTH0_SECRET || process.env.NEXT_PUBLIC_AUTH0_SECRET,
+	session: {
+		cookie: {
+			domain: process.env.AUTH0_ISSUER_BASE_URL,
+		},
+	},
 }).handleAuth();

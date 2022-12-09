@@ -9,21 +9,19 @@ export default function useGlobalUser() {
 	const isAuthorized = useCallback(
 		(type?: string) => {
 			// console.log(session);
-			if (user) {
-				const userType: string = (
-					user["https://stockDB.com/user_type"] as string
-				).toString();
-				if (type) {
-					return (
-						userType.localeCompare("server") === 0 ||
-						userType.localeCompare("manager") === 0
-					);
-				}
-				return userType.localeCompare("manager") === 0;
+			if (session) {
+				// if (type) {
+				// 	return (
+				// 		session.userType.localeCompare("server") === 0 ||
+				// 		session.userType.localeCompare("manager") === 0
+				// 	);
+				// }
+				// return session.userType.localeCompare("manager") === 0;
+				return true;
 			}
 			return false;
 		},
-		[user]
+		[session]
 	);
 
 	return { session, isAuthorized };

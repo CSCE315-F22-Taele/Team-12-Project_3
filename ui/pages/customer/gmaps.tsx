@@ -173,7 +173,7 @@ export default function GMaps<T extends Place>({
 						setChildClicked={setChildClicked}
 					/>
 				</Grid>
-				<div>{JSON.stringify(bounds)}</div>
+				{/* <div>{JSON.stringify(bounds)}</div> */}
 			</Grid>
 		</>
 	);

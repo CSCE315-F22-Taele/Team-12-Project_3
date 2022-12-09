@@ -67,8 +67,8 @@ export default function List<T extends Place>({
 					minWidth: 120,
 					marginBottom: "30px",
 				}}>
-				<InputLabel id="type">Type</InputLabel>
-				<Select
+				<InputLabel id="type">Restaurants</InputLabel>
+				{/* <Select
 					id="type"
 					value={type}
 					// input={<InputBase />}
@@ -76,7 +76,7 @@ export default function List<T extends Place>({
 					<MenuItem value="restaurants">Restaurants</MenuItem>
 					<MenuItem value="hotels">Hotels</MenuItem>
 					<MenuItem value="attractions">Attractions</MenuItem>
-				</Select>
+				</Select> */}
 			</FormControl>
 			<FormControl
 				variant="standard"
@@ -93,7 +93,6 @@ export default function List<T extends Place>({
 					<MenuItem value={0}>All</MenuItem>
 					<MenuItem value={3}>Above 3.0</MenuItem>
 					<MenuItem value={4}>Above 4.0</MenuItem>
-					<MenuItem value={4.5}>Above 4.5</MenuItem>
 				</Select>
 			</FormControl>
 			{isLoading ? (

@@ -10,9 +10,9 @@ export default function Redirect() {
 		// console.log(status);
 		if (session) {
 			// console.log(session.userType.localeCompare("server") === 0);
-			if (session.userType.localeCompare("manager") === 0) {
+			if (session.userType === 0) {
 				router.push("/manager");
-			} else if (session.userType.localeCompare("server") === 0) {
+			} else {
 				router.push("/server");
 			}
 		} else if (status !== "loading") {
