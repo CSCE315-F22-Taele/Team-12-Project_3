@@ -9,11 +9,13 @@ export default function Redirect() {
 	useEffect(() => {
 		// console.log(status);
 		if (session) {
-			// console.log(session.userType.localeCompare("server") === 0);
-			if (session.userType.localeCompare("manager") === 0) {
+			console.log(session.userType);
+			if (session.userType === 1) {
 				router.push("/manager");
-			} else if (session.userType.localeCompare("server") === 0) {
+			} else if (session.userType === 2) {
 				router.push("/server");
+			} else {
+				router.push("/");
 			}
 		} else if (status !== "loading") {
 			router.push("/");

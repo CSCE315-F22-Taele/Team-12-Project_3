@@ -191,7 +191,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 
 	let serverId = "";
-	if (session.userType.localeCompare("server") === 0) {
+	if (session.userType === 2) {
 		serverId = session.user.id;
 		// console.log(serverId);
 	}

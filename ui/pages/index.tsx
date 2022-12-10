@@ -24,7 +24,7 @@ export default function HomePage({}) {
 		if (session) {
 			router.push("/login/redirect");
 		} else {
-			await signIn("auth0", {
+			await signIn("google", {
 				callbackUrl: "/login/redirect",
 			});
 		}

@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-	"install:deploys" : "npm i --prefix=deploys/ui --legacy-peer-deps",
-	"build:deploys" : "npm run build --prefix=deploys/ui",
-	"build:vercel" : "npm run install:deploys && npm run build && npm run build:deploys"
+    "install:deploys": "npm i --prefix=deploys/ui --legacy-peer-deps",
+    "build:deploys": "npm run build --prefix=deploys/ui",
+    "build:vercel": "npm run install:deploys && npm run build && npm run build:deploys"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -53,6 +53,7 @@
     "@types/cookies": "^0.7.7",
     "@types/http-proxy": "^1.17.9",
     "@types/nprogress": "^0.2.0",
+    "@types/pg": "^8.6.5",
     "nprogress": "^0.2.0"
   }
 }
