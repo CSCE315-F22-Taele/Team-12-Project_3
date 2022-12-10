@@ -20,7 +20,7 @@ export default function Redirect() {
 		} else if (status !== "loading") {
 			router.push("/");
 		}
-	}, [session, status]);
+	}, [session, status, router]);
 
 	return <>Loading...</>;
 }

@@ -53,12 +53,3 @@ export default function Manager() {
 		</>
 	);
 }
-
-export async function getServerSideProps() {
-	require("dotenv-vault-core").config();
-	// console.log(process.env);
-
-	return {
-		props: {},
-	};
-}
