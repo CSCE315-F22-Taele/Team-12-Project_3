@@ -1,13 +1,10 @@
-import { Typography, Button, Grid, Grow } from "@mui/material";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Reveille from "@/p/ReveillePic.jpg";
-import Revs from "../public/images/RevsLogo.png";
 import { StyledDiv } from "@/s/mystyles";
-import Head from "next/head";
+import { Button, Grid, Grow, Typography } from "@mui/material";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/dist/client/image";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useCallback, useEffect, useMemo } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import Revs from "../public/images/RevsLogo.png";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",

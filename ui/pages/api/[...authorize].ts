@@ -1,15 +1,12 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
+import { Session } from "next-auth";
 import { unstable_getServerSession } from "next-auth/next";
-import { getSession } from "next-auth/react";
 import {
 	getMenuPlusDescriptionsAPI,
 	getOrdersAPI,
-	// getRestockReportAPI,
 } from "../../components/utils";
 import { authOptions } from "./auth/[...nextauth]";
-import jwtDecode from "jwt-decode";
-import { Session } from "next-auth";
 
 function getParams(url: string | undefined) {
 	switch (url) {

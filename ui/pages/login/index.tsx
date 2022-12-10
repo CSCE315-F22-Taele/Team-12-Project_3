@@ -1,14 +1,13 @@
-import React from "react";
-import { useForm } from "react-hook-form";
 import {
-  Container,
-  Typography,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-  Button,
-} from '@mui/material';
+	Button,
+	Checkbox,
+	Container,
+	FormControlLabel,
+	TextField,
+	Typography,
+} from "@mui/material";
 import Head from "next/head";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
 	const {

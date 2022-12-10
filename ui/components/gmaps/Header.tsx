@@ -1,13 +1,10 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { AppBar, Box, InputBase, Button } from "@mui/material";
+import { AppBar, Box, Button, InputBase } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Autocomplete } from "@react-google-maps/api";
-import { useToggleDarkMode } from "../SetTheme";
-import ToggleDarkMode from "../ToggleDarkMode";
 import { useRouter } from "next/router";
-
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -59,11 +56,7 @@ interface Props {
 	onPlaceChanged: () => void;
 }
 
-export default function Header({
-	onLoad,
-	onPlaceChanged,
-}: Props) {
-
+export default function Header({ onLoad, onPlaceChanged }: Props) {
 	const router = useRouter();
 	return (
 		<Box sx={{ flexGrow: 1, top: 0, zIndex: 1 }} position="sticky">
@@ -80,9 +73,12 @@ export default function Header({
 						Fun Finder
 					</Typography>
 					{/* <ToggleDarkMode /> */}
-					<Button onClick={() => {
+					<Button
+						onClick={() => {
 							router.back();
-						}}>Back</Button>
+						}}>
+						Back
+					</Button>
 					<Autocomplete
 						onLoad={onLoad}
 						onPlaceChanged={onPlaceChanged}>

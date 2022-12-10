@@ -1,10 +1,10 @@
-import { Typography, Button, Grid } from "@mui/material";
-import { useRouter } from "next/router";
 import Reveille from "@/p/ReveillePic.jpg";
 import { StyledDiv } from "@/s/mystyles";
-import Image from "next/dist/client/image";
+import { Grid, Typography } from "@mui/material";
 import Grow from "@mui/material/Grow";
+import Image from "next/dist/client/image";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",

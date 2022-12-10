@@ -1,24 +1,15 @@
 import {
-	AppBar,
-	Tab,
-	Tabs,
 	Box,
 	Button,
 	Card,
 	CardActions,
 	CardContent,
-	CardMedia,
-	Container,
-	FormControl,
 	FormHelperText,
 	Grid,
-	useMediaQuery,
-	makeStyles,
-	useTheme,
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
-import { PropsWithChildren, useEffect, useMemo, useRef, useState } from "react";
+import { PropsWithChildren, useMemo, useRef, useState } from "react";
 import {
 	addOrderAPI,
 	getMenuPlusDescriptionsAPI,
@@ -28,16 +19,14 @@ import { StyledDiv } from "../../styles/mystyles";
 import { TextField, Typography } from "@mui/material";
 import Slide from "@mui/material/Slide";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import Image from "next/dist/client/image";
-import StrawberryShake from "../../public/images/StrawberryShake.jpg";
-import Reveille from "../../public/ReveillePic.jpg";
-import { serverSideInstance } from "../../components/serverSideUtils";
-import SpeedDialAccess from "../../components/SpeedDialAccess";
-import { images } from "../../components/imageImport";
 import axios from "axios";
-import { useSetState } from "react-use";
+import Image from "next/dist/client/image";
 import Head from "next/head";
 import React from "react";
+import { images } from "../../components/imageImport";
+import { serverSideInstance } from "../../components/serverSideUtils";
+import SpeedDialAccess from "../../components/SpeedDialAccess";
+import Reveille from "../../public/ReveillePic.jpg";
 
 interface menuItem {
 	description: string;
@@ -391,113 +380,108 @@ export default function Cart(
 									</Tabs>
 								</Box> */}
 								{/* <TabPanel value={value} index={0}> */}
-									<Grid container spacing={4}>
-										{menu.map((card, index) => (
-											<Grid
-												item
-												key={card.itemName}
-												xs={6}
-												md={4}>
-												<Card>
-													<CardContent
+								<Grid container spacing={4}>
+									{menu.map((card, index) => (
+										<Grid
+											item
+											key={card.itemName}
+											xs={6}
+											md={4}>
+											<Card>
+												<CardContent
+													sx={{
+														minHeight: 500,
+														// minWidth: 5,
+													}}>
+													<Image
+														style={{
+															width: "auto",
+															height: "50vh",
+															position:
+																"relative",
+															zIndex: 1,
+															objectFit: "fill",
+														}}
+														src={
+															images[
+																card.itemName
+															] !== undefined
+																? images[
+																		card
+																			.itemName
+																  ]
+																: Reveille
+														}
+														alt={card.itemName}
+													/>
+													<Typography
+														variant="h6"
+														gutterBottom>
+														{card.itemName}
+													</Typography>
+													<Typography variant="body2">
+														{card.description}
+													</Typography>
+												</CardContent>
+
+												<CardContent>
+													<Typography variant="body2">
+														{"Price: " + card.price}
+													</Typography>
+												</CardContent>
+
+												<CardActions>
+													<TextField
+														type="text"
+														inputMode="numeric"
+														label="Enter quantity"
+														key={card.itemName}
 														sx={{
-															minHeight: 500,
-															// minWidth: 5,
-														}}>
-														<Image
-															style={{
-																width: "auto",
-																height: "50vh",
-																position:
-																	"relative",
-																zIndex: 1,
-																objectFit:
-																	"fill",
-															}}
-															src={
-																images[
-																	card
-																		.itemName
-																] !== undefined
-																	? images[
-																			card
-																				.itemName
-																	  ]
-																	: Reveille
-															}
-															alt={card.itemName}
-														/>
-														<Typography
-															variant="h6"
-															gutterBottom>
-															{card.itemName}
-														</Typography>
-														<Typography variant="body2">
-															{card.description}
-														</Typography>
-													</CardContent>
-
-													<CardContent>
-														<Typography variant="body2">
-															{"Price: " +
-																card.price}
-														</Typography>
-													</CardContent>
-
-													<CardActions>
-														<TextField
-															type="text"
-															inputMode="numeric"
-															label="Enter quantity"
-															key={card.itemName}
-															sx={{
-																marginTop:
-																	"-5px",
-															}}
-															onChange={(e) => {
-																// setItemQuantityFirstPass(false);
-																var newQuants =
-																	itemQuantities;
-																newQuants[
-																	index
-																] = Number(
+															marginTop: "-5px",
+														}}
+														onChange={(e) => {
+															// setItemQuantityFirstPass(false);
+															var newQuants =
+																itemQuantities;
+															newQuants[index] =
+																Number(
 																	e.target
 																		.value
 																);
-																setItemQuantities(
-																	newQuants
-																);
-															}}
-															error={
-																!itemQuantitiesFirstPass[
-																	index
-																]
-																	? true
-																	: false
-															}
-															helperText={
-																!itemQuantitiesFirstPass[
-																	index
-																]
-																	? "Enter a positive number"
-																	: ""
-															}
-															className="Quantity"></TextField>
-														<Button
-															onClick={() => {
-																addToCart(
-																	card.itemName,
-																	index,
-																	card.price
-																);
-															}}>
-															Add
-														</Button>
-													</CardActions>
-												</Card>
-											</Grid>
-										))}
-									</Grid>
+															setItemQuantities(
+																newQuants
+															);
+														}}
+														error={
+															!itemQuantitiesFirstPass[
+																index
+															]
+																? true
+																: false
+														}
+														helperText={
+															!itemQuantitiesFirstPass[
+																index
+															]
+																? "Enter a positive number"
+																: ""
+														}
+														className="Quantity"></TextField>
+													<Button
+														onClick={() => {
+															addToCart(
+																card.itemName,
+																index,
+																card.price
+															);
+														}}>
+														Add
+													</Button>
+												</CardActions>
+											</Card>
+										</Grid>
+									))}
+								</Grid>
 								{/* </TabPanel> */}
 								{/* <TabPanel value={value} index={1}>
 									Item Two

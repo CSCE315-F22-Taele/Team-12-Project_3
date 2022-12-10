@@ -20,8 +20,8 @@ import { serverSideInstance } from "@/c/serverSideUtils";
 import useGlobalUser from "@/h/useGlobalUser";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
-import useSWR, { useSWRConfig } from "swr";
 import Head from "next/head";
+import useSWR, { useSWRConfig } from "swr";
 
 interface menuItem {
 	itemId: string;

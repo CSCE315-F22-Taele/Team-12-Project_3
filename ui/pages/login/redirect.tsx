@@ -9,7 +9,7 @@ export default function Redirect() {
 	useEffect(() => {
 		// console.log(status);
 		if (session) {
-			console.log(session.userType);
+			// console.log(session.userType);
 			if (session.userType === 1) {
 				router.push("/manager");
 			} else if (session.userType === 2) {

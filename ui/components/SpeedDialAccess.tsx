@@ -1,23 +1,16 @@
-import ContrastIcon from '@mui/icons-material/Contrast';
-import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import GTranslateIcon from '@mui/icons-material/GTranslate';
-import CropFreeIcon from '@mui/icons-material/CropFree';
-import CenterFocusWeakIcon from '@mui/icons-material/CenterFocusWeak';
-import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
-import {
-	Box,
-	Backdrop,
-	SpeedDial,
-	SpeedDialAction,
-	SpeedDialIcon
-} from "@mui/material";
+import CenterFocusStrongIcon from "@mui/icons-material/CenterFocusStrong";
+import ContrastIcon from "@mui/icons-material/Contrast";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
+import { SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import { useRouter } from "next/router";
-import { useRef, useState, ReactNode, PropsWithChildren } from "react";
-import { useIncrement, useToggleDarkMode, useToggleContrast, useFontValue } from './SetTheme';
-
-
-
+import { PropsWithChildren, useState } from "react";
+import {
+	useFontValue,
+	useIncrement,
+	useToggleContrast,
+	useToggleDarkMode,
+} from "./SetTheme";
 
 export default function App({ children }: PropsWithChildren) {
 	const router = useRouter();
@@ -27,15 +20,31 @@ export default function App({ children }: PropsWithChildren) {
 	const incrementFontSize = useIncrement();
 
 	const actions = [
-		{ icon: <ContrastIcon />, name: 'High Contrast', button: toggleContrast },
-		{ icon: <SettingsBrightnessIcon />, name: 'Dark Mode', button: toggleDarkMode },
-		{ icon: <LocationOnIcon />, name: 'Google Maps', button: () => { router.push("../customer/gmaps") } },
-		{ icon: <CenterFocusStrongIcon />, name: 'Enlarge Text', button: incrementFontSize },
+		{
+			icon: <ContrastIcon />,
+			name: "High Contrast",
+			button: toggleContrast,
+		},
+		{
+			icon: <SettingsBrightnessIcon />,
+			name: "Dark Mode",
+			button: toggleDarkMode,
+		},
+		{
+			icon: <LocationOnIcon />,
+			name: "Google Maps",
+			button: () => {
+				router.push("../customer/gmaps");
+			},
+		},
+		{
+			icon: <CenterFocusStrongIcon />,
+			name: "Enlarge Text",
+			button: incrementFontSize,
+		},
 		// { icon: <CropFreeIcon />, name: 'Default View'},
 		// { icon: <CenterFocusWeakIcon />, name: 'Larger View'},
 		// { icon: <CenterFocusStrongIcon />, name: 'Enlarged View'},
-
-
 	];
 	const [open, setOpen] = useState(false);
 	const handleClick = () => setOpen(!open);
@@ -50,23 +59,19 @@ export default function App({ children }: PropsWithChildren) {
 			<SpeedDial
 				direction="up"
 				ariaLabel="SpeedDial"
-				sx={
-					{
-						// flexGrow: 1,
-						position: 'fixed',
-						top: 0,
-						bottom: 50,
-						right: "95%",
-						// boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
-					}
-				}
+				sx={{
+					// flexGrow: 1,
+					position: "fixed",
+					top: 0,
+					bottom: 50,
+					right: "95%",
+					// boxShadow: "22px 22px 79px #120d0d,-22px -22px 79px #463535;",
+				}}
 				icon={<SpeedDialIcon />}
 				onOpen={handleClick}
 				onClose={() => setOpen(false)}
 				onClick={() => setOpen(true)}
-				open={open}
-				
-			>
+				open={open}>
 				{actions.map((action) => (
 					<SpeedDialAction
 						key={action.name}
@@ -77,7 +82,6 @@ export default function App({ children }: PropsWithChildren) {
 					/>
 				))}
 			</SpeedDial>
-
 		</>
 	);
 }

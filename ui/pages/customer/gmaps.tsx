@@ -1,12 +1,12 @@
-import { Grid } from "@mui/material";
-import { useLoadScript } from "@react-google-maps/api";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import Header from "@/c/gmaps/Header";
 import List from "@/c/gmaps/List";
 import Map from "@/c/gmaps/Map";
 import { placesData } from "@/c/gmaps/placesData";
+import { Grid } from "@mui/material";
+import { useLoadScript } from "@react-google-maps/api";
+import axios from "axios";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 const getPlacesData = async (
 	type: string,
@@ -80,7 +80,7 @@ export default function GMaps<T extends Place>({
 	placesData,
 }: thisProps<T>) {
 	const { isLoaded } = useLoadScript({
-		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "", // NEXT_PUBLIC_
+		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "",
 		libraries: libraries,
 	});
 

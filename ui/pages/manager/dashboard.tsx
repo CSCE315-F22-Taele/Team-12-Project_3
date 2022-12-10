@@ -1,11 +1,10 @@
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
+import { StyledDiv } from "@/s/mystyles";
 import { Button, Typography } from "@mui/material";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import { StyledDiv } from "@/s/mystyles";
-import useGlobalUser from "@/h/useGlobalUser";
-import NoAccess from "@/c/NoAccess";
 import Head from "next/head";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Manager() {
 	const router = useRouter();

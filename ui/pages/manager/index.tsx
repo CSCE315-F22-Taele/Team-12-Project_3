@@ -1,11 +1,11 @@
-import { Button } from "@mui/material";
-import Image from "next/dist/client/image";
-import { useRouter } from "next/router";
-import Reveille from "@/p/ReveillePic.jpg";
-import { StyledDiv } from "@/s/mystyles";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import Reveille from "@/p/ReveillePic.jpg";
+import { StyledDiv } from "@/s/mystyles";
+import { Button } from "@mui/material";
+import Image from "next/dist/client/image";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
