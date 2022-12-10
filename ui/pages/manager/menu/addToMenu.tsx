@@ -136,7 +136,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 		);
 	};
 
-	const submitOrder = async () => {
+	const submitNewItem = async () => {
 		const checkItemName = !newMenuItemName;
 		const checkPrice =
 			!newMenuItemPrice ||
@@ -338,7 +338,7 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 					className="item_entry"></TextField>
 			</StyledDiv>
 			<StyledDiv className="SubmitNewMenuItemInfo">
-				<Button onClick={submitOrder}>Submit New Menu Item</Button>
+				<Button onClick={submitNewItem}>Submit New Menu Item</Button>
 			</StyledDiv>
 		</>
 	);
