@@ -10,7 +10,7 @@ export default function Redirect() {
 		// console.log(status);
 		if (session) {
 			// console.log(session.userType);
-			if (session.userType === 1) {
+			if (session.userType !== 2) {
 				router.push("/manager");
 			} else if (session.userType === 2) {
 				router.push("/server");
