@@ -11,12 +11,9 @@ export default function useGlobalUser() {
 			// console.log(session);
 			if (session) {
 				if (type) {
-					return (
-						session.userType === 0 ||
-						session.userType === 1
-					);
+					return session.userType === 2 || session.userType === 1;
 				}
-				return session.userType === 0;
+				return session.userType === 1;
 			}
 			return false;
 		},

@@ -117,8 +117,11 @@ export default function ServerView({
 					Back
 				</Button>
 
-				<Button onClick={() => {signOut();
-				router.push("/")}}>
+				<Button
+					onClick={() => {
+						signOut();
+						router.push("/");
+					}}>
 					Sign Out
 				</Button>
 			</StyledDiv>
@@ -186,7 +189,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 
 	let serverId = "";
-	if (session.userType === 0) {
+	if (session.userType === 2) {
 		serverId = session.user.id;
 		// console.log(serverId);
 	}

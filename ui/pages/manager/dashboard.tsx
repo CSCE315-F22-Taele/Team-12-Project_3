@@ -27,8 +27,11 @@ export default function Manager() {
 					Back
 				</Button>
 
-				<Button onClick={() => {signOut();
-				router.push("/")}}>
+				<Button
+					onClick={() => {
+						signOut();
+						router.push("/login/redirect");
+					}}>
 					Sign Out
 				</Button>
 			</StyledDiv>

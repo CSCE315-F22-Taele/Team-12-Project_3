@@ -8,7 +8,6 @@ import Head from "next/head";
 import Image from "next/dist/client/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo } from "react";
-import { useUser } from "@auth0/nextjs-auth0/client";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -25,7 +24,7 @@ export default function HomePage({}) {
 		if (session) {
 			router.push("/login/redirect");
 		} else {
-			await signIn("credentials", {
+			await signIn("google", {
 				callbackUrl: "/login/redirect",
 			});
 		}
