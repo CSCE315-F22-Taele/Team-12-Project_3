@@ -28,9 +28,12 @@ export default function Manager() {
 				</Button>
 
 				<Button
-					onClick={() => {
-						signOut();
-						router.push("/login/redirect");
+					onClick={async () => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
 					}}>
 					Sign Out
 				</Button>

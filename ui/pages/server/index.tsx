@@ -118,9 +118,12 @@ export default function ServerView({
 				</Button>
 
 				<Button
-					onClick={() => {
-						signOut();
-						router.push("/");
+					onClick={async () => {
+						const url = await signOut({
+							redirect: false,
+							callbackUrl: "/",
+						});
+						router.push(url.url);
 					}}>
 					Sign Out
 				</Button>

@@ -137,7 +137,7 @@ export default function Menu({ menuData }: thisProp) {
 			<StyledDiv>
 				<Button
 					onClick={() => {
-						router.push("/manager");
+						router.push("/manager/dashboard");
 					}}>
 					Back
 				</Button>
