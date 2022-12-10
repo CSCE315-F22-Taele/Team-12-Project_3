@@ -1,6 +1,5 @@
 import NoAccess from "@/c/NoAccess";
 import { getExcessReportAPI } from "@/c/utils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { StyledDiv, StyledThemeHighContrast } from "@/s/mystyles";
 import {
 	Box,
@@ -95,11 +94,6 @@ export default function Excess() {
 		}
 		return popperSx;
 	}, [theme]);
-
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

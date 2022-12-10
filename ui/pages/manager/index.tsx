@@ -1,5 +1,4 @@
 import NoAccess from "@/c/NoAccess";
-import useGlobalUser from "@/h/useGlobalUser";
 import Reveille from "@/p/ReveillePic.jpg";
 import { StyledDiv } from "@/s/mystyles";
 import { Button } from "@mui/material";
@@ -16,10 +15,6 @@ const justMainPageStyleButtons = {
 
 export default function Manager() {
 	const router = useRouter();
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

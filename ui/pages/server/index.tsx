@@ -21,7 +21,6 @@ import { StyledDiv } from "../../styles/mystyles";
 import NoAccess from "@/c/NoAccess";
 import Orders, { ServerOrder } from "@/c/Orders";
 import { serverSideInstance } from "@/c/serverSideUtils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import { unstable_getServerSession } from "next-auth/next";
@@ -97,11 +96,6 @@ export default function ServerView({
 		{ field: "totalPrice", headerName: "Price", width: 130 },
 		{ field: "age", headerName: "Age", type: "number", width: 90 },
 	];
-
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized(1)) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

@@ -1,7 +1,6 @@
 import NoAccess from "@/c/NoAccess";
 import { serverSideInstance } from "@/c/serverSideUtils";
 import { getRestockReportAPI } from "@/c/utils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { StyledDiv } from "@/s/mystyles";
 import {
 	Box,
@@ -39,11 +38,6 @@ export default function Excess({ restockData }: thisProp) {
 		fallbackData: restockData,
 		fetcher: (url) => axios(url).then((r) => r.data.ingredients),
 	});
-
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

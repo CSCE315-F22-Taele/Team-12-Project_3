@@ -22,7 +22,6 @@ import { useMemo, useState } from "react";
 import useSWR from "swr";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import NoAccess from "@/c/NoAccess";
-import useGlobalUser from "@/h/useGlobalUser";
 import { SxProps } from "@mui/system";
 import axios from "axios";
 import Head from "next/head";
@@ -92,11 +91,6 @@ export default function Sales() {
 		}
 		return popperSx;
 	}, [theme]);
-
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

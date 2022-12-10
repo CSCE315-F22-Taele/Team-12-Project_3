@@ -1,6 +1,5 @@
 import NoAccess from "@/c/NoAccess";
 import { getMenuAPI, menuItemAPI } from "@/c/utils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { StyledDiv } from "@/s/mystyles";
 import {
 	Box,
@@ -124,11 +123,6 @@ export default function Menu({ menuData }: thisProp) {
 		const response = await axios(config);
 		setItemSelectedFirstPass(true);
 	};
-
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

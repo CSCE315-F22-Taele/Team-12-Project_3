@@ -5,7 +5,6 @@ import {
 	setRestockAllAPI,
 	updateInventoryAPI,
 } from "@/c/utils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { StyledDiv } from "@/s/mystyles";
 import {
 	Box,
@@ -170,11 +169,6 @@ export default function Inventory({ ingredients }: thisProp) {
 
 		setRestockAllFirstPass(true);
 	};
-
-	const { isAuthorized } = useGlobalUser();
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

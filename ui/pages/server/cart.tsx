@@ -17,7 +17,6 @@ import { useRef, useState } from "react";
 //may not need table stuff. Left it here in case we want to display a table of menu items and they select
 import NoAccess from "@/c/NoAccess";
 import { serverSideInstance } from "@/c/serverSideUtils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import Head from "next/head";
@@ -43,7 +42,6 @@ interface OrderItem {
 
 export default function Cart({ serverId, menu }: thisProp) {
 	const router = useRouter();
-	const { session, isAuthorized } = useGlobalUser();
 
 	const { mutate } = useSWRConfig();
 	const { data: menuData } = useSWR(getMenuAPI, {
@@ -173,10 +171,6 @@ export default function Cart({ serverId, menu }: thisProp) {
 		setSelectedItem(menuObjectName);
 		setItemPrice(Number(menuObjectPrice));
 	};
-
-	if (!isAuthorized(1)) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>

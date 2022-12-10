@@ -1,7 +1,6 @@
 import NoAccess from "@/c/NoAccess";
 import { serverSideInstance } from "@/c/serverSideUtils";
 import { getInventoryAPI, menuItemAPI } from "@/c/utils";
-import useGlobalUser from "@/h/useGlobalUser";
 import { StyledDiv } from "@/s/mystyles";
 import {
 	Button,
@@ -39,7 +38,6 @@ interface ItemIngredient {
 
 export default function NewMenuItem({ ingredients }: thisProp) {
 	const router = useRouter();
-	const { isAuthorized } = useGlobalUser();
 
 	const { data: ingredientList } = useSWR(
 		getInventoryAPI,
@@ -181,10 +179,6 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 		router.push("/manager/menu");
 	};
-
-	if (!isAuthorized()) {
-		return <NoAccess />;
-	}
 
 	return (
 		<>
