@@ -1,11 +1,5 @@
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import {
-	Paper,
-	Rating,
-	styled,
-	Typography,
-	useMediaQuery,
-} from "@mui/material";
+import { Paper, styled, Typography, useMediaQuery } from "@mui/material";
 import { GoogleMap, InfoBox } from "@react-google-maps/api";
 import { Dispatch, SetStateAction, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";

@@ -1,10 +1,10 @@
+import NoAccess from "@/c/NoAccess";
+import useGlobalUser from "@/h/useGlobalUser";
+import { StyledDiv } from "@/s/mystyles";
 import { Button, Typography } from "@mui/material";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import { StyledDiv } from "@/s/mystyles";
-import useGlobalUser from "@/h/useGlobalUser";
-import NoAccess from "@/c/NoAccess";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Manager() {
 	const router = useRouter();
@@ -16,7 +16,7 @@ export default function Manager() {
 	return (
 		<>
 			<Head>
-				<title>Manager Dashboard</title>
+				<title>Manager Main View</title>
 			</Head>
 			<StyledDiv>
 				<Button
@@ -25,6 +25,7 @@ export default function Manager() {
 					}}>
 					Back
 				</Button>
+
 				<Button
 					onClick={async () => {
 						const url = await signOut({

@@ -1,13 +1,10 @@
-import { Typography, Button, Grid, Grow } from "@mui/material";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Reveille from "@/p/ReveillePic.jpg";
-import Revs from "../public/images/RevsLogo.png";
 import { StyledDiv } from "@/s/mystyles";
-import Head from "next/head";
+import { Button, Grid, Grow, Typography } from "@mui/material";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/dist/client/image";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useCallback, useEffect } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import Revs from "../public/images/RevsLogo.png";
 
 const justMainPageStyleDiv = {
 	marginTop: "3.5%",
@@ -24,7 +21,7 @@ export default function HomePage({}) {
 		if (session) {
 			router.push("/login/redirect");
 		} else {
-			await signIn("auth0", {
+			await signIn("google", {
 				callbackUrl: "/login/redirect",
 			});
 		}
@@ -33,7 +30,7 @@ export default function HomePage({}) {
 	return (
 		<>
 			<Head>
-				<title>Welcome</title>
+				<title>Rev&#39;s</title>
 			</Head>
 			<StyledDiv sx={justMainPageStyleDiv}>
 				<Grow in={true} {...(true ? { timeout: 1000 } : {})}>
@@ -72,9 +69,10 @@ export default function HomePage({}) {
 						</StyledDiv>
 						<StyledDiv>
 							{/* <Link href="/login">Not A Customer?</Link> */}
-							<Button onClick={() => login()}>
+							{/* <Button onClick={() => login()}>
 								Not a customer?
-							</Button>
+							</Button> */}
+							<Button onClick={login}>Not a customer?</Button>
 						</StyledDiv>
 					</StyledDiv>
 				</Grow>

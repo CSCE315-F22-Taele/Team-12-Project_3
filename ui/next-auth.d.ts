@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import { Profile } from "next-authcore\types.d.ts";
 
 declare module "next-auth" {
 	/**
@@ -6,9 +7,24 @@ declare module "next-auth" {
 	 */
 	interface Session {
 		user: {
-			id: string;
+			id: number;
+			email: string;
+			username: string;
+			type: number;
 		} & DefaultSession["user"];
 		accessToken: string;
-		userType: string;
+		userType: number;
+	}
+
+	interface Profile {
+		"https://stockDB.com/user_type": string;
+	}
+
+	// interface JWT {
+	// 	accessToken: string;
+	// }
+
+	interface User {
+		emailVerified: string;
 	}
 }

@@ -1,9 +1,9 @@
-import { Button, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { StyledDiv } from "@/s/mystyles";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import { StyledDiv } from "@/s/mystyles";
+import { Button, Typography } from "@mui/material";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 export default function Manager() {
 	const router = useRouter();

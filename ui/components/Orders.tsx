@@ -1,8 +1,5 @@
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-import useSWR from "swr";
 import OrderRow from "./OrderRow";
-import { getOrdersAPI } from "./utils";
 
 export interface ServerOrder {
 	orderId?: string;
@@ -24,11 +21,11 @@ export interface OrderItem {
 }
 
 interface thisProps {
-	orders: ServerOrder[]
+	orders: ServerOrder[];
 	setSelectedOrders: Dispatch<SetStateAction<string[]>>;
 }
 
-export default function Orders({orders, setSelectedOrders }: thisProps) {
+export default function Orders({ orders, setSelectedOrders }: thisProps) {
 	return (
 		<>
 			{orders.map((row: ServerOrder) => (

@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-import Reveille from "@/p/ReveillePic.jpg";
 import BaconBurger from "@/p/images/BaconBurger.webp";
 import BBQSauce from "@/p/images/BBQSauce.png";
 import BlackBeanBurger from "@/p/images/BlackBeanBurger.jpg";
@@ -28,6 +26,8 @@ import StrawberryAggieShake from "@/p/images/StrawberryShake.jpg";
 import Tissues from "@/p/images/Tissues.png";
 import VanillaIceCreamCup from "@/p/images/VanillaIceCreamCup.jpg";
 import VanillaAggieShake from "@/p/images/VanillaShake.jpg";
+import Reveille from "@/p/ReveillePic.jpg";
+import { StaticImageData } from "next/image";
 
 // export const images: StaticImageData[] = [
 //     BaconBurger, BBQSauce, BlackBeanBurger, CaesarSalad, ChickenSandwich, ChickenTenders,

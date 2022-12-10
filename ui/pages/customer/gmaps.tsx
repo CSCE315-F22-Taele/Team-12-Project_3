@@ -1,12 +1,12 @@
-import { Grid } from "@mui/material";
-import { useLoadScript } from "@react-google-maps/api";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import Header from "@/c/gmaps/Header";
 import List from "@/c/gmaps/List";
 import Map from "@/c/gmaps/Map";
 import { placesData } from "@/c/gmaps/placesData";
+import { Grid } from "@mui/material";
+import { useLoadScript } from "@react-google-maps/api";
+import axios from "axios";
 import Head from "next/head";
+import { useEffect, useState } from "react";
 
 const getPlacesData = async (
 	type: string,
@@ -80,7 +80,7 @@ export default function GMaps<T extends Place>({
 	placesData,
 }: thisProps<T>) {
 	const { isLoaded } = useLoadScript({
-		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "", // NEXT_PUBLIC_
+		googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY ?? "",
 		libraries: libraries,
 	});
 
@@ -151,10 +151,7 @@ export default function GMaps<T extends Place>({
 			<Head>
 				<title>Maps</title>
 			</Head>
-			<Header
-				onLoad={onLoad}
-				onPlaceChanged={onPlaceChanged}
-			/>
+			<Header onLoad={onLoad} onPlaceChanged={onPlaceChanged} />
 			<Grid container style={{ width: "100%" }}>
 				<Grid item xs={12} md={4}>
 					<List
@@ -176,7 +173,7 @@ export default function GMaps<T extends Place>({
 						setChildClicked={setChildClicked}
 					/>
 				</Grid>
-				<div>{JSON.stringify(bounds)}</div>
+				{/* <div>{JSON.stringify(bounds)}</div> */}
 			</Grid>
 		</>
 	);

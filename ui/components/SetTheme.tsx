@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { createContext, PropsWithChildren, useContext, useEffect } from "react";
+import { createContext, PropsWithChildren, useContext } from "react";
 import useDarkMode from "../hooks/useDarkMode";
 import useFontSize from "../hooks/useFontSize";
 import SpeedDialAccess from "./SpeedDialAccess";

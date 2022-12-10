@@ -9,7 +9,7 @@ import {
 	Select,
 	SelectChangeEvent,
 	TextField,
-	Typography
+	Typography,
 } from "@mui/material";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
@@ -20,8 +20,8 @@ import { serverSideInstance } from "@/c/serverSideUtils";
 import useGlobalUser from "@/h/useGlobalUser";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
-import useSWR, { useSWRConfig } from "swr";
 import Head from "next/head";
+import useSWR, { useSWRConfig } from "swr";
 
 interface menuItem {
 	itemId: string;
@@ -146,7 +146,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 
 		const data = JSON.stringify({
 			customerName: customerNameElem.value,
-			serverId: session?.user.id,
+			serverId: "74bfa9a8-7c52-4eaf-b7de-107c980751c4", // TODO: session?.user.id
 			items: orderList,
 		});
 
@@ -174,7 +174,7 @@ export default function Cart({ serverId, menu }: thisProp) {
 		setItemPrice(Number(menuObjectPrice));
 	};
 
-	if (!isAuthorized("server")) {
+	if (!isAuthorized(1)) {
 		return <NoAccess />;
 	}
 

@@ -1,3 +1,8 @@
+import NoAccess from "@/c/NoAccess";
+import { serverSideInstance } from "@/c/serverSideUtils";
+import { getInventoryAPI, menuItemAPI } from "@/c/utils";
+import useGlobalUser from "@/h/useGlobalUser";
+import { StyledDiv } from "@/s/mystyles";
 import {
 	Button,
 	FormControl,
@@ -11,15 +16,10 @@ import Select from "@mui/material/Select";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import axios from "axios";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import useSWR from "swr";
-import { serverSideInstance } from "@/c/serverSideUtils";
-import { getInventoryAPI, menuItemAPI } from "@/c/utils";
-import { StyledDiv } from "@/s/mystyles";
-import useGlobalUser from "@/h/useGlobalUser";
-import NoAccess from "@/c/NoAccess";
-import Head from "next/head";
 
 interface ingredientItem {
 	ingredientId: string;
@@ -152,13 +152,18 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 		if (checkItemName || checkPrice || checkList || checkDescription)
 			return;
 
+		if (!(newMenuItemName || newDescription)) return;
+
+		const linkedInventory = JSON.parse(
+			JSON.stringify(
+				itemIngredients.map((ingredient) => ingredient.ingredientName)
+			)
+		);
 		const data = JSON.stringify({
-			itemName: newMenuItemName,
-			description: newDescription,
+			itemName: newMenuItemName.value,
+			description: newDescription.value,
 			price: newMenuItemPrice,
-			linkedInventory: itemIngredients.map(
-				(ingredient) => ingredient.ingredientName
-			),
+			linkedInventory,
 		});
 
 		const config = {
@@ -183,17 +188,17 @@ export default function NewMenuItem({ ingredients }: thisProp) {
 
 	return (
 		<>
-				<Head>
-					<title>Add to Menu</title>
-				</Head>
-				<StyledDiv>
-					<Button
-						onClick={() => {
-							router.push("/manager/menu");
-						}}>
-						Back
-					</Button>
-				</StyledDiv>
+			<Head>
+				<title>Add to Menu</title>
+			</Head>
+			<StyledDiv>
+				<Button
+					onClick={() => {
+						router.push("/manager/menu");
+					}}>
+					Back
+				</Button>
+			</StyledDiv>
 
 			<Typography variant="h1">New Menu Item Addition</Typography>
 

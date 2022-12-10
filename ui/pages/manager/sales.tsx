@@ -1,3 +1,5 @@
+import { getSalesReportAPI } from "@/c/utils";
+import { StyledDiv } from "@/s/mystyles";
 import {
 	Box,
 	Button,
@@ -16,16 +18,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { useRouter } from "next/router";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import useSWR from "swr";
-import { getSalesReportAPI } from "@/c/utils";
-import { StyledDiv } from "@/s/mystyles";
 // import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { useSession } from "next-auth/react";
-import { SxProps } from "@mui/system";
-import axios from "axios";
 import NoAccess from "@/c/NoAccess";
 import useGlobalUser from "@/h/useGlobalUser";
+import { SxProps } from "@mui/system";
+import axios from "axios";
 import Head from "next/head";
 
 interface Sale {
