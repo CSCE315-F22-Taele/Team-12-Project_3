@@ -83,7 +83,7 @@ class ItemResource(MethodResource):
     @marshal_with(ErrorSchema, code=404, description="Invalid Request Body")
     @marshal_with(ErrorSchema, code=422, description="Parsing Malfunction")
     @doc(description="Adds a new item and its associated ingredients to the database. Creates new ingredients if non-existent")
-    def post(self, itemName, description, price, linkedInventory, menuType=None):
+    def post(self, itemName, description, price, linkedInventory):
         '''
         itemName: str
         description: str

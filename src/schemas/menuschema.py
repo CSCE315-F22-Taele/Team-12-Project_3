@@ -15,7 +15,7 @@ class ItemRequestSchema(Schema):
     description = fields.Str(required=True)
     price = fields.Float(required=True, validate=validate.Range(min=0, error="Price must be >= 0"))
     linkedInventory = fields.List(fields.Str, required=True)
-    menuType = fields.Str(validate=validate.OneOf(choices=menuTypes))
+    # menuType = fields.Str(validate=validate.OneOf(choices=menuTypes))
     # linkedInventory = fields.Str(required=True, many=True)
 
     @validates('linkedInventory')
